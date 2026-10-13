@@ -24,6 +24,10 @@
           radial-gradient(ellipse at 95% 85%, #222222 0%, transparent 50%),
           #050505;
         --foreground: #fff;
+        --axolotl-settings-surface: #1b1b1b;
+        --axolotl-settings-border: rgba(255, 255, 255, .10);
+        --axolotl-settings-hover: rgba(255, 255, 255, .08);
+        --axolotl-settings-shadow: 0 18px 56px rgba(0, 0, 0, .35);
       }
 
       :root[data-theme="light"] {
@@ -33,6 +37,10 @@
           radial-gradient(ellipse at 95% 85%, #E2E2E2 0%, transparent 50%),
           #FAFAFA;
         --foreground: #000;
+        --axolotl-settings-surface: #fdfdfd;
+        --axolotl-settings-border: rgba(0, 0, 0, .10);
+        --axolotl-settings-hover: rgba(0, 0, 0, .06);
+        --axolotl-settings-shadow: 0 18px 56px rgba(0, 0, 0, .12);
       }
 
       * { box-sizing: border-box; }
@@ -50,15 +58,119 @@
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
 
+      .axolotl-controls {
+        position: fixed;
+        z-index: 10;
+        top: calc(14px + env(safe-area-inset-top, 0px));
+        right: calc(20px + env(safe-area-inset-right, 0px));
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .axolotl-settings-trigger {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border: 0;
+        border-radius: 12px;
+        background: transparent;
+        color: var(--foreground);
+        cursor: pointer;
+        touch-action: manipulation;
+      }
+
+      .axolotl-settings-trigger:hover,
+      .axolotl-settings-trigger[aria-expanded="true"] {
+        background: var(--axolotl-settings-hover);
+      }
+
+      .axolotl-settings-trigger:focus-visible {
+        outline: 2px solid var(--foreground);
+        outline-offset: 3px;
+      }
+
+      .axolotl-settings-icon {
+        display: block;
+        flex: 0 0 auto;
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .axolotl-settings-trigger .axolotl-settings-icon {
+        width: 22px;
+        height: 22px;
+      }
+
+      .axolotl-settings-panel {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: min(280px, calc(100vw - 40px - env(safe-area-inset-right, 0px)));
+        max-height: calc(100dvh - 88px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+        overflow-y: auto;
+        padding: 8px;
+        border: 1px solid var(--axolotl-settings-border);
+        border-radius: 18px;
+        background: var(--axolotl-settings-surface);
+        box-shadow: var(--axolotl-settings-shadow);
+      }
+
+      .axolotl-settings-panel[hidden] { display: none; }
+
+      .axolotl-settings-heading {
+        margin: 0;
+        padding: 12px 12px 10px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+
+      .axolotl-settings-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .axolotl-settings-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        min-height: 42px;
+        padding: 10px 12px;
+        border: 0;
+        border-radius: 10px;
+        background: transparent;
+        color: var(--foreground);
+        font: inherit;
+        font-size: 14px;
+        line-height: 1.4;
+        text-align: left;
+        opacity: .78;
+        cursor: default;
+      }
+
+      .axolotl-settings-list li:last-child {
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px solid var(--axolotl-settings-border);
+      }
+
       .axolotl-theme-control {
         --axolotl-theme-width: 3.5em;
         --axolotl-theme-height: 2em;
         --axolotl-theme-icon-size: 1.4em;
         --axolotl-theme-icon-offset: 0.3em;
         display: block;
-        position: fixed;
-        top: calc(20px + env(safe-area-inset-top, 0px));
-        right: calc(20px + env(safe-area-inset-right, 0px));
+        position: relative;
         width: var(--axolotl-theme-width);
         height: var(--axolotl-theme-height);
         font-size: 16px;
@@ -115,10 +227,29 @@
     </style>
   </head>
   <body>
-    <label class="axolotl-theme-control" for="axolotl-theme-toggle" title="Přepnout na světlý režim">
-      <input class="axolotl-theme-input" id="axolotl-theme-toggle" type="checkbox" role="switch" aria-label="Tmavý režim" checked>
-      <span class="axolotl-theme-track" aria-hidden="true"></span>
-    </label>
+    <div class="axolotl-controls">
+      <div class="axolotl-settings">
+        <button class="axolotl-settings-trigger" id="axolotl-settings-toggle" type="button" aria-label="Nastavení" title="Nastavení" aria-expanded="false" aria-controls="axolotl-settings-panel">
+          <svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 3-.6 2a8 8 0 0 0-1.6.9l-2-.5-2.5 4.2 1.5 1.5a8 8 0 0 0 0 1.8l-1.5 1.5 2.5 4.2 2-.5a8 8 0 0 0 1.6.9l.6 2h5l.6-2a8 8 0 0 0 1.6-.9l2 .5 2.5-4.2-1.5-1.5a8 8 0 0 0 0-1.8l1.5-1.5-2.5-4.2-2 .5a8 8 0 0 0-1.6-.9l-.6-2h-5Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </button>
+        <section class="axolotl-settings-panel" id="axolotl-settings-panel" aria-labelledby="axolotl-settings-heading" hidden>
+          <h2 class="axolotl-settings-heading" id="axolotl-settings-heading">Nastavení</h2>
+          <ul class="axolotl-settings-list">
+            <li><button class="axolotl-settings-item" type="button" disabled><svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a8 8 0 0 1 16 0v2"></path></svg><span>Profil</span></button></li>
+            <li><button class="axolotl-settings-item" type="button" disabled><svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"></path><circle cx="15" cy="7" r="2"></circle><circle cx="9" cy="17" r="2"></circle></svg><span>Vzhled a prostředí</span></button></li>
+            <li><button class="axolotl-settings-item" type="button" disabled><svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v5m8-5v5M6 8h12v3a6 6 0 0 1-12 0V8Zm6 9v4"></path></svg><span>Integrace</span></button></li>
+            <li><button class="axolotl-settings-item" type="button" disabled><svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6l8-3Z"></path><path d="m8 12 3 3 5-5"></path></svg><span>Oprávnění k webům</span></button></li>
+            <li><button class="axolotl-settings-item" type="button" disabled><svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Zm-8 12a2 2 0 0 0 4 0"></path></svg><span>Upozornění</span></button></li>
+            <li><button class="axolotl-settings-item" type="button" disabled><svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"></rect><path d="M8 10V6a4 4 0 0 1 8 0v4m-4 5v2"></path></svg><span>Data a soukromí</span></button></li>
+            <li><button class="axolotl-settings-item" type="button" disabled><svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6m0-10h.01"></path></svg><span>O aplikaci</span></button></li>
+          </ul>
+        </section>
+      </div>
+      <label class="axolotl-theme-control" for="axolotl-theme-toggle" title="Přepnout na světlý režim">
+        <input class="axolotl-theme-input" id="axolotl-theme-toggle" type="checkbox" role="switch" aria-label="Tmavý režim" checked>
+        <span class="axolotl-theme-track" aria-hidden="true"></span>
+      </label>
+    </div>
     <script>
       const root = document.documentElement;
       const toggle = document.getElementById('axolotl-theme-toggle');
@@ -143,6 +274,35 @@
       });
 
       updateThemeControl();
+
+      const settings = document.querySelector('.axolotl-settings');
+      const settingsToggle = document.getElementById('axolotl-settings-toggle');
+      const settingsPanel = document.getElementById('axolotl-settings-panel');
+
+      function setSettingsOpen(open, returnFocus = false) {
+        settingsToggle.setAttribute('aria-expanded', String(open));
+        settingsPanel.hidden = !open;
+        if (returnFocus) settingsToggle.focus();
+      }
+
+      settingsToggle.addEventListener('click', () => {
+        setSettingsOpen(settingsPanel.hidden);
+      });
+
+      document.addEventListener('pointerdown', (event) => {
+        if (!settings.contains(event.target)) setSettingsOpen(false);
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !settingsPanel.hidden) {
+          event.preventDefault();
+          setSettingsOpen(false, true);
+        }
+      });
+
+      settings.addEventListener('focusout', (event) => {
+        if (!settings.contains(event.relatedTarget)) setSettingsOpen(false);
+      });
     </script>
   </body>
 </html>
