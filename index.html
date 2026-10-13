@@ -21,18 +21,12 @@
         color-scheme: dark;
         --background: #000;
         --foreground: #fff;
-        --button-background: #111;
-        --button-hover: #222;
-        --button-border: #444;
       }
 
       :root[data-theme="light"] {
         color-scheme: light;
         --background: #fff;
         --foreground: #000;
-        --button-background: #fff;
-        --button-hover: #eee;
-        --button-border: #bbb;
       }
 
       * { box-sizing: border-box; }
@@ -50,70 +44,90 @@
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
 
-      .theme-toggle {
+      .axolotl-theme-control {
+        --axolotl-theme-width: 3.5em;
+        --axolotl-theme-height: 2em;
+        --axolotl-theme-icon-size: 1.4em;
+        --axolotl-theme-icon-offset: 0.3em;
+        display: block;
         position: fixed;
         top: calc(20px + env(safe-area-inset-top, 0px));
         right: calc(20px + env(safe-area-inset-right, 0px));
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 9px;
-        min-height: 44px;
-        padding: 10px 16px;
-        border: 1px solid var(--button-border);
-        border-radius: 999px;
-        background: var(--button-background);
-        color: var(--foreground);
-        font: inherit;
-        font-size: 14px;
-        line-height: 1.4;
-        cursor: pointer;
+        width: var(--axolotl-theme-width);
+        height: var(--axolotl-theme-height);
+        font-size: 16px;
         touch-action: manipulation;
       }
 
-      @media (hover: hover) {
-        .theme-toggle:hover { background: var(--button-hover); }
+      .axolotl-theme-input {
+        opacity: 0;
+        width: 0;
+        height: 0;
       }
 
-      .theme-toggle:focus-visible {
+      .axolotl-theme-track {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background-color: #f4f4f5;
+        transition: .4s;
+        border-radius: 30px;
+      }
+
+      .axolotl-theme-track::before {
+        position: absolute;
+        content: "";
+        height: var(--axolotl-theme-icon-size, 1.4em);
+        width: var(--axolotl-theme-icon-size, 1.4em);
+        border-radius: 20px;
+        left: var(--axolotl-theme-icon-offset, 0.3em);
+        top: 50%;
+        transform: translateY(-50%);
+        background: linear-gradient(40deg, #ff0080, #ff8c00 70%);
+        transition: .4s;
+      }
+
+      .axolotl-theme-input:checked + .axolotl-theme-track {
+        background-color: #303136;
+      }
+
+      .axolotl-theme-input:checked + .axolotl-theme-track::before {
+        left: calc(100% - (var(--axolotl-theme-icon-size, 1.4em) + var(--axolotl-theme-icon-offset, 0.3em)));
+        background: #303136;
+        box-shadow: inset -3px -2px 5px -2px #8983f7, inset -10px -4px 0 0 #a3dafb;
+      }
+
+      .axolotl-theme-input:focus-visible + .axolotl-theme-track {
         outline: 2px solid var(--foreground);
         outline-offset: 4px;
       }
 
-      .theme-toggle svg { width: 18px; height: 18px; }
-      .icon-moon { display: none; }
-      [data-theme="light"] .icon-sun { display: none; }
-      [data-theme="light"] .icon-moon { display: block; }
+      @media (prefers-reduced-motion: reduce) {
+        .axolotl-theme-track,
+        .axolotl-theme-track::before { transition: none; }
+      }
     </style>
   </head>
   <body>
-    <button class="theme-toggle" type="button" aria-label="Přepnout na světlý režim" title="Přepnout na světlý režim">
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="4"></circle>
-        <path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path>
-      </svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"></path>
-      </svg>
-      <span class="theme-label">Light mode</span>
-    </button>
+    <label class="axolotl-theme-control" for="axolotl-theme-toggle" title="Přepnout na světlý režim">
+      <input class="axolotl-theme-input" id="axolotl-theme-toggle" type="checkbox" role="switch" aria-label="Tmavý režim" checked>
+      <span class="axolotl-theme-track" aria-hidden="true"></span>
+    </label>
     <script>
       const root = document.documentElement;
-      const toggle = document.querySelector('.theme-toggle');
-      const label = document.querySelector('.theme-label');
+      const toggle = document.getElementById('axolotl-theme-toggle');
+      const control = document.querySelector('.axolotl-theme-control');
       const themeColor = document.querySelector('meta[name="theme-color"]');
 
       function updateThemeControl() {
         const isLight = root.dataset.theme === 'light';
-        const action = isLight ? 'Přepnout na tmavý režim' : 'Přepnout na světlý režim';
-        label.textContent = isLight ? 'Dark mode' : 'Light mode';
-        toggle.setAttribute('aria-label', action);
-        toggle.title = action;
+        toggle.checked = !isLight;
+        control.title = isLight ? 'Přepnout na tmavý režim' : 'Přepnout na světlý režim';
         themeColor.content = isLight ? '#ffffff' : '#000000';
       }
 
-      toggle.addEventListener('click', () => {
-        root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      toggle.addEventListener('change', () => {
+        root.dataset.theme = toggle.checked ? 'dark' : 'light';
         updateThemeControl();
         try {
           localStorage.setItem('axolotl-2-theme', root.dataset.theme);
