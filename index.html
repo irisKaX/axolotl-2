@@ -24,10 +24,11 @@
           radial-gradient(ellipse at 95% 85%, #222222 0%, transparent 50%),
           #050505;
         --foreground: #fff;
-        --axolotl-settings-surface: #1b1b1b;
+        --axolotl-settings-surface: #303136;
+        --axolotl-settings-accent-start: #8983f7;
+        --axolotl-settings-accent-end: #a3dafb;
         --axolotl-settings-border: rgba(255, 255, 255, .10);
-        --axolotl-settings-hover: rgba(255, 255, 255, .08);
-        --axolotl-settings-shadow: 0 18px 56px rgba(0, 0, 0, .35);
+        --axolotl-settings-shadow: 0 14px 40px rgba(0, 0, 0, .22);
       }
 
       :root[data-theme="light"] {
@@ -37,10 +38,11 @@
           radial-gradient(ellipse at 95% 85%, #E2E2E2 0%, transparent 50%),
           #FAFAFA;
         --foreground: #000;
-        --axolotl-settings-surface: #fdfdfd;
+        --axolotl-settings-surface: #f4f4f5;
+        --axolotl-settings-accent-start: #ff0080;
+        --axolotl-settings-accent-end: #ff8c00;
         --axolotl-settings-border: rgba(0, 0, 0, .10);
-        --axolotl-settings-hover: rgba(0, 0, 0, .06);
-        --axolotl-settings-shadow: 0 18px 56px rgba(0, 0, 0, .12);
+        --axolotl-settings-shadow: 0 14px 40px rgba(0, 0, 0, .10);
       }
 
       * { box-sizing: border-box; }
@@ -61,7 +63,7 @@
       .axolotl-controls {
         position: fixed;
         z-index: 10;
-        top: calc(14px + env(safe-area-inset-top, 0px));
+        top: calc(20px + env(safe-area-inset-top, 0px));
         right: calc(20px + env(safe-area-inset-right, 0px));
         display: flex;
         align-items: center;
@@ -71,20 +73,26 @@
       .axolotl-settings-trigger {
         display: grid;
         place-items: center;
-        width: 44px;
-        height: 44px;
+        width: 56px;
+        height: 32px;
         padding: 0;
         border: 0;
-        border-radius: 12px;
-        background: transparent;
+        border-radius: 30px;
+        background: var(--axolotl-settings-surface);
+        transition: background-color .4s;
         color: var(--foreground);
         cursor: pointer;
         touch-action: manipulation;
       }
 
-      .axolotl-settings-trigger:hover,
-      .axolotl-settings-trigger[aria-expanded="true"] {
-        background: var(--axolotl-settings-hover);
+      @media (hover: hover) {
+        .axolotl-settings-trigger:hover .axolotl-settings-icon {
+          transform: rotate(25deg);
+        }
+      }
+
+      .axolotl-settings-trigger[aria-expanded="true"] .axolotl-settings-icon {
+        transform: rotate(60deg);
       }
 
       .axolotl-settings-trigger:focus-visible {
@@ -105,8 +113,11 @@
       }
 
       .axolotl-settings-trigger .axolotl-settings-icon {
-        width: 22px;
-        height: 22px;
+        width: 22.4px;
+        height: 22.4px;
+        stroke: url(#axolotl-settings-gear-gradient);
+        stroke-width: 1.9;
+        transition: transform .4s;
       }
 
       .axolotl-settings-panel {
@@ -117,8 +128,8 @@
         max-height: calc(100dvh - 88px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
         overflow-y: auto;
         padding: 8px;
-        border: 1px solid var(--axolotl-settings-border);
-        border-radius: 18px;
+        border: 0;
+        border-radius: 24px;
         background: var(--axolotl-settings-surface);
         box-shadow: var(--axolotl-settings-shadow);
       }
@@ -222,7 +233,9 @@
 
       @media (prefers-reduced-motion: reduce) {
         .axolotl-theme-track,
-        .axolotl-theme-track::before { transition: none; }
+        .axolotl-theme-track::before,
+        .axolotl-settings-trigger,
+        .axolotl-settings-trigger .axolotl-settings-icon { transition: none; }
       }
     </style>
   </head>
@@ -230,7 +243,7 @@
     <div class="axolotl-controls">
       <div class="axolotl-settings">
         <button class="axolotl-settings-trigger" id="axolotl-settings-toggle" type="button" aria-label="Nastavení" title="Nastavení" aria-expanded="false" aria-controls="axolotl-settings-panel">
-          <svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 3-.6 2a8 8 0 0 0-1.6.9l-2-.5-2.5 4.2 1.5 1.5a8 8 0 0 0 0 1.8l-1.5 1.5 2.5 4.2 2-.5a8 8 0 0 0 1.6.9l.6 2h5l.6-2a8 8 0 0 0 1.6-.9l2 .5 2.5-4.2-1.5-1.5a8 8 0 0 0 0-1.8l1.5-1.5-2.5-4.2-2 .5a8 8 0 0 0-1.6-.9l-.6-2h-5Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          <svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="axolotl-settings-gear-gradient" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color: var(--axolotl-settings-accent-start)"></stop><stop offset="70%" style="stop-color: var(--axolotl-settings-accent-end)"></stop></linearGradient></defs><path d="m9.5 3-.6 2a8 8 0 0 0-1.6.9l-2-.5-2.5 4.2 1.5 1.5a8 8 0 0 0 0 1.8l-1.5 1.5 2.5 4.2 2-.5a8 8 0 0 0 1.6.9l.6 2h5l.6-2a8 8 0 0 0 1.6-.9l2 .5 2.5-4.2-1.5-1.5a8 8 0 0 0 0-1.8l1.5-1.5-2.5-4.2-2 .5a8 8 0 0 0-1.6-.9l-.6-2h-5Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
         </button>
         <section class="axolotl-settings-panel" id="axolotl-settings-panel" aria-labelledby="axolotl-settings-heading" hidden>
           <h2 class="axolotl-settings-heading" id="axolotl-settings-heading">Nastavení</h2>
