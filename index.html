@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#050505">
     <meta name="color-scheme" content="dark light">
     <title>Axolotl 2.0</title>
     <script>
@@ -19,13 +19,19 @@
     <style>
       :root {
         color-scheme: dark;
-        --background: #000;
+        --background:
+          radial-gradient(ellipse at 42% 5%, #383838 0%, transparent 58%),
+          radial-gradient(ellipse at 95% 85%, #222222 0%, transparent 50%),
+          #050505;
         --foreground: #fff;
       }
 
       :root[data-theme="light"] {
         color-scheme: light;
-        --background: #fff;
+        --background:
+          radial-gradient(ellipse at 42% 5%, #D0D0D0 0%, transparent 58%),
+          radial-gradient(ellipse at 95% 85%, #E2E2E2 0%, transparent 50%),
+          #FAFAFA;
         --foreground: #000;
       }
 
@@ -123,7 +129,7 @@
         const isLight = root.dataset.theme === 'light';
         toggle.checked = !isLight;
         control.title = isLight ? 'Přepnout na tmavý režim' : 'Přepnout na světlý režim';
-        themeColor.content = isLight ? '#ffffff' : '#000000';
+        themeColor.content = isLight ? '#fafafa' : '#050505';
       }
 
       toggle.addEventListener('change', () => {
