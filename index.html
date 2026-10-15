@@ -8,8 +8,10 @@
     <title>Axolotl 2.0</title>
     <link rel="stylesheet" href="./assets/cursor-effects.css">
     <link rel="stylesheet" href="./assets/navigation.css">
+    <link rel="stylesheet" href="./assets/url-context.css">
     <script src="./assets/cursor-effects.js" defer></script>
     <script src="./assets/navigation.js" defer></script>
+    <script src="./assets/url-context.js" defer></script>
     <script>
       // Apply the saved theme before the page is painted. Dark is the default.
       try {
@@ -292,6 +294,7 @@
     </style>
   </head>
   <body>
+    <header class="axolotl-header" aria-label="Ovládání Axolotlu">
     <nav class="axolotl-navigation" id="axolotl-navigation" aria-label="Hlavní navigace">
       <a class="axolotl-nav-home" href="#dashboard" data-axolotl-route="dashboard" aria-label="Dashboard" title="Dashboard" aria-current="page"><svg class="axolotl-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2v-9Z"></path></svg></a>
       <div class="axolotl-nav-group">
@@ -380,6 +383,31 @@
         <span class="axolotl-theme-track" aria-hidden="true"></span>
       </label>
     </div>
+    <div class="axolotl-url-context" id="axolotl-url-context">
+      <form class="axolotl-url-bar" id="axolotl-url-form">
+        <label class="axolotl-url-label" for="axolotl-current-url" title="URL vybrané stránky">
+          <svg class="axolotl-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a17 17 0 0 1 0 18 17 17 0 0 1 0-18Z"></path></svg>
+          <span class="axolotl-visually-hidden">Aktuální URL</span>
+        </label>
+        <input class="axolotl-url-input" id="axolotl-current-url" type="text" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Vlož URL stránky…" aria-describedby="axolotl-url-status">
+        <div class="axolotl-tabs-control" id="axolotl-tabs-control">
+          <button class="axolotl-tabs-trigger" id="axolotl-tabs-toggle" type="button" aria-label="Vybrat kartu prohlížeče" title="Vybrat kartu prohlížeče" aria-expanded="false" aria-controls="axolotl-tabs-panel">
+            <svg class="axolotl-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="14" height="14" rx="3"></rect><path d="M17 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h2"></path></svg>
+            <svg class="axolotl-nav-icon axolotl-nav-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>
+          </button>
+          <section class="axolotl-tabs-panel" id="axolotl-tabs-panel" aria-labelledby="axolotl-tabs-heading" hidden>
+            <div class="axolotl-tabs-surface">
+              <h2 class="axolotl-tabs-heading" id="axolotl-tabs-heading">Otevřené karty</h2>
+              <p class="axolotl-tabs-status" id="axolotl-url-status" role="status">URL můžeš zadat ručně. Pro výběr karet připoj rozšíření Axolotl.</p>
+              <button class="axolotl-tab-option axolotl-tab-auto" id="axolotl-tab-auto" type="button" aria-pressed="true" hidden><span>Aktuální karta</span><small>Automaticky podle poslední aktivní stránky</small></button>
+              <ul class="axolotl-tabs-list" id="axolotl-tabs-list"></ul>
+              <a class="axolotl-tabs-connect" id="axolotl-tabs-connect" href="https://github.com/irisKaX/axolotl-2/blob/main/browser-extension/README.md" target="_blank" rel="noopener noreferrer">Připojit prohlížeč <span aria-hidden="true">↗</span></a>
+            </div>
+          </section>
+        </div>
+      </form>
+    </div>
+    </header>
     <main class="axolotl-workspace" id="axolotl-workspace" aria-label="Dashboard" tabindex="-1">
       <section class="axolotl-view" id="axolotl-view-dashboard" data-axolotl-route="dashboard" aria-label="Dashboard"></section>
       <section class="axolotl-view" id="axolotl-view-media-konvertor-obrazku" data-axolotl-route="media/konvertor-obrazku" aria-label="Konvertor obrázků" hidden></section>
@@ -493,6 +521,7 @@
       }
 
       document.addEventListener('axolotl:navigation-open', () => setSettingsOpen(false));
+      document.addEventListener('axolotl:tabs-open', () => setSettingsOpen(false));
 
       settings.addEventListener('pointerenter', event => {
         if (event.pointerType !== 'mouse' || !settingsHoverPointer.matches) return;

@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Axolotl · propojení karet",
+  "version": "1.0.0",
+  "minimum_chrome_version": "121",
+  "description": "Zobrazí otevřené webové karty a jejich URL v aplikaci Axolotl 2.0.",
+  "permissions": ["tabs"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [{
+    "matches": ["https://iriskax.github.io/axolotl-2/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }]
+}
