@@ -14,6 +14,8 @@ export function useDisclosure(
     trigger = useRef<HTMLButtonElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const byHover = useRef(false);
+  const currentOpenId = useRef(openId);
+  currentOpenId.current = openId;
   const open = openId === id;
   const close = (focus = false) => {
     clearTimeout(timer.current);
@@ -97,7 +99,10 @@ export function useDisclosure(
         }
       },
       onPointerLeave: () => {
+        clearTimeout(timer.current);
         timer.current = setTimeout(() => {
+          // A hidden menu can emit pointerleave after another category opened.
+          if (currentOpenId.current !== id) return;
           if (
             !root.current
               ?.querySelector("[data-axolotl-panel]")

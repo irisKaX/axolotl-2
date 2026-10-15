@@ -92,6 +92,19 @@ describe("migrated application", () => {
       "false",
     );
   });
+  it("a late pointer leave from a closed category cannot close the next category", () => {
+    vi.useFakeTimers();
+    mount();
+    const media = screen.getByRole("button", { name: "Média" });
+    fireEvent.click(media);
+    fireEvent.click(screen.getByRole("link", { name: /^Dashboard$/ }));
+    // Hiding a dropdown can dispatch pointerleave after it was already closed.
+    fireEvent.pointerLeave(media.closest(".axolotl-nav-group")!);
+    const control = screen.getByRole("button", { name: "Kontrola" });
+    fireEvent.click(control);
+    act(() => vi.advanceTimersByTime(200));
+    expect(control).toHaveAttribute("aria-expanded", "true");
+  });
   it("does not overwrite a URL being edited and Escape restores the committed URL", async () => {
     const user = userEvent.setup();
     const { page } = mount();
