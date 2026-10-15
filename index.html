@@ -416,9 +416,10 @@
       });
 
       settings.addEventListener('focusout', () => {
-        queueMicrotask(() => {
+        // Wait until the new settings view has received focus before checking it.
+        setTimeout(() => {
           if (!settings.contains(document.activeElement)) setSettingsOpen(false);
-        });
+        }, 0);
       });
     </script>
   </body>
