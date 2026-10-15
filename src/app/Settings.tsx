@@ -127,8 +127,8 @@ function Appearance() {
         {prefs.reducedMotion
           ? "Efekt kurzoru je pozastavený při omezených animacích."
           : prefs.resolvedTheme === "dark"
-            ? "Světlušky zanechávají jemnou světelnou stopu a při kliknutí se rozletí."
-            : "Jemná barevná stopa je viditelná i na světlém pozadí."}
+            ? "Glow Cursor zanechává modrofialovou světelnou stopu a při kliknutí jemně zazáří."
+            : "Glow Cursor vytváří barevnou stopu s kontrastem pro světlé pozadí."}
       </p>
       <p
         className="axolotl-setting-note axolotl-settings-save-note"
