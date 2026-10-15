@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./assets/cursor-effects.css">
     <link rel="stylesheet" href="./assets/navigation.css">
     <link rel="stylesheet" href="./assets/url-context.css">
+    <link rel="stylesheet" href="./assets/dashboard-layout.css">
     <script src="./assets/cursor-effects.js" defer></script>
     <script src="./assets/navigation.js" defer></script>
     <script src="./assets/url-context.js" defer></script>
@@ -296,6 +297,7 @@
   <body>
     <header class="axolotl-header" aria-label="Ovládání Axolotlu">
     <nav class="axolotl-navigation" id="axolotl-navigation" aria-label="Hlavní navigace">
+      <span class="axolotl-logo-slot" id="axolotl-logo-slot" data-axolotl-slot="logo" aria-hidden="true"></span>
       <a class="axolotl-nav-home" href="#dashboard" data-axolotl-route="dashboard" aria-label="Dashboard" title="Dashboard" aria-current="page"><svg class="axolotl-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2v-9Z"></path></svg></a>
       <div class="axolotl-nav-group">
         <button class="axolotl-nav-trigger" id="axolotl-nav-osobni-toggle" type="button" aria-expanded="false" aria-controls="axolotl-nav-osobni-dropdown">Můj workspace<svg class="axolotl-nav-icon axolotl-nav-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
@@ -407,7 +409,10 @@
     </div>
     </header>
     <main class="axolotl-workspace" id="axolotl-workspace" aria-label="Dashboard" tabindex="-1">
-      <section class="axolotl-view" id="axolotl-view-dashboard" data-axolotl-route="dashboard" aria-label="Dashboard"></section>
+      <section class="axolotl-view" id="axolotl-view-dashboard" data-axolotl-route="dashboard" aria-label="Dashboard">
+        <!-- Reserved for the future office scene; it shares the dashboard background. -->
+        <div class="axolotl-office-slot" id="axolotl-office-slot" data-axolotl-slot="office" aria-hidden="true"></div>
+      </section>
       <section class="axolotl-view" id="axolotl-view-media-konvertor-obrazku" data-axolotl-route="media/konvertor-obrazku" aria-label="Konvertor obrázků" hidden></section>
       <section class="axolotl-view" id="axolotl-view-media-obrazky-z-webu" data-axolotl-route="media/obrazky-z-webu" aria-label="Obrázky z webu" hidden></section>
       <section class="axolotl-view" id="axolotl-view-media-pdf-scout" data-axolotl-route="media/pdf-scout" aria-label="PDF scout" hidden></section>
