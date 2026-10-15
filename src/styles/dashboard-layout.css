@@ -1,0 +1,80 @@
+/* Empty layout slots: replace their content when the logo and office are ready. */
+.axolotl-logo-slot {
+  display: block;
+  flex: 0 0 104px;
+  height: 32px;
+  margin-right: 8px;
+}
+
+.axolotl-office-slot {
+  position: relative;
+  width: calc(100% + 40px);
+  min-height: clamp(240px, 46vh, 500px);
+  min-height: clamp(240px, 46dvh, 500px);
+  margin-inline: -20px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* The longer left side moves below the controls before the two sides collide. */
+@media (max-width: 900px) {
+  .axolotl-navigation {
+    top: calc(72px + env(safe-area-inset-top, 0px));
+  }
+  .axolotl-nav-group {
+    position: static;
+  }
+  .axolotl-nav-dropdown {
+    left: 0;
+    right: auto;
+  }
+  .axolotl-logo-slot {
+    flex-basis: 72px;
+  }
+  .axolotl-url-context {
+    top: calc(116px + env(safe-area-inset-top, 0px));
+  }
+  .axolotl-tabs-surface {
+    max-height: calc(
+      100dvh - 188px - env(safe-area-inset-top, 0px) -
+        env(safe-area-inset-bottom, 0px)
+    );
+  }
+  .axolotl-workspace {
+    padding-top: calc(176px + env(safe-area-inset-top, 0px));
+  }
+}
+
+@media (max-width: 600px) {
+  .axolotl-logo-slot {
+    flex-basis: 32px;
+    margin-right: 0;
+  }
+  .axolotl-navigation {
+    gap: 4px;
+    font-size: 12px;
+  }
+  .axolotl-nav-trigger {
+    gap: 4px;
+    padding-inline: 6px;
+  }
+  .axolotl-nav-home {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .axolotl-logo-slot {
+    flex-basis: 20px;
+  }
+  .axolotl-navigation {
+    gap: 2px;
+    font-size: 11px;
+  }
+  .axolotl-nav-trigger {
+    gap: 2px;
+    padding-inline: 4px;
+  }
+}

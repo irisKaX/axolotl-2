@@ -1,0 +1,48 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@source '../';
+@import "./cursor-effects.css";
+@import "./navigation.css";
+@import "./url-context.css";
+@import "./dashboard-layout.css";
+@import "./legacy-base.css";
+@import "./settings.css";
+@import "./design-tokens.css";
+@import "./design-system.css";
+body {
+  background: transparent;
+}
+html {
+  background: var(--background);
+  background-attachment: fixed;
+}
+.axolotl-settings {
+  position: relative;
+}
+.axolotl-design-link {
+  gap: 8px;
+  margin: 8px 4px;
+}
+.axolotl-skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 60;
+  transform: translateY(-160%);
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--axolotl-surface-card);
+  color: var(--foreground);
+}
+.axolotl-skip-link:focus {
+  transform: none;
+}
+/* Keep expanded content usable when text is enlarged. */
+.axolotl-settings-panel {
+  overscroll-behavior: contain;
+}
+@media (max-width: 900px) {
+  .axolotl-controls {
+    gap: 10px;
+  }
+}
