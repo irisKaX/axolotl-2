@@ -54,6 +54,17 @@
   stroke: url(#axolotl-settings-gear-gradient);
 }
 
+.axolotl-nav-personal {
+  width: 32px;
+  padding: 0;
+  background: var(--axolotl-settings-surface);
+}
+.axolotl-nav-personal .axolotl-nav-icon { width: 20px; height: 20px; }
+.axolotl-nav-personal[data-axolotl-active="true"] .axolotl-nav-icon,
+.axolotl-nav-personal[aria-expanded="true"] .axolotl-nav-icon {
+  stroke: url(#axolotl-settings-gear-gradient);
+}
+
 .axolotl-nav-chevron {
   width: 12px;
   height: 12px;
@@ -126,7 +137,7 @@
 
 @media (max-width: 680px) {
   .axolotl-navigation { top: calc(72px + env(safe-area-inset-top, 0px)); }
-  .axolotl-nav-group:last-child .axolotl-nav-dropdown { left: auto; right: 0; }
+  .axolotl-nav-group ~ .axolotl-nav-group .axolotl-nav-dropdown { left: auto; right: 0; }
   .axolotl-workspace { padding-top: 136px; }
 }
 

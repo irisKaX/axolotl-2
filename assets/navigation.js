@@ -87,6 +87,7 @@
       trigger.focus();
     }
   });
+  document.addEventListener('axolotl:settings-open', closeNavigation);
   document.addEventListener('pointerdown', event => {
     if (!navigation.contains(event.target)) closeNavigation();
   });

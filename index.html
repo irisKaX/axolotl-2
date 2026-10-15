@@ -98,7 +98,8 @@
         opacity: .65;
       }
 
-      .axolotl-settings-trigger {
+      .axolotl-settings-trigger,
+      .axolotl-notifications-trigger {
         display: grid;
         place-items: center;
         width: 32px;
@@ -111,6 +112,19 @@
         color: var(--foreground);
         cursor: pointer;
         touch-action: manipulation;
+      }
+
+      .axolotl-notifications-trigger:disabled { cursor: default; }
+      .axolotl-notifications-trigger .axolotl-settings-icon {
+        width: 20px;
+        height: 20px;
+        stroke: url(#axolotl-settings-gear-gradient);
+      }
+
+      @media (max-width: 380px) {
+        .axolotl-controls { gap: 8px; }
+        .axolotl-clock { margin-right: 0; }
+        .axolotl-clock-date { font-size: 11px; }
       }
 
       @media (hover: hover) {
@@ -163,6 +177,16 @@
       }
 
       .axolotl-settings-panel[hidden] { display: none; }
+
+      /* Bridge the gap so the pointer can travel from the gear into the panel. */
+      .axolotl-settings[data-axolotl-open="true"]::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: min(280px, calc(100vw - 40px - env(safe-area-inset-right, 0px)));
+        height: 10px;
+      }
 
       .axolotl-settings-heading {
         margin: 0;
@@ -294,12 +318,25 @@
           </ul>
         </div>
       </div>
+      <div class="axolotl-nav-group">
+        <button class="axolotl-nav-trigger axolotl-nav-personal" id="axolotl-nav-osobni-toggle" type="button" aria-label="Osobní prostor" title="Osobní prostor" aria-expanded="false" aria-controls="axolotl-nav-osobni-dropdown">
+          <svg class="axolotl-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21v-2a7 7 0 0 1 14 0v2"></path></svg>
+        </button>
+        <div class="axolotl-nav-dropdown" id="axolotl-nav-osobni-dropdown" hidden>
+          <ul class="axolotl-nav-list" aria-labelledby="axolotl-nav-osobni-toggle">
+            <li><a class="axolotl-nav-link" href="#osobni-prostor/poznamky" data-axolotl-route="osobni-prostor/poznamky"><svg class="axolotl-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="15" height="18" rx="2"></rect><path d="M3 7h4m-4 5h4m-4 5h4M11 8h5m-5 4h5m-5 4h3"></path></svg><span>Poznámky</span></a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
     <div class="axolotl-controls">
       <time class="axolotl-clock" id="axolotl-clock" aria-live="off" title="Čas a datum v Praze">
         <span class="axolotl-clock-time" id="axolotl-clock-time">--:--</span>
         <span class="axolotl-clock-date" id="axolotl-clock-date"></span>
       </time>
+      <button class="axolotl-notifications-trigger" id="axolotl-notifications-toggle" type="button" aria-label="Upozornění" title="Upozornění" disabled>
+        <svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Zm-8 12a2 2 0 0 0 4 0"></path></svg>
+      </button>
       <div class="axolotl-settings">
         <button class="axolotl-settings-trigger" id="axolotl-settings-toggle" type="button" aria-label="Nastavení" title="Nastavení" aria-expanded="false" aria-controls="axolotl-settings-panel">
           <svg class="axolotl-settings-icon" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="axolotl-settings-gear-gradient" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color: var(--axolotl-settings-accent-start)"></stop><stop offset="70%" style="stop-color: var(--axolotl-settings-accent-end)"></stop></linearGradient></defs><path d="m9.5 3-.6 2a8 8 0 0 0-1.6.9l-2-.5-2.5 4.2 1.5 1.5a8 8 0 0 0 0 1.8l-1.5 1.5 2.5 4.2 2-.5a8 8 0 0 0 1.6.9l.6 2h5l.6-2a8 8 0 0 0 1.6-.9l2 .5 2.5-4.2-1.5-1.5a8 8 0 0 0 0-1.8l1.5-1.5-2.5-4.2-2 .5a8 8 0 0 0-1.6-.9l-.6-2h-5Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -355,6 +392,7 @@
       <section class="axolotl-view" id="axolotl-view-kontrola-strukturovana-data" data-axolotl-route="kontrola/strukturovana-data" aria-label="Strukturovaná data" hidden></section>
       <section class="axolotl-view" id="axolotl-view-kontrola-obrazky" data-axolotl-route="kontrola/obrazky" aria-label="Obrázky" hidden></section>
       <section class="axolotl-view" id="axolotl-view-kontrola-hledani-na-webu" data-axolotl-route="kontrola/hledani-na-webu" aria-label="Hledání na webu" hidden></section>
+      <section class="axolotl-view" id="axolotl-view-osobni-poznamky" data-axolotl-route="osobni-prostor/poznamky" aria-label="Poznámky" hidden></section>
     </main>
     <script>
       const root = document.documentElement;
@@ -420,6 +458,9 @@
       const appearancePanel = document.getElementById('axolotl-appearance-panel');
       const appearanceOpen = document.getElementById('axolotl-appearance-open');
       const appearanceBack = document.getElementById('axolotl-appearance-back');
+      const settingsHoverPointer = matchMedia('(hover: hover) and (pointer: fine)');
+      let settingsCloseTimer;
+      let settingsOpenedByHover = false;
 
       function showSettingsHome(returnFocus = false) {
         settingsHome.hidden = false;
@@ -427,25 +468,63 @@
         if (returnFocus) appearanceOpen.focus();
       }
 
-      appearanceOpen.addEventListener('click', () => {
+      function showAppearance(moveFocus = true) {
+        const restoreFocus = moveFocus || settingsHome.contains(document.activeElement);
         settingsHome.hidden = true;
         appearancePanel.hidden = false;
-        appearanceBack.focus();
+        if (restoreFocus) appearanceBack.focus();
+      }
+
+      appearanceOpen.addEventListener('click', () => showAppearance());
+      appearanceOpen.addEventListener('pointerenter', event => {
+        if (event.pointerType === 'mouse' && settingsHoverPointer.matches) showAppearance(false);
       });
 
       appearanceBack.addEventListener('click', () => showSettingsHome(true));
+      appearanceBack.addEventListener('pointerenter', event => {
+        if (event.pointerType === 'mouse' && settingsHoverPointer.matches) {
+          showSettingsHome(appearancePanel.contains(document.activeElement));
+        }
+      });
 
       function setSettingsOpen(open, returnFocus = false) {
+        clearTimeout(settingsCloseTimer);
+        const wasOpen = !settingsPanel.hidden;
         settingsToggle.setAttribute('aria-expanded', String(open));
+        settings.dataset.axolotlOpen = String(open);
         settingsPanel.hidden = !open;
-        if (!open) showSettingsHome();
+        if (!open) {
+          settingsOpenedByHover = false;
+          showSettingsHome();
+        } else if (!wasOpen) {
+          document.dispatchEvent(new Event('axolotl:settings-open'));
+        }
         if (returnFocus) settingsToggle.focus();
       }
 
       document.addEventListener('axolotl:navigation-open', () => setSettingsOpen(false));
 
+      settings.addEventListener('pointerenter', event => {
+        if (event.pointerType !== 'mouse' || !settingsHoverPointer.matches) return;
+        clearTimeout(settingsCloseTimer);
+        if (settingsPanel.hidden) {
+          settingsOpenedByHover = true;
+          setSettingsOpen(true);
+        }
+      });
+
+      settings.addEventListener('pointerleave', () => {
+        settingsCloseTimer = setTimeout(() => {
+          if (!settingsPanel.contains(document.activeElement)) setSettingsOpen(false);
+        }, 150);
+      });
+
       settingsToggle.addEventListener('click', () => {
-        setSettingsOpen(settingsPanel.hidden);
+        if (!settingsPanel.hidden && settingsOpenedByHover) {
+          settingsOpenedByHover = false;
+        } else {
+          setSettingsOpen(settingsPanel.hidden);
+        }
       });
 
       document.addEventListener('pointerdown', (event) => {
