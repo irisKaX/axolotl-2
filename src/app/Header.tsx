@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Icon } from "../components/Icon";
+import { BrandLogo } from "../components/BrandLogo";
 import { groups } from "./routes";
 import { usePreferences } from "./PreferencesProvider";
 import { useDisclosure } from "./useDisclosure";
@@ -129,12 +130,7 @@ export function Header({ route }: { route: string }) {
       </svg>
       <header className="axolotl-header" aria-label="Ovládání Axolotlu">
         <nav className="axolotl-navigation" aria-label="Hlavní navigace">
-          <span
-            className="axolotl-logo-slot"
-            id="axolotl-logo-slot"
-            data-axolotl-slot="logo"
-            aria-hidden="true"
-          />
+          <BrandLogo onNavigate={() => setOpenId(null)} />
           <a
             className="axolotl-nav-home"
             href="#dashboard"

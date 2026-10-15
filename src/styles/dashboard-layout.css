@@ -1,9 +1,26 @@
-/* Empty layout slots: replace their content when the logo and office are ready. */
+/* The logo shares the header surface; the office stays an empty reserved area. */
 .axolotl-logo-slot {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 104px;
-  height: 32px;
+  height: 36px;
   margin-right: 8px;
+  color: var(--foreground);
+  border-radius: 8px;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.axolotl-logo-art {
+  display: block;
+  width: 100px;
+  height: 36px;
+  background-color: currentColor;
+  mask: var(--axolotl-logo-image) center / contain no-repeat;
+}
+.axolotl-logo-slot:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 4px;
 }
 
 .axolotl-office-slot {
@@ -33,6 +50,9 @@
   .axolotl-logo-slot {
     flex-basis: 72px;
   }
+  .axolotl-logo-art {
+    width: 72px;
+  }
   .axolotl-url-context {
     top: calc(116px + env(safe-area-inset-top, 0px));
   }
@@ -52,6 +72,10 @@
     flex-basis: 32px;
     margin-right: 0;
   }
+  .axolotl-logo-art {
+    width: 32px;
+    mask-image: var(--axolotl-logo-symbol);
+  }
   .axolotl-navigation {
     gap: 4px;
     font-size: 12px;
@@ -67,7 +91,10 @@
 
 @media (max-width: 360px) {
   .axolotl-logo-slot {
-    flex-basis: 20px;
+    flex-basis: 28px;
+  }
+  .axolotl-logo-art {
+    width: 28px;
   }
   .axolotl-navigation {
     gap: 2px;
