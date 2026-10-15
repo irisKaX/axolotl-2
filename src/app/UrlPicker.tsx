@@ -11,12 +11,28 @@ export function UrlPicker({ openId, setOpenId }: DisclosureProps) {
   const input = useRef<HTMLInputElement>(null),
     editing = useRef(false),
     dirty = useRef(false);
+  const autoOption = useRef<HTMLButtonElement>(null);
+  const focusedTab = useRef<number | null>(null);
+  function adopt(url: string) {
+    setDraft(url);
+    setInvalid(false);
+    dirty.current = false;
+    input.current?.setCustomValidity("");
+  }
   useEffect(() => {
-    if (!editing.current) {
-      setDraft(context.url);
-      setInvalid(false);
+    if (!editing.current) adopt(context.url);
+  }, [context]);
+  useEffect(() => {
+    if (
+      focusedTab.current !== null &&
+      !tabs.some((tab) => tab.id === focusedTab.current)
+    ) {
+      if (menu.open && document.activeElement === document.body) {
+        (autoOption.current ?? menu.trigger.current)?.focus();
+      }
+      focusedTab.current = null;
     }
-  }, [context.url]);
+  }, [tabs, menu.open, menu.trigger]);
   function commit() {
     try {
       const url = store.commitManual(draft);
@@ -123,9 +139,11 @@ export function UrlPicker({ openId, setOpenId }: DisclosureProps) {
                   <button
                     type="button"
                     className="axolotl-tab-option axolotl-tab-auto"
+                    ref={autoOption}
                     aria-pressed={context.source === "auto"}
                     onClick={() => {
                       store.selectAuto();
+                      adopt(store.getSnapshot().context.url);
                       menu.close(true);
                     }}
                   >
@@ -138,12 +156,19 @@ export function UrlPicker({ openId, setOpenId }: DisclosureProps) {
                         <button
                           type="button"
                           className="axolotl-tab-option"
+                          onFocus={() => {
+                            focusedTab.current = tab.id;
+                          }}
+                          onBlur={(event) => {
+                            if (event.relatedTarget) focusedTab.current = null;
+                          }}
                           aria-pressed={
                             context.source !== "manual" &&
                             context.tabId === tab.id
                           }
                           onClick={() => {
                             store.selectTab(tab.id);
+                            adopt(tab.url);
                             menu.close(true);
                           }}
                         >

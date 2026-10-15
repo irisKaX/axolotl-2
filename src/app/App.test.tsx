@@ -123,6 +123,19 @@ describe("migrated application", () => {
       screen.getByText("Poznámka: nástroj přidáme později."),
     ).toBeVisible();
   });
+  it("clears native validity when an external valid URL replaces an invalid draft", async () => {
+    const user = userEvent.setup();
+    const { page } = mount();
+    const input = screen.getByRole("textbox", { name: "Aktuální URL" });
+    await user.type(input, "javascript:alert(1){Enter}");
+    expect(input).toBeInvalid();
+    await user.click(screen.getByRole("button", { name: "Nastavení" }));
+    act(() => {
+      page.commitManual("valid.example");
+    });
+    expect(input).toHaveValue("https://valid.example/");
+    expect(input).toBeValid();
+  });
   it("cleans up polling and cursor particles on unmount", () => {
     vi.useFakeTimers();
     const post = vi.spyOn(window, "postMessage").mockImplementation(() => {});

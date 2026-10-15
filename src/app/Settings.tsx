@@ -218,7 +218,10 @@ function About({ close }: { close: () => void }) {
       <a
         className="axolotl-setting-action axolotl-design-link"
         href="#design-system"
-        onClick={close}
+        onClick={() => {
+          close();
+          document.getElementById("axolotl-workspace")?.focus();
+        }}
       >
         Otevřít vzorník komponent <Icon name="arrow" />
       </a>
