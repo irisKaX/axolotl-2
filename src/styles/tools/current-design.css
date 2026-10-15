@@ -22,8 +22,6 @@
 .axolotl-tool-root.converter .convert-row-actions .ax-button { font-size: 12px; }
 .axolotl-tool-root.converter .compare-stage { background: repeating-conic-gradient(var(--surface) 0% 25%, var(--field) 0% 50%) 0 0 / 20px 20px; }
 .axolotl-tool-root.converter .compare-blank { background: var(--field); }
-.axolotl-tool-root.converter .compare-handle { background: var(--surface); color: var(--ink); border-color: var(--line); box-shadow: 0 2px 12px rgb(0 0 0 / .2); }
-.axolotl-tool-root.converter .compare-divider { background: var(--ink); box-shadow: none; }
 .axolotl-tool-root.converter .compare-labels strong { font-weight: 550; letter-spacing: 0; }
 .axolotl-tool-root.converter .convert-footer { padding-top: 18px; margin-top: 12px; }
 .axolotl-tool-root .ax-preview-stage { display: grid; place-items: center; min-width: 0; min-height: 320px; padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: var(--field); }

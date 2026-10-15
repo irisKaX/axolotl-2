@@ -114,7 +114,9 @@ export function useDisclosure(
         }, 150);
       },
       onBlur: (event: React.FocusEvent) => {
-        if (!root.current?.contains(event.relatedTarget as Node)) close();
+        // Clicking a label first blurs its neighbour to body (relatedTarget=null).
+        // Keep it mounted for native label activation; outside clicks close above.
+        if (event.relatedTarget && !root.current?.contains(event.relatedTarget as Node)) close();
       },
       onKeyDown: keydown,
     },

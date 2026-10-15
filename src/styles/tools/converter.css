@@ -39,7 +39,7 @@
   width: 100%;
   height: clamp(280px, 52vh, 560px);
   overflow: hidden;
-  border-radius: var(--axolotl-radius-input);
+  border-radius: 20px;
   background: repeating-conic-gradient(#e7eaf1 0% 25%, #f7f8fb 0% 50%) 0 0 / 20px 20px;
   touch-action: none;
   cursor: grab;
@@ -51,6 +51,9 @@
 }
 :where(.axolotl-tool-root, .ax-ui) .compare-stage.compare-dragging {
   cursor: grabbing;
+}
+:where(.axolotl-tool-root, .ax-ui) .compare-stage[data-axolotl-compare-mode='hover'] {
+  cursor: col-resize;
 }
 :where(.axolotl-tool-root, .ax-ui) .compare-layer {
   position: absolute;
@@ -88,10 +91,9 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 2px;
+  width: 1px;
   z-index: 2;
-  background: white;
-  box-shadow: 0 0 0 1px #0034a84d;
+  background: linear-gradient(to bottom, transparent 5%, #818cf8 50%, transparent 95%);
   cursor: ew-resize;
   touch-action: none;
   outline: none;
@@ -99,32 +101,79 @@
 :where(.axolotl-tool-root, .ax-ui) .compare-divider:before {
   content: '';
   position: absolute;
-  inset: 0 -13px;
+  inset: 0 -22px;
 }
 :where(.axolotl-tool-root, .ax-ui) .compare-handle {
   position: absolute;
-  top: calc(50% - 22px);
+  top: calc(50% - 12px);
   left: 0;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 3px solid white;
-  border-radius: 50%;
-  background: var(--blue);
-  color: white;
-  box-shadow: 0 3px 14px #001b5940;
-  font-size: 24px;
-  line-height: 1;
-  font-weight: 650;
-  letter-spacing: 2px;
+  width: 22px;
+  height: 24px;
+  border: 1px solid rgb(255 255 255 / .75);
+  border-radius: 6px;
+  background: #fff;
+  color: #18181b;
+  box-shadow: 0 -1px 0 #ffffff40, 0 2px 8px #0003;
+  z-index: 3;
 }
 :where(.axolotl-tool-root, .ax-ui) .compare-divider:focus-visible .compare-handle {
-  outline: 3px solid var(--navy);
+  outline: 3px solid #7c3aed;
   outline-offset: 3px;
 }
 :where(.axolotl-tool-root, .ax-ui) .compare-divider:hover .compare-handle {
-  background: var(--blue-hover);
+  background: #f4f4f5;
+}
+/* Aceternity Compare's indigo/cyan edge, with lightweight CSS sparkles. */
+.axolotl-compare-grip {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 -5px currentColor, 0 5px currentColor;
+}
+.axolotl-compare-glow,
+.axolotl-compare-glow-core,
+.axolotl-compare-sparkles {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.axolotl-compare-glow {
+  width: 144px;
+  height: 100%;
+  background: linear-gradient(to right, #818cf880, transparent);
+  mask-image: radial-gradient(100px at left, white, transparent);
+}
+.axolotl-compare-glow-core {
+  width: 40px;
+  height: 50%;
+  background: linear-gradient(to right, #22d3ee, transparent);
+  mask-image: radial-gradient(50px at left, white, transparent);
+}
+.axolotl-compare-sparkles {
+  width: 40px;
+  height: 75%;
+  overflow: hidden;
+  mask-image: radial-gradient(100px at left, white, transparent);
+}
+.axolotl-compare-spark {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 2px #fff;
+  animation: axolotl-compare-shimmer 2s ease-in-out infinite alternate;
+}
+[data-theme='light'] .axolotl-compare-spark { background: #6366f1; box-shadow: 0 0 2px #818cf8; }
+[data-motion='reduced'] .axolotl-compare-sparkles { display: none; }
+@keyframes axolotl-compare-shimmer {
+  from { opacity: .15; transform: translate(0, 4px); }
+  to { opacity: .9; transform: translate(5px, -4px); }
 }
 :where(.axolotl-tool-root, .ax-ui) .compare-bottom {
   display: flex;

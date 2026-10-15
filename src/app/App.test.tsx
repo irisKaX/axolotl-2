@@ -5,6 +5,7 @@ import { App } from "./App";
 import { PreferencesProvider } from "./PreferencesProvider";
 import { PageContextProvider } from "./PageContextProvider";
 import { createPageStore } from "../lib/browser-bridge";
+import { system } from "../test/setup";
 function mount() {
   const page = createPageStore();
   return {
@@ -91,6 +92,22 @@ describe("migrated application", () => {
       "aria-expanded",
       "false",
     );
+  });
+  it("clicking the cursor setting label disables the effect and persists after remount", async () => {
+    system("(any-pointer: fine)", true);
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
+    const user = userEvent.setup();
+    const app = mount();
+    expect(document.querySelector(".axolotl-cursor-layer")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Nastavení" }));
+    await user.click(screen.getByRole("button", { name: "Vzhled a prostředí" }));
+    await user.click(screen.getByText("Efekt kurzoru", { selector: ".axolotl-cursor-option-text > span" }));
+    expect(screen.getByRole("switch", { name: "Efekt kurzoru" })).not.toBeChecked();
+    expect(document.querySelector(".axolotl-cursor-layer")).toBeNull();
+    expect(localStorage.getItem("axolotl-2-cursor-effects")).toBe("false");
+    app.unmount();
+    mount();
+    expect(document.querySelector(".axolotl-cursor-layer")).toBeNull();
   });
   it("a late pointer leave from a closed category cannot close the next category", () => {
     vi.useFakeTimers();

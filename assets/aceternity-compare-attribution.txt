@@ -1,0 +1,9 @@
+Aceternity Compare — Manu Arora / Aceternity
+Reference: https://ui.aceternity.com/components/compare
+Source reference: https://ui.aceternity.com/registry/compare.json
+Licence: https://ui.aceternity.com/licence
+
+The divider, glow, handle and hover interaction are adapted for Axolotl's
+existing image converter. The application retains shared zoom/pan coordinates,
+independent clipping of transparent images, keyboard and pointer controls.
+Sparkles use CSS and respect the application's reduced-motion preference.

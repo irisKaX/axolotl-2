@@ -49,9 +49,24 @@ export function mountComparison(host) {
   divider.setAttribute('aria-orientation', 'horizontal');
   divider.setAttribute('aria-valuemin', '0');
   divider.setAttribute('aria-valuemax', '100');
-  const handle = el('span', 'compare-handle', '‹ ›');
+  // Aceternity Compare's beam and handle, adapted to the shared zoom/pan view.
+  // https://ui.aceternity.com/components/compare (Manu Arora / Aceternity)
+  const glow = el('span', 'axolotl-compare-glow'),
+    core = el('span', 'axolotl-compare-glow-core'),
+    sparkles = el('span', 'axolotl-compare-sparkles');
+  for (const node of [glow, core, sparkles]) node.setAttribute('aria-hidden', 'true');
+  for (let i = 0; i < 16; i++) {
+    const spark = el('i', 'axolotl-compare-spark');
+    spark.style.left = (i * 17 % 37) + 'px';
+    spark.style.top = (i * 29 % 100) + '%';
+    spark.style.animationDelay = -(i * 0.23) + 's';
+    spark.style.animationDuration = (1.7 + i % 4 * 0.3) + 's';
+    sparkles.append(spark);
+  }
+  const handle = el('span', 'compare-handle');
+  handle.append(el('span', 'axolotl-compare-grip'));
   handle.setAttribute('aria-hidden', 'true');
-  divider.append(handle);
+  divider.append(glow, core, sparkles, handle);
   stage.append(left, right, blank, divider);
   const bottom = el('div', 'compare-bottom'),
     zoomBar = el('div', 'compare-zoom');
@@ -74,7 +89,7 @@ export function mountComparison(host) {
     { kind: 'ghost', id: 'compare-fit' }
   );
   zoomBar.append(minus, zoomLabel, plus, actual, fit);
-  const help = el('p', 'helper compare-hint', 'Táhněte dělicí čárou. Přiblížený obrázek posunete tažením.');
+  const help = el('p', 'helper compare-hint');
   bottom.append(zoomBar, help);
   const status = el('p', 'helper compare-status');
   status.id = 'compare-status';
@@ -127,6 +142,10 @@ export function mountComparison(host) {
     blank.hidden = sourceReady;
     for (const control of [minus, plus, actual, fit]) control.disabled = !sourceReady;
     if (!view) return;
+    stage.setAttribute('data-axolotl-compare-mode', view.fitted ? 'hover' : 'drag');
+    help.textContent = view.fitted
+      ? 'Pohybem myši nebo tažením porovnáte originál a WebP.'
+      : 'Táhněte dělicí čárou. Přiblížený obrázek posunete tažením.';
     if (
       comparing &&
       (original.naturalWidth !== output.naturalWidth || original.naturalHeight !== output.naturalHeight)
@@ -191,14 +210,27 @@ export function mountComparison(host) {
     stage.classList.add('compare-dragging');
   }
   function moveDrag(event) {
-    if (!drag || event.pointerId !== drag.id) return;
+    if (!drag) {
+      if (event.pointerType === 'mouse' && view?.fitted && canCompare()) {
+        view.splitAt(event.clientX, stage.getBoundingClientRect().left);
+        paint();
+      }
+      return;
+    }
+    if (event.pointerId !== drag.id) return;
     if (drag.kind === 'divider') view.splitAt(event.clientX, stage.getBoundingClientRect().left);
     else view.pan(event.clientX - drag.x, event.clientY - drag.y);
     drag.x = event.clientX;
     drag.y = event.clientY;
     paint();
   }
-  stage.addEventListener('pointerdown', event => beginDrag(event, 'pan'));
+  stage.addEventListener('pointerdown', event => beginDrag(event, view?.fitted && canCompare() ? 'divider' : 'pan'));
+  stage.addEventListener('pointerleave', event => {
+    if (event.pointerType === 'mouse' && !drag && view?.fitted && canCompare()) {
+      view.split = 50;
+      paint();
+    }
+  });
   divider.addEventListener('pointerdown', event => beginDrag(event, 'divider'));
   for (const node of [stage, divider]) {
     node.addEventListener('pointermove', moveDrag);
