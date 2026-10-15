@@ -6,7 +6,7 @@
 
 **Architecture:** Doporučená migrace frontendu na React + TypeScript + Vite se statickým buildem pro současnou adresu GitHub Pages. Oddělit vzhled komponent, registr karet, rozložení a sběr dat URL; používat současný sdílený kontext URL. Office zůstává prázdná rezerva. Toto je návrh k posouzení, nikoli pokyn zahájit všechny etapy současně.
 
-**Tech Stack:** React, TypeScript, Vite, Tailwind CSS, vybrané komponenty shadcn/ui, dnd-kit + CSS Grid, Vitest pro novou čistou logiku. Zachovat localStorage, GitHub Pages a existující rozšíření prohlížeče. Verze ověřit při implementaci a uzamknout v package-lock.json. Toto je aktualizace plánu, aplikace zatím na React převedena není.
+**Tech Stack:** React, TypeScript, Vite, Tailwind CSS, vybrané komponenty shadcn/ui, dnd-kit + CSS Grid, Vitest pro novou čistou logiku. Zachovat localStorage, GitHub Pages a existující rozšíření prohlížeče. Verze ověřit při implementaci a uzamknout v package-lock.json. React základ a vzorník jsou nasazené od 15. 10. 2026; vzhled karet čeká na posouzení Iris.
 
 **Spec:** `docs/superpowers/specs/2026-10-15-dashboard-design.md`
 
@@ -34,12 +34,12 @@
 
 **Interfaces:** kořen `#axolotl-root`; React vlastní DOM přesunutých komponent, staré skripty jejich DOM již neupravují. `PreferencesProvider` zachová stávající klíče a enumy z `assets/preferences.js`, včetně načtení režimu před prvním zobrazením. `PageContextProvider` používá `{url,tabId,source}` a při přechodu zachová veřejné `window.axolotlPageContext` i `axolotl:url-change`. Zachovat `axolotl:browser-connection-change` a most k rozšíření. Hash routy zůstávají beze změny.
 
-- [ ] Připravit návrh v oddělené větvi a nastavit build Vite s `base: '/axolotl-2/'`, React, TypeScript a Tailwind; skripty `build`, `typecheck` a `test` (Vitest). Nenahrazovat produkční entrypoint neověřeným buildem.
-- [ ] Přenést hlavičku, navigaci, nastavení, hodiny, URL picker a efekt kurzoru do komponent; u globálních událostí, intervalů a animací zajistit úklid při odpojení komponenty. Nedržet dvě nezávislé kopie stavu nastavení.
-- [ ] Zachovat existující testy preferences a rozšíření; logiku přesouvaných modulů převést do TypeScriptu a portovat odpovídající stavové testy. Ověřit restore nastavení, systémový režim, omezené animace, změnu URL a chybějící rozšíření. Stávající nepřesunuté testy spouštět `node --test tests/*.test.cjs`, nové `npm test`, typy `npm run typecheck`, výstup `npm run build`.
-- [ ] Ověřit zachování vzhledu a chování v obou režimech včetně hover otevření kořenových menu, kliknutí na položky, klávesnice, navigace a prázdného office. Vzorník ani karty zatím nemusí existovat.
-- [ ] Připravit automatický build a publikaci `dist`, ověřit možnosti nastavení Pages na GitHub Actions a správné cesty assetů/ZIP. Produkci přepnout až s ověřeným buildem; uchovat poslední nasazený commit pro návrat. Při nedostupném nastavení ponechat současné nasazení funkční.
-- [ ] Nasadit React základ, ověřit existující přímé hash odkazy i obnovení stránky a uložit commit migrace.
+- [x] Připravit návrh v oddělené větvi a nastavit build Vite s `base: '/axolotl-2/'`, React, TypeScript a Tailwind; skripty `build`, `typecheck` a `test` (Vitest). Nenahrazovat produkční entrypoint neověřeným buildem.
+- [x] Přenést hlavičku, navigaci, nastavení, hodiny, URL picker a efekt kurzoru do komponent; u globálních událostí, intervalů a animací zajistit úklid při odpojení komponenty. Nedržet dvě nezávislé kopie stavu nastavení.
+- [x] Zachovat existující testy preferences a rozšíření; logiku přesouvaných modulů převést do TypeScriptu a portovat odpovídající stavové testy. Ověřit restore nastavení, systémový režim, omezené animace, změnu URL a chybějící rozšíření. Stávající nepřesunuté testy spouštět `node --test tests/*.test.cjs`, nové `npm test`, typy `npm run typecheck`, výstup `npm run build`.
+- [x] Ověřit zachování vzhledu a chování v obou režimech včetně hover otevření kořenových menu, kliknutí na položky, klávesnice, navigace a prázdného office. Vzorník ani karty zatím nemusí existovat.
+- [x] Připravit automatický build a publikaci `dist`, ověřit možnosti nastavení Pages na GitHub Actions a správné cesty assetů/ZIP. Produkci přepnout až s ověřeným buildem; uchovat poslední nasazený commit pro návrat. Při nedostupném nastavení ponechat současné nasazení funkční.
+- [x] Nasadit React základ, ověřit existující přímé hash odkazy i obnovení stránky a uložit commit migrace.
 
 ## Etapa 1 – vzorník komponent
 
@@ -47,9 +47,9 @@
 
 **Interfaces:** CSS tokeny `--axolotl-surface-card`, `--axolotl-surface-raised`, `--axolotl-text-primary`, `--axolotl-text-secondary`, `--axolotl-border-subtle`; React komponenta `ToolCard` s props `{size: "S"|"M"|"L", title: string, children: ReactNode}` a DOM třídou `.axolotl-tool-card` s `data-axolotl-size="S|M|L"`. Přesné barvy, mezery a radiusy ze specifikace.
 
-- [ ] Připravit dark/light vzorník a osm ukázek: Metadata S/M/L, QR S/M/L a Rychlé akce S/M. Viditelně označit ukázkový obsah.
-- [ ] Ukázat tlačítka, pole, dropdown, štítky a stavy načítání/prázdno/chyba se stejnými tokeny.
-- [ ] Ověřit čitelnost, fokus, větší text a omezené animace vizuálně v obou režimech; pro kosmetické styly nezavádět testy kopírující CSS.
+- [x] Připravit dark/light vzorník a osm ukázek: Metadata S/M/L, QR S/M/L a Rychlé akce S/M. Viditelně označit ukázkový obsah.
+- [x] Ukázat tlačítka, pole, dropdown, štítky a stavy načítání/prázdno/chyba se stejnými tokeny.
+- [x] Ověřit čitelnost, fokus, větší text a omezené animace vizuálně v obou režimech; pro kosmetické styly nezavádět testy kopírující CSS.
 - [ ] Před rozšířením celého katalogu projít vzhled s Iris a zapracovat připomínky.
 - [ ] Uložit samostatný commit schváleného vzorníku.
 
@@ -99,4 +99,13 @@
 
 ## Nejbližší krok
 
-Začít etapou 0: připravit React základ se zachováním dnešního vzhledu a funkcí. Potom etapa 1: vzorník komponent a tři reprezentativní karty. Teprve po ustálení vzhledu rozšiřovat katalog a editor. Tento plán nepovoluje nyní vložit office ani současně spustit všechny budoucí etapy.
+Projít s Iris živý vzorník `#design-system` a doladit vzhled. Osm variant karet i komponenty jsou zatím ukázkové. Etapa 2 a editor se spustí až po odsouhlasení směru. Office zůstává prázdný.
+
+## Ověření migrace — 15. 10. 2026
+
+- 17 nových Vitest testů a 10 původních testů prošlo; typy, opakovaný build a kontrola shody publikovaných souborů také.
+- GitHub Actions build a deploy: run `38747393208`, úspěšný. Nasazený aplikační commit `5ead35197aade5f9c6112b8f0c7538a08f3eca09`.
+- Živá kontrola: přímý hash odkaz a reload, tmavý/světlý režim, nastavení, hover kořenové navigace, klávesnice, větší text (115 %), omezené animace, chybový stav komponent. Dashboard při 1363 × 936 CSS px bez scrollu. Přesné velikosti plného dashboardu se ověří v etapě 2.
+- Skutečné rozšíření není v kontrolním prohlížeči nainstalované; jeho nezměněný protokol, filtrace karet a předávání URL jsou ověřené testy.
+- Zachován původní zdroj Pages z main/root. Generovaný index a assety se připravují příkazem `npm run publish:prepare`; CI vyžaduje shodu s dist a nasazuje tentýž build. Viz README.
+- React základ a počáteční návrh vzorníku jsou v jednom integračním commitu; schválený finální vzorník dostane vlastní commit po zpětné vazbě.
