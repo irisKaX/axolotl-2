@@ -1,0 +1,305 @@
+/* Tool layout, scoped to the Axolotl workspace and its portals. */
+:where(.axolotl-tool-root, .ax-ui) .images-results-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0 0 20px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-results-heading:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 5px;
+  border-radius: 8px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-results-heading > :first-child {
+  min-width: 0;
+  flex: 1 1 280px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-results > .notice {
+  margin-block: 0 16px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-result-count {
+  font-size: 20px;
+  line-height: 1.4;
+  font-weight: 650;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-refresh-actions {
+  gap: 8px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-filter-panel {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--axolotl-radius-card);
+  background: var(--theme-surface, #f8fafd);
+}
+:where(.axolotl-tool-root, .ax-ui) .images-extra-filters > summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 14px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-extra-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 480px;
+  margin-top: 14px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-variants-control {
+  padding: 14px 0;
+  margin-bottom: 12px;
+  border-block: 1px solid var(--line);
+}
+:where(.axolotl-tool-root, .ax-ui) .images-variants-control .ax-checkbox-field {
+  align-items: flex-start;
+  font-weight: 600;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-variants-control .ax-checkbox {
+  margin-top: 3px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-variants-control > p {
+  margin: 5px 0 0 27px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-extra-filters > .small {
+  margin: 0;
+  line-height: 1.6;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-filters {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) minmax(160px, 1fr);
+  gap: 14px;
+  margin: 0 0 12px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  font-size: 14px;
+  color: var(--ink);
+}
+:where(.axolotl-tool-root, .ax-ui) .images-field :is(input, select) {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-field :is(input, select):focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.axolotl-tool-root.image-download-tool .images-loader {
+  position: relative;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  --ds-loader-scale: 0.444444;
+}
+.axolotl-tool-root.image-download-tool .images-result-toolbar {
+  gap: 14px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+.axolotl-tool-root.image-download-tool .images-results {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 20px;
+}
+.axolotl-tool-root.image-download-tool .images-result-toolbar {
+  position: sticky;
+  top: 12px;
+  z-index: 2;
+  background: var(--theme-surface, #fff);
+  padding: 12px 16px;
+}
+.axolotl-tool-root.image-download-tool .images-panel > .tool-help {
+  margin-top: 22px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-grid > .empty-state > .button {
+  margin-top: 18px;
+}
+.axolotl-tool-root.image-download-tool .images-result-toolbar .ax-checkbox {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-selection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-summary {
+  margin: 0 0 18px;
+}
+.axolotl-tool-root#view-images .images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 16px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-grid > .empty-state {
+  grid-column: 1/-1;
+}
+:where(.axolotl-tool-root, .ax-ui) .image-download-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--axolotl-radius-card);
+  overflow: hidden;
+  background: var(--surface);
+}
+:where(.axolotl-tool-root, .ax-ui) .image-download-card.is-selected {
+  border-color: var(--blue);
+  box-shadow: inset 0 0 0 1px var(--blue);
+}
+.axolotl-tool-root#view-images .images-card-visual {
+  position: relative;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 38px 14px 12px;
+  background: var(--field);
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-visual > img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-visual > img[hidden] {
+  display: none;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-select {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--ink);
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-select label {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px 7px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-body {
+  padding: 14px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-body h3 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  line-height: 1.45;
+  margin: 0 0 5px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-body p {
+  margin: 0;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-body .images-alt {
+  font-size: 14px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 8px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-card-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-item-status {
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+  overflow-wrap: break-word;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-item-status.has-error {
+  color: var(--theme-error, var(--red));
+}
+:where(.axolotl-tool-root, .ax-ui) .images-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 22px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-preview {
+  width: min(900px, calc(100vw - 32px));
+  max-height: 90vh;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-preview .dialog-heading h2 {
+  overflow-wrap: anywhere;
+  font-size: 18px;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-preview-body {
+  text-align: center;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-preview-body > img {
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+}
+:where(.axolotl-tool-root, .ax-ui) .images-preview-body > p,
+:where(.axolotl-tool-root, .ax-ui) .images-preview-body > a {
+  display: block;
+  margin: 12px 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1000px) {
+  :where(.axolotl-tool-root, .ax-ui) .images-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 550px) {
+  :where(.axolotl-tool-root, .ax-ui) .images-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :where(.axolotl-tool-root, .ax-ui) .images-result-toolbar > .button {
+    width: 100%;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .images-selection {
+    gap: 6px;
+  }
+  .axolotl-tool-root#view-images .images-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 550px) {
+  :where(.axolotl-tool-root, .ax-ui) .images-filter-panel {
+    padding: 14px;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .images-result-count {
+    font-size: 18px;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .images-refresh-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .axolotl-tool-root.image-download-tool .images-result-toolbar {
+    top: 0;
+  }
+}

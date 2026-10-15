@@ -1,0 +1,18 @@
+/* Shared palette: blue, violet and apricot accents with opaque reading surfaces. */
+:root {
+ color-scheme:light;--canvas:#f3f5fc;--surface:#fff;--field:#edf0f9;--ink:#172344;--text:#465775;--muted:#5d6d88;
+ --line:#cbd3e7;--soft-line:#e0e5f2;--header:#fff;--hover:#eaf0ff;--selected:#e7edff;--comparison-field:#fff;--comparison-line:#e3cdc7;
+ --accent:#234eda;--theme-accent:#234eda;--pale:#eaf0ff;--soft:#eaf0ff;--violet:#7541d5;--apricot:#ffb58b;--ax-heading:var(--ink);
+ --theme-success:#14774f;--theme-success-surface:#e9f9f1;--theme-warning:#97510f;--theme-warning-surface:#fff2df;--theme-error:#bb2644;--theme-error-surface:#fff0f2;
+ --atelier-surface:var(--surface);--atelier-field:var(--field);--atelier-line:var(--line);--atelier-glass:var(--surface);--atelier-border:var(--soft-line);--atelier-halo:transparent;--atelier-lilac:transparent;--atelier-depth:var(--canvas);--atelier-shadow:none;--shadow:none;--atelier-bar-height:76px;
+ --theme-canvas:var(--canvas);--theme-surface:var(--surface);--theme-field:var(--field);--theme-ink:var(--ink);--theme-muted:var(--muted);--theme-line:var(--line);--theme-soft:var(--pale);
+ --ax-action:#0050ff;--ax-action-hover:#0044db;--ax-radius-control:9px;--ax-radius-panel:16px;--ax-overlay:#17171766;--ax-dialog-shadow:0 20px 80px #0003;
+ --scrollbar-track:var(--canvas);--scrollbar-thumb:#7a7a83;--scrollbar-hover:#5e5e69;--scrollbar-active:var(--accent);
+}
+:root[data-theme=dark] {
+ color-scheme:dark;--canvas:#060709;--surface:#151d33;--field:#1b2640;--ink:#f0f4ff;--text:#c2cdea;--muted:#a0b0d2;
+ --line:#374565;--soft-line:#293754;--header:#10182b;--hover:#253454;--selected:#243562;--comparison-field:#10192b;--comparison-line:#634250;
+ --accent:#9dbbff;--theme-accent:#9dbbff;--pale:#243562;--soft:#243562;--violet:#bca3ff;--apricot:#ffc29c;
+ --theme-success:#72e7b3;--theme-success-surface:#11392d;--theme-warning:#ffc888;--theme-warning-surface:#3b2c21;--theme-error:#ff91a5;--theme-error-surface:#402335;
+ --ax-overlay:#0009;--ax-dialog-shadow:0 20px 80px #0009;--scrollbar-thumb:#686870;--scrollbar-hover:#93939c;
+}

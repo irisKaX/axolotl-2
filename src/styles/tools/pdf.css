@@ -1,0 +1,288 @@
+/* Tool layout, scoped to the Axolotl workspace and its portals. */
+:where(.axolotl-tool-root, .ax-ui) #pdf-scan:not(:disabled) {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--surface);
+  box-shadow: none;
+}
+:where(.axolotl-tool-root, .ax-ui) #pdf-scan:hover:not(:disabled) {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+:where(.axolotl-tool-root, .ax-ui) #pdf-scan:focus-visible {
+  outline-color: var(--theme-error);
+}
+:where(.axolotl-tool-root, .ax-ui) #pdf-scan {
+  min-height: 48px;
+  padding-block: 10px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-scan-icon {
+  display: block;
+  width: 21px;
+  height: 26px;
+  flex: none;
+  object-fit: contain;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-results-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-results-heading:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 5px;
+  border-radius: 8px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-result-count {
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-refresh-actions {
+  gap: 8px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-activity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-activity > p {
+  flex: 1;
+  min-width: 0;
+  color: inherit;
+  overflow-wrap: anywhere;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-loader {
+  position: relative;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  --ds-loader-scale: 0.444444;
+}
+.axolotl-tool-root.pdf-scout-tool .pdf-results {
+  margin-top: 0;
+  padding-top: 0;
+  border: 0;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--axolotl-radius-card);
+  background: var(--field);
+  font-size: 14px;
+  color: var(--muted);
+  margin: 16px 0 10px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-stats strong {
+  color: var(--ink);
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-selection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-selection-toolbar {
+  position: sticky;
+  top: 12px;
+  z-index: 2;
+  background: var(--theme-surface, #fff);
+  padding: 12px 0;
+}
+.axolotl-tool-root.pdf-scout-tool .pdf-table-wrap {
+  margin: 6px 0 0;
+  border: 1px solid var(--line);
+  border-radius: var(--axolotl-radius-card);
+  overflow: hidden;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap table {
+  table-layout: fixed;
+  width: 100%;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap th:first-child {
+  width: 46px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap th:nth-child(2) {
+  width: 48%;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap th:nth-child(3) {
+  width: 13%;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap th:last-child {
+  width: 100px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap td,
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap th {
+  padding: 14px 12px;
+  overflow-wrap: anywhere;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap td:first-child {
+  text-align: center;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap .filename > strong {
+  display: block;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap .url {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-assets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-asset {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  max-width: 100%;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--field);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-asset code {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  user-select: all;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap .chip {
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap .text-link {
+  display: inline-block;
+  padding: 8px 0;
+}
+.axolotl-tool-root.pdf-scout-tool .pdf-panel > .tool-help {
+  margin-top: 22px;
+}
+.axolotl-tool-root.pdf-scout-tool .pdf-panel > .notice {
+  margin: 0 0 18px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-search-options {
+  margin-top: 24px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-search-options > summary {
+  cursor: pointer;
+  padding: 10px 0;
+  line-height: 1.5;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-search-options > summary:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-search-options-body {
+  display: grid;
+  gap: 14px;
+  padding: 12px 0 4px;
+}
+:where(.axolotl-tool-root, .ax-ui) .pdf-search-options-body p {
+  margin: 0;
+  max-width: 74ch;
+  line-height: 1.65;
+}
+@media (max-width: 1000px) {
+  :where(.axolotl-tool-root, .ax-ui) .pdf-refresh-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+@media (max-width: 700px) {
+  .axolotl-tool-root.pdf-scout-tool .pdf-table-wrap {
+    border: 0;
+    border-radius: 0;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap table,
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap tbody {
+    display: block;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap thead {
+    display: none;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap tr {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 10px 12px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--axolotl-radius-card);
+    margin-bottom: 12px;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap td {
+    display: block;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap td:first-child {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    padding-top: 4px;
+    width: auto;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap td:not(:first-child) {
+    grid-column: 2;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap .source-cell {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap .source-cell:before {
+    content: 'Nalezeno v: ';
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-table-wrap .filename {
+    font-size: 14px;
+  }
+}
+@media (max-width: 550px) {
+  :where(.axolotl-tool-root, .ax-ui) .pdf-result-count {
+    font-size: 18px;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-refresh-actions {
+    justify-content: flex-start;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-refresh-actions .button {
+    font-size: 14px;
+    white-space: normal;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-selection-toolbar > .button {
+    width: 100%;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-selection-toolbar {
+    top: 0;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-selection {
+    gap: 8px;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-stats {
+    gap: 5px 12px;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .pdf-activity {
+    flex-wrap: wrap;
+  }
+}

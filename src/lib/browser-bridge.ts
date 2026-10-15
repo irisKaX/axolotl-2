@@ -2,6 +2,7 @@ export interface BrowserTab {
   id: number;
   title: string;
   url: string;
+  documentToken?: string;
 }
 export interface PageContext {
   url: string;

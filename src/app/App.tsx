@@ -3,6 +3,8 @@ import { Header } from "./Header";
 import { CursorEffects } from "./CursorEffects";
 import { currentRoute, routeLabels } from "./routes";
 import { DesignSystem } from "../pages/DesignSystem";
+import { ToolWorkspace } from "../tools/ToolWorkspace";
+import { toolRoutes } from "../tools/registry";
 export function App() {
   const [route, setRoute] = useState(currentRoute);
   useEffect(() => {
@@ -35,9 +37,10 @@ export function App() {
         aria-label={routeLabels[route]}
         tabIndex={-1}
       >
+        <ToolWorkspace route={route}/>
         {route === "design-system" ? (
           <DesignSystem />
-        ) : (
+        ) : !toolRoutes[route] ? (
           <section
             className="axolotl-view"
             data-axolotl-route={route}
@@ -52,7 +55,7 @@ export function App() {
               />
             )}
           </section>
-        )}
+        ) : null}
       </main>
       <CursorEffects />
     </>

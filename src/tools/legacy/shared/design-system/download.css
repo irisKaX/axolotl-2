@@ -1,0 +1,256 @@
+/* Shared download button. The native hit area reserves its intrinsic width. */
+.ds-download {
+  position: relative;
+  display: inline-grid;
+  vertical-align: middle;
+  width: max-content;
+  max-width: 100%;
+  flex: 0 1 auto;
+  font:
+    600 14px/1.25 Inter,
+    'Segoe UI',
+    Arial,
+    sans-serif;
+  min-width: 0;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  color: var(--theme-accent, #0050ff);
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+}
+.ds-download-sizer {
+  display: grid;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 4px 18px 4px 50px;
+  border: 2px solid transparent;
+  min-width: 0;
+  min-height: 48px;
+  visibility: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+}
+.ds-download__surface {
+  --download-blue: #0050ff;
+  --download-dark: #0040e8;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 48px;
+  min-width: 48px;
+  box-sizing: border-box;
+  padding: 4px;
+  border: 2px solid var(--download-blue);
+  border-radius: 24px;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-accent, var(--download-blue));
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  isolation: isolate;
+  transition:
+    width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.2s,
+    background-color 0.2s;
+}
+.ds-download:hover:not(:disabled):not([data-loading='true']) .ds-download__surface {
+  background: var(--theme-field, #f2f6ff);
+  box-shadow: 0 4px 14px #0050ff14;
+}
+.ds-download:focus-visible .ds-download__surface {
+  outline: 3px solid var(--download-blue);
+  outline-offset: 4px;
+}
+.ds-download__circle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--download-blue);
+  color: #fff;
+  transition: transform 0.4s ease;
+}
+.ds-download__circle::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 0;
+  background: var(--download-dark);
+}
+.ds-download__circle > svg {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+  transition: opacity 0.15s ease;
+}
+.ds-download__square {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--theme-surface, #fff);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.ds-download__label {
+  min-width: 0;
+  margin-left: 10px;
+  padding-right: 14px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  overflow: hidden;
+  transition:
+    opacity 0.15s ease,
+    transform 0.3s ease;
+}
+.ds-download__orbit {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+.ds-download__orbit::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: calc(50% - 3px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--download-blue);
+  box-shadow: 0 0 0 3px #fff;
+}
+.ds-download[data-loading='true'] .ds-download__surface {
+  width: 48px;
+  height: 48px;
+  cursor: wait;
+  background: var(--theme-surface, #fff);
+}
+.ds-download[data-loading='true'] .ds-download__label {
+  opacity: 0;
+  transform: translateX(-8px);
+}
+.ds-download[data-loading='true'] .ds-download__circle {
+  transform: rotate(180deg);
+  animation: ds-download-pulse 1s ease both;
+}
+.ds-download[data-loading='true'] .ds-download__circle::before {
+  animation: ds-download-fill 2.6s 0.4s ease-in-out infinite alternate;
+}
+.ds-download[data-loading='true'] .ds-download__circle > svg {
+  opacity: 0;
+}
+.ds-download[data-loading='true'] .ds-download__square {
+  opacity: 1;
+}
+.ds-download[data-loading='true'] .ds-download__orbit {
+  animation: ds-download-orbit 2.6s 0.4s linear infinite;
+}
+.ds-download:disabled:not([data-loading='true']) {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+@keyframes ds-download-pulse {
+  0% {
+    box-shadow: 0 0 0 0 #0050ff30;
+  }
+  70% {
+    box-shadow: 0 0 0 12px #0050ff00;
+  }
+  100% {
+    box-shadow: 0 0 0 0 #0050ff00;
+  }
+}
+.ds-download[data-loading='true'] {
+  opacity: 1;
+  cursor: wait;
+}
+@keyframes ds-download-fill {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+@keyframes ds-download-orbit {
+  from {
+    opacity: 1;
+    transform: rotate(0);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ds-download,
+  .ds-download *,
+  .ds-download *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+  .ds-download[data-loading='true'] .ds-download__surface {
+    width: 100%;
+    height: 100%;
+  }
+  .ds-download[data-loading='true'] .ds-download__circle,
+  .ds-download[data-loading='true'] .ds-download__label {
+    transform: none;
+  }
+  .ds-download[data-loading='true'] .ds-download__label {
+    opacity: 1;
+  }
+  .ds-download__orbit {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .ds-download__surface {
+    border-color: ButtonText;
+    color: ButtonText;
+    background: ButtonFace;
+  }
+  .ds-download:focus-visible .ds-download__surface {
+    outline-color: Highlight;
+  }
+  .ds-download__circle {
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+  .ds-download__square {
+    background: HighlightText;
+  }
+}
+
+@media (max-width: 480px) {
+  .ds-download {
+    font-size: 14px;
+  }
+}
+
+.ds-download:is(:hover, :focus-visible, :active) {
+  background: transparent;
+  border-color: transparent;
+  outline: none;
+  box-shadow: none;
+}

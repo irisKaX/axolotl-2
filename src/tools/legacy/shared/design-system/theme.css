@@ -1,0 +1,144 @@
+/* Dark tokens only: original light values remain the component fallbacks. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: #040812;
+  --surface: #0b1325;
+  --field: #080f1e;
+  --ink: #edf2fb;
+  --text: #c5d0e2;
+  --muted: #a3b2ca;
+  --line: #233454;
+  --accent: #91b3ff;
+  --shadow: 0 8px 28px #0000001f;
+  --theme-canvas: var(--canvas);
+  --theme-surface: var(--surface);
+  --theme-field: var(--field);
+  --theme-soft: #14284a;
+  --theme-line: var(--line);
+  --theme-ink: var(--ink);
+  --theme-muted: var(--muted);
+  --theme-accent: var(--accent);
+  --theme-purple: #e2b5ff;
+  --theme-purple-surface: #362447;
+  --theme-success: #79ddb0;
+  --theme-success-surface: #163b2e;
+  --theme-warning: #f3cf80;
+  --theme-warning-surface: #3b301c;
+  --theme-error: #ff9aab;
+  --theme-error-surface: #412531;
+  --scrollbar-track: #0b1325;
+  --scrollbar-thumb: #5686ff;
+  --scrollbar-hover: #78a0ff;
+  --scrollbar-active: #91b3ff;
+}
+:root[data-theme='dark'] .phrase-field {
+  --phrase-muted: #a3b2ca;
+}
+:root[data-theme='dark'] :is(#find-current-pane, #find-site-pane) {
+  --phrase-muted: var(--muted);
+  --phrase-violet-dark: var(--theme-purple);
+}
+:root[data-theme='dark'] .checkbox-wrapper {
+  --checkbox-blue: #80a8ff;
+}
+:root[data-theme='dark'] .checkbox-wrapper[data-checkbox-style='solid'] {
+  --checkbox-blue: #0050ff;
+}
+:root[data-theme='dark'] .brand-logo {
+  filter: brightness(1.65);
+}
+:root[data-theme='dark'] dialog {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--line);
+}
+:root[data-theme='dark'] dialog::backdrop {
+  background: #030811b3;
+}
+:root[data-theme='dark'] :is(input, textarea)::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+:root[data-theme='dark']
+  :is(
+    .notice.warning,
+    .metadata-tool .metadata-h1 > .notice.warning,
+    .metadata-tool .metadata-og-data > .notice.warning,
+    .find-tool .site-progress > .notice.warning
+  ) {
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  border-inline-start: 2px solid var(--theme-warning);
+}
+/* QR canvases and image previews keep the original pixels and their white backing. */
+.theme-toggle {
+  flex: none;
+}
+.theme-toggle:hover .ds-action__icon {
+  transform: rotate(15deg);
+}
+.header-actions {
+  gap: 12px;
+}
+.header-clock {
+  margin-right: 8px;
+}
+.catalog-theme-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+.header-demo-actions {
+  gap: 12px;
+}
+.header-demo--gradient .theme-toggle {
+  background: #fff;
+  color: #5031a8;
+  box-shadow: 0 3px 10px #21105020;
+}
+.devtools-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.devtools-heading h1 {
+  margin: 0;
+}
+@container (max-width: 500px) {
+  .header-actions {
+    gap: 8px;
+  }
+  .header-clock {
+    margin-right: 0;
+  }
+  .app-header-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+@container (max-width: 340px) {
+  .header-actions {
+    gap: 6px;
+  }
+  #app .header-actions .theme-toggle {
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+  }
+  .header-identity {
+    gap: 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle .ds-action__icon {
+    transition: none;
+  }
+  .theme-toggle:hover .ds-action__icon {
+    transform: none;
+  }
+}
+
+/* The text label is used in the Studio header; compact DevTools keeps its icon. */
+.theme-label { display: none; }

@@ -158,7 +158,7 @@ function Integrations() {
       <p className="axolotl-setting-note">
         {connection.status === "connected"
           ? `Dostupných webových karet: ${connection.tabCount}. URL vybereš v hlavičce.`
-          : "Pro výběr otevřených karet nainstaluj rozšíření Axolotl. URL můžeš zatím zadávat ručně."}
+          : "Pro výběr karet a kontroly webu nainstaluj aktuální rozšíření Axolotl. QR a konvertor fungují i bez něj."}
       </p>
       <div className="axolotl-settings-actions">
         <button
@@ -195,8 +195,9 @@ function Integrations() {
           </li>
         </ol>
         <p>
-          Rozšíření předává Axolotlu názvy a URL běžných webových karet ze
-          stejného okna. Nečte obsah stránek. Anonymní a interní karty se
+          Rozšíření předává názvy a URL webových karet ze stejného okna.
+          Po spuštění nástroje přečte vybranou stránku, pořídí snímek nebo
+          stáhne vybrané soubory. Anonymní a interní karty se
           nezobrazují.
         </p>
         <p>
@@ -212,8 +213,8 @@ function About({ close }: { close: () => void }) {
       <p className="axolotl-about-name">Axolotl 2.0</p>
       <p className="axolotl-about-version">Verze 2.0 · Ve vývoji</p>
       <p className="axolotl-setting-note">
-        Pracovní prostor pro webové nástroje a osobní agendu. Nástroje a
-        workspace zatím připravujeme.
+        Pracovní prostor s deseti nástroji pro média a kontrolu webu.
+        Osobní workspace a živý office zatím připravujeme.
       </p>
       <a
         className="axolotl-setting-action axolotl-design-link"

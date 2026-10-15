@@ -1,0 +1,212 @@
+/* The tools inherit the current shell's theme. No document or header resets. */
+.axolotl-tools,
+.ax-ui {
+  --canvas: transparent;
+  --surface: var(--axolotl-surface-card);
+  --field: var(--axolotl-surface-raised);
+  --ink: var(--axolotl-text-primary);
+  --text: var(--axolotl-text-primary);
+  --muted: var(--axolotl-text-secondary);
+  --line: var(--axolotl-border-subtle);
+  --soft-line: var(--axolotl-border-subtle);
+  --accent: var(--axolotl-text-primary);
+  --theme-accent: var(--axolotl-text-primary);
+  --blue: var(--axolotl-text-primary);
+  --blue-hover: var(--axolotl-text-secondary);
+  --navy: var(--axolotl-text-primary);
+  --pale: var(--axolotl-surface-raised);
+  --soft: var(--axolotl-surface-raised);
+  --hover: var(--axolotl-surface-raised);
+  --selected: var(--axolotl-border-subtle);
+  --red: var(--axolotl-negative);
+  --theme-success: var(--axolotl-positive);
+  --theme-warning: var(--axolotl-warning);
+  --theme-error: var(--axolotl-negative);
+  --theme-success-surface: color-mix(in srgb, var(--axolotl-positive) 9%, var(--surface));
+  --theme-warning-surface: color-mix(in srgb, var(--axolotl-warning) 9%, var(--surface));
+  --theme-error-surface: color-mix(in srgb, var(--axolotl-negative) 9%, var(--surface));
+  --theme-surface: var(--surface);
+  --theme-field: var(--field);
+  --theme-line: var(--line);
+  --theme-soft: var(--field);
+  --theme-muted: var(--muted);
+  --theme-ink: var(--ink);
+  --atelier-surface: var(--surface);
+  --atelier-field: var(--field);
+  --atelier-glass: var(--surface);
+  --atelier-border: var(--line);
+  --atelier-shadow: none;
+  --shadow: none;
+  --ax-heading: var(--ink);
+  --ax-action: var(--ink);
+  --ax-action-hover: var(--muted);
+  --ax-radius-control: var(--axolotl-radius-input);
+  --ax-radius-panel: var(--axolotl-radius-card);
+  --ax-overlay: rgb(0 0 0 / .55);
+  --ax-dialog-shadow: 0 24px 80px rgb(0 0 0 / .24);
+  color: var(--ink);
+  font: calc(14px * var(--axolotl-text-scale, 1))/1.5 system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.axolotl-tools {
+  width: 100%;
+  max-width: 1440px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 24px 24px 48px;
+}
+.axolotl-tool-root { min-width: 0; width: 100%; }
+.axolotl-tool-root[hidden],
+:where(.axolotl-tool-root, .ax-ui) [hidden] { display: none !important; }
+:where(.axolotl-tool-root, .ax-ui) :is(h1, h2, h3, h4, p) { margin: 0; }
+:where(.axolotl-tool-root, .ax-ui) :is(button, input, select, textarea) { font: inherit; }
+:where(.axolotl-tool-root, .ax-ui) button { cursor: pointer; }
+:where(.axolotl-tool-root, .ax-ui) :is(button, a, input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--axolotl-focus);
+  outline-offset: 3px;
+}
+:where(.axolotl-tool-root, .ax-ui) :is(button, input, select, textarea):disabled { opacity: .42; cursor: not-allowed; }
+:where(.axolotl-tool-root, .ax-ui) a { color: var(--ink); text-underline-offset: 3px; }
+:where(.axolotl-tool-root, .ax-ui) :is(input, textarea, select) { min-width: 0; max-width: 100%; }
+:where(.axolotl-tool-root, .ax-ui) :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=file]), textarea, select, .ax-select) {
+  min-height: 42px;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--axolotl-radius-input);
+  background: var(--field);
+  color: var(--ink);
+  box-shadow: none;
+}
+:where(.axolotl-tool-root, .ax-ui) :is(input, textarea)::placeholder { color: var(--muted); opacity: .8; }
+:where(.axolotl-tool-root, .ax-ui) input:is([type=checkbox], [type=radio], [type=range]) { accent-color: var(--ink); }
+:where(.axolotl-tool-root, .ax-ui) input[type=range] { min-height: 24px; padding: 0; }
+:where(.axolotl-tool-root, .ax-ui) :is(.muted, .helper, .small, .ax-field-hint) { color: var(--muted); }
+:where(.axolotl-tool-root, .ax-ui) :is(.small, .helper) { font-size: 12px; line-height: 1.6; }
+:where(.axolotl-tool-root, .ax-ui) :is(.toolbar, .preview-actions, .progress-wrap) { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+:where(.axolotl-tool-root, .ax-ui) .between { justify-content: space-between; }
+:where(.axolotl-tool-root, .ax-ui) .icon { display: block; flex: none; width: 20px; height: 20px; }
+:where(.axolotl-tool-root, .ax-ui) .ax-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 38px; max-width: 100%; padding: 8px 16px;
+  border: 1px solid var(--line); border-radius: var(--axolotl-radius-pill);
+  background: var(--field); color: var(--ink); font-size: 13px; font-weight: 500; line-height: 1.4;
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+  transition: background var(--axolotl-motion-duration), border-color var(--axolotl-motion-duration);
+}
+:where(.axolotl-tool-root, .ax-ui) .ax-button svg { flex: none; }
+:where(.axolotl-tool-root, .ax-ui) .ax-button:hover:not(:disabled) { border-color: var(--muted); }
+:where(.axolotl-tool-root, .ax-ui) .ax-button-primary { background: var(--ink); color: var(--surface); border-color: transparent; }
+:where(.axolotl-tool-root, .ax-ui) .ax-button-primary:hover:not(:disabled) { opacity: .85; }
+:where(.axolotl-tool-root, .ax-ui) .ax-button-ghost { background: transparent; border-color: transparent; }
+:where(.axolotl-tool-root, .ax-ui) .ax-button-ghost:hover:not(:disabled) { background: var(--field); border-color: transparent; }
+:where(.axolotl-tool-root, .ax-ui) .ax-button-danger { color: var(--theme-error); }
+:where(.axolotl-tool-root, .ax-ui) .ax-icon-button { width: 38px; height: 38px; min-height: 38px; padding: 9px; flex: none; }
+:where(.axolotl-tool-root, .ax-ui) .ax-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+:where(.axolotl-tool-root, .ax-ui) .ax-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+:where(.axolotl-tool-root, .ax-ui) .ax-status[data-state=connected] { color: var(--theme-success); }
+:where(.axolotl-tool-root, .ax-ui) .ax-status[data-state=offline] { color: var(--theme-error); }
+.axolotl-tool-root .tool-heading { margin: 0 0 24px; padding: 0; }
+.axolotl-tool-root .ax-tool-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; width: 100%; }
+.axolotl-tool-root .ax-tool-header > :first-child { flex: 1; min-width: 0; }
+.axolotl-tool-root .ax-tool-header h1 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.3vw, 34px); font-weight: 550; line-height: 1.2; letter-spacing: -.04em; text-transform: none; }
+.axolotl-tool-root .ax-tool-description { margin-top: 8px; max-width: 74ch; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.axolotl-tool-root .tool-heading-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 12px; padding-top: 3px; }
+.axolotl-tool-root :is(.workspace-grid, .convert-panels) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; min-width: 0; }
+.axolotl-tool-root :is(.workspace-card, .ax-panel) { min-width: 0; border: 1px solid var(--line); border-radius: var(--axolotl-radius-card); background: var(--surface); box-shadow: none; }
+.axolotl-tool-root .workspace-card-wide { grid-column: 1 / -1; }
+.axolotl-tool-root .workspace-card-body { min-width: 0; }
+.axolotl-tool-root :is(.pdf-panel, .images-panel, .screenshot-preview, .ax-panel) { padding: 24px; }
+.axolotl-tool-root .workspace-card-body > .panel { padding: 24px; background: transparent; border: 0; border-radius: inherit; }
+:where(.axolotl-tool-root, .ax-ui) .ax-field { display: grid; gap: 8px; min-width: 0; }
+:where(.axolotl-tool-root, .ax-ui) .ax-field > label { color: var(--ink); font-size: 13px; font-weight: 500; }
+:where(.axolotl-tool-root, .ax-ui) .ax-field > p { margin: 0; font-size: 12px; line-height: 1.6; }
+:where(.axolotl-tool-root, .ax-ui) .ax-field-error { color: var(--theme-error); }
+:where(.axolotl-tool-root, .ax-ui) .ax-select { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; font-size: 13px; text-align: left; }
+:where(.axolotl-tool-root, .ax-ui) .ax-select > span:last-child { display: flex; flex: none; }
+.ax-ui.ax-select-menu { z-index: 1100; min-width: var(--radix-select-trigger-width); max-width: calc(100vw - 24px); max-height: var(--radix-select-content-available-height); padding: 6px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: var(--ax-dialog-shadow); overflow: hidden; }
+.ax-ui .ax-select-option { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 12px; border-radius: 10px; font-size: 13px; cursor: pointer; outline: none; }
+.ax-ui .ax-select-option[data-highlighted] { color: var(--ink); background: var(--field); }
+.ax-ui .ax-select-option[data-disabled] { opacity: .4; pointer-events: none; }
+.ax-ui .ax-select-scroll { display: grid; place-items: center; height: 24px; }
+:where(.axolotl-tool-root, .ax-ui) .ax-checkbox-field { display: flex; align-items: center; gap: 9px; font-size: 13px; }
+:where(.axolotl-tool-root, .ax-ui) .ax-checkbox-field label { cursor: pointer; }
+:where(.axolotl-tool-root, .ax-ui) .ax-checkbox { display: grid; place-items: center; width: 18px; height: 18px; min-height: 18px; padding: 0; border: 1px solid var(--muted); border-radius: 5px; background: var(--field); color: var(--surface); flex: none; }
+:where(.axolotl-tool-root, .ax-ui) .ax-checkbox[data-state=checked],
+:where(.axolotl-tool-root, .ax-ui) .ax-checkbox[data-state=indeterminate] { background: var(--ink); border-color: var(--ink); }
+:where(.axolotl-tool-root, .ax-ui) .ax-checkbox > span { display: grid; place-items: center; }
+.ax-ui.ax-dialog-overlay { position: fixed; inset: 0; z-index: 1000; background: var(--ax-overlay); backdrop-filter: blur(5px); }
+.ax-ui.ax-dialog { position: fixed; z-index: 1001; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(580px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); margin: 0; padding: 24px; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 24px; background: var(--surface); box-shadow: var(--ax-dialog-shadow); }
+.ax-ui .ax-dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+.ax-ui .ax-dialog-heading h2 { margin: 0; min-width: 0; font-size: 20px; line-height: 1.4; font-weight: 550; letter-spacing: -.03em; }
+.ax-ui .dialog-close { border-color: transparent; }
+.ax-ui .ax-dialog-description { margin: 0 0 20px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.ax-ui.ax-tooltip { z-index: 1200; max-width: 280px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--ink); color: var(--surface); font-size: 12px; user-select: none; }
+.ax-ui .ax-tooltip-arrow { fill: var(--ink); }
+.axolotl-tool-root :is(.empty-state, .tool-intro) { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; min-height: 260px; padding: 36px 24px; }
+.axolotl-tool-root .empty-state > h3 { color: var(--ink); font-size: 18px; font-weight: 550; letter-spacing: -.02em; }
+.axolotl-tool-root :is(.empty-state, .tool-intro) > p { max-width: 56ch; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.axolotl-tool-root :is(.react-empty-icon, .tool-intro-art) { display: grid; place-items: center; width: 56px; height: 56px; flex: none; margin: 0 0 4px; border: 1px solid var(--line); border-radius: 18px; color: var(--ink); background: var(--field); }
+.axolotl-tool-root .tool-intro-visual { display: grid; place-items: center; }
+.axolotl-tool-root .tool-intro-art .icon { width: 28px; height: 28px; }
+.axolotl-tool-root .tool-entry-copy { max-width: 560px; }
+.axolotl-tool-root .tool-intro-title { font-size: 23px; font-weight: 550; line-height: 1.3; letter-spacing: -.03em; margin-bottom: 10px; }
+.axolotl-tool-root .tool-intro-copy { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.axolotl-tool-root .tool-intro-hint { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 18px; font-size: 12px; color: var(--muted); }
+.axolotl-tool-root .tool-intro-hint svg { flex: none; }
+.axolotl-tool-root .tool-intro .tool-start { margin-top: 10px; }
+:where(.axolotl-tool-root, .ax-ui) .notice { padding: 12px 16px; margin: 16px 0; border: 1px solid var(--line); border-radius: 16px; background: var(--field); color: var(--muted); font-size: 13px; line-height: 1.65; overflow-wrap: anywhere; }
+:where(.axolotl-tool-root, .ax-ui) .notice:is(.error, .danger) { color: var(--theme-error); background: var(--theme-error-surface); }
+:where(.axolotl-tool-root, .ax-ui) .notice.warning { color: var(--theme-warning); background: var(--theme-warning-surface); }
+:where(.axolotl-tool-root, .ax-ui) .notice.success { color: var(--theme-success); background: var(--theme-success-surface); }
+:where(.axolotl-tool-root, .ax-ui) :is(.tool-help, details.help) { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; }
+:where(.axolotl-tool-root, .ax-ui) summary { cursor: pointer; color: var(--ink); }
+:where(.axolotl-tool-root, .ax-ui) .tool-help-content { padding-top: 10px; color: var(--muted); line-height: 1.7; }
+:where(.axolotl-tool-root, .ax-ui) .react-help-steps { margin: 16px 0; padding-left: 22px; display: grid; gap: 10px; line-height: 1.7; }
+:where(.axolotl-tool-root, .ax-ui) .react-tool-help p + p { margin-top: 12px; }
+:where(.axolotl-tool-root, .ax-ui) .table-wrap { max-width: 100%; overflow: auto; }
+:where(.axolotl-tool-root, .ax-ui) table { border-collapse: collapse; width: 100%; text-align: left; font-size: 13px; line-height: 1.65; }
+:where(.axolotl-tool-root, .ax-ui) th { padding: 12px; color: var(--muted); background: var(--field); font-weight: 500; vertical-align: top; }
+:where(.axolotl-tool-root, .ax-ui) td { padding: 14px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+:where(.axolotl-tool-root, .ax-ui) .url { display: block; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+:where(.axolotl-tool-root, .ax-ui) .chip { display: inline-flex; align-items: center; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--field); font-size: 11px; line-height: 1.5; }
+:where(.axolotl-tool-root, .ax-ui) .chip.green { color: var(--theme-success); }
+:where(.axolotl-tool-root, .ax-ui) .chip.red { color: var(--theme-error); }
+:where(.axolotl-tool-root, .ax-ui) .chip.orange { color: var(--theme-warning); }
+:where(.axolotl-tool-root, .ax-ui) .workspace-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.axolotl-tool-root .tool-activity { display: flex; align-items: center; gap: 8px; max-width: 280px; min-height: 38px; color: var(--muted); font-size: 12px; }
+.axolotl-tool-root .tool-activity-symbol { display: flex; flex: none; }
+.axolotl-tool-root .tool-activity-dot { display: none; }
+.axolotl-tool-root .tool-activity-copy { display: grid; min-width: 0; gap: 2px; }
+.axolotl-tool-root .tool-activity-copy strong { font-size: 12px; font-weight: 500; }
+.axolotl-tool-root .tool-activity-copy small { color: var(--muted); font-size: 11px; line-height: 1.4; }
+.axolotl-tool-root .tool-activity[data-phase=done] { color: var(--theme-success); }
+.axolotl-tool-root .tool-activity[data-phase=error] { color: var(--theme-error); }
+.axolotl-tool-root .tool-activity[data-phase=working] .tool-activity-symbol svg,
+:where(.axolotl-tool-root, .ax-ui) .react-busy-icon { animation: axolotl-tool-spin 1.3s linear infinite; }
+@keyframes axolotl-tool-spin { to { transform: rotate(360deg); } }
+@media (max-width: 760px) {
+  .axolotl-tools { padding: 20px 16px 36px; }
+  .axolotl-tool-root .ax-tool-header { flex-direction: column; gap: 12px; }
+  .axolotl-tool-root .tool-heading-actions { justify-content: flex-start; }
+  .axolotl-tool-root :is(.pdf-panel, .images-panel, .screenshot-preview, .ax-panel),
+  .axolotl-tool-root .workspace-card-body > .panel { padding: 20px; }
+  .axolotl-tool-root .tool-intro { padding: 28px 10px; }
+  .axolotl-tool-root .tool-intro-title { font-size: 21px; }
+  .axolotl-tool-root .tool-intro-hint { align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .axolotl-tool-root *, .ax-ui *, .axolotl-tool-root *::before, .axolotl-tool-root *::after { animation: none !important; transition: none !important; }
+}
+.axolotl-tools[hidden] { display: none !important; }
+.axolotl-tools .axolotl-tool-connection {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 20px;
+  margin-bottom: 24px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 16px;
+  color: var(--muted); background: var(--surface); font-size: 13px; line-height: 1.6;
+}
+.axolotl-tools .axolotl-tool-connection a { color: var(--ink); font-weight: 500; text-underline-offset: 3px; }
+.axolotl-tools .axolotl-tool-toast {
+  display: flex; align-items: start; justify-content: space-between; gap: 16px;
+  margin-bottom: 20px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 16px;
+  color: var(--ink); background: var(--surface); font-size: 13px; line-height: 1.6;
+}
+.axolotl-tools .axolotl-tool-toast.error { color: var(--theme-error); }
+.axolotl-tools .axolotl-tool-toast button { flex: none; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 999px; color: inherit; background: transparent; font: inherit; font-size: 20px; cursor: pointer; }

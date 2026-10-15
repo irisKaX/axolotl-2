@@ -1,0 +1,233 @@
+/* Tool layout, scoped to the Axolotl workspace and its portals. */
+.axolotl-tool-root#view-screenshot .screenshot-capture-card > .workspace-card-body {
+  padding: clamp(14px, 1.4vw, 20px);
+}
+.axolotl-tool-root#view-screenshot .capture-modes.screenshot-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 12px;
+  min-width: 0;
+}
+.axolotl-tool-root#view-screenshot .capture-mode.screenshot-mode {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  align-items: start;
+  gap: 6px 12px;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--axolotl-radius-input);
+  background: var(--field);
+  color: var(--ink);
+  text-align: left;
+  box-shadow: none;
+  transform: none;
+  transition: background-color .16s, border-color .16s;
+}
+.axolotl-tool-root#view-screenshot .capture-mode.screenshot-mode:hover:not(:disabled),
+.axolotl-tool-root#view-screenshot .capture-mode.screenshot-mode:active:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+  background: var(--pale);
+  border-color: var(--theme-accent);
+}
+.axolotl-tool-root#view-screenshot .capture-mode.screenshot-mode:focus-visible {
+  outline: 2px solid var(--theme-accent);
+  outline-offset: 3px;
+}
+.axolotl-tool-root#view-screenshot .capture-mode.screenshot-mode > .icon {
+  grid-column: 1;
+  grid-row: 1 / 4;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  color: var(--theme-accent);
+}
+.axolotl-tool-root#view-screenshot .capture-mode.screenshot-mode > :is(strong, span) {
+  grid-column: 2;
+  grid-row: auto;
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.axolotl-tool-root#view-screenshot .capture-mode.screenshot-mode > strong {
+  color: var(--ink);
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 700;
+}
+.axolotl-tool-root#view-screenshot .capture-mode.screenshot-mode > .mode-action {
+  align-self: end;
+  margin-top: 6px;
+  color: var(--theme-accent);
+  font-weight: 600;
+}
+.axolotl-tool-root#view-screenshot .screenshot-capture-card .progress-wrap {
+  flex-wrap: wrap;
+  padding: 14px;
+  margin-top: 16px;
+  overflow-wrap: anywhere;
+}
+:where(.axolotl-tool-root, .ax-ui) .screenshot-result-actions {
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+:where(.axolotl-tool-root, .ax-ui) .screenshot-result-actions .ds-action--delete {
+  margin-left: auto;
+}
+:where(.axolotl-tool-root, .ax-ui) .screenshot-crop-dialog {
+  width: min(960px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  padding: 24px;
+  overflow: auto;
+}
+:where(.axolotl-tool-root, .ax-ui) .screenshot-crop-dialog::backdrop {
+  background: #17223b66;
+  backdrop-filter: blur(3px);
+}
+:where(.axolotl-tool-root, .ax-ui) .screenshot-crop-dialog .dialog-heading {
+  margin-bottom: 8px;
+}
+:where(.axolotl-tool-root, .ax-ui) .screenshot-crop-dialog h2 {
+  font-size: 22px;
+  color: var(--ink);
+}
+:where(.axolotl-tool-root, .ax-ui) .screenshot-crop-dialog .helper {
+  margin: 0 0 16px;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-viewport {
+  max-height: 52dvh;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line);
+  border-radius: var(--axolotl-radius-input);
+  background: var(--theme-field, #eef1f6);
+  scrollbar-gutter: stable;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-stage {
+  position: relative;
+  line-height: 0;
+  touch-action: none;
+  user-select: none;
+  cursor: crosshair;
+  overflow: hidden;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-stage > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-selection {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid #0050ff;
+  background: #0050ff08;
+  box-shadow: 0 0 0 99999px #16233e66;
+  cursor: move;
+  min-width: 1px;
+  min-height: 1px;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-selection:focus-visible {
+  outline: 2px solid var(--theme-line, #fa96ff);
+  outline-offset: 2px;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-handle {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #0050ff;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0;
+  touch-action: none;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-handle-nw {
+  left: -2px;
+  top: -2px;
+  cursor: nwse-resize;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-handle-ne {
+  right: -2px;
+  top: -2px;
+  cursor: nesw-resize;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-handle-sw {
+  left: -2px;
+  bottom: -2px;
+  cursor: nesw-resize;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-handle-se {
+  right: -2px;
+  bottom: -2px;
+  cursor: nwse-resize;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-fields {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 8px;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-fields label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+  min-width: 0;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-fields input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--axolotl-radius-input);
+  font: inherit;
+  color: var(--ink);
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-fields input:focus-visible {
+  outline: 2px solid #0050ff;
+  outline-offset: 2px;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-status {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--theme-error, var(--red));
+  min-height: 18px;
+}
+:where(.axolotl-tool-root, .ax-ui) .crop-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+  position: sticky;
+  bottom: -24px;
+  background: var(--theme-surface, #fff);
+  padding: 12px 0 0;
+}
+@media (max-width: 600px) {
+  :where(.axolotl-tool-root, .ax-ui) .screenshot-crop-dialog {
+    padding: 16px;
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - 20px);
+  }
+  :where(.axolotl-tool-root, .ax-ui) .crop-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  :where(.axolotl-tool-root, .ax-ui) .crop-viewport {
+    max-height: 42dvh;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .crop-actions {
+    bottom: -16px;
+  }
+  :where(.axolotl-tool-root, .ax-ui) .screenshot-crop-dialog h2 {
+    font-size: 19px;
+  }
+}

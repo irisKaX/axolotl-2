@@ -1,0 +1,59 @@
+@import './tool-activity.css';
+/* Scoped component defaults. These never reset the existing tool interfaces. */
+.ax-ui {color:var(--ink);font-family:inherit;font-size:14px;line-height:1.5}
+.ax-ui :is(button,a,input,textarea,[role=combobox],[role=checkbox]):focus-visible {outline:2px solid var(--theme-accent);outline-offset:3px}
+.ax-ui .ax-button {min-height:38px;line-height:1.4;text-decoration:none;cursor:pointer}
+.ax-ui .ax-button:disabled {cursor:not-allowed}
+.ax-ui .ax-icon-button {width:36px;height:36px;min-height:36px;padding:8px;flex:none}
+.ax-ui .ax-icon-button>.icon {display:block;flex:none}
+.ax-status {display:inline-flex;align-items:center;gap:5px;white-space:nowrap;font-size:14px;color:var(--muted)}
+.ax-status-dot {width:5px;height:5px;border-radius:50%;background:currentColor;flex:none}
+.ax-status[data-state=connected] {color:var(--theme-success)}
+.ax-status[data-state=offline] {color:var(--theme-error)}
+.ax-dialog-overlay {position:fixed;inset:0;z-index:1000;background:var(--ax-overlay);backdrop-filter:blur(5px)}
+.ax-dialog {position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1001;width:min(580px,calc(100vw - 32px));max-height:calc(100dvh - 40px);overflow:auto;overscroll-behavior:contain;padding:24px;border:1px solid var(--line);border-radius:var(--ax-radius-panel);background:var(--surface);box-shadow:var(--ax-dialog-shadow)}
+.ax-dialog-heading {display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:8px}
+.ax-dialog-heading h2 {font-size:20px;letter-spacing:-.5px;font-weight:650;line-height:1.35;color:var(--ink)}
+.ax-dialog .dialog-close {border-color:transparent;background:var(--field);color:var(--muted);border-radius:50%}
+.ax-dialog-description {font-size:14px;color:var(--muted);margin:0 0 20px}
+.ax-dialog .target-list {display:grid;gap:8px;max-height:none}
+.ax-dialog .target-option {position:relative;width:100%;display:flex;flex-direction:row;align-items:center;gap:12px;padding:13px 14px;border:1px solid var(--line);border-radius:var(--ax-radius-control);background:var(--field);color:var(--ink);text-align:left}
+.ax-dialog .target-option:hover:not(:disabled),.ax-dialog .target-option[aria-pressed=true] {border-color:var(--theme-accent);background:var(--pale)}
+.ax-dialog .target-option>svg {flex:none;color:var(--theme-accent)}
+.ax-target-option-copy {display:grid;min-width:0;gap:3px;flex:1}
+.ax-dialog .target-option strong {font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ax-dialog .target-option .ax-target-url {display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;color:var(--muted)}
+.ax-dialog .ax-dialog-message {padding:14px;background:var(--field);border-radius:var(--ax-radius-control);font-size:14px;color:var(--muted)}
+.ax-dialog .ax-dialog-error {margin-bottom:12px;color:var(--theme-error)}
+.ax-dialog .ax-dialog-retry {margin-top:10px}
+.ax-dialog .help-content {font-size:14px;line-height:1.7}
+.ax-dialog .help-content>p {margin-bottom:16px}
+.ax-dialog .help-content .tool-help {padding-block:12px;border-top:1px solid var(--line)}
+.ax-dialog .tool-help summary {cursor:pointer;font-weight:600}
+.ax-dialog .tool-help-content {color:var(--text);padding-top:8px}
+.ax-tooltip {z-index:1100;max-width:260px;padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:var(--ink);color:var(--surface);font-size:14px;box-shadow:var(--atelier-shadow);user-select:none}
+.ax-tooltip-arrow {fill:var(--ink)}
+.ax-field>label {font-size:14px;font-weight:600}
+.ax-field>p {font-size:14px;margin:0}
+.ax-field-error {color:var(--theme-error)}
+.ax-ui .ax-field :is(input:not([type=checkbox]):not([type=color]),textarea),.ax-ui .ax-select {width:100%;min-height:38px;padding:9px 12px;border:1px solid var(--line);border-radius:var(--ax-radius-control);background:var(--field);color:var(--ink);font-size:14px}
+.ax-select {display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ax-select-menu {z-index:1100;min-width:var(--radix-select-trigger-width);max-height:var(--radix-select-content-available-height);padding:5px;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--ax-dialog-shadow);overflow:hidden}
+.ax-select-option {display:flex;justify-content:space-between;align-items:center;gap:18px;padding:8px 10px;border-radius:7px;font-size:14px;cursor:pointer;outline:none}
+.ax-select-option[data-highlighted] {background:var(--pale);color:var(--theme-accent)}
+.ax-select-option[data-disabled] {opacity:.45;pointer-events:none}
+.ax-select-scroll {display:grid;place-items:center;height:24px}
+.ax-checkbox-field {display:flex;align-items:center;gap:9px;font-size:14px}
+.ax-checkbox-field label {cursor:pointer}
+.ax-checkbox {display:grid;place-items:center;width:18px;height:18px;padding:0;border:1px solid var(--line);border-radius:5px;background:var(--field);color:#fff;flex:none}
+.ax-checkbox[data-state=checked],.ax-checkbox[data-state=indeterminate] {background:var(--ax-action);border-color:var(--ax-action)}
+.ax-checkbox>span {display:grid;place-items:center}
+.ax-tool-header h1 {font-size:25px;line-height:1.25;font-weight:700;letter-spacing:-.8px;text-transform:uppercase;color:var(--ax-heading)}
+@media(max-width:480px) {.ax-dialog{padding:20px}.ax-dialog-heading h2{font-size:18px}}
+.react-tool-heading .ax-tool-header {width:100%}
+.react-tool-help p+p {margin-top:14px}
+.react-help-steps {padding-left:22px;margin:16px 0;display:grid;gap:12px;font-size:14px;line-height:1.6}
+.react-empty-icon {display:grid;place-items:center;margin:0 auto 18px;width:62px;height:62px;border:1px solid var(--line);border-radius:18px;background:var(--pale);color:var(--theme-accent)}
+.react-busy-icon {animation:react-spin 1.4s linear infinite}
+@keyframes react-spin {to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.react-busy-icon{animation:none}}

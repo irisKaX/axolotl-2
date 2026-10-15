@@ -21,6 +21,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run test:legacy
+      - run: npm run test:tools
       - run: npm run build
       # Branch-based Pages still publishes the root. Both deployment paths must match.
       - run: npm run publish:check

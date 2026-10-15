@@ -1,0 +1,254 @@
+/* Shared action buttons: the same components in the catalog and converter.
+   Keep separate from .button and .icon-button. */
+.ds-action {
+  --ds-action-size: 44px;
+  --ds-action-background: #0050ff;
+  --ds-action-hover: #0040e8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  position: relative;
+  box-sizing: border-box;
+  width: var(--ds-action-size);
+  height: var(--ds-action-size);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ds-action-background);
+  color: #fff;
+  font:
+    600 13px/1.25 Inter,
+    'Segoe UI',
+    Arial,
+    sans-serif;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 12px #0050ff20;
+  transition:
+    background-color 0.3s,
+    box-shadow 0.3s,
+    transform 0.3s;
+}
+.ds-action:hover:not(:disabled),
+.ds-action:focus-visible:not(:disabled) {
+  background: var(--ds-action-hover);
+  box-shadow: 0 5px 16px #0050ff30;
+}
+.ds-action:focus-visible {
+  outline: 3px solid #0050ff;
+  outline-offset: 4px;
+}
+.ds-action:active:not(:disabled) {
+  transform: scale(0.9);
+}
+.ds-action:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.ds-action__icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.ds-action__moving {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+/* A text action shares its icon and states with the compact circular action. */
+.ds-action--labeled {
+  width: max-content;
+  max-width: 100%;
+  height: auto;
+  min-height: 48px;
+  gap: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+}
+.ds-action__label {
+  min-width: 0;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.ds-action--crop:hover:not(:disabled) .ds-action__moving,
+.ds-action--crop:focus-visible:not(:disabled) .ds-action__moving {
+  transform: translate(-1px, 1px);
+}
+
+/* All circular actions share the same 44px size, including delete. */
+.ds-action--delete {
+  --ds-action-background: #ff3458;
+  --ds-action-hover: #ff0000;
+  flex-direction: column;
+  border: 3px solid #ff3458;
+  box-shadow: none;
+}
+.ds-action--delete:hover:not(:disabled),
+.ds-action--delete:focus-visible:not(:disabled) {
+  box-shadow: none;
+}
+.ds-action__bin-top,
+.ds-action__bin-bottom {
+  display: block;
+  height: auto;
+  flex: none;
+  fill: none;
+  pointer-events: none;
+}
+.ds-action__bin-top {
+  width: 17px;
+  transform-origin: right;
+  transition: transform 0.3s;
+}
+.ds-action__bin-bottom {
+  width: 15px;
+}
+.ds-action--delete:hover:not(:disabled) .ds-action__bin-top,
+.ds-action--delete:focus-visible:not(:disabled) .ds-action__bin-top {
+  transform: rotate(45deg);
+}
+
+/* Delete all: 44px circle expanding to 140px, with constant height.
+   Right-align its slot to expand away from the following action. */
+.ds-action--delete-all {
+  --ds-action-background: #ff3458;
+  --ds-action-hover: #ff0000;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.164);
+  transition:
+    width 0.3s,
+    background-color 0.3s,
+    box-shadow 0.3s,
+    transform 0.3s;
+}
+.ds-action--delete-all .ds-action__trash {
+  width: 12px;
+  height: auto;
+  flex: none;
+  fill: currentColor;
+  pointer-events: none;
+  transition:
+    width 0.3s,
+    transform 0.3s,
+    opacity 0.3s;
+}
+.ds-action--delete-all::before {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 100%;
+  content: attr(data-label);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    font-size 0.3s,
+    transform 0.3s,
+    opacity 0.3s;
+}
+.ds-action--delete-all:hover:not(:disabled),
+.ds-action--delete-all:focus-visible:not(:disabled) {
+  width: 140px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.164);
+}
+.ds-action--delete-all:hover:not(:disabled) .ds-action__trash,
+.ds-action--delete-all:focus-visible:not(:disabled) .ds-action__trash {
+  width: 50px;
+  transform: translateY(60%);
+}
+.ds-action--delete-all:hover:not(:disabled)::before,
+.ds-action--delete-all:focus-visible:not(:disabled)::before {
+  font-size: 14px;
+  opacity: 1;
+  transform: translateY(30px);
+}
+
+/* Small actions: fixed-size circles; only a part of the icon moves. */
+.ds-action--export:hover:not(:disabled) .ds-action__moving,
+.ds-action--export:focus-visible:not(:disabled) .ds-action__moving,
+.ds-action--upload:hover:not(:disabled) .ds-action__moving,
+.ds-action--upload:focus-visible:not(:disabled) .ds-action__moving,
+.ds-action--cloud-upload:hover:not(:disabled) .ds-action__moving,
+.ds-action--cloud-upload:focus-visible:not(:disabled) .ds-action__moving {
+  transform: translateY(-2px);
+}
+.ds-action--copy:hover:not(:disabled) .ds-action__moving,
+.ds-action--copy:focus-visible:not(:disabled) .ds-action__moving {
+  transform: translate(1.5px, -1.5px);
+}
+.ds-action--save:hover:not(:disabled) .ds-action__moving,
+.ds-action--save:focus-visible:not(:disabled) .ds-action__moving {
+  transform: translateY(1.5px);
+}
+.ds-action--preview:hover:not(:disabled) .ds-action__moving,
+.ds-action--preview:focus-visible:not(:disabled) .ds-action__moving {
+  transform: scale(1.2);
+}
+.ds-action--open:hover:not(:disabled) .ds-action__moving,
+.ds-action--open:focus-visible:not(:disabled) .ds-action__moving {
+  transform: translate(1.5px, -1.5px);
+}
+.ds-action--close:hover:not(:disabled) .ds-action__moving,
+.ds-action--close:focus-visible:not(:disabled) .ds-action__moving {
+  transform: rotate(90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-action,
+  .ds-action::before,
+  .ds-action svg,
+  .ds-action__moving {
+    transition: none !important;
+    animation: none !important;
+  }
+  .ds-action:active:not(:disabled),
+  .ds-action .ds-action__moving,
+  .ds-action .ds-action__bin-top {
+    transform: none !important;
+  }
+  .ds-action--delete-all:hover:not(:disabled) .ds-action__trash,
+  .ds-action--delete-all:focus-visible:not(:disabled) .ds-action__trash {
+    opacity: 0;
+    transform: none;
+  }
+  .ds-action--delete-all:hover:not(:disabled)::before,
+  .ds-action--delete-all:focus-visible:not(:disabled)::before {
+    top: calc(50% - 0.625em);
+    transform: none;
+  }
+}
+@media (forced-colors: active) {
+  .ds-action {
+    border: 2px solid ButtonText;
+    box-shadow: none;
+  }
+  .ds-action:focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+/* Reserve expansion space on the LEFT; the right edge stays next to the
+   following control in both states. No extra gap or toolbar reflow. */
+.ds-action-expand-slot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 140px;
+  flex: 0 0 140px;
+}

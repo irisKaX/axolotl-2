@@ -1,0 +1,48 @@
+/* Load in extension documents or isolated UI roots only. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, #0050ff) var(--scrollbar-track, #edf2ff);
+}
+@supports selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+  }
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track, #edf2ff);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb {
+    min-height: 36px;
+    min-width: 36px;
+    border: 3px solid var(--scrollbar-track, #edf2ff);
+    border-radius: 999px;
+    background: var(--scrollbar-thumb, #0050ff);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-hover, #003dcc);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--scrollbar-active, #002e99);
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+@media (forced-colors: active) {
+  * {
+    scrollbar-color: auto;
+    scrollbar-width: auto;
+  }
+  ::-webkit-scrollbar-track {
+    background: Canvas;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ButtonText;
+    border-color: Canvas;
+  }
+}

@@ -1,0 +1,15 @@
+::highlight(o2-tools-find) {
+  background-color: #fadc00 !important;
+  color: #00001e !important;
+}
+::highlight(o2-tools-current) {
+  background-color: #fadc00 !important;
+  color: #00001e !important;
+}
+html[data-o2-capturing='true'] *,
+html[data-o2-capturing='true'] *::before,
+html[data-o2-capturing='true'] *::after {
+  animation-play-state: paused !important;
+  transition: none !important;
+  caret-color: transparent !important;
+}

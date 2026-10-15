@@ -1,0 +1,63 @@
+.filename-editor {
+  min-width: 0;
+  margin-bottom: 5px;
+}
+.filename-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: text;
+}
+.filename-name__text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: underline dotted #b5bfd2;
+  text-underline-offset: 4px;
+}
+.filename-name__pencil {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: none;
+  stroke: var(--blue, #0050ff);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.filename-name:hover:not(:disabled) {
+  color: var(--theme-accent, var(--blue, #0050ff));
+}
+.filename-name:focus-visible {
+  outline: 2px solid var(--blue, #0050ff);
+  outline-offset: 3px;
+}
+.filename-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 5px 10px;
+  border: 1px solid var(--blue, #0050ff);
+  background: var(--theme-surface, #fff);
+  color: var(--ink, #14234e);
+  font: inherit;
+  font-size: 14px;
+}
+.filename-error {
+  display: block;
+  margin-top: 4px;
+  color: var(--theme-error, var(--red, #d02040));
+  font-size: 14px;
+  white-space: normal;
+}

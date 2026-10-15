@@ -1,0 +1,20 @@
+.tool-heading-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:12px}
+#app .tool-activity{display:flex;align-items:center;gap:11px;width:246px;min-height:56px;max-width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);text-transform:none;letter-spacing:normal;flex:none;box-sizing:border-box}
+.tool-activity-symbol{display:grid;place-items:center;position:relative;width:32px;height:32px;flex:none;border-radius:11px;background:var(--pale);color:var(--theme-accent)}
+.tool-activity-symbol>svg{animation:tool-wait 2.8s ease-in-out infinite}
+.tool-activity-dot{position:absolute;bottom:2px;right:2px;width:5px;height:5px;border-radius:50%;background:currentColor;box-shadow:0 0 0 2px var(--surface);animation:tool-wait 2.8s ease-in-out infinite}
+.tool-activity-copy{display:grid;gap:3px;min-width:0}
+#app .tool-activity-copy strong{font-size:13px;line-height:1.35;font-weight:650;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#app .tool-activity-copy small{font-size:11px;line-height:1.35;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tool-activity[data-phase=working] .tool-activity-symbol>svg{animation:tool-spin 1.5s linear infinite}
+.tool-activity[data-phase=download] .tool-activity-symbol>svg{animation:tool-download 1.1s ease-in-out infinite}
+.tool-activity[data-phase=ready] .tool-activity-symbol>svg{animation:tool-ready 2.4s ease-in-out infinite}
+.tool-activity[data-phase=done] .tool-activity-symbol{color:var(--theme-success)}
+.tool-activity[data-phase=error] .tool-activity-symbol{color:var(--theme-error)}
+.tool-activity[data-active=false] *{animation-play-state:paused!important}
+@keyframes tool-wait{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes tool-spin{to{transform:rotate(360deg)}}
+@keyframes tool-download{0%,100%{transform:translateY(-2px);opacity:.65}55%{transform:translateY(3px);opacity:1}}
+@keyframes tool-ready{0%,100%{transform:translate(0,0)}50%{transform:translate(2px,2px)}}
+@media(max-width:640px){.tool-heading-actions{justify-content:flex-start}#app .tool-activity{min-height:50px;width:230px}}
+@media(prefers-reduced-motion:reduce){.tool-activity *{animation:none!important}}

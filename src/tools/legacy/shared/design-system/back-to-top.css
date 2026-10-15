@@ -1,0 +1,81 @@
+.ds-back-to-top {
+  position: fixed;
+  right: calc(24px + env(safe-area-inset-right, 0px));
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #0050ff;
+  color: #fff;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 12px #0050ff20;
+  transition:
+    background-color 0.3s,
+    box-shadow 0.3s,
+    transform 0.3s;
+}
+.ds-back-to-top[hidden] {
+  display: none;
+}
+.ds-back-to-top--sample {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  z-index: auto;
+}
+.ds-back-to-top svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+.ds-back-to-top:hover:not(:disabled),
+.ds-back-to-top:focus-visible:not(:disabled) {
+  background: #0040e8;
+  box-shadow: 0 5px 16px #0050ff30;
+}
+.ds-back-to-top:focus-visible {
+  outline: 3px solid #0050ff;
+  outline-offset: 4px;
+}
+.ds-back-to-top:active:not(:disabled) {
+  transform: scale(0.9);
+}
+.ds-back-to-top:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ds-back-to-top {
+    transition: none;
+  }
+  .ds-back-to-top:active:not(:disabled) {
+    transform: none;
+  }
+}
+@media (forced-colors: active) {
+  .ds-back-to-top {
+    border: 2px solid ButtonText;
+    box-shadow: none;
+  }
+  .ds-back-to-top:focus-visible {
+    outline-color: Highlight;
+  }
+}
