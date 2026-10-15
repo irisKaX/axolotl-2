@@ -468,24 +468,14 @@
         if (returnFocus) appearanceOpen.focus();
       }
 
-      function showAppearance(moveFocus = true) {
-        const restoreFocus = moveFocus || settingsHome.contains(document.activeElement);
+      function showAppearance() {
         settingsHome.hidden = true;
         appearancePanel.hidden = false;
-        if (restoreFocus) appearanceBack.focus();
+        appearanceBack.focus();
       }
 
-      appearanceOpen.addEventListener('click', () => showAppearance());
-      appearanceOpen.addEventListener('pointerenter', event => {
-        if (event.pointerType === 'mouse' && settingsHoverPointer.matches) showAppearance(false);
-      });
-
+      appearanceOpen.addEventListener('click', showAppearance);
       appearanceBack.addEventListener('click', () => showSettingsHome(true));
-      appearanceBack.addEventListener('pointerenter', event => {
-        if (event.pointerType === 'mouse' && settingsHoverPointer.matches) {
-          showSettingsHome(appearancePanel.contains(document.activeElement));
-        }
-      });
 
       function setSettingsOpen(open, returnFocus = false) {
         clearTimeout(settingsCloseTimer);
