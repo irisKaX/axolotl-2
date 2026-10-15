@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { PreferencesProvider } from "./PreferencesProvider";
 import { PageContextProvider } from "./PageContextProvider";
@@ -19,6 +19,23 @@ function mount() {
   };
 }
 describe("migrated application", () => {
+  beforeEach(() => {
+    // jsdom has no layout; browser tests cover actual responsive measurements.
+    vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(680);
+  });
+  it("marks the active PillNav category for a direct tool link and returns home", async () => {
+    location.hash = "#kontrola/metadata";
+    const user = userEvent.setup();
+    mount();
+    const control = screen.getByRole("button", { name: "Kontrola" });
+    expect(control).toHaveAttribute("aria-current", "true");
+    await user.click(control);
+    expect(screen.getByRole("link", { name: "Metadata" })).toHaveAttribute("aria-current", "page");
+    await user.click(screen.getByRole("link", { name: /^Dashboard$/ }));
+    await screen.findByRole("main", { name: "Dashboard" });
+    expect(screen.getByRole("link", { name: /^Dashboard$/ })).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("button", { name: "Kontrola" })).not.toHaveAttribute("aria-current");
+  });
   it("keeps the office blank and opens root menus by mouse without activating items", async () => {
     const user = userEvent.setup();
     mount();

@@ -10,6 +10,7 @@
 @import "./design-tokens.css";
 @import "./design-system.css";
 @import "./tools.css";
+@import "./pill-navigation.css";
 body {
   background: transparent;
 }

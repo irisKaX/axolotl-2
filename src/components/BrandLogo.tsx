@@ -1,6 +1,10 @@
 import type { CSSProperties } from "react";
 import mark from "../assets/brand/o2-mark.svg";
 
+export function BrandMark() {
+  return <span className="axolotl-logo-art" aria-hidden="true" style={{ "--axolotl-logo-image": `url("${mark}")` } as CSSProperties} />;
+}
+
 export function BrandLogo({ onNavigate }: { onNavigate: () => void }) {
   return (
     <a
@@ -15,7 +19,7 @@ export function BrandLogo({ onNavigate }: { onNavigate: () => void }) {
         "--axolotl-logo-image": `url("${mark}")`,
       } as CSSProperties}
     >
-      <span className="axolotl-logo-art" aria-hidden="true" />
+      <BrandMark />
     </a>
   );
 }

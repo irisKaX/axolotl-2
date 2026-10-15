@@ -6,6 +6,11 @@ beforeEach(() => {
   localStorage.clear();
   sessionStorage.clear();
   queries.clear();
+  vi.stubGlobal("ResizeObserver", class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  });
   window.location.hash = "#dashboard";
   vi.stubGlobal("matchMedia", (query: string) => {
     if (!queries.has(query)) {

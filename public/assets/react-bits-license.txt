@@ -1,5 +1,6 @@
-Glow Cursor — React Bits
+Glow Cursor and PillNav — React Bits
 https://github.com/DavidHDev/react-bits/tree/963f4d21dca65326a470956c42b7b467804f3c14/src/ts-default/Animations/GlowCursor
+https://github.com/DavidHDev/react-bits/tree/963f4d21dca65326a470956c42b7b467804f3c14/src/ts-default/Components/PillNav
 
 MIT + Commons Clause License Condition v1.0
 

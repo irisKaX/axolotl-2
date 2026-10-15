@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Icon } from "../components/Icon";
-import { BrandLogo } from "../components/BrandLogo";
+import { BrandMark } from "../components/BrandLogo";
+import PillNav, { type PillNavLinkProps } from "../components/navigation/PillNav";
 import { groups } from "./routes";
 import { usePreferences } from "./PreferencesProvider";
 import { useDisclosure } from "./useDisclosure";
@@ -49,21 +50,27 @@ function Clock() {
 function NavGroup({
   group,
   route,
+  pillProps,
+  children,
+  mobile,
+  closeMenu,
   ...props
-}: DisclosureProps & { group: (typeof groups)[number]; route: string }) {
+}: DisclosureProps & { group: (typeof groups)[number]; route: string; pillProps: PillNavLinkProps; children: ReactNode; mobile: boolean; closeMenu: () => void }) {
   const menu = useDisclosure(group.id, props.openId, props.setOpenId);
   return (
-    <div className="axolotl-nav-group" ref={menu.root} {...menu.rootProps}>
+    <div className="axolotl-nav-group axolotl-pill-group" data-mobile={mobile || undefined} ref={menu.root} {...menu.rootProps}>
       <button
-        className="axolotl-nav-trigger"
+        {...pillProps}
+        className={`${pillProps.className} axolotl-pill-trigger`}
+        type="button"
+        aria-current={group.items.some((item) => item.route === route) ? "true" : undefined}
         id={`axolotl-nav-${group.id}-toggle`}
         ref={menu.trigger}
         {...menu.triggerProps}
         aria-controls={`axolotl-nav-${group.id}-dropdown`}
         data-axolotl-active={group.items.some((item) => item.route === route)}
       >
-        {group.label}
-        <Icon name="chevron" className="axolotl-nav-chevron" />
+        {children}
       </button>
       <div
         className="axolotl-nav-dropdown"
@@ -83,6 +90,7 @@ function NavGroup({
                 aria-current={route === item.route ? "page" : undefined}
                 onClick={() => {
                   menu.close();
+                  closeMenu();
                   document.getElementById("axolotl-workspace")?.focus();
                 }}
               >
@@ -129,28 +137,39 @@ export function Header({ route }: { route: string }) {
         </defs>
       </svg>
       <header className="axolotl-header" aria-label="Ovládání Axolotlu">
-        <nav className="axolotl-navigation" aria-label="Hlavní navigace">
-          <BrandLogo onNavigate={() => setOpenId(null)} />
-          <a
-            className="axolotl-nav-home"
-            href="#dashboard"
-            aria-label="Dashboard"
-            title="Dashboard"
-            aria-current={route === "dashboard" ? "page" : undefined}
-            onClick={() => setOpenId(null)}
-          >
-            <Icon name="home" />
-          </a>
-          {groups.map((group) => (
-            <NavGroup
-              key={group.id}
-              group={group}
-              route={route}
-              openId={openId}
-              setOpenId={setOpenId}
-            />
-          ))}
-        </nav>
+        <div className="axolotl-navigation">
+          <PillNav
+            logo={<BrandMark />}
+            logoAlt="O₂ Axolotl – dashboard"
+            logoHref="#dashboard"
+            ariaLabel="Hlavní navigace"
+            theme={preferences.resolvedTheme}
+            reducedMotion={preferences.reducedMotion}
+            itemStyle="pill"
+            hoverEffect="fill"
+            indicator="pill"
+            highlightColor="#7c3aed"
+            highlightTextColor="#ffffff"
+            intro={false}
+            activeHref={route === "dashboard" ? "#dashboard" : `#${groups.find((group) => group.items.some((item) => item.route === route))?.id ?? route}`}
+            items={[
+              { label: "Dashboard", ariaLabel: "Dashboard", href: "#dashboard", icon: <Icon name="home" />, iconOnly: true },
+              ...groups.map((group) => ({
+                label: group.label,
+                href: `#${group.id}`,
+                icon: <Icon name={group.id === "osobni" ? "profile" : group.id === "media" ? "obrazky" : "shield"} />,
+                trailing: <Icon name="chevron" className="axolotl-nav-chevron" />,
+              })),
+            ]}
+            onItemClick={() => setOpenId(null)}
+            onLogoClick={() => setOpenId(null)}
+            onMenuToggle={() => setOpenId(null)}
+            renderItem={(item, pillProps, content, mobile, closeMenu) => {
+              const group = groups.find((candidate) => item.href === `#${candidate.id}`);
+              return group ? <NavGroup group={group} route={route} openId={openId} setOpenId={setOpenId} pillProps={pillProps} mobile={mobile} closeMenu={closeMenu}>{content}</NavGroup> : undefined;
+            }}
+          />
+        </div>
         <div className="axolotl-controls">
           <Clock />
           <button

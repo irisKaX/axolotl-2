@@ -1,7 +1,7 @@
 name: Axolotl build and deploy
 on:
   push:
-    branches: [main, feat/react-foundation]
+    branches: [main, 'feat/**']
   pull_request:
   workflow_dispatch:
 permissions:
@@ -25,6 +25,20 @@ jobs:
       - run: npm run build
       # Branch-based Pages still publishes the root. Both deployment paths must match.
       - run: npm run publish:check
+      - name: Check navigation in a real browser
+        run: |
+          if command -v google-chrome >/dev/null 2>&1; then
+            export PLAYWRIGHT_CHROME_EXECUTABLE="$(command -v google-chrome)"
+          else
+            npx playwright install --with-deps chromium
+          fi
+          npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: navigation-browser-check
+          path: test-results/
+          retention-days: 7
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
