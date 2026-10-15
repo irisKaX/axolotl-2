@@ -1,12 +1,24 @@
 # Axolotl 2.0: přizpůsobitelný dashboard
 
-Návrh k posouzení, 15. 10. 2026. Tento dokument navrhuje další vývoj; nové karty, indikátor ani office zatím nejsou implementované. V této změně se nasazuje pouze oprava barev ikon v nabídkách.
+Návrh k posouzení, 15. 10. 2026. Tento dokument navrhuje další vývoj; nové karty, indikátor ani office zatím nejsou implementované. Oprava barev ikon v nabídkách je již nasazená. Aktualizace návrhu ve 14:41: technologický základ není omezen na čisté HTML/CSS/JS; níže je doporučený nový stack, migrace ještě nezačala.
 
 ## Cíl a pevné části
 
 Každý si zvolí nástroje, které má na dashboardu, jejich pořadí a podporovanou velikost. Hlavička, logo a prostor pro budoucí živý office zůstávají mimo editor karet. Office se nyní nevkládá; zůstává průhledná prázdná plocha bez rámečku, nadpisu a výplně. Celá stránka má působit jako jeden celek.
 
 Pevné znamená stejnou roli a umístění v kompozici, nikoli neměnnou výšku v pixelech. Výška office rezervy se bude přizpůsobovat dostupnému prostoru. Nesmí zmizet kvůli přidávání karet.
+
+## Doporučený technologický základ
+
+Uživatelka výslovně umožňuje React, Tailwind a další vhodné technologie. Návrh proto přechází na React + TypeScript + Vite pro frontend a build, Tailwind CSS pro jednotné styly a vlastní design tokeny. Sdílené interaktivní komponenty mohou využít vybrané komponenty shadcn/ui s vlastní úpravou vzhledu. Editor karet využije dnd-kit pro přetahování a CSS Grid pro rozložení; pravidla kapacity a kolizí zůstávají v samostatné logice aplikace.
+
+React usnadní sdílení stavu URL, nastavení a obsahu karet i opakované používání komponent. Vizuální identitu stále určuje schválený vzorník: knihovny musí respektovat vlastní gradienty, přepínač, pravidla ikon, zaoblení a hover nabídky. Přidávat jen používané komponenty; konkrétní stabilní kompatibilní verze ověřit a uzamknout lockfile při implementaci. Běžné přechody řešit CSS; knihovnu pro složitější animace přidat až při konkrétní potřebě. Technologii živého office vybrat samostatně podle výsledné scény.
+
+Výstup Vite je statický build, který lze dál publikovat na stejné adrese GitHub Pages. Bude potřeba nastavit base `/axolotl-2/`, automatický build a publikaci složky `dist` přes GitHub Actions. Zachovat stávající hash URL, klíče uložených nastavení a protokol rozšíření. Před přepnutím produkčního nasazení ověřit funkční build, aktuální ovládání i možnost návratu k předchozí verzi. Migrace je samostatná etapa před vzorníkem, nikoli současná úprava živé aplikace.
+
+React ani Tailwind samy nepřidávají server, uživatelské účty nebo přístup ke všem cizím webům. Pro budoucí sdílení mezi kolegy a synchronizaci navrhnout backend v odpovídající etapě; pro čtení otevřených webů dál počítat s rozšířením a oprávněními.
+
+Podklady: [React](https://react.dev/learn), [Vite a GitHub Pages](https://vite.dev/guide/static-deploy.html), [Tailwind s Vite](https://tailwindcss.com/docs/installation/using-vite), [shadcn/ui](https://ui.shadcn.com/docs), [dnd-kit](https://dndkit.com/).
 
 ## Způsob přizpůsobení
 
