@@ -33,7 +33,8 @@ test("desktop categories, active tool, keyboard focus and both themes", async ({
   await expect(nav.getByRole("link", { name: "Metadata", exact: true })).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(control).toBeFocused();
-  await page.getByRole("checkbox", { name: "Tmavý režim" }).uncheck();
+  await page.getByTitle("Přepnout na světlý režim", { exact: true }).click();
+  await expect(page.getByRole("checkbox", { name: "Tmavý režim" })).not.toBeChecked();
   await nav.getByRole("link", { name: "Dashboard", exact: true }).click();
   await nav.getByRole("button", { name: "Můj workspace" }).hover();
   await expect(nav.getByRole("link", { name: "Poznámky" })).toBeVisible();
