@@ -52,13 +52,16 @@
   }
 
   function renderSetting() {
+    const reduced = root.dataset.motion === 'reduced';
+    const active = enabled && !reduced;
     toggle.checked = enabled;
-    layer.hidden = !enabled;
-    status.textContent = enabled ? 'Zapnuto' : 'Vypnuto';
-    description.textContent = isLight()
+    toggle.disabled = reduced;
+    layer.hidden = !active;
+    status.textContent = reduced ? 'Pozastaveno' : enabled ? 'Zapnuto' : 'Vypnuto';
+    description.textContent = reduced ? 'Efekt je pozastavený při omezení animací. Tvoje volba zapnutí zůstává zachovaná.' : isLight()
       ? 'Barevná stopa při pohybu a drobné modré, fialové a měděné částice při kliknutí.'
       : 'Jemná stopa světlušek při pohybu a malý světelný ohňostroj při kliknutí.';
-    if (!enabled) clearEffects();
+    if (!active) clearEffects();
   }
 
   function addParticle(kind, x, y, size, dx, dy, duration, delay = 0) {
@@ -81,7 +84,7 @@
   }
 
   function canAnimate(event) {
-    return enabled && !document.hidden && (event.pointerType === 'mouse' || event.pointerType === 'pen');
+    return enabled && root.dataset.motion !== 'reduced' && !document.hidden && (event.pointerType === 'mouse' || event.pointerType === 'pen');
   }
 
   window.addEventListener('pointermove', event => {
@@ -120,7 +123,7 @@
     try { localStorage.setItem(storageKey, String(enabled)); } catch { /* Optional. */ }
   });
 
-  document.getElementById('axolotl-theme-toggle').addEventListener('change', () => {
+  document.addEventListener('axolotl:preferences-change', () => {
     clearEffects();
     renderSetting();
   });

@@ -209,8 +209,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .axolotl-cursor-switch-track,
-  .axolotl-cursor-switch-track::before,
-  .axolotl-cursor-halo { transition: none; }
-}

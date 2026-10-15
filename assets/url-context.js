@@ -22,6 +22,18 @@
   let requestTimer;
   let listSignature = '';
   let contextSignature = '';
+  let browserChecked = false;
+  let browserChecking = true;
+  let connectionSignature = '';
+
+  function publishConnection() {
+    const detail = { status: browserChecking ? 'checking' : connected ? 'connected' : 'disconnected', tabCount: connected ? tabs.length : 0 };
+    const signature = JSON.stringify(detail);
+    if (signature === connectionSignature) return;
+    connectionSignature = signature;
+    window.axolotlBrowserConnection = Object.freeze(detail);
+    document.dispatchEvent(new CustomEvent('axolotl:browser-connection-change', { detail }));
+  }
 
   function normalizeUrl(value) {
     const text = value.trim();
@@ -108,6 +120,7 @@
       listSignature = signature;
     }
     publishContext();
+    publishConnection();
   }
 
   function setOpen(open, returnFocus = false) {
@@ -193,12 +206,19 @@
   document.addEventListener('pointerdown', event => { if (!control.contains(event.target)) setOpen(false); });
   for (const name of ['axolotl:settings-open', 'axolotl:navigation-open']) document.addEventListener(name, () => setOpen(false));
 
-  function requestTabs() {
-    if (document.hidden || pendingRequest) return;
+  function requestTabs(forceCheck = false) {
+    if (document.hidden) return;
+    if (forceCheck === true || !browserChecked) {
+      browserChecking = true;
+      publishConnection();
+    }
+    if (pendingRequest) return;
     pendingRequest = crypto.randomUUID();
     window.postMessage({ source: 'axolotl-page', type: 'AXOLOTL_GET_TABS', requestId: pendingRequest }, location.origin);
     requestTimer = setTimeout(() => {
       pendingRequest = null;
+      browserChecked = true;
+      browserChecking = false;
       connected = false;
       tabs = [];
       if (mode !== 'manual') { selectedId = null; updateUrl(''); }
@@ -212,6 +232,8 @@
     if (!data || data.source !== 'axolotl-extension' || data.type !== 'AXOLOTL_TABS' || data.requestId !== pendingRequest || !pendingRequest) return;
     clearTimeout(requestTimer);
     pendingRequest = null;
+    browserChecked = true;
+    browserChecking = false;
     connected = data.ok === true && Array.isArray(data.tabs);
     tabs = connected ? data.tabs.filter(tab => {
       if (!Number.isInteger(tab.id) || typeof tab.url !== 'string' || typeof tab.title !== 'string') return false;
@@ -222,6 +244,7 @@
     render();
   });
   window.addEventListener('focus', requestTabs);
+  document.addEventListener('axolotl:browser-refresh', () => requestTabs(true));
   document.addEventListener('visibilitychange', requestTabs);
   input.value = currentUrl;
   render();

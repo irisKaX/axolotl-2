@@ -131,11 +131,6 @@
   .axolotl-workspace { padding-top: 136px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .axolotl-nav-home,
-  .axolotl-nav-trigger,
-  .axolotl-nav-chevron { transition: none; }
-}
 
 @media (max-width: 480px) {
   .axolotl-navigation { gap: 4px; font-size: 13px; }
