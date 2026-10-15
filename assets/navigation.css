@@ -137,7 +137,8 @@
 
 @media (max-width: 680px) {
   .axolotl-navigation { top: calc(72px + env(safe-area-inset-top, 0px)); }
-  .axolotl-nav-group ~ .axolotl-nav-group .axolotl-nav-dropdown { left: auto; right: 0; }
+  .axolotl-nav-group { position: static; }
+  .axolotl-nav-dropdown { left: 0; right: auto; }
   .axolotl-workspace { padding-top: 136px; }
 }
 
