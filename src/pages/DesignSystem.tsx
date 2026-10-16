@@ -381,11 +381,54 @@ function Components() {
     </div>
   );
 }
+
+function ButtonGallery() {
+  const [color, setColor] = useState("#6699ff");
+  const [duration, setDuration] = useState(3);
+  const [clicks, setClicks] = useState(0);
+  return (
+    <div className="axolotl-button-gallery">
+      <section className="axolotl-component-block axolotl-star-demo">
+        <div className="axolotl-star-heading">
+          <div>
+            <span className="axolotl-eyebrow">React Bits · Animation</span>
+            <h2>Star Border</h2>
+            <p>Světelná stopa putující po obvodu tlačítka. Živá ukázka pro Axolotl.</p>
+          </div>
+          <a href="https://reactbits.dev/animations/star-border" target="_blank" rel="noopener noreferrer">Zdroj ↗</a>
+        </div>
+        <div className="axolotl-star-stage">
+          <button
+            type="button"
+            className="axolotl-star-border"
+            style={{ "--star-color": color, "--star-duration": `${duration}s` } as React.CSSProperties}
+            onClick={() => setClicks((count) => count + 1)}
+          >
+            <span>Vyzkoušet Star Border <span aria-hidden="true">✦</span></span>
+          </button>
+          <span className="axolotl-card-muted" role="status">
+            {clicks ? `Kliknutí: ${clicks}` : "Klikni na tlačítko a vyzkoušej animaci."}
+          </span>
+        </div>
+        <div className="axolotl-star-controls">
+          <label className="axolotl-field">Barva světla
+            <input type="color" value={color} onChange={(event) => setColor(event.target.value)} aria-label="Barva světla Star Border" />
+          </label>
+          <label className="axolotl-field">Doba oběhu: {duration.toFixed(1)} s
+            <input type="range" min="1" max="8" step="0.5" value={duration} onChange={(event) => setDuration(Number(event.target.value))} />
+          </label>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 const tabs = [
   ["metadata", "Metadata"],
   ["qr", "QR kód"],
   ["quick", "Rychlé akce"],
   ["components", "Komponenty"],
+  ["buttons", "Tlačítka"],
   ["headers", "Hlavička · A/B"],
 ] as const;
 export function DesignSystem() {
@@ -471,6 +514,8 @@ export function DesignSystem() {
       >
         {tab === "headers" ? (
           <Suspense fallback={<p role="status">Načítám varianty hlavičky…</p>}><HeaderLab /></Suspense>
+        ) : tab === "buttons" ? (
+          <ButtonGallery />
         ) : tab === "components" ? (
           <Components />
         ) : (
