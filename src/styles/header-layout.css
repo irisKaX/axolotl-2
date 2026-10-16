@@ -12,12 +12,15 @@
   --axolotl-header-accent: #7c3aed;
   --axolotl-header-accent-ink: #ffffff;
   --axolotl-header-accent-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 6px 16px -6px rgba(0, 0, 0, .45);
+  --axolotl-header-item-gap: 12px;
+  --axolotl-header-url-width: 260px;
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 570px) minmax(160px, 1fr) auto;
+  /* Leave spare room in navigation for future items, rather than stretching URL. */
+  grid-template-columns: minmax(0, 1fr) minmax(160px, var(--axolotl-header-url-width)) auto;
   align-items: center;
-  gap: 12px;
-  padding: 7px;
+  gap: 20px;
+  padding: 10px;
   min-height: 58px;
   border-radius: var(--axolotl-radius-pill);
   background: var(--pn-surface);
@@ -35,6 +38,15 @@
 }
 .axolotl-header-bar > :is(.axolotl-navigation, .axolotl-lab-navigation):has([aria-expanded="true"]),
 .axolotl-header-bar > :is(.axolotl-navigation, .axolotl-lab-navigation):focus-within { z-index: 30; }
+.axolotl-header-bar .axolotl-pill-nav {
+  --pn-gap: var(--axolotl-header-item-gap) !important;
+  --pn-item-gap: var(--axolotl-header-item-gap);
+}
+/* One pill radius for the visible navigation and control surfaces. */
+.axolotl-header-bar :is(.axolotl-pill-nav__logo, .axolotl-pill-nav__bar, .axolotl-pill-nav__item, .axolotl-pill-nav__toggle, .axolotl-pill-nav__glide),
+.axolotl-header-controls[data-layout="inline"] :is(.axolotl-url-bar, .axolotl-tabs-trigger, .axolotl-header-theme, .axolotl-header-theme-track) {
+  border-radius: var(--axolotl-radius-pill);
+}
 /* Keep the existing PillNav buttons and violet ink on the common material. */
 .axolotl-header-bar .axolotl-pill-nav__logo,
 .axolotl-header-bar .axolotl-pill-nav__bar {
@@ -54,6 +66,7 @@
 .axolotl-header-controls[data-layout="inline"] { display: contents; }
 .axolotl-header-controls[data-layout="inline"] .axolotl-header-control-row {
   min-height: 44px;
+  gap: var(--axolotl-header-item-gap);
   padding: 0;
   background: transparent;
   box-shadow: none;
@@ -87,7 +100,12 @@
   background: var(--axolotl-header-accent-ink);
   box-shadow: 0 -7px 0 -4px #fff, 0 7px 0 -4px #fff, -7px 0 0 -4px #fff, 7px 0 0 -4px #fff, -5px -5px 0 -4px #fff, 5px 5px 0 -4px #fff, -5px 5px 0 -4px #fff, 5px -5px 0 -4px #fff;
 }
-.axolotl-header-controls[data-layout="inline"] .axolotl-url-context { min-width: 0; margin: 0; }
+.axolotl-header-controls[data-layout="inline"] .axolotl-url-context {
+  min-width: 0;
+  max-width: var(--axolotl-header-url-width);
+  justify-self: end;
+  margin: 0;
+}
 .axolotl-header-controls[data-layout="inline"] .axolotl-url-bar {
   height: 36px;
   background: var(--pn-tile);
@@ -110,12 +128,12 @@
 .axolotl-header-controls[data-layout="inline"] .axolotl-header-notifications:has([aria-expanded="true"])::after { top: 100%; height: 14px; }
 .axolotl-header + .axolotl-workspace { padding-top: calc(106px + env(safe-area-inset-top, 0px)); }
 @container axolotl-header (max-width: 1100px) {
-  .axolotl-header-bar { grid-template-columns: 96px minmax(160px, 1fr) auto; }
+  .axolotl-header-bar { grid-template-columns: 104px minmax(160px, 1fr) auto; }
 }
 @container axolotl-header (max-width: 680px) {
   .axolotl-header-bar {
-    grid-template-columns: 96px minmax(0, 1fr);
-    column-gap: 10px;
+    grid-template-columns: 104px minmax(0, 1fr);
+    column-gap: 16px;
     row-gap: 8px;
     border-radius: 28px;
     --axolotl-header-popup-offset: 166px;
