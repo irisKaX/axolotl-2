@@ -1,68 +1,83 @@
 import { describe, expect, it } from "vitest";
-import { sampleOffice } from "./office-activity";
+import { sampleOffice, type OfficeActorId } from "./office-activity";
 
-describe("office activity", () => {
-  it("starts with three seated workers and a working laptop in the lounge", () => {
-    expect(sampleOffice(0).actors.map(({ id, activity, away, routeProgress, destination }) => ({ id, activity, away, routeProgress, destination }))).toEqual([
-      { id: "front", activity: "work", away: false, routeProgress: 0, destination: null },
-      { id: "back", activity: "work", away: false, routeProgress: 0, destination: null },
-      { id: "right", activity: "work", away: false, routeProgress: 0, destination: null },
-      { id: "lounge", activity: "laptop", away: false, routeProgress: 0, destination: null },
+const actorAt = (time: number, id: OfficeActorId = "front") => sampleOffice(time).actors.find((actor) => actor.id === id)!;
+
+describe("stationary office activity", () => {
+  it("starts with three seated workers and an active laptop in the lounge", () => {
+    expect(sampleOffice(0).actors).toEqual([
+      { id: "front", activity: "work", frame: 0, actionProgress: 0, away: false, routeProgress: 0, destination: null },
+      { id: "back", activity: "work", frame: 0, actionProgress: 0, away: false, routeProgress: 0, destination: null },
+      { id: "right", activity: "work", frame: 0, actionProgress: 0, away: false, routeProgress: 0, destination: null },
+      { id: "lounge", activity: "laptop", frame: 0, actionProgress: 0, away: false, routeProgress: 0, destination: null },
     ]);
   });
 
-  it("shows a seated coffee break early and a first walk around sixteen seconds", () => {
-    const earlyActions = Array.from({ length: 9 }, (_, second) => sampleOffice(second * 1000));
-    expect(earlyActions.some(({ actors }) => actors.some((actor) => actor.activity === "sip" && !actor.away))).toBe(true);
-    expect(sampleOffice(16_500).actors.some((actor) => actor.activity === "walk")).toBe(true);
+  it("introduces small seated actions early, including a phone check in the lounge", () => {
+    expect(actorAt(6_000).activity).toBe("sip");
+    expect(actorAt(16_500).activity).toBe("work");
+    expect(actorAt(20_000, "lounge").activity).toBe("phone");
+    expect(actorAt(55_000).activity).toBe("phone");
   });
 
-  it("lets each desk worker visit both destinations while only one worker is away", () => {
-    const visits = new Map<string, Set<string>>();
+  it("keeps all four actors seated through repeated cycles with rare staggered breaks", () => {
+    const activities = new Map<OfficeActorId, Set<string>>();
+    const workingSamples = new Map<OfficeActorId, number>();
+    let samples = 0;
     for (let time = 0; time < 540_000; time += 100) {
+      samples++;
       const { actors } = sampleOffice(time);
-      expect(actors.filter((actor) => actor.away).length).toBeLessThanOrEqual(1);
-      expect(actors.find((actor) => actor.id === "lounge")?.activity).toBe("laptop");
+      expect(actors).toHaveLength(4);
+      expect(actors.filter(({ activity }) => activity === "sip" || activity === "phone").length).toBeLessThanOrEqual(1);
       for (const actor of actors) {
-        expect(actor.routeProgress).toBeGreaterThanOrEqual(0);
-        expect(actor.routeProgress).toBeLessThanOrEqual(1);
+        expect(actor.away).toBe(false);
+        expect(actor.routeProgress).toBe(0);
+        expect(actor.destination).toBeNull();
+        expect(["work", "sip", "phone", "laptop"]).toContain(actor.activity);
+        expect(actor.actionProgress).toBeGreaterThanOrEqual(0);
+        expect(actor.actionProgress).toBeLessThan(1);
         expect(Number.isInteger(actor.frame)).toBe(true);
         expect(actor.frame).toBeGreaterThanOrEqual(0);
         expect(actor.frame).toBeLessThanOrEqual(3);
-        if (actor.away) {
-          expect(actor.destination).not.toBeNull();
-          const destinations = visits.get(actor.id) ?? new Set<string>();
-          destinations.add(actor.destination!);
-          visits.set(actor.id, destinations);
-        } else {
-          expect(actor.routeProgress).toBe(0);
-          expect(actor.destination).toBeNull();
-          expect(["work", "sip", "laptop"]).toContain(actor.activity);
+        const seen = activities.get(actor.id) ?? new Set<string>();
+        seen.add(actor.activity);
+        activities.set(actor.id, seen);
+        if (actor.activity === "work" || actor.activity === "laptop") {
+          expect(actor.actionProgress).toBe(0);
+          // Finger movement belongs to the renderer; do not swap full body poses.
+          expect(actor.frame).toBe(0);
+          workingSamples.set(actor.id, (workingSamples.get(actor.id) ?? 0) + 1);
         }
       }
     }
-    expect([...visits.keys()].sort()).toEqual(["back", "front", "right"]);
-    for (const destinations of visits.values()) expect([...destinations].sort()).toEqual(["coffee", "window"]);
+    for (const [id, seen] of activities) {
+      const expected = id === "lounge" ? ["laptop", "phone"] : ["work", "sip", "phone"];
+      expect([...seen].sort()).toEqual(expected.sort());
+      expect(workingSamples.get(id)! / samples).toBeGreaterThan(0.9);
+    }
   });
 
-  it("keeps walking continuous through arrival, the visit, and return to the desk", () => {
-    const getVisitor = (time: number) => sampleOffice(time).actors.find((actor) => actor.id === "front")!;
-    const samples = Array.from({ length: 241 }, (_, index) => getVisitor(15_000 + index * 100));
-    const away = samples.filter((actor) => actor.away);
-    expect(away[0].routeProgress).toBeLessThan(0.02);
-    expect(away.some((actor) => actor.activity === "coffee" && actor.routeProgress === 1)).toBe(true);
-    expect(away.at(-1)!.routeProgress).toBeLessThan(0.02);
-    expect(samples.at(-1)!.away).toBe(false);
-    for (let index = 1; index < samples.length; index++) {
-      expect(Math.abs(samples[index].routeProgress - samples[index - 1].routeProgress)).toBeLessThan(0.03);
-    }
+  it("exposes continuous progress for raising and returning a cup or phone", () => {
+    const start = actorAt(6_000);
+    expect(start.actionProgress).toBe(0);
+    expect(start.frame).toBe(0);
+    expect(actorAt(8_800).actionProgress).toBeCloseTo(0.5);
+    expect(actorAt(8_800).frame).toBe(2);
+    expect(actorAt(11_599).actionProgress).toBeCloseTo(1, 2);
+    expect(actorAt(11_600)).toMatchObject({ activity: "work", actionProgress: 0, frame: 0 });
+    expect(actorAt(57_100)).toMatchObject({ activity: "phone", actionProgress: 0.5, frame: 2 });
   });
 
   it("samples reproducibly and treats invalid or negative time as the initial scene", () => {
     for (const time of [-1, -Infinity, Infinity, NaN]) expect(sampleOffice(time)).toEqual(sampleOffice(0));
-    const first = sampleOffice(28_100);
+    const first = sampleOffice(55_100);
     sampleOffice(360_000);
-    expect(sampleOffice(28_100)).toEqual(first);
-    expect(sampleOffice(Number.MAX_VALUE).actors).toHaveLength(4);
+    expect(sampleOffice(55_100)).toEqual(first);
+    expect(sampleOffice(270_000)).toEqual(sampleOffice(0));
+    expect(sampleOffice(325_100)).toEqual(first);
+    for (const actor of sampleOffice(Number.MAX_VALUE).actors) {
+      expect(Number.isFinite(actor.actionProgress)).toBe(true);
+      expect(actor.away).toBe(false);
+    }
   });
 });

@@ -1,88 +1,62 @@
 export type OfficeActorId = "front" | "back" | "right" | "lounge";
-export type OfficeActivity = "work" | "sip" | "walk" | "coffee" | "window" | "laptop";
-export type OfficeDestination = "coffee" | "window";
+export type OfficeActivity = "work" | "sip" | "phone" | "laptop";
 
 export interface OfficeActorSnapshot {
   id: OfficeActorId;
   activity: OfficeActivity;
   frame: number;
-  routeProgress: number;
-  destination: OfficeDestination | null;
-  away: boolean;
+  /** Normalized progress through a seated break; zero while working. */
+  actionProgress: number;
+  routeProgress: 0;
+  destination: null;
+  away: false;
 }
 
 export interface OfficeSnapshot {
   actors: OfficeActorSnapshot[];
 }
 
-type DeskActorId = Exclude<OfficeActorId, "lounge">;
-
-interface Visit {
-  actor: DeskActorId;
-  destination: OfficeDestination;
+interface SeatedBreak {
+  actor: OfficeActorId;
+  activity: "sip" | "phone";
   start: number;
-  travel: number;
-  stay: number;
 }
 
 const CYCLE_MS = 270_000;
 const ACTORS: OfficeActorId[] = ["front", "back", "right", "lounge"];
+const BREAK_DURATION = { sip: 5_600, phone: 4_200 } as const;
 
-// One shared itinerary prevents overlapping visitors. Coordinates and facing
-// belong to the renderer, so every layout can use the same activity timeline.
-const VISITS: Visit[] = [
-  { actor: "front", destination: "coffee", start: 16_000, travel: 6_000, stay: 7_000 },
-  { actor: "back", destination: "window", start: 58_000, travel: 7_000, stay: 9_000 },
-  { actor: "right", destination: "coffee", start: 101_000, travel: 6_000, stay: 7_000 },
-  { actor: "front", destination: "window", start: 142_000, travel: 7_000, stay: 9_000 },
-  { actor: "back", destination: "coffee", start: 185_000, travel: 6_000, stay: 7_000 },
-  { actor: "right", destination: "window", start: 224_000, travel: 7_000, stay: 9_000 },
+// Everyone stays at their workstation. Short, staggered breaks leave each
+// character working for over 90% of the cycle, including the laptop sitter.
+const BREAKS: SeatedBreak[] = [
+  { actor: "front", activity: "sip", start: 6_000 },
+  { actor: "lounge", activity: "phone", start: 20_000 },
+  { actor: "back", activity: "sip", start: 36_000 },
+  { actor: "front", activity: "phone", start: 55_000 },
+  { actor: "right", activity: "sip", start: 76_000 },
+  { actor: "back", activity: "phone", start: 123_000 },
+  { actor: "front", activity: "sip", start: 150_000 },
+  { actor: "right", activity: "phone", start: 177_000 },
+  { actor: "lounge", activity: "phone", start: 203_000 },
+  { actor: "back", activity: "sip", start: 229_000 },
+  { actor: "right", activity: "sip", start: 252_000 },
 ];
 
-const SIPS: Record<DeskActorId, { first: number; period: number }> = {
-  front: { first: 6_000, period: 43_000 },
-  back: { first: 18_000, period: 51_000 },
-  right: { first: 31_000, period: 57_000 },
-};
-const SIP_MS = 5_600;
-
-/** A pure sample of active office time; invalid input yields a restful scene. */
+/** A pure sample of active office time; invalid input yields the initial scene. */
 export function sampleOffice(elapsedMs: number): OfficeSnapshot {
   const time = Number.isFinite(elapsedMs) ? Math.max(0, elapsedMs) % CYCLE_MS : 0;
-  const visit = VISITS.find(({ start, travel, stay }) => time >= start && time < start + travel * 2 + stay);
+  const seatedBreak = BREAKS.find(({ start, activity }) => time >= start && time < start + BREAK_DURATION[activity]);
 
   return {
-    actors: ACTORS.map((id, index): OfficeActorSnapshot => {
-      if (visit?.actor === id) {
-        const age = time - visit.start;
-        const arriving = age < visit.travel;
-        const returning = age >= visit.travel + visit.stay;
-        const walking = arriving || returning;
-        const routeProgress = arriving
-          ? age / visit.travel
-          : returning
-            ? 1 - (age - visit.travel - visit.stay) / visit.travel
-            : 1;
-        return {
-          id,
-          activity: walking ? "walk" : visit.destination,
-          // Four walk poses; during a coffee visit use low/high/high/low.
-          frame: walking ? Math.floor(age / 200) % 4 : Math.floor((age - visit.travel) / (visit.stay / 4)),
-          routeProgress,
-          destination: visit.destination,
-          away: true,
-        };
-      }
-
-      const sip = id === "lounge" ? null : SIPS[id];
-      const sipAge = sip && time >= sip.first ? (time - sip.first) % sip.period : SIP_MS;
-      const sipping = sipAge < SIP_MS;
+    actors: ACTORS.map((id): OfficeActorSnapshot => {
+      const activeBreak = seatedBreak?.actor === id ? seatedBreak : null;
+      const actionProgress = activeBreak ? (time - activeBreak.start) / BREAK_DURATION[activeBreak.activity] : 0;
       return {
         id,
-        activity: id === "lounge" ? "laptop" : sipping ? "sip" : "work",
-        // Sip frames 0/3 are cup lowered; 1/2 are raised. Working actors have
-        // independent phases, avoiding a synchronized office-wide pose change.
-        frame: sipping ? Math.floor(sipAge / (SIP_MS / 4)) : Math.floor((time + index * 380) / (id === "lounge" ? 1_100 : 720)) % 4,
+        activity: activeBreak?.activity ?? (id === "lounge" ? "laptop" : "work"),
+        // The renderer animates hands independently; the body keeps one pose.
+        frame: activeBreak ? Math.floor(actionProgress * 4) : 0,
+        actionProgress,
         routeProgress: 0,
         destination: null,
         away: false,
