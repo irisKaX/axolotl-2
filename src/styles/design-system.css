@@ -693,3 +693,25 @@
     padding: 20px;
   }
 }
+
+
+/* Design system: isolated Star Border button specimen */
+.axolotl-button-gallery { display: grid; gap: 20px; }
+.axolotl-star-demo { min-width: 0; }
+.axolotl-star-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.axolotl-star-heading h2 { margin: 8px 0 0; font-size: calc(22px * var(--axolotl-text-scale)); font-weight: 600; }
+.axolotl-star-heading p { margin: 8px 0 0; color: var(--axolotl-text-secondary); font-size: 13px; }
+.axolotl-star-heading a { color: var(--axolotl-text-secondary); white-space: nowrap; text-decoration: underline; text-underline-offset: 4px; }
+.axolotl-star-stage { display: flex; min-height: 220px; flex-direction: column; align-items: center; justify-content: center; gap: 15px; margin: 24px 0; border: 1px solid var(--axolotl-border-subtle); border-radius: 20px; background: var(--axolotl-surface-raised); }
+.axolotl-star-border { --star-color: #6699ff; --star-duration: 3s; isolation: isolate; position: relative; display: inline-flex; padding: 2px; overflow: hidden; border: 0; border-radius: 999px; color: var(--axolotl-text-primary); background: transparent; cursor: pointer; font: inherit; font-weight: 600; transition: transform .2s ease; }
+.axolotl-star-border::before { content: ""; position: absolute; z-index: -1; inset: -110px; background: conic-gradient(from 0deg, transparent 0deg, transparent 295deg, var(--star-color) 340deg, #fff 350deg, transparent 360deg); animation: axolotl-star-orbit var(--star-duration) linear infinite; }
+.axolotl-star-border > span { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 14px 25px; border-radius: inherit; background: var(--axolotl-surface-card); box-shadow: inset 0 0 18px color-mix(in srgb, var(--star-color) 9%, transparent); }
+.axolotl-star-border:hover { transform: translateY(-2px); }
+.axolotl-star-border:focus-visible { outline: 3px solid var(--star-color); outline-offset: 5px; }
+.axolotl-star-controls { display: flex; flex-wrap: wrap; gap: 30px; }
+.axolotl-star-controls .axolotl-field { min-width: 180px; }
+.axolotl-star-controls input[type="color"] { width: 58px; height: 36px; padding: 3px; border: 1px solid var(--axolotl-border-subtle); border-radius: 10px; background: var(--axolotl-surface-raised); cursor: pointer; }
+.axolotl-star-controls input[type="range"] { width: min(260px, 65vw); accent-color: var(--star-color, #6699ff); }
+@keyframes axolotl-star-orbit { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .axolotl-star-border::before { animation: none; } .axolotl-star-border { transition: none; } }
+@media (max-width: 700px) { .axolotl-star-heading { flex-direction: column; } .axolotl-star-stage { min-height: 180px; } }
