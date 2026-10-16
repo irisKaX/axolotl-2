@@ -13,7 +13,7 @@
   --axolotl-header-accent-ink: #ffffff;
   --axolotl-header-accent-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 6px 16px -6px rgba(0, 0, 0, .45);
   --axolotl-header-item-gap: 12px;
-  --axolotl-header-url-width: 260px;
+  --axolotl-header-url-width: 300px;
   position: relative;
   display: grid;
   /* Leave spare room in navigation for future items, rather than stretching URL. */
@@ -73,7 +73,12 @@
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
-.axolotl-header-controls[data-layout="inline"] .axolotl-header-clock { flex: none; width: 122px; padding-inline: 10px; }
+.axolotl-header-controls[data-layout="inline"] .axolotl-header-clock {
+  flex: none;
+  width: 122px;
+  padding-inline: 10px 0;
+  text-align: right;
+}
 .axolotl-header-controls[data-layout="inline"] :is(.axolotl-header-icon-button, .axolotl-settings-trigger) {
   height: 36px;
   border-radius: var(--axolotl-radius-pill);
