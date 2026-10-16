@@ -11,8 +11,6 @@ test("desktop categories, active tool, keyboard focus and both themes", async ({
   const nav = page.getByRole("navigation", { name: "Hlavní navigace" });
   await expect(nav.getByRole("button", { name: "Můj workspace" })).toBeVisible();
   await expect(nav.getByRole("link", { name: "Dashboard", exact: true })).toHaveAttribute("aria-current", "page");
-  await expect(page.locator("#axolotl-office-slot").getByRole("region", { name: "Axolotlí office" })).toBeVisible();
-  await expect(page.locator(".living-office")).toHaveAttribute("data-ready", "true");
   await noOverflow(page);
   expect(await page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight)).toBe(true);
   const left = await nav.boundingBox();

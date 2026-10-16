@@ -41,9 +41,7 @@ export function HeaderWorkbench({ connectedOnly = false }: { connectedOnly?: boo
     <div className="axolotl-lab-stage" ref={stage}>
       <div className="axolotl-lab-scaled-space" style={{ width: width * scale, height: height * scale }}>
         <div className="axolotl-lab-viewport" data-preview-width={width} style={{ width, height, transform: `scale(${scale})` }}>
-          <HeaderPreview store={preferences} instance="full" theme={theme} variant={variant} full>
-            <span className="axolotl-lab-office-note">Prostor pro živý office</span>
-          </HeaderPreview>
+          <HeaderPreview store={preferences} instance="full" theme={theme} variant={variant} full />
         </div>
       </div>
     </div>

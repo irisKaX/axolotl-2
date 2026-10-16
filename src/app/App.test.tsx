@@ -7,24 +7,6 @@ import { PageContextProvider } from "./PageContextProvider";
 import { createPageStore } from "../lib/browser-bridge";
 import { system } from "../test/setup";
 
-const officeLifecycle = vi.hoisted(() => ({ mount: vi.fn(), unmount: vi.fn() }));
-vi.mock("../components/office/LivingOffice", async () => {
-  const { useEffect } = await import("react");
-  return {
-    LivingOffice() {
-      useEffect(() => {
-        officeLifecycle.mount();
-        return () => officeLifecycle.unmount();
-      }, []);
-      return (
-        <section aria-label="Axolotlí office">
-          <button>Pozastavit office</button>
-        </section>
-      );
-    },
-  };
-});
-
 function mount() {
   const page = createPageStore();
   return {
@@ -40,8 +22,6 @@ function mount() {
 }
 describe("migrated application", () => {
   beforeEach(() => {
-    officeLifecycle.mount.mockClear();
-    officeLifecycle.unmount.mockClear();
     // jsdom has no layout; browser tests cover actual responsive measurements.
     vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(680);
   });
@@ -55,34 +35,12 @@ describe("migrated application", () => {
     expect(screen.getByRole("link", { name: "Metadata" })).toHaveAttribute("aria-current", "page");
     await user.click(screen.getByRole("link", { name: /^Dashboard$/ }));
     await screen.findByRole("main", { name: "Dashboard" });
-    await screen.findByRole("region", { name: "Axolotlí office" });
     expect(screen.getByRole("link", { name: /^Dashboard$/ })).toHaveAttribute("aria-current", "page");
     expect(screen.getByRole("button", { name: "Kontrola" })).not.toHaveAttribute("aria-current");
   });
-  it("mounts the office only on the dashboard and disposes it when leaving", async () => {
-    location.hash = "#media/qr";
+  it("opens root menus by mouse without activating items", async () => {
     const user = userEvent.setup();
     mount();
-    expect(screen.queryByRole("region", { name: "Axolotlí office" })).not.toBeInTheDocument();
-    expect(officeLifecycle.mount).not.toHaveBeenCalled();
-
-    await user.click(screen.getByRole("link", { name: /^Dashboard$/ }));
-    const office = await screen.findByRole("region", { name: "Axolotlí office" });
-    expect(document.getElementById("axolotl-office-slot")).toContainElement(office);
-    // The decorative scene's pause control must remain in the accessibility tree.
-    expect(within(office).getByRole("button", { name: "Pozastavit office" })).toBeVisible();
-    expect(officeLifecycle.mount).toHaveBeenCalledTimes(1);
-
-    await user.click(screen.getByRole("button", { name: "Média" }));
-    await user.click(screen.getByRole("link", { name: /^QR$/ }));
-    await screen.findByRole("main", { name: "QR" });
-    expect(document.getElementById("axolotl-office-slot")).not.toBeInTheDocument();
-    expect(officeLifecycle.unmount).toHaveBeenCalledTimes(1);
-  });
-  it("keeps the office visible and opens root menus by mouse without activating items", async () => {
-    const user = userEvent.setup();
-    mount();
-    await screen.findByRole("region", { name: "Axolotlí office" });
     const media = screen.getByRole("button", { name: "Média" });
     // jsdom does not supply PointerEvent properties by default.
     const enter = new MouseEvent("pointerover", { bubbles: true });

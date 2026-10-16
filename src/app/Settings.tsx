@@ -214,7 +214,7 @@ function About({ close }: { close: () => void }) {
       <p className="axolotl-about-version">Verze 2.0 · Ve vývoji</p>
       <p className="axolotl-setting-note">
         Pracovní prostor s deseti nástroji pro média a kontrolu webu.
-        Osobní workspace a živý office zatím připravujeme.
+        Osobní workspace zatím připravujeme.
       </p>
       <a
         className="axolotl-setting-action axolotl-design-link"

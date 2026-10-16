@@ -1,16 +1,10 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "./Header";
 import { CursorEffects } from "./CursorEffects";
 import { currentRoute, routeLabels } from "./routes";
 import { DesignSystem } from "../pages/DesignSystem";
 import { ToolWorkspace } from "../tools/ToolWorkspace";
 import { toolRoutes } from "../tools/registry";
-
-const LivingOffice = lazy(() =>
-  import("../components/office/LivingOffice").then((module) => ({
-    default: module.LivingOffice,
-  })),
-);
 
 export function App() {
   const [route, setRoute] = useState(currentRoute);
@@ -53,21 +47,6 @@ export function App() {
             data-axolotl-route={route}
             aria-label={routeLabels[route]}
           >
-            {route === "dashboard" && (
-              <div
-                className="axolotl-office-slot"
-                id="axolotl-office-slot"
-                data-axolotl-slot="office"
-              >
-                <Suspense
-                  fallback={
-                    <div className="axolotl-office-placeholder" aria-hidden="true" />
-                  }
-                >
-                  <LivingOffice />
-                </Suspense>
-              </div>
-            )}
           </section>
         ) : null}
       </main>

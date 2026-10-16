@@ -43,7 +43,6 @@
 .axolotl-lab-navigation { position: relative; width: min(100%, 680px); min-width: 0; padding-top: 7px; }
 .axolotl-lab-navigation:has(.axolotl-pill-nav[data-open]), .axolotl-lab-navigation:has([aria-expanded="true"]), .axolotl-lab-navigation:focus-within { z-index: 30; }
 .axolotl-lab-navigation .axolotl-pill-nav { --pn-mark: 26px !important; --pn-font: calc(14px * var(--axolotl-text-scale)) !important; }
-.axolotl-lab-office-note { position: absolute; bottom: 28px; left: 0; right: 0; text-align: center; color: var(--pn-text); font-size: 11px; letter-spacing: .08em; opacity: .5; }
 .axolotl-header-preview .axolotl-glow-cursor.axolotl-cursor-layer { position: absolute; inset: 0; z-index: 0; overflow: hidden; border-radius: inherit; }
 .axolotl-header-preview .axolotl-lab-header-composition, .axolotl-header-preview .axolotl-lab-theme-caption { z-index: 1; position: relative; }
 .axolotl-workspace:has(.axolotl-header-lab) + .axolotl-cursor-layer { display: none; }
