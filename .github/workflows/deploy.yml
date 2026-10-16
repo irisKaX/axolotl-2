@@ -23,8 +23,7 @@ jobs:
       - run: npm run test:legacy
       - run: npm run test:tools
       - run: npm run build
-      # Branch-based Pages still publishes the root. Both deployment paths must match.
-      - run: npm run publish:check
+      # GitHub Pages deploys the freshly built dist artifact below.
       - name: Check navigation in a real browser
         run: |
           if command -v google-chrome >/dev/null 2>&1; then
