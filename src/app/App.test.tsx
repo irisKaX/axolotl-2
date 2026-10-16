@@ -93,6 +93,32 @@ describe("migrated application", () => {
       "false",
     );
   });
+  it("opens notifications in the shared header menu flow and restores focus", async () => {
+    const user = userEvent.setup();
+    mount();
+    const notifications = screen.getByRole("button", { name: "Upozornění" });
+    expect(notifications).toBeEnabled();
+    await user.click(notifications);
+    expect(screen.getByText("Zatím žádná upozornění")).toBeVisible();
+    await user.keyboard("{Escape}");
+    expect(notifications).toHaveFocus();
+    expect(notifications).toHaveAttribute("aria-expanded", "false");
+    await user.click(notifications);
+    await user.click(screen.getByRole("button", { name: "Média" }));
+    expect(notifications).toHaveAttribute("aria-expanded", "false");
+    await user.click(screen.getByRole("button", { name: "Nastavení" }));
+    expect(screen.getByRole("button", { name: "Média" })).toHaveAttribute("aria-expanded", "false");
+    expect(screen.getByRole("button", { name: "Vzhled a prostředí" })).toBeVisible();
+  });
+  it("follows the inline header order from URL to tab picker and notifications", async () => {
+    const user = userEvent.setup();
+    mount();
+    await user.click(screen.getByRole("textbox", { name: "Aktuální URL" }));
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Vybrat kartu prohlížeče" })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole("button", { name: "Upozornění" })).toHaveFocus();
+  });
   it("clicking the cursor setting label disables the effect and persists after remount", async () => {
     system("(any-pointer: fine)", true);
     vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);

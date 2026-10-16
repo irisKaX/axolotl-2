@@ -3,7 +3,7 @@ import { Icon } from "../components/Icon";
 import { usePageContext } from "./PageContextProvider";
 import { useDisclosure } from "./useDisclosure";
 import type { DisclosureProps } from "./Header";
-export function UrlPicker({ openId, setOpenId }: DisclosureProps) {
+export function UrlPicker({ openId, setOpenId, idPrefix = "axolotl" }: DisclosureProps & { idPrefix?: string }) {
   const { context, connection, tabs, store } = usePageContext();
   const menu = useDisclosure("tabs", openId, setOpenId);
   const [draft, setDraft] = useState(context.url),
@@ -55,20 +55,20 @@ export function UrlPicker({ openId, setOpenId }: DisclosureProps) {
     <div className="axolotl-url-context" aria-label="Aktuální URL">
       <form
         className="axolotl-url-bar"
-        id="axolotl-url-form"
+        id={`${idPrefix}-url-form`}
         onSubmit={(e) => {
           e.preventDefault();
           if (commit()) input.current?.blur();
         }}
       >
-        <label htmlFor="axolotl-current-url" className="axolotl-url-label">
+        <label htmlFor={`${idPrefix}-current-url`} className="axolotl-url-label">
           <Icon name="link" />
           <span className="axolotl-visually-hidden">Aktuální URL</span>
         </label>
         <input
           ref={input}
           className="axolotl-url-input"
-          id="axolotl-current-url"
+          id={`${idPrefix}-current-url`}
           type="text"
           inputMode="url"
           spellCheck={false}
@@ -102,27 +102,27 @@ export function UrlPicker({ openId, setOpenId }: DisclosureProps) {
             }
           }}
         />
-        <div id="axolotl-tabs-control" ref={menu.root} {...menu.rootProps}>
+        <div id={`${idPrefix}-tabs-control`} ref={menu.root} {...menu.rootProps}>
           <button
             type="button"
             className="axolotl-tabs-trigger"
             aria-label="Vybrat kartu prohlížeče"
             ref={menu.trigger}
             {...menu.triggerProps}
-            aria-controls="axolotl-tabs-panel"
+            aria-controls={`${idPrefix}-tabs-panel`}
           >
             <Icon name="tabs" />
             <Icon name="chevron" className="axolotl-nav-chevron" />
           </button>
           <section
             className="axolotl-tabs-panel"
-            id="axolotl-tabs-panel"
+            id={`${idPrefix}-tabs-panel`}
             hidden={!menu.open}
             data-axolotl-panel
-            aria-labelledby="axolotl-tabs-heading"
+            aria-labelledby={`${idPrefix}-tabs-heading`}
           >
             <div className="axolotl-tabs-surface">
-              <h2 className="axolotl-tabs-heading" id="axolotl-tabs-heading">
+              <h2 className="axolotl-tabs-heading" id={`${idPrefix}-tabs-heading`}>
                 Otevřené karty
               </h2>
               <p className="axolotl-tabs-status" role="status">

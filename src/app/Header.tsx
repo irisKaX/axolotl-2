@@ -1,51 +1,14 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { Icon } from "../components/Icon";
 import { BrandMark } from "../components/BrandLogo";
-import PillNav, { type PillNavLinkProps } from "../components/navigation/PillNav";
+import PillNav, { pillNavThemes, type PillNavLinkProps } from "../components/navigation/PillNav";
 import { groups } from "./routes";
 import { usePreferences } from "./PreferencesProvider";
 import { useDisclosure } from "./useDisclosure";
-import { Settings } from "./Settings";
-import { UrlPicker } from "./UrlPicker";
+import { HeaderControls } from "./HeaderControls";
 export interface DisclosureProps {
   openId: string | null;
   setOpenId: (id: string | null) => void;
-}
-const timeFormat = new Intl.DateTimeFormat("cs-CZ", {
-  timeZone: "Europe/Prague",
-  hour: "2-digit",
-  minute: "2-digit",
-  hourCycle: "h23",
-});
-const dateFormat = new Intl.DateTimeFormat("cs-CZ", {
-  timeZone: "Europe/Prague",
-  weekday: "long",
-  day: "numeric",
-  month: "numeric",
-  year: "numeric",
-});
-function Clock() {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const update = () => setNow(new Date());
-    const id = setInterval(update, 1000);
-    document.addEventListener("visibilitychange", update);
-    return () => {
-      clearInterval(id);
-      document.removeEventListener("visibilitychange", update);
-    };
-  }, []);
-  return (
-    <time
-      className="axolotl-clock"
-      dateTime={now.toISOString()}
-      title="Čas a datum v Praze"
-      aria-live="off"
-    >
-      <span className="axolotl-clock-time">{timeFormat.format(now)}</span>
-      <span className="axolotl-clock-date">{dateFormat.format(now)}</span>
-    </time>
-  );
 }
 function NavGroup({
   group,
@@ -137,6 +100,7 @@ export function Header({ route }: { route: string }) {
         </defs>
       </svg>
       <header className="axolotl-header" aria-label="Ovládání Axolotlu">
+        <div className="axolotl-header-bar" style={pillNavThemes[preferences.resolvedTheme] as CSSProperties}>
         <div className="axolotl-navigation">
           <PillNav
             logo={<BrandMark />}
@@ -170,42 +134,8 @@ export function Header({ route }: { route: string }) {
             }}
           />
         </div>
-        <div className="axolotl-controls">
-          <Clock />
-          <button
-            className="axolotl-notifications-trigger"
-            aria-label="Upozornění"
-            title="Upozornění"
-            disabled
-          >
-            <Icon name="bell" className="axolotl-settings-icon" />
-          </button>
-          <Settings openId={openId} setOpenId={setOpenId} />
-          <label
-            className="axolotl-theme-control"
-            title={
-              preferences.resolvedTheme === "dark"
-                ? "Přepnout na světlý režim"
-                : "Přepnout na tmavý režim"
-            }
-          >
-            <input
-              className="axolotl-theme-input"
-              id="axolotl-theme-toggle"
-              type="checkbox"
-              aria-label="Tmavý režim"
-              checked={preferences.resolvedTheme === "dark"}
-              onChange={(e) =>
-                preferences.setPreference(
-                  "theme",
-                  e.target.checked ? "dark" : "light",
-                )
-              }
-            />
-            <span className="axolotl-theme-track" aria-hidden="true" />
-          </label>
+        <HeaderControls layout="inline" openId={openId} setOpenId={setOpenId} />
         </div>
-        <UrlPicker openId={openId} setOpenId={setOpenId} />
       </header>
     </>
   );

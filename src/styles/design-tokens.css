@@ -1,4 +1,5 @@
-:root {
+:root,
+.axolotl-header-preview[data-header-theme="dark"] {
   --axolotl-surface-card: #242529;
   --axolotl-surface-raised: #303136;
   --axolotl-text-primary: #fff;
@@ -20,7 +21,8 @@
   --axolotl-radius-pill: 999px;
   --axolotl-motion-duration: 180ms;
 }
-:root[data-theme="light"] {
+:root[data-theme="light"],
+.axolotl-header-preview[data-header-theme="light"] {
   --axolotl-surface-card: #fff;
   --axolotl-surface-raised: #f4f4f5;
   --axolotl-text-primary: #17181b;

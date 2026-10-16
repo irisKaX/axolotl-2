@@ -77,7 +77,7 @@ interface Engine {
   refresh: () => void;
 }
 
-const THEMES: Record<string, Record<string, string>> = {
+export const pillNavThemes: Record<string, Record<string, string>> = {
   dark: {
     '--pn-surface': 'rgba(38, 35, 46, 0.66)',
     '--pn-solid': '#26232e',
@@ -280,7 +280,7 @@ const PillNav = ({
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
 
-  const palette = THEMES[theme] ?? THEMES.dark;
+  const palette = pillNavThemes[theme] ?? pillNavThemes.dark;
   const vars: Record<string, string> = { ...palette, ...(SIZES[size] ?? SIZES.md) };
   if (surface === 'glass') vars['--pn-blur'] = 'blur(20px) saturate(1.6)';
   if (surface === 'solid') {
@@ -692,9 +692,13 @@ const PillNav = ({
     const width = panel.offsetWidth;
     const height = panel.offsetHeight;
     const header = joined ? root.offsetHeight : (toggleRef.current?.offsetHeight ?? 44);
+    // A compact navigation can open a panel wider than its own bar.
+    const triggerLeft = Math.max(0, Math.min(width - header,
+      (toggleRef.current?.offsetLeft ?? width - header) - panel.offsetLeft));
+    const triggerRight = Math.max(0, width - triggerLeft - header);
     const start = joined
       ? `inset(0px 0px ${Math.max(0, height - header)}px 0px round ${header / 2}px)`
-      : `inset(0px 0px ${Math.max(0, height - header)}px ${Math.max(0, width - header)}px round ${header / 2}px)`;
+      : `inset(0px ${triggerRight}px ${Math.max(0, height - header)}px ${triggerLeft}px round ${header / 2}px)`;
     const end = 'inset(0px 0px 0px 0px round 24px)';
     const rows = panel.querySelectorAll('li');
     const running: Animation[] = [];

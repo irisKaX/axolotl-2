@@ -7,13 +7,13 @@ export interface Preferences {
   resolvedTheme: "dark" | "light";
   reducedMotion: boolean;
 }
-const keys = {
+const defaultKeys = {
   theme: "axolotl-2-theme",
   motion: "axolotl-2-motion",
   textSize: "axolotl-2-text-size",
   cursor: "axolotl-2-cursor-effects",
 } as const;
-type Key = keyof typeof keys;
+type Key = keyof typeof defaultKeys;
 const valid = (key: string, value: unknown): key is Key =>
   key === "theme"
     ? ["dark", "light", "system"].includes(String(value))
@@ -22,7 +22,13 @@ const valid = (key: string, value: unknown): key is Key =>
       : key === "textSize"
         ? ["standard", "large"].includes(String(value))
         : key === "cursor" && typeof value === "boolean";
-export function createPreferencesStore() {
+export function createPreferencesStore(options: {
+  storagePrefix?: string;
+  initialTheme?: "dark" | "light";
+} = {}) {
+  const keys: Record<Key, string> = options.storagePrefix
+    ? Object.fromEntries(Object.keys(defaultKeys).map(key => [key, `${options.storagePrefix}-${key}`])) as Record<Key, string>
+    : defaultKeys;
   const dark = matchMedia("(prefers-color-scheme: dark)");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const listeners = new Set<() => void>();
@@ -43,7 +49,7 @@ export function createPreferencesStore() {
   });
   function read() {
     const values = {
-      theme: "dark",
+      theme: options.initialTheme ?? "dark",
       motion: "system",
       textSize: "standard",
       cursor: !reduced.matches,

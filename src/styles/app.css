@@ -11,6 +11,7 @@
 @import "./design-system.css";
 @import "./tools.css";
 @import "./pill-navigation.css";
+@import "./header-layout.css";
 body {
   background: transparent;
 }

@@ -3,6 +3,7 @@
 'use client';
 
 import { useEffect, useRef, type CSSProperties, type HTMLAttributes, type ReactNode } from 'react';
+import { localPointerPosition } from './pointer-position';
 
 import './GlowCursor.css';
 
@@ -951,10 +952,8 @@ const GlowCursor = ({
     const onPointerMove = (event: PointerEvent) => {
       if (event.pointerType !== 'mouse' || !settingsRef.current.enabled || document.hidden) return;
       const rect = container.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      const inside = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
-      if (!inside) {
+      const position = localPointerPosition(rect, state.width, state.height, event.clientX, event.clientY);
+      if (!position) {
         if (state.pointer.inside) {
           state.pointer.inside = false;
           state.ready = false;
@@ -962,6 +961,7 @@ const GlowCursor = ({
         }
         return;
       }
+      const { x, y } = position;
       if (!state.ready) {
         state.emitter.x = x;
         state.emitter.y = y;
@@ -981,10 +981,9 @@ const GlowCursor = ({
       const s = settingsRef.current;
       if (!s.clickBurst || !s.enabled || event.pointerType !== 'mouse' || event.button !== 0 || document.hidden) return;
       const rect = container.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
-      state.bursts.push([x, y]);
+      const position = localPointerPosition(rect, state.width, state.height, event.clientX, event.clientY);
+      if (!position) return;
+      state.bursts.push([position.x, position.y]);
       wake();
     };
 

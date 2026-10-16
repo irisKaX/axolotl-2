@@ -51,7 +51,7 @@ function Choice({
     </div>
   );
 }
-function Appearance() {
+function Appearance({ idPrefix }: { idPrefix: string }) {
   const prefs = usePreferences();
   const [saveNote, setSaveNote] = useState(
     "Změny se ukládají automaticky do tohoto prohlížeče.",
@@ -67,7 +67,7 @@ function Appearance() {
   return (
     <>
       <Choice
-        id="axolotl-theme-choice"
+        id={`${idPrefix}-theme-choice`}
         label="Barevný režim"
         value={prefs.theme}
         onChange={(value) => set("theme", value)}
@@ -77,7 +77,7 @@ function Appearance() {
         <option value="system">Podle systému</option>
       </Choice>
       <Choice
-        id="axolotl-text-choice"
+        id={`${idPrefix}-text-choice`}
         label="Velikost textu"
         value={prefs.textSize}
         onChange={(value) => set("textSize", value)}
@@ -87,7 +87,7 @@ function Appearance() {
         <option value="large">Větší (115 %)</option>
       </Choice>
       <Choice
-        id="axolotl-motion-choice"
+        id={`${idPrefix}-motion-choice`}
         label="Animace"
         value={prefs.motion}
         onChange={(value) => set("motion", value)}
@@ -97,7 +97,7 @@ function Appearance() {
         <option value="full">Zapnuté</option>
         <option value="reduced">Omezené</option>
       </Choice>
-      <label className="axolotl-cursor-option" htmlFor="axolotl-cursor-toggle">
+      <label className="axolotl-cursor-option" htmlFor={`${idPrefix}-cursor-toggle`}>
         <span className="axolotl-cursor-option-text">
           <span>Efekt kurzoru</span>
           <span className="axolotl-cursor-status">
@@ -111,11 +111,11 @@ function Appearance() {
         <span className="axolotl-cursor-switch">
           <input
             className="axolotl-cursor-input"
-            id="axolotl-cursor-toggle"
+            id={`${idPrefix}-cursor-toggle`}
             type="checkbox"
             role="switch"
             aria-label="Efekt kurzoru"
-            aria-describedby="axolotl-cursor-description"
+            aria-describedby={`${idPrefix}-cursor-description`}
             checked={prefs.cursor}
             disabled={prefs.reducedMotion}
             onChange={(e) => set("cursor", e.target.checked)}
@@ -123,7 +123,7 @@ function Appearance() {
           <span className="axolotl-cursor-switch-track" aria-hidden="true" />
         </span>
       </label>
-      <p className="axolotl-cursor-description" id="axolotl-cursor-description">
+      <p className="axolotl-cursor-description" id={`${idPrefix}-cursor-description`}>
         {prefs.reducedMotion
           ? "Efekt kurzoru je pozastavený při omezených animacích."
           : prefs.resolvedTheme === "dark"
@@ -279,7 +279,7 @@ function About({ close }: { close: () => void }) {
     </>
   );
 }
-export function Settings({ openId, setOpenId }: DisclosureProps) {
+export function Settings({ openId, setOpenId, idPrefix = "axolotl" }: DisclosureProps & { idPrefix?: string }) {
   const menu = useDisclosure("settings", openId, setOpenId);
   const [view, setView] = useState<View>("home");
   const previous = useRef<HTMLElement | null>(null),
@@ -304,13 +304,13 @@ export function Settings({ openId, setOpenId }: DisclosureProps) {
         {...menu.triggerProps}
         aria-label="Nastavení"
         title="Nastavení"
-        aria-controls="axolotl-settings-panel"
+        aria-controls={`${idPrefix}-settings-panel`}
       >
         <Icon name="settings" className="axolotl-settings-icon" />
       </button>
       <section
         className="axolotl-settings-panel"
-        id="axolotl-settings-panel"
+        id={`${idPrefix}-settings-panel`}
         data-axolotl-panel
         hidden={!menu.open}
         aria-label="Nastavení"
@@ -323,7 +323,7 @@ export function Settings({ openId, setOpenId }: DisclosureProps) {
                 <li key={entry.label}>
                   <button
                     className="axolotl-settings-item"
-                    id={entry.view ? `axolotl-${entry.view}-open` : undefined}
+                    id={entry.view ? `${idPrefix}-${entry.view}-open` : undefined}
                     disabled={!entry.view}
                     onClick={(e) => {
                       if (entry.view) {
@@ -368,7 +368,7 @@ export function Settings({ openId, setOpenId }: DisclosureProps) {
               </h2>
             </div>
             {view === "appearance" ? (
-              <Appearance />
+              <Appearance idPrefix={idPrefix} />
             ) : view === "integrations" ? (
               <Integrations />
             ) : (

@@ -1,10 +1,11 @@
-import { useId, useState } from "react";
+import { useId, useState, lazy, Suspense } from "react";
 import { ToolCard, type CardSize } from "../components/ToolCard";
 import { Icon } from "../components/Icon";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Dialog } from "../components/ui/Dialog";
 import { usePreferences } from "../app/PreferencesProvider";
+const HeaderLab = lazy(() => import("./header-lab/HeaderLab"));
 const title = "Axolotl — tvůj prostor pro web";
 const description =
   "Webové nástroje, poznámky a přehled o stránce. Všechno, co potřebuješ, v jednom pracovním prostoru.";
@@ -385,9 +386,10 @@ const tabs = [
   ["qr", "QR kód"],
   ["quick", "Rychlé akce"],
   ["components", "Komponenty"],
+  ["headers", "Hlavička · A/B"],
 ] as const;
 export function DesignSystem() {
-  const [tab, setTab] = useState<string>("metadata");
+  const [tab, setTab] = useState<string>(new URLSearchParams(location.search).get("catalog") === "headers" ? "headers" : "metadata");
   const { resolvedTheme, setPreference } = usePreferences();
   return (
     <section
@@ -404,7 +406,7 @@ export function DesignSystem() {
           </p>
         </div>
         <div className="axolotl-design-tools">
-          <Badge>Ukázková data</Badge>
+          <Badge>{tab === "headers" ? "Živé ovládání" : "Ukázková data"}</Badge>
           <Button
             size="small"
             onClick={() =>
@@ -467,7 +469,9 @@ export function DesignSystem() {
         tabIndex={0}
         className="axolotl-design-panel"
       >
-        {tab === "components" ? (
+        {tab === "headers" ? (
+          <Suspense fallback={<p role="status">Načítám varianty hlavičky…</p>}><HeaderLab /></Suspense>
+        ) : tab === "components" ? (
           <Components />
         ) : (
           <>

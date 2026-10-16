@@ -27,14 +27,18 @@ const Context = createContext<PreferencesStore | null>(null);
 export function PreferencesProvider({
   children,
   store,
+  scoped = false,
 }: {
   children: ReactNode;
   store?: PreferencesStore;
+  /** Catalog instances share components without changing page-wide preferences. */
+  scoped?: boolean;
 }) {
   const [value] = useState(() => store ?? createPreferencesStore());
   const snapshot = useSyncExternalStore(value.subscribe, value.getSnapshot);
   useLayoutEffect(() => value.start(), [value]);
   useLayoutEffect(() => {
+    if (scoped) return;
     applyPreferences(snapshot);
     window.axolotlPreferences = {
       get: value.getSnapshot,
@@ -43,7 +47,7 @@ export function PreferencesProvider({
     document.dispatchEvent(
       new CustomEvent("axolotl:preferences-change", { detail: snapshot }),
     );
-  }, [snapshot, value]);
+  }, [snapshot, value, scoped]);
   return <Context.Provider value={value}>{children}</Context.Provider>;
 }
 export function usePreferences() {

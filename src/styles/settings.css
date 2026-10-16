@@ -1,7 +1,9 @@
-:root {
+:root,
+.axolotl-header-preview {
   --axolotl-text-scale: 1;
 }
-:root[data-text-size="large"] {
+:root[data-text-size="large"],
+.axolotl-header-preview[data-text-size="large"] {
   --axolotl-text-scale: 1.15;
 }
 .axolotl-controls {

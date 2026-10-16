@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   base: "/axolotl-2/",
   plugins: [react(), tailwindcss()],
-  build: { rollupOptions: { input: "app.html" } },
+  build: { manifest: true, rollupOptions: { input: "app.html" } },
   test: {
     environment: "jsdom",
     setupFiles: ["./src/test/setup.ts"],

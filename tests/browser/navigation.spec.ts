@@ -15,7 +15,14 @@ test("desktop categories, active tool, keyboard focus and both themes", async ({
   await noOverflow(page);
   expect(await page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight)).toBe(true);
   const left = await nav.boundingBox();
-  const right = await page.locator(".axolotl-controls").boundingBox();
+  const right = await page.locator("header .axolotl-header-control-row").boundingBox();
+  const url = await page.locator("header .axolotl-url-bar").boundingBox();
+  const bar = await page.locator("header .axolotl-header-bar").boundingBox();
+  expect(bar!.height).toBeLessThanOrEqual(72);
+  expect(left!.x + left!.width).toBeLessThan(url!.x);
+  expect(url!.x + url!.width).toBeLessThan(right!.x);
+  expect(Math.abs(left!.y + left!.height / 2 - right!.y - right!.height / 2)).toBeLessThan(2);
+  expect(Math.abs(url!.y + url!.height / 2 - right!.y - right!.height / 2)).toBeLessThan(2);
   expect(left!.x + left!.width).toBeLessThan(right!.x);
   const media = nav.getByRole("button", { name: "Média", exact: true });
   await media.hover();
@@ -58,6 +65,7 @@ test("mobile menu keeps categories open until a tool is selected", async ({ page
   await expect(nav.getByRole("button", { name: "Otevřít navigaci" })).toHaveAttribute("aria-expanded", "false");
   await expect(page.getByRole("heading", { name: "QR generátor", exact: true })).toBeVisible();
   await page.setViewportSize({ width: 1024, height: 768 });
+  await nav.getByRole("button", { name: "Otevřít navigaci" }).click();
   await expect(nav.getByRole("button", { name: "Média", exact: true })).toBeVisible();
   await expect(nav.getByRole("button", { name: "Média", exact: true })).toHaveAttribute("aria-current", "true");
   await noOverflow(page);

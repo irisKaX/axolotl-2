@@ -1,4 +1,5 @@
-:root {
+:root,
+.axolotl-header-preview[data-header-theme="dark"] {
   color-scheme: dark;
   --background:
     radial-gradient(ellipse at 42% 5%, #383838 0%, transparent 58%),
@@ -11,7 +12,8 @@
   --axolotl-settings-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
 }
 
-:root[data-theme="light"] {
+:root[data-theme="light"],
+.axolotl-header-preview[data-header-theme="light"] {
   color-scheme: light;
   --background:
     radial-gradient(ellipse at 42% 5%, #d0d0d0 0%, transparent 58%),
