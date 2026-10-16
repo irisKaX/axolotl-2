@@ -1,10 +1,17 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Header } from "./Header";
 import { CursorEffects } from "./CursorEffects";
 import { currentRoute, routeLabels } from "./routes";
 import { DesignSystem } from "../pages/DesignSystem";
 import { ToolWorkspace } from "../tools/ToolWorkspace";
 import { toolRoutes } from "../tools/registry";
+
+const LivingOffice = lazy(() =>
+  import("../components/office/LivingOffice").then((module) => ({
+    default: module.LivingOffice,
+  })),
+);
+
 export function App() {
   const [route, setRoute] = useState(currentRoute);
   useEffect(() => {
@@ -51,8 +58,15 @@ export function App() {
                 className="axolotl-office-slot"
                 id="axolotl-office-slot"
                 data-axolotl-slot="office"
-                aria-hidden="true"
-              />
+              >
+                <Suspense
+                  fallback={
+                    <div className="axolotl-office-placeholder" aria-hidden="true" />
+                  }
+                >
+                  <LivingOffice />
+                </Suspense>
+              </div>
             )}
           </section>
         ) : null}

@@ -28,7 +28,8 @@ describe('working tool routes', () => {
       expect(screen.getAllByRole('heading',{level:1})).toHaveLength(1);
     }
     await navigate('dashboard');
-    expect(document.getElementById('axolotl-office-slot')).toBeEmptyDOMElement();
+    const office = await screen.findByRole('region', {name: 'Axolotlí office'});
+    expect(document.getElementById('axolotl-office-slot')).toContainElement(office);
     expect(screen.queryByRole('heading',{level:1})).not.toBeInTheDocument();
   });
   it('keeps a QR draft when returning from another tool', async () => {

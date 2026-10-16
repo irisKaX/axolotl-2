@@ -1,0 +1,149 @@
+.living-office {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
+}
+.office-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* The scene is part of the page, rather than a framed picture card. */
+  mask-image: linear-gradient(to bottom, transparent, #000 5%, #000 82%, transparent 100%);
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.living-office[data-ready="true"] .office-art { opacity: 1; }
+.office-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, 1120px);
+  aspect-ratio: 1916 / 410;
+  transform: translate(-50%, -50%);
+}
+.office-scenery, .office-environment { position: absolute; inset: 0; pointer-events: none; }
+.office-environment {
+  background-image: var(--office-room);
+  background-repeat: no-repeat;
+  /* Slight overdraw excludes the one-pixel join between the two atlas panels. */
+  background-size: 100% 201%;
+  transition: opacity 650ms ease;
+}
+.office-environment--day { background-position: center top; opacity: 1; }
+.office-environment--night { background-position: center bottom; opacity: 0; }
+.living-office[data-theme="dark"] .office-environment--day { opacity: 0; }
+.living-office[data-theme="dark"] .office-environment--night { opacity: 1; }
+.office-scenery--room { z-index: 0; }
+/* Matching pieces of the same environment sit in front of the appropriate
+   actors. Empty seats stay behind, while monitors/desktops occlude legs. */
+.office-scenery--front-desk {
+  z-index: 40;
+  clip-path: polygon(0 80%, 2.8% 77%, 2.7% 45%, 8.8% 44%, 10.5% 75%, 10% 79%, 19.8% 79%, 22.4% 87%, 22.7% 100%, 0 100%);
+}
+.office-scenery--back-desk {
+  z-index: 15;
+  clip-path: polygon(24% 56%, 26.7% 54%, 26.6% 35%, 31.2% 36%, 31.6% 54%, 34.8% 55%, 37% 61%, 37% 76%, 35% 80%, 34% 64%, 24% 63%);
+}
+.office-scenery--right-desk {
+  z-index: 40;
+  clip-path: polygon(82% 70%, 93.1% 65%, 94.5% 36%, 99% 35%, 100% 40%, 100% 100%, 83% 100%);
+}
+.office-scenery--sofa {
+  z-index: 15;
+  clip-path: polygon(51.3% 43%, 54% 44%, 71% 42%, 74.3% 45%, 74% 59%, 65% 68%, 50.7% 63%);
+}
+.office-scenery--beanbag {
+  z-index: 35;
+  clip-path: polygon(61% 69%, 64% 59%, 69% 54%, 73% 56%, 76% 63%, 78% 77%, 79% 100%, 59% 100%, 59% 83%);
+}
+.office-actor {
+  position: absolute;
+  aspect-ratio: 1;
+  transform: translate(-50%, -96%);
+  transition: left 84ms linear, top 84ms linear, width 84ms linear;
+  pointer-events: none;
+}
+.office-facing, .office-sprite { position: absolute; inset: 0; }
+.office-facing[data-flip="true"] { transform: scaleX(-1); }
+.office-sprite {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transform-origin: 50% 88%;
+  animation: office-breathe 4.6s ease-in-out infinite;
+  animation-delay: var(--actor-delay);
+  filter: drop-shadow(0 2px 2px #18122828);
+  transition: filter 650ms ease;
+}
+.living-office[data-theme="dark"] .office-sprite {
+  filter: brightness(.82) saturate(.92) drop-shadow(0 0 4px #658fff35);
+}
+.office-actor[data-office-actor="lounge"] { aspect-ratio: 3 / 4; }
+.office-actor[data-activity="walk"] .office-sprite { animation: office-step 400ms ease-in-out infinite; }
+.office-actor[data-activity="window"] .office-sprite { animation-duration: 6s; }
+.office-foot-shadow {
+  position: absolute;
+  bottom: 1%; left: 25%; width: 50%; height: 5%;
+  border-radius: 50%;
+  background: #17142950;
+  filter: blur(3px);
+}
+.office-desk-mug {
+  position: absolute; width: 1.15%; aspect-ratio: .95; transform: translateX(-50%);
+  border-radius: 15% 15% 28% 28%;
+  background: linear-gradient(90deg, #c7c5ce, #fcfaf8 33%, #fff 65%, #d2d0d6);
+  box-shadow: 0 2px 2px #251b2e30;
+  color: #0641a2; display: grid; place-items: center;
+  font-size: clamp(5px, .48vw, 9px); font-weight: 700;
+}
+.office-desk-mug::before { content: ""; position: absolute; top: -3%; left: 2%; width: 96%; height: 17%; border-radius: 50%; background: #7b5438; border: 1px solid #ede8e2; }
+.office-desk-mug::after { content: ""; position: absolute; right: -35%; top: 20%; width: 41%; height: 54%; border: 2px solid #ece9ed; border-left: 0; border-radius: 0 50% 50% 0; }
+.office-desk-mug sub { font-size: .7em; }
+.office-desk-mug[data-office-mug="back"] { width: .8%; }
+.living-office[data-theme="dark"] .office-desk-mug { filter: brightness(.8); }
+.office-lamp-glow {
+  position: absolute; inset: 0; z-index: 55;
+  opacity: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 24% 51%, #ffbe4822, transparent 7%), radial-gradient(ellipse at 81% 84%, #ffd39918, transparent 8%);
+  mix-blend-mode: screen;
+  transition: opacity 650ms ease;
+}
+.living-office[data-theme="dark"] .office-lamp-glow { opacity: 1; }
+.office-coffee-steam { position: absolute; left: 40.8%; top: 47%; width: 1.4%; height: 8%; z-index: 35; }
+.office-coffee-steam i {
+  position: absolute; bottom: 0; left: 30%; width: 2px; height: 45%;
+  border-radius: 50%; background: #fff7eb; filter: blur(1.3px);
+  opacity: 0; animation: office-steam 3.8s ease-out infinite;
+}
+.office-coffee-steam i:nth-child(2) { left: 60%; animation-delay: 1.3s; }
+.office-coffee-steam i:nth-child(3) { left: 45%; animation-delay: 2.5s; }
+.office-motion-control {
+  position: absolute; right: 22px; bottom: 9px; z-index: 60;
+  display: grid; place-items: center; width: 32px; height: 32px;
+  padding: 0; border: 1px solid #ffffff20; border-radius: 50%;
+  color: #e6e7ec; background: #19212bc9; backdrop-filter: blur(8px);
+  cursor: pointer; opacity: .65; transition: opacity 150ms ease, background 150ms ease;
+}
+.living-office[data-theme="light"] .office-motion-control { background: #ffffffd9; color: #263049; border-color: #171b2c20; }
+.office-motion-control:hover, .office-motion-control:focus-visible { opacity: 1; }
+.office-motion-control:focus-visible { outline: 2px solid #9466de; outline-offset: 4px; }
+.office-motion-control:disabled { opacity: .35; cursor: default; }
+.office-load-error { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; font-size: 13px; color: var(--foreground); }
+.office-load-error button { border: 1px solid currentColor; border-radius: 999px; padding: 7px 14px; background: transparent; color: inherit; cursor: pointer; }
+.office-load-error button:focus-visible { outline: 2px solid #9466de; outline-offset: 4px; }
+.living-office[data-running="false"] *, .living-office[data-reduced-motion="true"] * { animation-play-state: paused !important; }
+.living-office[data-running="false"] .office-actor { transition: none; }
+.living-office[data-reduced-motion="true"] .office-environment,
+.living-office[data-reduced-motion="true"] .office-sprite,
+.living-office[data-reduced-motion="true"] .office-art { transition: none; }
+.living-office[data-reduced-motion="true"] .office-sprite { animation: none; }
+.living-office[data-reduced-motion="true"] .office-coffee-steam { display: none; }
+@keyframes office-breathe { 0%, 100% { transform: translateY(0) rotate(-.15deg); } 50% { transform: translateY(-.6px) rotate(.15deg); } }
+@keyframes office-step { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
+@keyframes office-steam { 0% { opacity: 0; transform: translate(0, 0) scaleY(.6); } 30% { opacity: .24; } 100% { opacity: 0; transform: translate(4px, -15px) scaleY(1.3); } }
+@media (max-width: 600px) {
+  .office-stage { width: 1120px; left: 44%; }
+  .office-motion-control { right: 14px; width: 40px; height: 40px; }
+}
