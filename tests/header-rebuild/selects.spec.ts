@@ -46,10 +46,20 @@ for(const theme of ['dark','light']) for(const width of [1440,390]) {
 test('keyboard choice commits preferences, supports typeahead and retains them on reload',async({page})=>{
   await appearance(page);
   const trigger=page.getByRole('combobox',{name:'Velikost textu',exact:true});
-  await trigger.focus(); await page.keyboard.press('Space');await page.keyboard.press('End');await page.keyboard.press('Enter');
+  await trigger.focus(); await page.keyboard.press('Space');
+  await expect(page.getByRole('option',{name:'Výchozí',exact:true})).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(page.getByRole('option',{name:'Větší (115 %)',exact:true})).toBeFocused();
+  await page.keyboard.press('Enter');
   await expect(trigger).toHaveText(/Větší/);await expect(trigger).toBeFocused();
   expect(await page.evaluate(()=>localStorage.getItem('axolotl-header-rebuild-textSize'))).toBe('large');
-  const motion=page.getByRole('combobox',{name:'Animace',exact:true});await motion.focus();await page.keyboard.press('ArrowDown');await page.keyboard.type('Ome');await page.keyboard.press('Enter');await expect(motion).toHaveText('Omezené');
+  const motion=page.getByRole('combobox',{name:'Animace',exact:true});
+  await motion.focus();await page.keyboard.press('ArrowDown');
+  await expect(page.getByRole('option',{name:'Podle systému',exact:true})).toBeFocused();
+  await page.keyboard.type('Ome');
+  // Radix schedules typeahead focus; commit only after that focus has settled.
+  await expect(page.getByRole('option',{name:'Omezené',exact:true})).toBeFocused();
+  await page.keyboard.press('Enter');await expect(motion).toHaveText('Omezené');
   await page.reload();await page.getByRole('button',{name:'Nastavení',exact:true}).click();await page.getByRole('button',{name:'Vzhled a prostředí',exact:true}).click();await expect(trigger).toHaveText(/Větší/);await expect(motion).toHaveText('Omezené');
 });
 
@@ -86,7 +96,11 @@ test('opening a choice preserves layout and closing releases scroll and pointer 
 test('all choices fit a narrow short viewport with enlarged text and retain keyboard focus styling',async({page})=>{
   await page.setViewportSize({width:320,height:400});await appearance(page,'light');
   const size=page.getByRole('combobox',{name:'Velikost textu',exact:true});
-  await size.focus();await page.keyboard.press('Enter');await page.keyboard.press('End');await page.keyboard.press('Enter');
+  await size.focus();await page.keyboard.press('Enter');
+  await expect(page.getByRole('option',{name:'Výchozí',exact:true})).toBeFocused();
+  await page.keyboard.press('End');
+  await expect(page.getByRole('option',{name:'Větší (115 %)',exact:true})).toBeFocused();
+  await page.keyboard.press('Enter');
   for(const name of ['Barevný režim','Velikost textu','Animace']) {
     const trigger=page.getByRole('combobox',{name,exact:true});await trigger.focus();
     await page.keyboard.press('Enter');
