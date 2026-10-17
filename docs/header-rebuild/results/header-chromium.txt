@@ -1,0 +1,45 @@
+
+> axolotl-2@2.0.0 test:header:browser
+> playwright test --config playwright.header-rebuild.config.ts --project=chromium
+
+[WebServer] (node:14306) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:14319) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 25 tests using 1 worker
+
+(node:14355) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/header-rebuild/header.spec.ts:29:3 › dark 1440: all panels share materials and remain below the complete header (2.4s)
+  ✓   2 [chromium] › tests/header-rebuild/header.spec.ts:29:3 › dark 1024: all panels share materials and remain below the complete header (2.1s)
+  ✓   3 [chromium] › tests/header-rebuild/header.spec.ts:29:3 › dark 390: all panels share materials and remain below the complete header (1.7s)
+  ✓   4 [chromium] › tests/header-rebuild/header.spec.ts:29:3 › light 1440: all panels share materials and remain below the complete header (2.3s)
+  ✓   5 [chromium] › tests/header-rebuild/header.spec.ts:29:3 › light 1024: all panels share materials and remain below the complete header (2.0s)
+  ✓   6 [chromium] › tests/header-rebuild/header.spec.ts:29:3 › light 390: all panels share materials and remain below the complete header (1.6s)
+  ✓   7 [chromium] › tests/header-rebuild/header.spec.ts:75:3 › C2 1024: exclusive accordion, route restoration, history and same-route close (1.4s)
+  ✓   8 [chromium] › tests/header-rebuild/header.spec.ts:75:3 › C2 390: exclusive accordion, route restoration, history and same-route close (1.4s)
+  ✓   9 [chromium] › tests/header-rebuild/header.spec.ts:101:1 › mouse hover crosses the portal gap; click pins; Escape returns focus; outside click keeps its target (888ms)
+  ✓  10 [chromium] › tests/header-rebuild/header.spec.ts:115:1 › touch menus stay open, active item scrolls only the panel, no document displacement (804ms)
+  ✓  11 [chromium] › tests/header-rebuild/header.spec.ts:131:1 › neutral row hover remains distinct from purple active and desktop fill hover (2.1s)
+  ✓  12 [chromium] › tests/header-rebuild/header.spec.ts:151:1 › breakpoint edges, enlarged text and URL target sizes do not overlap (1.6s)
+  ✓  13 [chromium] › tests/header-rebuild/header.spec.ts:166:1 › keyboard navigates visible rows, Escape restores trigger, Tab reaches distinct URL controls (631ms)
+  ✓  14 [chromium] › tests/header-rebuild/header.spec.ts:179:1 › URL manual validation, blur, Escape and preview storage isolation (755ms)
+  ✓  15 [chromium] › tests/header-rebuild/header.spec.ts:192:1 › reduced motion removes panel and bell animation (629ms)
+  ✓  16 [chromium] › tests/header-rebuild/header.spec.ts:198:1 › preview storage quota failure does not invalidate an already committed URL (617ms)
+  ✓  17 [chromium] › tests/header-rebuild/header.spec.ts:215:1 › preview never accesses the original URL key, even when storage writes are denied (759ms)
+  ✓  18 [chromium] › tests/header-rebuild/header.spec.ts:234:1 › a real tool dialog remains above the header and returns focus to its tool (1.6s)
+  ✓  19 [chromium] › tests/header-rebuild/header.spec.ts:247:1 › real bridge protocol preserves editing, tab selection, automatic mode and focus after tab removal (1.6s)
+  ✓  20 [chromium] › tests/header-rebuild/header.spec.ts:284:3 › dark: every desktop navigation group and secondary settings view is usable (2.1s)
+  ✓  21 [chromium] › tests/header-rebuild/header.spec.ts:284:3 › light: every desktop navigation group and secondary settings view is usable (2.0s)
+  ✓  22 [chromium] › tests/header-rebuild/header.spec.ts:306:1 › portal preserves tab order, closed controls survive stale hover dismissal and breakpoint changes (754ms)
+  ✓  23 [chromium] › tests/header-rebuild/header.spec.ts:320:1 › short viewport, text scaling and native select retain reachable controls (667ms)
+  ✓  24 [chromium] › tests/header-rebuild/header.spec.ts:333:3 › dark: accessibility scan covers every panel and settings view (4.5s)
+  ✓  25 [chromium] › tests/header-rebuild/header.spec.ts:333:3 › light: accessibility scan covers every panel and settings view (4.5s)
+
+  25 passed (43.5s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

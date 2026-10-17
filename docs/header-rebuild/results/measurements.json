@@ -1,0 +1,348 @@
+{
+  "header-light-390-all-panel-f5f89-n-below-the-complete-header-chromium/computed.json": [
+    {
+      "id": "navigation",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "14px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    },
+    {
+      "id": "settings",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "14px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    },
+    {
+      "id": "notifications",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "14px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    },
+    {
+      "id": "tabs",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "14px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    }
+  ],
+  "header-dark-accessibility--3b5e7-ery-panel-and-settings-view-chromium/accessibility.json": [
+    {
+      "name": "Otevřít navigaci",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    },
+    {
+      "name": "Nastavení",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    },
+    {
+      "name": "Nastavení",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    },
+    {
+      "name": "Upozornění",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    },
+    {
+      "name": "Vybrat kartu prohlížeče",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    }
+  ],
+  "header-light-1440-all-pane-fe959-n-below-the-complete-header-chromium/computed.json": [
+    {
+      "id": "group:media",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    },
+    {
+      "id": "settings",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    },
+    {
+      "id": "notifications",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    },
+    {
+      "id": "tabs",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    }
+  ],
+  "header-light-accessibility-f2350-ery-panel-and-settings-view-chromium/accessibility.json": [
+    {
+      "name": "Otevřít navigaci",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    },
+    {
+      "name": "Nastavení",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    },
+    {
+      "name": "Nastavení",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    },
+    {
+      "name": "Upozornění",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    },
+    {
+      "name": "Vybrat kartu prohlížeče",
+      "violations": [],
+      "incomplete": [
+        "aria-hidden-focus",
+        "aria-valid-attr-value",
+        "color-contrast"
+      ]
+    }
+  ],
+  "header-dark-1024-all-panel-3095b-n-below-the-complete-header-chromium/computed.json": [
+    {
+      "id": "navigation",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    },
+    {
+      "id": "settings",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    },
+    {
+      "id": "notifications",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    },
+    {
+      "id": "tabs",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    }
+  ],
+  "header-light-1024-all-pane-ce42c-n-below-the-complete-header-chromium/computed.json": [
+    {
+      "id": "navigation",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    },
+    {
+      "id": "settings",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    },
+    {
+      "id": "notifications",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    },
+    {
+      "id": "tabs",
+      "background": "linear-gradient(140deg, rgb(255, 255, 255), rgb(238, 234, 244) 55%)",
+      "border": "rgba(68, 48, 82, 0.16)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(36, 27, 50)",
+      "font": "13px",
+      "shadow": "rgba(57, 32, 68, 0.333) 0px 24px 48px -24px"
+    }
+  ],
+  "header-dark-390-all-panels-55a00-n-below-the-complete-header-chromium/computed.json": [
+    {
+      "id": "navigation",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "14px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    },
+    {
+      "id": "settings",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "14px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    },
+    {
+      "id": "notifications",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "14px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    },
+    {
+      "id": "tabs",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "14px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    }
+  ],
+  "header-dark-1440-all-panel-5aa2d-n-below-the-complete-header-chromium/computed.json": [
+    {
+      "id": "group:media",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    },
+    {
+      "id": "settings",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    },
+    {
+      "id": "notifications",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    },
+    {
+      "id": "tabs",
+      "background": "linear-gradient(140deg, rgb(58, 53, 71), rgb(36, 33, 45) 55%)",
+      "border": "rgba(255, 255, 255, 0.1)",
+      "radius": "28px",
+      "padding": "16px",
+      "color": "rgb(244, 244, 245)",
+      "font": "13px",
+      "shadow": "rgba(0, 0, 0, 0.667) 0px 24px 48px -24px, rgba(0, 0, 0, 0.533) 0px 6px 14px -8px"
+    }
+  ]
+}

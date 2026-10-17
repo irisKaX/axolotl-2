@@ -1,0 +1,59 @@
+
+> axolotl-2@2.0.0 test:browser
+> playwright test --output=/workspace/work/production-browser-results
+
+[WebServer] (node:10136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:10150) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:10206) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/compare-cursor.spec.ts:3:1 › cursor can be disabled from its label and restored from the switch (5.1s)
+  ✓  2 tests/browser/compare-cursor.spec.ts:27:1 › converter compares actual WebP with hover, drag, zoom and keyboard (3.2s)
+  ✘  3 tests/browser/navigation.spec.ts:7:1 › desktop categories, active tool, keyboard focus and both themes (806ms)
+(node:10555) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 tests/browser/navigation.spec.ts:52:1 › mobile menu keeps categories open until a tool is selected (1.0s)
+
+
+  1) tests/browser/navigation.spec.ts:7:1 › desktop categories, active tool, keyboard focus and both themes
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 2
+    Received:   2
+
+      21 |   expect(left!.x + left!.width).toBeLessThan(url!.x);
+      22 |   expect(url!.x + url!.width).toBeLessThan(right!.x);
+    > 23 |   expect(Math.abs(left!.y + left!.height / 2 - right!.y - right!.height / 2)).toBeLessThan(2);
+         |                                                                               ^
+      24 |   expect(Math.abs(url!.y + url!.height / 2 - right!.y - right!.height / 2)).toBeLessThan(2);
+      25 |   expect(left!.x + left!.width).toBeLessThan(right!.x);
+      26 |   const media = nav.getByRole("button", { name: "Média", exact: true });
+        at /workspace/work/header-rebuild/tests/browser/navigation.spec.ts:23:79
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../production-browser-results/navigation-desktop-categor-41e13-board-focus-and-both-themes/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../production-browser-results/navigation-desktop-categor-41e13-board-focus-and-both-themes/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../production-browser-results/navigation-desktop-categor-41e13-board-focus-and-both-themes/trace.zip
+    Usage:
+
+        npx playwright show-trace ../production-browser-results/navigation-desktop-categor-41e13-board-focus-and-both-themes/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/navigation.spec.ts:7:1 › desktop categories, active tool, keyboard focus and both themes
+  3 passed (13.0s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

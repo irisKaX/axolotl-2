@@ -1,0 +1,16 @@
+
+> axolotl-2@2.0.0 test:legacy
+> node --test tests/*.test.cjs
+
+✔ tests/bridge-content.test.cjs (68.618865ms)
+✔ tests/bridge-runtime.test.cjs (128.174609ms)
+✔ tests/browser-extension.test.cjs (72.509439ms)
+✔ tests/preferences.test.cjs (58.520927ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 144.795778

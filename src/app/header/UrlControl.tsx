@@ -1,0 +1,53 @@
+import { useEffect, useId, useRef, useState } from 'react';
+import { Icon } from '../../components/Icon';
+import { usePageContext } from '../PageContextProvider';
+import { Popover } from './Popover';
+import { PanelFooter, PanelHeading, PanelRow } from './PanelUI';
+import s from './header.module.css';
+
+function Tabs({ close, adopt }: { close: (restore?: boolean) => void; adopt: (url: string) => void }) {
+  const { context, connection, tabs, store } = usePageContext();
+  const auto = useRef<HTMLButtonElement>(null);
+  const focused = useRef<number | null>(null);
+  useEffect(() => {
+    if (focused.current !== null && !tabs.some(tab => tab.id === focused.current)) {
+      if (document.activeElement === document.body) auto.current?.focus({ preventScroll: true });
+      focused.current = null;
+    }
+  }, [tabs]);
+  return <>
+    <PanelHeading title="Otevřené karty" close={() => close(true)}/>
+    <p className={s.note} role="status">{connection.status === 'checking' ? 'Ověřuji propojení…' : connection.status === 'connected' ? tabs.length ? 'Vyber stránku pro práci v Axolotlu.' : 'V tomto okně není otevřená jiná webová stránka.' : 'URL můžeš zadat ručně. Pro výběr karet připoj rozšíření Axolotl.'}</p>
+    {connection.status === 'connected' ? <>
+      <PanelRow rowRef={auto} selected={context.source === 'auto'} icon="tabs" subtitle="Automaticky podle poslední aktivní stránky" onClick={() => { store.selectAuto(); adopt(store.getSnapshot().context.url); close(true); }}>Aktuální karta</PanelRow>
+      <ul className={s.list}>{tabs.map(tab => <li key={tab.id}><PanelRow selected={context.source !== 'manual' && context.tabId === tab.id} subtitle={tab.url} onFocus={() => { focused.current = tab.id; }} onBlur={event => { if (event.relatedTarget) focused.current = null; }} onClick={() => { store.selectTab(tab.id); adopt(store.getSnapshot().context.url); close(true); }}>{tab.title || new URL(tab.url).hostname}</PanelRow></li>)}</ul>
+    </> : <><p className={s.note}>Rozšíření zatím podporuje adresu hlavní aplikace. V tomto samostatném náhledu použij ruční URL.</p><PanelRow href="https://github.com/irisKaX/axolotl-2/blob/main/browser-extension/README.md" icon="integrations" external>Propojení hlavní aplikace ↗</PanelRow></>}
+    <PanelFooter>Aktuální URL nástrojů</PanelFooter>
+  </>;
+}
+
+export function UrlControl() {
+  const { context, store } = usePageContext();
+  const [draft, setDraft] = useState(context.url);
+  const [invalid, setInvalid] = useState(false);
+  const input = useRef<HTMLInputElement>(null);
+  const editing = useRef(false), dirty = useRef(false);
+  const id = useId();
+  function adopt(url: string) { setDraft(url); setInvalid(false); dirty.current = false; input.current?.setCustomValidity(''); }
+  useEffect(() => { if (!editing.current) adopt(context.url); }, [context]);
+  function commit() {
+    try { adopt(store.commitManual(draft)); return true; }
+    catch { setInvalid(true); input.current?.setCustomValidity('Zadej platnou adresu webu, například https://example.cz.'); return false; }
+  }
+  return <form className={s.url} data-header-url onSubmit={event => { event.preventDefault(); if (commit()) input.current?.blur(); }} noValidate>
+    <label htmlFor={id} className={s.urlLabel}><Icon name="link"/><span className={s.visuallyHidden}>Aktuální URL</span></label>
+    <input id={id} ref={input} type="text" inputMode="url" spellCheck={false} autoComplete="off" placeholder="Vlož URL stránky" title={context.url || 'Vlož URL stránky'} value={draft} aria-invalid={invalid || undefined} aria-describedby={invalid ? `${id}-error` : undefined}
+      onFocus={() => { editing.current = true; }} onChange={event => { setDraft(event.target.value); dirty.current = true; setInvalid(false); event.target.setCustomValidity(''); }}
+      onBlur={() => { editing.current = false; if (dirty.current) commit(); else adopt(store.getSnapshot().context.url); }}
+      onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); adopt(store.getSnapshot().context.url); input.current?.blur(); } }}/>
+    <Popover id="tabs" title="Otevřené karty" trigger={(props, ref) => <button {...props} ref={ref} type="button" className={s.tabsTrigger} aria-label="Vybrat kartu prohlížeče"><Icon name="tabs"/><Icon name="chevron"/></button>}>
+      {close => <Tabs close={close} adopt={adopt}/>}
+    </Popover>
+    {invalid && <span id={`${id}-error`} className={s.urlError} role="alert">Zadej platnou webovou URL.</span>}
+  </form>;
+}
