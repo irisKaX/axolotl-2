@@ -8,7 +8,7 @@ import { currentRoute, routeLabels } from '../../app/routes';
 import { ToolWorkspace } from '../../tools/ToolWorkspace';
 import { toolRoutes } from '../../tools/registry';
 import { CompactNavigation } from './CompactNavigation';
-import { variants, type Variant } from './variants';
+import { variants, isCommandShelf, type Variant } from './variants';
 
 export function Scene({ variant }: { variant: Variant }) {
   const preferences = usePreferences();
@@ -35,21 +35,42 @@ export function Scene({ variant }: { variant: Variant }) {
   }, []);
   useLayoutEffect(() => {
     if (!bar.current) return;
-    const update = () => setTop(Math.ceil(bar.current!.getBoundingClientRect().bottom + 12));
+    const update = () => {
+      const bottom = bar.current!.getBoundingClientRect().bottom;
+      setTop(Math.ceil(bottom + 12));
+      if (variant === 'C2') {
+        const viewport = window.visualViewport;
+        const available = (viewport ? viewport.height + viewport.offsetTop : window.innerHeight) - bottom - 28;
+        header.current?.style.setProperty('--hr-overlay-height', `${Math.max(0, available)}px`);
+      }
+    };
     const observer = new ResizeObserver(update); observer.observe(bar.current); update();
-    return () => observer.disconnect();
-  }, [compact]);
+    // C2's scrollable overlay follows the actual available visual viewport.
+    if (variant === 'C2') {
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      window.visualViewport?.addEventListener('resize', update);
+      window.visualViewport?.addEventListener('scroll', update);
+    }
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+      window.visualViewport?.removeEventListener('resize', update);
+      window.visualViewport?.removeEventListener('scroll', update);
+    };
+  }, [compact, variant]);
   const trigger = <button ref={toggle} type="button" className="hr-trigger" aria-label={open ? 'Zavřít navigaci' : 'Otevřít navigaci'} aria-expanded={open} aria-controls="responsive-navigation" aria-haspopup={variant === 'B' ? 'dialog' : undefined} onClick={() => { setOpenId(null); setOpen(!open); }} onKeyDown={event => { if (event.key === 'ArrowDown') { event.preventDefault(); setOpenId(null); setOpen(true); } }}>
-    <span className="hr-burger" data-open={open}><i/><i/></span>{variant === 'C' && <><span>Menu</span><span className="hr-current">{routeLabels[route]}</span></>}
+    <span className="hr-burger" data-open={open}><i/><i/></span>{isCommandShelf(variant) && <><span>Menu</span><span className="hr-current">{routeLabels[route]}</span></>}
   </button>;
   const brand = <a href="#dashboard" className="hr-brand" aria-label="O₂ Axolotl – dashboard" onClick={() => { close(); setOpenId(null); }}><BrandMark/></a>;
   return <div className="hr-scene" data-variant={variant} data-compact={compact} data-motion={preferences.reducedMotion ? 'reduced' : 'full'} style={pillNavThemes[preferences.resolvedTheme] as CSSProperties}>
     <header ref={header} className="hr-header axolotl-header-frame" aria-label="Ovládání Axolotlu">
       <div ref={bar} className="hr-bar axolotl-header-bar">
-        {!compact ? <WideNavigation route={route} openId={openId} setOpenId={changeControls}/> : variant === 'C' ? <>{brand}<div className="hr-command">{trigger}</div></> : <div className="hr-dock">{variant === 'B' ? <>{trigger}{brand}</> : <>{brand}{trigger}</>}</div>}
+        {!compact ? <WideNavigation route={route} openId={openId} setOpenId={changeControls}/> : isCommandShelf(variant) ? <>{brand}<div className="hr-command">{trigger}</div></> : <div className="hr-dock">{variant === 'B' ? <>{trigger}{brand}</> : <>{brand}{trigger}</>}</div>}
         <HeaderControls layout="inline" openId={openId} setOpenId={changeControls} idPrefix="responsive-lab"/>
       </div>
-      {compact && open && <CompactNavigation variant={variant} route={route} top={top} trigger={toggle} close={close} select={() => { close(); requestAnimationFrame(() => content.current?.focus({ preventScroll: true })); }}/>}
+      {compact && (open || variant === 'C2') && <CompactNavigation open={open} variant={variant} route={route} top={top} trigger={toggle} close={close} select={() => { close(); requestAnimationFrame(() => content.current?.focus({ preventScroll: true })); }}/>}
     </header>
     <main ref={content} className="hr-workspace" tabIndex={-1} aria-label="Pracovní plocha">
       {toolRoutes[route] ? <ToolWorkspace route={route}/> : <div className="hr-context">

@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-for (const variant of ['A', 'B', 'C']) {
+for (const variant of ['A', 'B', 'C', 'C2']) {
   test(`${variant}: compact navigation stays below brand, navigates and restores focus`, async ({ page }) => {
     await page.setViewportSize({ width: 900, height: 800 });
     await page.goto(`header-responsive-lab.html?view=scene&variant=${variant}`);
@@ -18,7 +18,7 @@ for (const variant of ['A', 'B', 'C']) {
     if (await group.getAttribute('aria-expanded') === 'false') await group.click();
     await panel.getByRole('link', { name: 'Metadata', exact: true }).click();
     await expect(page).toHaveURL(/#kontrola\/metadata$/);
-    await expect(panel).toHaveCount(0);
+    await expect(panel).not.toBeVisible();
     await toggle.click();
     await page.keyboard.press('Escape');
     await expect(toggle).toBeFocused();
@@ -26,7 +26,7 @@ for (const variant of ['A', 'B', 'C']) {
   });
 }
 
-for (const variant of ['A', 'B', 'C']) {
+for (const variant of ['A', 'B', 'C', 'C2']) {
   test(`${variant}: real touch events preserve navigation and settings; outside dismisses`, async ({ browser }) => {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce' });
     const page = await context.newPage();
@@ -47,9 +47,9 @@ for (const variant of ['A', 'B', 'C']) {
     await page.keyboard.press('Escape');
     await page.getByRole('button', { name: 'Otevřít navigaci', exact: true }).tap();
     if (variant === 'B') await page.touchscreen.tap(385, 400);
-    else if (variant === 'C') await page.getByRole('textbox', { name: 'Aktuální URL', exact: true }).tap();
+    else if ((variant === 'C' || variant === 'C2')) await page.getByRole('textbox', { name: 'Aktuální URL', exact: true }).tap();
     else await page.touchscreen.tap(385, 700);
-    await expect(panel).toHaveCount(0);
+    await expect(panel).not.toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     expect(errors).toEqual([]);
     await context.close();
@@ -102,14 +102,14 @@ test('drawer traps Tab, shelf moves workspace, and URL commits without leaving t
 
 test('Lab switches variants, compares actual iframe widths and preserves scene while resizing', async ({ page }) => {
   await page.goto('header-responsive-lab.html');
-  await expect(page.getByRole('heading', { name: 'Malé okno. Tři nové perspektivy.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Malé okno. Tři směry. Nová C2.' })).toBeVisible();
   await page.getByRole('button', { name: /B Side Drawer/ }).click();
   await expect(page.locator('iframe')).toHaveAttribute('title', /Varianta B/);
   await page.getByRole('button', { name: '390', exact: true }).click();
   await expect(page.locator('iframe')).toHaveAttribute('width', '390');
   expect(await page.frames()[1].evaluate(() => innerWidth)).toBe(390);
-  await page.getByRole('checkbox', { name: 'Porovnat A / B / C' }).check();
-  await expect(page.locator('iframe')).toHaveCount(3);
+  await page.getByRole('checkbox', { name: 'Porovnat všechny varianty' }).check();
+  await expect(page.locator('iframe')).toHaveCount(4);
   await page.getByLabel('Téma náhledů').selectOption('light');
   await expect(page.frameLocator('iframe').first().locator('html')).toHaveAttribute('data-theme', 'light');
 });

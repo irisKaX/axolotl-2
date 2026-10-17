@@ -1,18 +1,22 @@
 import { useEffect, useRef, useState, type RefObject, type KeyboardEvent, type CSSProperties } from 'react';
 import { Icon } from '../../components/Icon';
 import { groups } from '../../app/routes';
-import type { Variant } from './variants';
+import { isCommandShelf, type Variant } from './variants';
 
-export function CompactNavigation({ variant, route, top, trigger, close, select }: {
-  variant: Variant; route: string; top: number; trigger: RefObject<HTMLButtonElement | null>;
+export function CompactNavigation({ variant, route, top, trigger, close, select, open }: {
+  variant: Variant; open: boolean; route: string; top: number; trigger: RefObject<HTMLButtonElement | null>;
   close: (restore?: boolean) => void; select: () => void;
 }) {
   const panel = useRef<HTMLDivElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
-  const [expanded, setExpanded] = useState<string[]>(variant === 'C' ? groups.map(g => g.id) : []);
+  const [expanded, setExpanded] = useState<string[]>(isCommandShelf(variant) ? groups.map(g => g.id) : []);
   const modal = variant === 'B';
   const closeRef = useRef(close); closeRef.current = close;
   useEffect(() => {
+    if (!open) return;
+    // C2 stays mounted for its exit transition: reset its scroll before
+    // restoring initial focus so the close button cannot stay offscreen.
+    if (variant === 'C2' && panel.current) panel.current.scrollTop = 0;
     if (modal) dialog.current?.showModal();
     panel.current?.querySelector<HTMLElement>('a,button')?.focus({ preventScroll: true });
     const previousOverflow = document.body.style.overflow;
@@ -37,7 +41,7 @@ export function CompactNavigation({ variant, route, top, trigger, close, select 
       document.removeEventListener('keydown', escape);
       document.removeEventListener('focusin', blur);
     };
-  }, [modal, trigger]);
+  }, [modal, trigger, open, variant]);
   function keys(event: KeyboardEvent) {
     const items = Array.from(panel.current?.querySelectorAll<HTMLElement>('a,button') ?? []).filter(el => !el.closest('[hidden]'));
     const at = items.indexOf(document.activeElement as HTMLElement);
@@ -51,8 +55,8 @@ export function CompactNavigation({ variant, route, top, trigger, close, select 
     const next = event.key === 'Home' ? 0 : event.key === 'End' ? items.length - 1 : (at + (event.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
     items[next]?.focus();
   }
-  const content = <div ref={panel} id="responsive-navigation" className={`hr-panel hr-panel-${variant}`} onKeyDown={keys}>
-    <div className="hr-panel-heading"><div><span>AXOLOTL / NAVIGACE</span><strong>{variant === 'C' ? 'Kam se vydáme?' : 'Tvůj pracovní prostor'}</strong></div><button type="button" className="hr-close" aria-label="Zavřít nabídku" onClick={() => close(true)}>×</button></div>
+  const content = <div ref={panel} id="responsive-navigation" className={`hr-panel hr-panel-${variant}${variant === 'C2' ? ' hr-panel-C' : ''}`} data-open={open} inert={!open} aria-hidden={!open || undefined} onKeyDown={keys}>
+    <div className="hr-panel-heading"><div><span>AXOLOTL / NAVIGACE</span><strong>{isCommandShelf(variant) ? 'Kam se vydáme?' : 'Tvůj pracovní prostor'}</strong></div><button type="button" className="hr-close" aria-label="Zavřít nabídku" onClick={() => close(true)}>×</button></div>
     <nav aria-label="Kompaktní navigace">
       <a className="hr-home" href="#dashboard" aria-current={route === 'dashboard' ? 'page' : undefined} onClick={select}><Icon name="home"/><span>Dashboard</span><span aria-hidden="true">↗</span></a>
       <div className="hr-groups">{groups.map((group, index) => {
