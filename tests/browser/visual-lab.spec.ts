@@ -156,7 +156,7 @@ for (const variant of ['A','B','C']) {
       expect(styles.ink).toBe('rgb(255, 255, 255)');
       // Inspect the rendered inset surface: a later transparent override would
       // leave the white icon illegible on the light parent control capsule.
-      expect(styles.background).toBe('rgb(113, 48, 220)');
+      expect(styles.background).toBe('rgb(124, 58, 237)');
       await page.keyboard.press('Escape');
     }
   });

@@ -28,8 +28,9 @@ Read sources: PillNav.tsx/CSS, HeaderControls.tsx/CSS, header-layout.css,
 navigation.css, design-tokens.css, UrlPicker, useDisclosure and C2 Scene/CSS.
 
 Computed styles and bounding boxes were measured in Chromium, not inferred
-from source declarations. The complete result is in
-[header-visual-computed.json](header-visual-computed.json).
+from source declarations. The initial pre-regression result is in
+[header-visual-computed.json](header-visual-computed.json). For the corrected
+interactive navigation states, see the regression audit below.
 Reproduce with:
 
 ```sh
@@ -71,7 +72,7 @@ and bar retain visible overflow. All visual variants keep this arrangement.
 | --- | --- | --- | --- |
 | A — Precision PillNav | Shared satin carrier; 44 px navigation and URL; 32 px secondary surfaces inside 44 px targets | Quietest hierarchy; exact common alignment | Least spatial character; small glyphs need readability review on real hardware |
 | B — Refined Spatial PillNav | 48 px primary controls; raised pills; recessed URL; directional light on opaque glass base | Clearest depth hierarchy between actions and context | More height/weight; blur has a rendering cost, opaque base remains usable without it |
-| C — Experimental PillNav | Independent navigation, URL and control capsules; outline actions; active light ridge; restrained icon turn on mouse interaction | Strongest personality while retaining PillNav geometry | More accents, less continuous carrier; light-state contrast needs explicit regression coverage |
+| C — Experimental PillNav | Independent navigation, URL and control capsules; outline actions; capsule light edge; restrained icon turn on mouse interaction | Strongest personality while retaining PillNav geometry | More accents, less continuous carrier; light-state contrast needs explicit regression coverage |
 
 C is deliberately a different material composition, not a recolor. All three
 use the same semantic palette roles. No looping decoration or pointer
@@ -81,9 +82,9 @@ PillNav receives the existing reduced-motion preference.
 ### Preliminary tokens (lab only)
 
 Single registry: `src/pages/header-visual-lab/design.ts`. Semantic roles:
-`ink`, `muted`, `base`, `raised`, `lower`, `edge`, `accent`, `focus`.
-They map to `--vu-*`; a scoped adapter maps these into `--pn-*` and the
-existing header controls. `!important` is limited to this token bridge because
+`ink`, `muted`, `base`, `raised`, `lower`, `edge`, `hover`, `accent`, `focus`.
+They map to `--vu-*`; the scoped adapter maps them into the right header
+controls only. The scene and left PillNav keep their original theme palette. `!important` is limited to this token bridge because
 production components supply their own inline theme variables. It does not
 change those components or their public APIs.
 
@@ -153,3 +154,71 @@ a transparent surface; it was reproduced by a failing test and corrected.
 - Automated browser execution is Chromium; these new visual variants still
   need Iris's visual assessment on Mac and physical iPhone. No variant is
   considered selected or approved by these tests.
+
+
+## Visual regression correction — 17 October 2026
+
+Source: live knowledge `Design Lab.md`, revision 21:06 UTC, including the
+user-reported Header Visual Unification Lab regression. This correction is
+limited to reference consistency, not another creative iteration.
+
+### Root cause and measured differences
+
+The global lab adapter overrode the scene AND PillNav palette with `!important`,
+including `--pn-row-hover = color-mix(accent 16%, base)`. It also replaced text,
+active ink, focus, tile/rim and edge tokens. Additional selectors turned compact
+rows into full pills, filled expanded groups permanently, and changed desktop
+submenu active rows from the reference tint to solid purple. C added an active
+light stripe and a new logo surface. These were unintended reference changes.
+
+| Actual painted state | C2 reference / corrected A/B/C | Before correction |
+| --- | --- | --- |
+| Compact row/group hover, dark | rgba(255, 255, 255, 0.06) | accent 16% + dark base |
+| Compact row/group hover, light | rgba(24, 24, 27, 0.05) | accent 16% + light base |
+| Compact active row, both themes | #7c3aed, white ink, original checkmark | light changed to #7130dc |
+| Compact expanded group, no hover | transparent | permanently tinted |
+| Compact row radius | 12 px | 999 px |
+| Desktop submenu hover | original neutral settings-border role | background unchanged, text/radius changed |
+| Desktop submenu active row | original 18% violet tint, original text | solid violet, white text, added checkmark |
+| Desktop top-level fill hover/active | #7c3aed, original rolling animation | light changed to #7130dc |
+
+**Important reference distinction:** C2 already has violet *top-level desktop*
+fill hover (`hoverEffect="fill"`). Its compact menu hover is neutral. The fix
+preserves both genuine reference behaviors instead of silently redesigning
+the desktop interaction based on the compact-menu description.
+
+### Repairs and preserved differences
+
+- Removed palette bridge from scene and PillNav; retained it only for right controls.
+- Restored reference text, tile gradients/rims, edges, focus colors/offsets,
+  compact Menu surface, close button, submenu colors/radii and active treatment.
+- Removed the permanent expanded-group fill, C active stripes, added desktop
+  checkmark, C logo surface and fixed-size desktop logo-link override.
+- Split right-control hover from expanded styling. Neutral hover uses the C2
+  role; expanded controls retain violet/white contrast. Existing hover-to-open
+  behavior is unchanged (an already open control correctly uses expanded paint).
+- Preserved study dimensions, gaps, outer carrier/panel materials, URL treatment,
+  right control sizes, C capsule composition and existing microinteractions.
+- No React interaction code, C2 files, production files, routes, overlay positioning,
+  stacking/overflow or breakpoint rules changed.
+
+### Repeatable checks
+
+`tests/browser/pillnav-reference.spec.ts`: eight added tests compare real
+computed tokens and painted states against the untouched C2 entry in dark/light
+at 1440, 1024 and 390 px, across all A/B/C. They check idle, hovered, active,
+expanded and keyboard-focus states, plus actual icon pseudo-element surfaces
+and closed-hover versus expanded controls. Fixed hover/active token assertions
+also prevent a reference-and-study change hiding the same regression.
+The first compact reference test failed before the CSS fix on the actual purple
+paint, token drift, radius, text and focus differences (red/green reproduction).
+
+Reproduce the 24-scene browser audit (screenshots + JSON):
+
+```sh
+PLAYWRIGHT_CHROME_EXECUTABLE=/path/to/chromium node scripts/audit-pillnav-regression.mjs /tmp/axolotl-pillnav-audit
+```
+
+[header-pillnav-regression.json](header-pillnav-regression.json) records before
+and after computed styles. The before snapshot is source `2937dd5`; the after
+snapshot is this correction. Browser screenshots were inspected in both themes.

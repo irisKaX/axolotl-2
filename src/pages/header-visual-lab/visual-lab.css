@@ -4,10 +4,10 @@
   --vu-surface: linear-gradient(180deg,var(--vu-raised),var(--vu-lower));
   --vu-rim: inset 0 0 0 1px color-mix(in srgb,var(--vu-edge) 45%,transparent), inset 0 1px 0 #ffffff16;
   --vu-shadow: 0 12px 28px -18px #000a;
-  --vu-hover: color-mix(in srgb,var(--vu-accent) 16%,var(--vu-base));
   color: var(--vu-ink);
 }
-.vu-scene, .vu-scene .axolotl-header-controls, .vu-scene .axolotl-pill-nav {
+/* Adapt controls to the reference; never overwrite the scene or PillNav palette. */
+.vu-scene .axolotl-header-controls {
   --pn-surface: var(--vu-base) !important; --pn-solid: var(--vu-base) !important;
   --pn-strong: var(--vu-ink) !important; --pn-text: var(--vu-muted) !important;
   --pn-edge: color-mix(in srgb,var(--vu-edge) 45%,transparent) !important;
@@ -31,9 +31,8 @@
   --pn-gap: var(--vu-gap) !important; --pn-item-gap: var(--vu-gap) !important; --pn-x: 14px !important;
 }
 .vu-scene .axolotl-pill-nav__item { min-width: 44px; }
-.vu-scene .axolotl-pill-nav__logo-link, .vu-scene .hr-brand { width: 44px; height: 48px; }
-.vu-scene .hr-command .hr-trigger { height: var(--vu-nav-h); background: var(--vu-surface); box-shadow: var(--vu-rim); }
-.vu-scene .hr-command .hr-trigger[aria-expanded=true] { background: var(--vu-accent); color: #fff; }
+.vu-scene .hr-brand { width: 44px; height: 48px; }
+.vu-scene .hr-command .hr-trigger { height: var(--vu-nav-h); }
 .vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-url-bar {
   height: var(--vu-url-h); border-radius: var(--vu-pill); background: var(--vu-surface); box-shadow: var(--vu-rim); padding-left: 14px;
 }
@@ -56,28 +55,24 @@
   transition: background var(--vu-duration), box-shadow var(--vu-duration), transform var(--vu-duration);
 }
 .vu-scene .axolotl-header-controls :is(.axolotl-header-icon-button,.axolotl-settings-trigger) svg { width: var(--vu-icon); height: var(--vu-icon); }
-.vu-scene .axolotl-header-controls[data-layout=inline] :is(.axolotl-header-icon-button,.axolotl-settings-trigger):is(:hover,[aria-expanded=true]) { color: #fff; background: transparent; box-shadow: none; }
-.vu-scene .axolotl-header-controls[data-layout=inline] :is(.axolotl-header-icon-button,.axolotl-settings-trigger):is(:hover,[aria-expanded=true])::before { background: var(--vu-accent); box-shadow: inset 0 1px #fff3; }
+/* Neutral hover inherits the C2 role; violet belongs to an expanded control. */
+.vu-scene .axolotl-header-controls[data-layout=inline] :is(.axolotl-header-icon-button,.axolotl-settings-trigger):hover { color: var(--vu-ink); background: transparent; box-shadow: none; }
+.vu-scene .axolotl-header-controls[data-layout=inline] :is(.axolotl-header-icon-button,.axolotl-settings-trigger):hover::before { background: var(--vu-hover); box-shadow: var(--vu-rim); }
+.vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-tabs-trigger:hover { background: var(--vu-hover); color: var(--vu-ink); box-shadow: none; }
+.vu-scene .axolotl-header-controls[data-layout=inline] :is(.axolotl-header-icon-button,.axolotl-settings-trigger)[aria-expanded=true] { color: #fff; background: transparent; box-shadow: none; }
+.vu-scene .axolotl-header-controls[data-layout=inline] :is(.axolotl-header-icon-button,.axolotl-settings-trigger)[aria-expanded=true]::before { background: var(--vu-accent); box-shadow: inset 0 1px #fff3; }
 .vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-tabs-trigger { height: 44px; min-width: 48px; margin: 0; border: 0; border-radius: var(--vu-pill); gap: 5px; }
-.vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-tabs-trigger:is(:hover,[aria-expanded=true]) { background: var(--vu-accent); color: #fff; box-shadow: none; }
+.vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-tabs-trigger[aria-expanded=true] { background: var(--vu-accent); color: #fff; box-shadow: none; }
 .vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-header-theme { width: calc(var(--vu-track-w) + 8px); height: var(--vu-hit); }
 .vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-header-theme-track { width: var(--vu-track-w); height: var(--vu-track-h); padding: 4px; box-sizing: border-box; background: var(--vu-surface); box-shadow: var(--vu-rim); }
 .vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-header-theme-orb { width: calc(var(--vu-track-h) - 8px); height: calc(var(--vu-track-h) - 8px); background: var(--vu-accent); box-shadow: 0 2px 5px #0003,inset 0 1px #fff4; transition: transform var(--vu-duration); position: relative; }
 .vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-header-theme input:checked + .axolotl-header-theme-track .axolotl-header-theme-orb { transform: translateX(calc(var(--vu-track-w) - var(--vu-track-h))); background: var(--vu-accent); box-shadow: 0 2px 5px #0003,inset 0 1px #fff4; }
 .vu-scene .axolotl-header-controls[data-layout=inline] .axolotl-header-theme input + .axolotl-header-theme-track .axolotl-header-theme-orb::after { position: absolute; inset: 50% auto auto 50%; margin: 0; transform: translate(-50%,-50%); }
-.vu-scene .hr-panel { border-radius: var(--vu-panel-radius); background: var(--vu-base); box-shadow: var(--vu-rim),var(--vu-shadow); border: 0; color: var(--vu-ink); }
-.vu-scene .hr-panel :is(.hr-group-toggle, nav a) { border-radius: var(--vu-pill); }
-.vu-scene .hr-panel nav a[aria-current=page] { background: var(--vu-accent); color: #fff; }
-.vu-scene .hr-group-toggle[aria-expanded=true] { background: var(--vu-hover); }
-.vu-scene .hr-group-number { color: var(--vu-muted); }
-.vu-scene .hr-close { background: var(--vu-surface); box-shadow: var(--vu-rim); border: 0; }
-.vu-scene :is(.axolotl-settings-panel,.axolotl-header-notification-panel,.axolotl-tabs-surface,.axolotl-nav-list) { background: var(--vu-base); color: var(--vu-ink); border-radius: var(--vu-panel-radius); box-shadow: var(--vu-rim),var(--vu-shadow); }
+.vu-scene .hr-panel { border-radius: var(--vu-panel-radius); background: var(--vu-base); box-shadow: var(--vu-rim),var(--vu-shadow); border: 0; color: var(--pn-strong); }
+.vu-scene :is(.axolotl-settings-panel,.axolotl-header-notification-panel,.axolotl-tabs-surface) { background: var(--vu-base); color: var(--vu-ink); border-radius: var(--vu-panel-radius); box-shadow: var(--vu-rim),var(--vu-shadow); }
 .vu-scene .axolotl-header-controls[data-layout=inline] :is(.axolotl-settings-panel,.axolotl-header-notification-panel) { width: min(350px,calc(100vw - 40px)); }
-.vu-scene :is(.axolotl-settings-item,.axolotl-tab-option,.axolotl-nav-link) { min-height: 44px; border-radius: 999px; color: var(--vu-ink); }
-.vu-scene .axolotl-nav-link[aria-current=page] { background: var(--vu-accent); color: #fff; }
-.vu-scene .axolotl-nav-link[aria-current=page]::after { content: '✓'; margin-left: auto; }
-.vu-scene :is(button,a,input,select):focus-visible { outline: 2px solid var(--vu-focus); outline-offset: 3px; }
-.vu-scene .axolotl-pill-nav__item:focus-visible { outline-offset: -3px; }
+.vu-scene :is(.axolotl-settings-item,.axolotl-tab-option) { min-height: 44px; border-radius: 999px; color: var(--vu-ink); }
+.vu-scene :is(.axolotl-header-controls,.hr-workspace) :is(button,a,input,select):focus-visible { outline: 2px solid var(--vu-focus); outline-offset: 3px; }
 .vu-scene .axolotl-header-panel-heading button { min-width: 44px; min-height: 44px; }
 /* A: restrained satin, shared baseline; right actions recede optically. */
 .vu-scene[data-visual=A] { --vu-surface: linear-gradient(180deg,color-mix(in srgb,var(--vu-raised) 80%,var(--vu-lower)),var(--vu-lower)); }
@@ -94,21 +89,15 @@
 .vu-scene[data-visual=C] { --vu-surface: linear-gradient(165deg,var(--vu-raised),var(--vu-base)); }
 .vu-scene[data-visual=C] .hr-bar { padding: 8px 10px; gap: 12px; background: transparent; box-shadow: none; }
 .vu-scene[data-visual=C] .hr-bar > .axolotl-lab-navigation { width: fit-content; max-width: 100%; padding: 5px; border-radius: 999px; background: var(--vu-base); box-shadow: var(--vu-rim),var(--vu-shadow),inset 0 -1px color-mix(in srgb,var(--vu-accent) 40%,transparent); }
-.vu-scene[data-visual=C] .hr-brand { background: var(--vu-surface); box-shadow: var(--vu-rim); }
 .vu-scene[data-visual=C] .axolotl-header-controls[data-layout=inline] .axolotl-header-control-row { padding: 3px 5px 3px 12px; gap: 4px; border-radius: 999px; background: color-mix(in srgb,var(--vu-raised) 52%,var(--vu-base)); box-shadow: inset 0 0 0 1px color-mix(in srgb,var(--vu-edge) 48%,transparent); }
 .vu-scene[data-visual=C] .axolotl-header-controls[data-layout=inline] :is(.axolotl-header-icon-button,.axolotl-settings-trigger):not(:hover):not([aria-expanded=true])::before { background: transparent; box-shadow: inset 0 0 0 1px var(--vu-edge); }
-.vu-scene[data-visual=C] .axolotl-pill-nav__slot[data-on]::after { content: ''; pointer-events: none; position: absolute; bottom: 5px; left: 40%; right: 40%; height: 2px; border-radius: 99px; background: #fff; box-shadow: 0 0 6px #fff6; }
-.vu-scene[data-visual=C] .axolotl-pill-nav__slot { position: relative; }
-.vu-scene[data-visual=C] .hr-trigger[aria-expanded=true] { box-shadow: inset 0 -2px #c7a2ff,inset 0 1px #fff4; }
 .vu-scene[data-visual=C] .hr-panel { border-top: 2px solid color-mix(in srgb,var(--vu-accent) 75%,var(--vu-edge)); }
-.vu-scene[data-visual=C] .hr-panel nav a[aria-current=page] { box-shadow: inset 3px 0 #dcc8ff; }
 .vu-scene[data-visual=C] .axolotl-header-clock { text-align: left; }
 @media (hover:hover) and (pointer:fine) {
   .vu-scene .axolotl-header-theme:hover .axolotl-header-theme-track { outline: 1px solid var(--vu-focus); outline-offset: 1px; }
   .vu-scene[data-visual=B] .axolotl-header-controls :is(.axolotl-header-icon-button,.axolotl-settings-trigger):hover::before { transform: translateY(-1px); }
   .vu-scene[data-visual=C] .axolotl-header-controls :is(.axolotl-header-icon-button,.axolotl-settings-trigger) svg { transition: transform var(--vu-duration); }
   .vu-scene[data-visual=C] .axolotl-header-controls :is(.axolotl-header-icon-button,.axolotl-settings-trigger):hover svg { transform: rotate(-8deg); }
-  .vu-scene .hr-trigger:hover:not([aria-expanded=true]) { background: var(--vu-hover); }
 }
 @media (min-width:1181px) and (max-width:1300px) {
   .vu-scene .hr-bar { gap: 8px; grid-template-columns: minmax(0,1fr) minmax(160px,210px) auto; }

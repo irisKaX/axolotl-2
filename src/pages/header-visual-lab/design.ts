@@ -7,8 +7,8 @@ export const studies = [
 export type VisualVariant = typeof studies[number]['id'];
 export const parseVisual = (value: string | null): VisualVariant => value === 'B' || value === 'C' ? value : 'A';
 export const colors = {
-  dark: { ink: '#f4f1fa', muted: '#c1bacd', base: '#24212d', raised: '#3a3547', lower: '#292532', edge: '#62596f', accent: '#7c3aed', focus: '#d1b5ff' },
-  light: { ink: '#241b32', muted: '#61566e', base: '#eeeaf4', raised: '#ffffff', lower: '#f4f0f8', edge: '#a79bb6', accent: '#7130dc', focus: '#6221c2' },
+  dark: { ink: '#f4f1fa', muted: '#c1bacd', base: '#24212d', raised: '#3a3547', lower: '#292532', edge: '#62596f', hover: 'rgba(255, 255, 255, 0.06)', accent: '#7c3aed', focus: '#d1b5ff' },
+  light: { ink: '#241b32', muted: '#61566e', base: '#eeeaf4', raised: '#ffffff', lower: '#f4f0f8', edge: '#a79bb6', hover: 'rgba(24, 24, 27, 0.05)', accent: '#7c3aed', focus: '#6221c2' },
 };
 export function tokenStyles(variant: VisualVariant, theme: 'dark' | 'light') {
   const v = studies.find(s => s.id === variant)!;
