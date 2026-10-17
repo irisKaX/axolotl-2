@@ -20,6 +20,7 @@ for (const width of [1024, 768, 390, 320]) {
     expect(box.y + box.height).toBeLessThanOrEqual(600 - 12);
     // Hit-testing proves the panel is painted above the overlapping workspace.
     expect(await page.evaluate(({ x, y }) => !!document.elementFromPoint(x, y)?.closest('#responsive-navigation'), { x: box.x + box.width / 2, y: box.y + 30 })).toBe(true);
+    await panel.getByRole('button', { name: 'Kontrola', exact: true }).click();
     await page.keyboard.press('End');
     await expect(panel.getByRole('link', { name: 'Hledání na webu', exact: true })).toBeFocused();
     expect(await page.evaluate(() => scrollY)).toBe(0);
@@ -100,6 +101,7 @@ test('C2 resizes its open panel to a short mobile viewport and closes at the wid
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.goto('header-responsive-lab.html?view=scene&variant=C2');
   await page.locator('.hr-trigger').click();
+  await page.getByRole('button', { name: 'Kontrola', exact: true }).click();
   await page.setViewportSize({ width: 390, height: 360 });
   const panel = page.locator('#responsive-navigation');
   await expect(panel).toBeVisible();

@@ -180,3 +180,5 @@
 @media (max-width: 900px) { .hr-variant-picker { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (prefers-reduced-motion: reduce) { .hr-panel-C2 { transition: none; } }
 .hr-scene[data-motion=reduced] .hr-panel-C2 { transition: none; }
+
+.hr-panel-C2 .hr-active-indicator { margin-left: auto; flex: none; font-weight: 600; }

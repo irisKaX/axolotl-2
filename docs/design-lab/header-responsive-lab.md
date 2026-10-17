@@ -103,3 +103,43 @@ iframe sizes; `?variant=C2` selects C2 on the Lab landing page.
   dependencies and main are unchanged.
 - Browser verification uses Chromium; physical Safari/Mac/iPhone evaluation
   remains with Iris via the public preview.
+
+
+## C2 / Approved accordion behavior — 2026-10-17
+
+Implemented from `irisKaX/axolotl-knowledge/Design Lab.md`, section
+“Header C2 – schválené UX chování akordeonu”. The interaction is approved;
+the overall visual design and production rollout remain unapproved.
+
+- Dashboard opens with all three groups collapsed.
+- A tool page opens only its owning group, derived from the existing routes.
+- At most one group is expanded. The open group can also be closed manually.
+- Every reopening restores the current page's group, not the last manually
+  explored group. No accordion state is persisted to storage.
+- Selecting any tool closes the menu, including selecting the already-current
+  tool (which does not emit `hashchange`). Browser back/forward also updates
+  the active route and closes the menu.
+- Current links retain `aria-current="page"` and the existing highlight, plus a
+  visible ✓ marker that does not rely on color. Accessible link names stay the
+  same; assistive technology receives current-page semantics through ARIA.
+- On a tool page, initial focus goes to its current link after the group has
+  been committed. Only the overlay scrolls as needed to reveal that link.
+  Dashboard opening retains initial close-button focus. Escape restores focus
+  to the menu trigger; collapsed links are excluded from keyboard traversal.
+- Identical rules apply on touch/mobile and compact desktop. C2 positioning,
+  styling, reduced motion and zero dashboard displacement remain unchanged.
+  A/B/C preserve their existing behavior; prior C2 is preserved in commit
+  `d14bc1666ba09f367b166786c3ff974e15d314c9`.
+
+Validation: new browser tests cover exclusivity, manual collapse, repeated
+opening, all three groups, active markers, same/cross-group page selection,
+current-link selection, Dashboard return, history back/forward, keyboard and
+short-viewport visibility. The existing overlay/animation/resize/touch suite
+is retained; only explicit group opening was added where it previously
+assumed all groups were initially expanded.
+
+Verified for this iteration: build/TypeScript, all 50 unit tests, and all 31
+browser tests pass in Chromium. The immediate ArrowDown → End regression
+passes five additional consecutive runs. Initial C2 focus is committed before
+paint, so a delayed animation frame cannot steal the next keyboard action.
+Independent source review found no critical or important issues.
