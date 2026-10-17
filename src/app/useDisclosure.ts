@@ -98,7 +98,11 @@ export function useDisclosure(
           setOpenId(id);
         }
       },
-      onPointerLeave: () => {
+      onPointerLeave: (event: PointerEvent) => {
+        // Touch and pen interactions can synthesize pointerleave directly after a tap.
+        // Only mouse hover should schedule dismissal; touch menus stay open until
+        // the trigger, an outside pointerdown, or Escape closes them.
+        if (event.pointerType !== "mouse") return;
         clearTimeout(timer.current);
         timer.current = setTimeout(() => {
           // A hidden menu can emit pointerleave after another category opened.
