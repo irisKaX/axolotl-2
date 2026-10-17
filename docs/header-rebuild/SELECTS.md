@@ -21,7 +21,22 @@ Testy pokrývají dark/light, desktop 1440 px a mobil 390 px, krátký viewport 
 
 Screenshoty v `select-screenshots/` mají fixovaný čas a pocházejí z Chromium. Reference C2/B zůstávají nedotčené. Veřejný smoke test ověřuje připnutý commit, otevření všech tří vlastních selectů v obou tématech, fialový výběr, Escape/focus, ostatní popupy a dostupnost původních experimentů.
 
-Lokální ověření: **56/56 unit testů**, **34/34 Chromium scénářů**, oba buildy úspěšné. Produkční `dist` je souborově identický se zafixovaným main základem `86e0ff3` (`diff -qr` bez rozdílů). První CI běh ověřil 101/102 scénářů včetně všech WebKit scénářů; odhalil chybějící focus ring ve Firefoxu po návratu z portálu. Oprava je omezená na `selectTrigger:focus`. Následné výsledky budou doplněny po dokončení opakovaného běhu. Veřejný smoke prvního commitu prošel.
+Finální ověření:
+
+| Kontrola | Výsledek |
+| --- | --- |
+| Unit testy | 56/56 |
+| Chromium, WebKit, Firefox | **102/102** (34 v každém prohlížeči) |
+| Opakované klávesnicové scénáře | 20/20 lokálně |
+| Build izolovaného headeru a běžný build | Úspěšné |
+| Produkční `dist` proti main základu `86e0ff3` | Souborově identický (`diff -qr` bez rozdílů) |
+| Veřejný smoke | Úspěšný, bez JavaScriptových chyb |
+
+- [Kompletní CI, 102/102](https://github.com/irisKaX/axolotl-2/actions/runs/39079369412), [textový výsledek](results/selects-ci.txt).
+- [Veřejný smoke](https://github.com/irisKaX/axolotl-2/actions/runs/39078865552), [ověřený commit a kontroly](results/selects-public-smoke.json).
+- Preview je připnuté na `be2527ca9da9ab56e9fb30c252127a8796e08289`. Poslední CI používá `c3f9f5e7486697332ee9bb4b5798dab95bf36c53`, který mění pouze testové čekání na asynchronní přesun fokusu Radix a evidenci; jeho produktový kód je identický s preview.
+- CI ověřilo opravu focus ringu ve Firefoxu. Klávesnicové testy před potvrzením čekají na skutečné zaměření položky; nepoužívají pevné časové prodlevy.
+
 
 ## Kompromisy a omezení
 
