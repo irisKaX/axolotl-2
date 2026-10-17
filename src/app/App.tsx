@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Header } from "./Header";
+import { useEffect, useRef, useState } from "react";
+import { AppHeader } from "./header/AppHeader";
 import { CursorEffects } from "./CursorEffects";
 import { currentRoute, routeLabels } from "./routes";
 import { DesignSystem } from "../pages/DesignSystem";
@@ -8,8 +8,10 @@ import { toolRoutes } from "../tools/registry";
 
 export function App() {
   const [route, setRoute] = useState(currentRoute);
+  const workspace = useRef<HTMLElement>(null);
+  const focusWorkspace = () => requestAnimationFrame(() => workspace.current?.focus({ preventScroll: true }));
   useEffect(() => {
-    const update = () => setRoute(currentRoute());
+    const update = () => { setRoute(currentRoute()); focusWorkspace(); };
     window.addEventListener("hashchange", update);
     return () => window.removeEventListener("hashchange", update);
   }, []);
@@ -31,8 +33,9 @@ export function App() {
       >
         Přejít na obsah
       </a>
-      <Header route={route} />
+      <AppHeader route={route} onNavigate={focusWorkspace} />
       <main
+        ref={workspace}
         className="axolotl-workspace"
         id="axolotl-workspace"
         aria-label={routeLabels[route]}
