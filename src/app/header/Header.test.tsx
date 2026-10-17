@@ -70,7 +70,13 @@ describe('isolated header contract', () => {
     const user = userEvent.setup(); mount();
     await user.click(group('Nastavení'));
     await user.click(group('Vzhled a prostředí'));
-    await user.selectOptions(screen.getByLabelText('Velikost textu'), 'large');
+    // JSDOM has no layout/scrollIntoView. Pointer geometry is covered in Playwright.
+    Object.defineProperty(Element.prototype, 'scrollIntoView', { configurable:true, value:()=>{} });
+    try {
+      screen.getByRole('combobox', { name:'Velikost textu' }).focus();
+      await user.keyboard('{Enter}');
+      await user.click(screen.getByRole('option', { name:'Větší (115 %)' }));
+    } finally { Reflect.deleteProperty(Element.prototype,'scrollIntoView'); }
     expect(localStorage.getItem('axolotl-2-text-size')).toBe('large');
     await user.click(group('Zpět do nastavení'));
     expect(group('Vzhled a prostředí')).toHaveFocus();

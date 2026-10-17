@@ -6,6 +6,8 @@ Jediný nový header zachovává C2 chování a charakter Refined Spatial B. Pro
 - [Galerie screenshotů a referencí](https://iriskax.github.io/axolotl-preview/header-rebuild/evidence/)
 - [Zdrojová větev](https://github.com/irisKaX/axolotl-2/tree/feat/header-rebuild-isolated)
 
+Aktualizace: [vlastní přístupné selecty Nastavení](SELECTS.md), jejich screenshoty a samostatné ověření. Níže uvedené původní výsledky 75 scénářů dokumentují první předání headeru.
+
 ## Zafixované podklady
 
 | Podklad | Commit |
@@ -30,7 +32,7 @@ Vizuální ověření kombinuje porovnání screenshotů, měření geometrie a 
 | `Popover.tsx` | Jeden otevřený popup, portál, positioning, mouse/touch, fokus a dismissal |
 | `PanelUI.tsx` | Společné ovládací prvky, hlavička/patička panelu a řádky |
 | `UrlControl.tsx` | Draft/commit URL, validace a seznam karet |
-| `SettingsPanel.tsx` | Nastavení a podstránky, nativní selecty |
+| `SettingsPanel.tsx` | Nastavení a podstránky, sdílený Radix Select |
 | `header.module.css` | Společné materiály, typografie, ikony, spacing a interaktivní stavy |
 
 Desktop používá existující nezměněný PillNav v režimu `collapse="never"`. Vyhýbá se kopii jeho animačního enginu. Kompaktní režim řídí výhradně nový header: do 1180 px, při zvětšení textu do 1360 px. Zachování závislosti na starém PillNav je vědomý kompromis; další extrakce může přijít až při schválené produkční migraci.

@@ -37,6 +37,10 @@ export function Popover({ id, title, trigger, children, wide = false, hover = tr
   const floating = useFloating({
     open, placement: `bottom-${align}`, strategy: 'fixed',
     onOpenChange(next, _event, reason) {
+      // A portalled settings select owns dismissal and focus until it closes.
+      // In particular, its first Escape must not also dismiss the parent panel.
+      const fromSelect = _event?.target instanceof Element && _event.target.closest('[data-header-select]');
+      if (!next && (fromSelect || panel.current?.querySelector('[data-header-select-trigger][aria-expanded="true"]'))) return;
       if (!next && reason === 'hover' && panel.current?.contains(document.activeElement)) return;
       if (next) setActive({ id, source: reason === 'hover' ? 'hover' : 'interaction' });
       else close(reason === 'escape-key');

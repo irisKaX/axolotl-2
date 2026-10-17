@@ -25,7 +25,18 @@ try {
       await page.keyboard.press('Escape');await expect(panel).not.toBeVisible();await page.mouse.move(0,800);
     }
     const input=page.getByRole('textbox',{name:'Aktuální URL'});await input.fill('example.cz');await input.press('Enter');await expect(input).toHaveValue('https://example.cz/');
-    report.checks.push(theme+': public header, four popups, Escape, manual URL');
+    await page.getByRole('button',{name:'Nastavení',exact:true}).click();
+    await page.getByRole('button',{name:'Vzhled a prostředí',exact:true}).click();
+    for(const label of ['Barevný režim','Velikost textu','Animace']) {
+      const trigger=page.getByRole('combobox',{name:label,exact:true});
+      await trigger.click();await expect(page.getByRole('listbox',{name:label,exact:true})).toBeVisible();
+      const selected=page.locator('[data-header-select] [data-state=checked]');
+      expect(await selected.evaluate(el=>getComputedStyle(el).backgroundColor)).toBe('rgb(124, 58, 237)');
+      await page.keyboard.press('Escape');await expect(trigger).toBeFocused();
+      await expect(page.locator('[data-header-panel=settings]')).toBeVisible();
+    }
+    await page.keyboard.press('Escape');
+    report.checks.push(theme+': public header, four popups, three custom selects, purple selection, nested Escape/focus, manual URL');
   }
   await page.goto(base+'header-rebuild/evidence/');
   await expect(page.getByRole('heading',{name:'Axolotl — izolovaný Header Rebuild'})).toBeVisible();

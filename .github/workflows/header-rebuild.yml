@@ -26,4 +26,5 @@ jobs:
           path: |
             test-results/
             docs/header-rebuild/screenshots/
+            docs/header-rebuild/select-screenshots/
           retention-days: 14

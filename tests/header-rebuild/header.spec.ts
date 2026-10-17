@@ -51,12 +51,11 @@ for (const theme of ['dark','light']) for (const width of [1440,1024,390]) {
         await checkPanel(page); await shot('appearance');
         await page.getByLabel('Barevný režim', {exact:true}).focus();
         await page.keyboard.press('ArrowDown');
+        await expect(page.getByRole('listbox')).toBeVisible();
+        await page.getByRole('option',{name:theme==='dark'?'Tmavý':'Světlý',exact:true}).click();
         await expect(panel).toBeVisible();
-        await page.getByLabel('Barevný režim', {exact:true}).selectOption(theme);
       }
       await page.keyboard.press('Escape');
-      // A native select may consume its own first Escape on WebKit.
-      if (await panel.isVisible()) await page.keyboard.press('Escape');
       await expect(panel).not.toBeVisible();
       await page.mouse.move(0,800);
     }
@@ -159,7 +158,7 @@ test('breakpoint edges, enlarged text and URL target sizes do not overlap', asyn
     if(width>1180) { const nav=(await page.getByRole('navigation',{name:'Hlavní navigace'}).boundingBox())!; expect(nav.x+nav.width).toBeLessThanOrEqual(url.x); }
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
-  await button(page,'Nastavení').click(); await button(page,'Vzhled a prostředí').click(); await page.getByLabel('Velikost textu').selectOption('large');
+  await button(page,'Nastavení').click(); await button(page,'Vzhled a prostředí').click(); await page.getByLabel('Velikost textu').click(); await page.getByRole('option',{name:'Větší (115 %)'}).click();
   for(const width of [320,390,1024,1181,1360,1440]) { await page.setViewportSize({width,height:844}); expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true); }
 });
 
@@ -317,10 +316,10 @@ test('portal preserves tab order, closed controls survive stale hover dismissal 
   await expect(page.locator('[data-header-panel]')).toHaveCount(0);
 });
 
-test('short viewport, text scaling and native select retain reachable controls', async ({ page }) => {
+test('short viewport, text scaling and settings choice retain reachable controls', async ({ page }) => {
   await page.setViewportSize({width:390,height:400}); await open(page);
   await button(page,'Nastavení').click(); await button(page,'Vzhled a prostředí').click();
-  await page.getByLabel('Velikost textu').selectOption('large');
+  await page.getByLabel('Velikost textu').click(); await page.getByRole('option',{name:'Větší (115 %)'}).click();
   const panel=await checkPanel(page);
   expect(await panel.evaluate(el=>el.scrollHeight>el.clientHeight)).toBe(true);
   await page.getByRole('switch',{name:'Efekt kurzoru'}).scrollIntoViewIfNeeded();

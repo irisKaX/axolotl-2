@@ -1,8 +1,10 @@
-import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { useId, useLayoutEffect, useRef, useState } from 'react';
+import * as Select from '@radix-ui/react-select';
 import { Icon, type IconName } from '../../components/Icon';
 import { usePreferences } from '../PreferencesProvider';
 import { usePageContext } from '../PageContextProvider';
 import { PanelFooter, PanelHeading, PanelRow } from './PanelUI';
+import { useHeaderPopovers } from './Popover';
 import s from './header.module.css';
 
 type View = 'home' | 'appearance' | 'integrations' | 'about';
@@ -12,9 +14,30 @@ const entries: { label: string; icon: IconName; view?: View }[] = [
   { label:'Upozornění', icon:'bell' }, { label:'Data a soukromí', icon:'lock' }, { label:'O aplikaci', icon:'info', view:'about' },
 ];
 
-function Choice({ label, value, onChange, children, note }: { label: string; value: string; onChange: (value: string) => void; children: ReactNode; note?: string }) {
+function Choice({ label, value, onChange, options, note }: { label: string; value: string; onChange: (value: string) => void; options: {value:string;label:string}[]; note?: string }) {
   const id = useId();
-  return <div className={s.field}><label htmlFor={id}>{label}</label><div className={s.selectWrap}><select id={id} value={value} onChange={event => onChange(event.target.value)} aria-describedby={note ? `${id}-note` : undefined}>{children}</select><Icon name="chevron"/></div>{note && <p id={`${id}-note`} className={s.note}>{note}</p>}</div>;
+  const prefs = usePreferences();
+  const { header } = useHeaderPopovers();
+  const [open, setOpen] = useState(false);
+  return <div className={s.field}>
+    <label id={`${id}-label`} htmlFor={id}>{label}</label>
+    <Select.Root value={value} onValueChange={onChange} open={open} onOpenChange={setOpen}>
+      <Select.Trigger id={id} className={s.selectTrigger} data-header-select-trigger aria-labelledby={`${id}-label`} aria-describedby={note ? `${id}-note` : undefined}>
+        <Select.Value/><Select.Icon asChild><Icon name="chevron"/></Select.Icon>
+      </Select.Trigger>
+      <Select.Portal><Select.Content position="popper" align="start" sideOffset={6}
+        collisionPadding={{top:(header.current?.getBoundingClientRect().bottom ?? 0)+12,bottom:12,left:12,right:12}}
+        data-header-select data-header-theme={prefs.resolvedTheme} data-text-size={prefs.textSize} data-motion={prefs.reducedMotion ? 'reduced' : 'full'}
+        className={`${s.scope} ${s.selectContent}`} aria-labelledby={`${id}-label`}>
+        <Select.ScrollUpButton className={s.selectScroll}><Icon name="chevron"/></Select.ScrollUpButton>
+        <Select.Viewport className={s.selectViewport}>{options.map(option => <Select.Item key={option.value} value={option.value} className={s.selectOption}>
+          <Select.ItemText>{option.label}</Select.ItemText><Select.ItemIndicator className={s.check} aria-hidden="true">✓</Select.ItemIndicator>
+        </Select.Item>)}</Select.Viewport>
+        <Select.ScrollDownButton className={s.selectScroll}><Icon name="chevron"/></Select.ScrollDownButton>
+      </Select.Content></Select.Portal>
+    </Select.Root>
+    {note && <p id={`${id}-note`} className={s.note}>{note}</p>}
+  </div>;
 }
 function Appearance() {
   const prefs = usePreferences();
@@ -22,9 +45,9 @@ function Appearance() {
   const cursorId = useId();
   function set(key: string, value: unknown) { setSaved(prefs.setPreference(key, value).saved ? 'Změny jsou uložené v tomto prohlížeči.' : 'Nastavení platí nyní. Prohlížeč nepovolil jeho uložení.'); }
   return <>
-    <Choice label="Barevný režim" value={prefs.theme} onChange={value => set('theme', value)}><option value="dark">Tmavý</option><option value="light">Světlý</option><option value="system">Podle systému</option></Choice>
-    <Choice label="Velikost textu" value={prefs.textSize} onChange={value => set('textSize', value)} note="Text v rozbalených nabídkách a obsahu aplikace."><option value="standard">Výchozí</option><option value="large">Větší (115 %)</option></Choice>
-    <Choice label="Animace" value={prefs.motion} onChange={value => set('motion', value)} note="Omezení vypne pohybové přechody a pozastaví efekt kurzoru."><option value="system">Podle systému</option><option value="full">Zapnuté</option><option value="reduced">Omezené</option></Choice>
+    <Choice label="Barevný režim" value={prefs.theme} onChange={value => set('theme', value)} options={[{value:'dark',label:'Tmavý'},{value:'light',label:'Světlý'},{value:'system',label:'Podle systému'}]}/>
+    <Choice label="Velikost textu" value={prefs.textSize} onChange={value => set('textSize', value)} note="Text v rozbalených nabídkách a obsahu aplikace." options={[{value:'standard',label:'Výchozí'},{value:'large',label:'Větší (115 %)'}]}/>
+    <Choice label="Animace" value={prefs.motion} onChange={value => set('motion', value)} note="Omezení vypne pohybové přechody a pozastaví efekt kurzoru." options={[{value:'system',label:'Podle systému'},{value:'full',label:'Zapnuté'},{value:'reduced',label:'Omezené'}]}/>
     <label className={s.checkField} htmlFor={cursorId}><span>Efekt kurzoru<small>{prefs.reducedMotion ? 'Pozastaveno' : prefs.cursor ? 'Zapnuto' : 'Vypnuto'}</small></span><input id={cursorId} type="checkbox" role="switch" checked={prefs.cursor} disabled={prefs.reducedMotion} onChange={event => set('cursor', event.target.checked)}/></label>
     <p className={s.note}>{prefs.reducedMotion ? 'Efekt kurzoru je pozastavený při omezených animacích.' : prefs.resolvedTheme === 'dark' ? 'Glow Cursor zanechává modrofialovou světelnou stopu.' : 'Glow Cursor vytváří barevnou stopu pro světlé pozadí.'}</p>
     <p className={s.note} role="status">{saved}</p>
