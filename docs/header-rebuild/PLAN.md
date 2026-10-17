@@ -6,7 +6,7 @@ Approved scope: C2 behavior and Refined Spatial B character; no production integ
 
 1. Freeze Chromium screenshots and computed interactive paint for C2/B, both themes and 1440/1024/390 widths. Neutral menu-row hover differs from violet active paint; original desktop top-level fill hover is violet. Record measured values, not only CSS variables.
 2. Keep the architecture small: AppHeader (composition/layout/actions), Navigation, Popover (state/position/focus), PanelUI (shared surface/heading/row/control), UrlControl, SettingsPanel, plus scoped CSS. No file for every icon or trigger.
-3. Every navigation/settings/notification/tab panel uses the same PanelSurface, PanelHeading, PanelRow, icon sizing, type scale, spacing, focus and state tokens. Panel width and content may differ by purpose. Compact and desktop navigation retain their approved active treatments.
+3. Every navigation/settings/notification/tab panel uses the same surface in Popover, PanelHeading, PanelRow, icon sizing, type scale, spacing, focus and state tokens. Panel width and content may differ by purpose. Compact and desktop navigation retain their approved active treatments.
 
 ## Decisions
 
@@ -21,9 +21,9 @@ Approved scope: C2 behavior and Refined Spatial B character; no production integ
 - [x] Freeze baseline references and verify existing unit tests.
 - [x] Test and implement common panel UI, popup state/positioning and C2 navigation.
 - [x] Test and implement URL/settings/actions with shared tokens.
-- [ ] Exercise the real preview and tools in browser tests, inspect screenshots and computed styles.
-- [ ] Run production regression suite/build, independent review, fix important findings.
-- [ ] Publish isolated source branch and preview, retain references, report evidence and deviations.
+- [x] Exercise the real preview and tools in browser tests, inspect screenshots and computed styles.
+- [x] Run production regression suite/build, independent review, fix important findings.
+- [x] Publish isolated source branch and preview, retain references, report evidence and deviations.
 
 ## Acceptance
 

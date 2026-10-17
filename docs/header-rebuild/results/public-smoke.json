@@ -1,0 +1,11 @@
+{
+  "source": "d1483a194fadb0959d9ed20dea83355e6ae15a7b",
+  "checks": [
+    "dark: public header, four popups, Escape, manual URL",
+    "light: public header, four popups, Escape, manual URL",
+    "gallery filter and full-resolution image",
+    "original lab preserved: header-responsive-lab.html?view=scene&variant=C2&theme=dark",
+    "original lab preserved: header-visual-lab.html?view=scene&variant=B&theme=light"
+  ],
+  "errors": []
+}

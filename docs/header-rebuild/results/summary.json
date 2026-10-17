@@ -1,0 +1,28 @@
+{
+  "source": "d1483a194fadb0959d9ed20dea83355e6ae15a7b",
+  "new_browser_scenarios": {
+    "chromium": 25,
+    "webkit": 25,
+    "firefox": 25,
+    "passed": 75,
+    "failed": 0,
+    "url": "https://github.com/irisKaX/axolotl-2/actions/runs/39076552242"
+  },
+  "original_suite": {
+    "unit": 56,
+    "legacy": 4,
+    "tools": 335,
+    "browser": 4,
+    "url": "https://github.com/irisKaX/axolotl-2/actions/runs/39076552289"
+  },
+  "public_smoke": {
+    "passed": true,
+    "url": "https://github.com/irisKaX/axolotl-2/actions/runs/39076552467"
+  },
+  "preview_deployment": {
+    "passed": true,
+    "url": "https://github.com/irisKaX/axolotl-preview/actions/runs/39076566826"
+  },
+  "production_deployment": "skipped",
+  "production_output_equal_files": 44
+}
