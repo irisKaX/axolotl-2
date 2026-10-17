@@ -7,7 +7,7 @@
 Pouze Barevný režim, Velikost textu a Animace. Jeden lokální komponent `Choice` v `SettingsPanel.tsx` používá již nainstalovaný Radix Select 2.3.8. Bez nové závislosti, změny úložiště, nové vizuální varianty nebo zásahu do produkčního headeru.
 
 - Zavřený ovladač zachovává původní materiál, 16px zaoblení a typografii. Portál přebírá aktuální téma a velikost textu.
-- Povrch nabídky, okraj, stín, hover, výběr a focus používají společné tokeny headeru. Hover nevybrané položky je neutrální; vybraná položka má `#7c3aed` a check i při hoveru. Focus má 2px obrys z tokenu tématu.
+- Povrch nabídky, okraj, stín, hover, výběr a focus používají společné tokeny headeru. Hover nevybrané položky je neutrální; vybraná položka má `#7c3aed` a check i při hoveru. Focus má 2px obrys z tokenu tématu. Ovladač jej dostává při každém fokusu, včetně návratu z portálu ve Firefoxu; není závislý pouze na heuristice `:focus-visible`.
 - Řádky mají alespoň 44 px. Šířka vychází z ovladače, umístění a omezená výška respektují prostor pod celým headerem. Obsah může scrollovat.
 - Radix zajišťuje role combobox/listbox/option, popisky, šipky, Home/End, Enter/Space, vyhledání psaním a návrat fokusu. První Escape zavře select, druhý Nastavení.
 - `Popover.tsx` má pouze nutnou ochranu před zavřením rodiče událostí z vnořeného portálu. Ostatní popupy zachovávají stávající chování.
@@ -21,7 +21,7 @@ Testy pokrývají dark/light, desktop 1440 px a mobil 390 px, krátký viewport 
 
 Screenshoty v `select-screenshots/` mají fixovaný čas a pocházejí z Chromium. Reference C2/B zůstávají nedotčené. Veřejný smoke test ověřuje připnutý commit, otevření všech tří vlastních selectů v obou tématech, fialový výběr, Escape/focus, ostatní popupy a dostupnost původních experimentů.
 
-Lokální ověření: **56/56 unit testů**, **34/34 Chromium scénářů**, oba buildy úspěšné. Produkční `dist` je souborově identický se zafixovaným main základem `86e0ff3` (`diff -qr` bez rozdílů). Výsledky Firefox/WebKit a veřejného smoke budou doplněny po dokončení CI a publikace preview.
+Lokální ověření: **56/56 unit testů**, **34/34 Chromium scénářů**, oba buildy úspěšné. Produkční `dist` je souborově identický se zafixovaným main základem `86e0ff3` (`diff -qr` bez rozdílů). První CI běh ověřil 101/102 scénářů včetně všech WebKit scénářů; odhalil chybějící focus ring ve Firefoxu po návratu z portálu. Oprava je omezená na `selectTrigger:focus`. Následné výsledky budou doplněny po dokončení opakovaného běhu. Veřejný smoke prvního commitu prošel.
 
 ## Kompromisy a omezení
 

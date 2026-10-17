@@ -144,6 +144,8 @@
 .field > label { font-size:calc(14px * var(--axo-text-scale)); }
 .selectTrigger { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; min-height:44px; padding:10px 16px 10px 12px; border:1px solid var(--axo-edge); border-radius:16px; background:var(--axo-tile); color:var(--axo-ink); text-align:left; }
 .selectTrigger > svg { width:14px; height:14px; pointer-events:none; }
+/* Keep the ring after Radix restores focus, including Firefox's pointer modality. */
+.selectTrigger:focus { outline:2px solid var(--axo-focus); outline-offset:3px; }
 .selectContent { z-index:31; width:var(--radix-select-trigger-width); max-width:calc(100vw - 24px); max-height:var(--radix-select-content-available-height); border:1px solid var(--axo-edge); border-radius:16px; background:var(--axo-panel-surface); box-shadow:var(--axo-panel-shadow); overflow:hidden; }
 .selectViewport { padding:6px; overscroll-behavior:contain; }
 .selectOption { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; padding:10px 12px; border-radius:12px; cursor:pointer; user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color:transparent; outline:none; }
