@@ -6,9 +6,13 @@ const page=await browser.newPage({viewport:{width:390,height:844},reducedMotion:
 const errors=[];page.on('pageerror',error=>errors.push(error.message));
 const report={source:null,checks:[]};
 try {
-  const response=await page.request.get(base+'header-rebuild/source-commit.txt');
-  if(!response.ok())throw new Error('Preview not yet deployed: '+response.status());
-  report.source=(await response.text()).trim();
+  // Pages publication runs independently of the read-only checks.
+  for(let attempt=0;attempt<30;attempt++) {
+    const response=await page.request.get(base+'header-rebuild/source-commit.txt?check='+Date.now());
+    if(response.ok()) report.source=(await response.text()).trim();
+    if(report.source===process.env.EXPECTED_HEADER_SHA) break;
+    await new Promise(resolve=>setTimeout(resolve,5000));
+  }
   expect(report.source).toBe(process.env.EXPECTED_HEADER_SHA);
   for(const theme of ['dark','light']) {
     await page.goto(base+'header-rebuild/?theme='+theme+'#dashboard');

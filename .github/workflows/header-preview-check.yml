@@ -5,6 +5,9 @@ on:
     paths:
       - '.github/workflows/header-preview-check.yml'
       - 'scripts/header-rebuild/check-public.mjs'
+      - 'src/app/header/**'
+      - 'src/pages/header-rebuild/**'
+      - 'vite.header-rebuild.config.ts'
   workflow_dispatch:
 permissions:
   contents: read
@@ -21,7 +24,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Check deployed preview and preserved labs
         env:
-          EXPECTED_HEADER_SHA: 011ecc3ac587145317f87a54efd6974b2205ad19
+          EXPECTED_HEADER_SHA: ${{ github.sha }}
         run: node scripts/header-rebuild/check-public.mjs
       - uses: actions/upload-artifact@v4
         if: always()

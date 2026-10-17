@@ -337,6 +337,9 @@ for(const theme of ['dark','light']) {
     for(const name of ['Otevřít navigaci','Nastavení','Upozornění','Vybrat kartu prohlížeče']) {
       await button(page,name).click();
       const scan=async()=>{
+        const guards=page.locator('[data-floating-ui-focus-guard]');
+        await expect(guards).toHaveCount(4);
+        for(const guard of await guards.all()) await expect(guard).toHaveAttribute('aria-label',/^Pokračovat v ovládání:/);
         const result=await new AxeBuilder({page}).include('header').include('[data-header-panel]').withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
         reports.push({name,violations:result.violations,incomplete:result.incomplete.map(rule=>rule.id)});
         expect(result.violations).toEqual([]);

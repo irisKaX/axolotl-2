@@ -51,6 +51,23 @@ export function Popover({ id, title, trigger, children, wide = false, hover = tr
   const { getReferenceProps, getFloatingProps } = useInteractions([hoverInteraction, click, dismiss, role]);
   const [geometry, setGeometry] = useState({ width: 350, height: 500 });
 
+  useEffect(() => {
+    if (!open) return;
+    // Floating UI 0.27 uses button-role focus guards for Safari/VoiceOver but
+    // provides no name prop. Name only our own guards; retain their focus logic
+    // and Chromium/Firefox aria-hidden behavior. Remove this shim upstream
+    // when FloatingPortal exposes accessible guard labels.
+    const roots = [header.current, panel.current?.parentElement].filter((root): root is HTMLElement => !!root);
+    const label = `Pokračovat v ovládání: ${title}`;
+    const nameGuards = () => roots.forEach(root => root.querySelectorAll('[data-floating-ui-focus-guard]').forEach(guard => {
+      if (guard.getAttribute('aria-label') !== label) guard.setAttribute('aria-label', label);
+    }));
+    const observer = new MutationObserver(nameGuards);
+    roots.forEach(root => observer.observe(root, { childList:true, subtree:true }));
+    nameGuards();
+    return () => observer.disconnect();
+  }, [open, title, header, floating.elements.floating]);
+
   useLayoutEffect(() => {
     if (!open || !triggerElement.current || !header.current) return;
     const trigger = triggerElement.current;

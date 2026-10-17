@@ -76,13 +76,13 @@ Pro lokální Chromium lze nastavit `PLAYWRIGHT_CHROME_EXECUTABLE`. CI instaluje
 ## Ověření
 
 - Unit: **56/56** (50 původních + 6 nových integračních testů).
-- Legacy: **4/4**; nástroje/bridge: **48/48**.
+- Legacy: **4/4**; nástroje/bridge: **335/335**.
 - Typecheck, produkční build a samostatný preview build prošly.
 - Nová browser sada: **25/25 Chromium** proti sestavenému preview; log je zaznamenán v `results/header-chromium.txt`; CI ověřuje také WebKit a Firefox.
 - Axe kontroluje header a všechny čtyři druhy popupů + vzhled v obou tématech; výsledky v `results/measurements.json`.
 - Matrix všech popupů: dark/light, 1440/1024/390. Dále 320 až 1440, obě strany breakpointů, text 115 %, krátký viewport 390×400, dotyk, klávesnice, hover, aktivní hover, URL validace, historie, vybraná/odebraná karta a modal skutečného konvertoru.
-- Původní browser sada: **3/4**, shodně s čistým výchozím commitem. Jediný pád je existující desktop alignment assertion: naměřeno přesně 2 px, test požaduje `< 2`. Produkční kód ani jeho test se kvůli tomu neupravoval. Srovnání buildů: **44/44 souborů bitově shodných** i po finálních změnách; kontrolní součty jsou v `results/production-build-equality.json`.
-- Nezávislé review nalezlo a následně ověřilo opravu priority active+hover a izolace URL při vyčerpané storage. Workflow preview prošlo review zachování původních labů.
+- Původní browser sada: **4/4 v CI** ([běh](https://github.com/irisKaX/axolotl-2/actions/runs/39076160898)). Lokálně **3/4**, shodně s čistým výchozím commitem. Jediný pád je existující desktop alignment assertion: naměřeno přesně 2 px, test požaduje `< 2`. Produkční kód ani jeho test se kvůli tomu neupravoval. Srovnání buildů: **44/44 souborů bitově shodných** i po finálních změnách; kontrolní součty jsou v `results/production-build-equality.json`.
+- Nezávislé review nalezlo a následně ověřilo opravu priority active+hover a izolace URL při vyčerpané storage. Workflow preview prošlo review zachování původních labů. Cross-browser kontrola navíc odhalila nepojmenované Safari focus guards ve Floating UI; lokální adaptér je pojmenovává bez změny jejich chování a bez výjimek v axe testech. Adaptér prošel nezávislým review.
 
 ## Odchylky a zbývající závislosti
 
@@ -95,4 +95,4 @@ Pro lokální Chromium lze nastavit `PLAYWRIGHT_CHROME_EXECUTABLE`. CI instaluje
 
 Zdroj je jen ve feature větvi. Workflow v `axolotl-preview`, větev `preview/header-responsive-lab`, nadále staví původní laby z `f25ab73…` a přidává oddělený build do `/header-rebuild/`. Přesný zdrojový commit je veřejně v `header-rebuild/source-commit.txt`. Žádná změna main ani produkčního Pages deploymentu.
 
-Rollback preview: vrátit pouze změnu `.github/workflows/preview.yml` v preview větvi na původní konfiguraci a znovu spustit její workflow; odstraní novou podcestu a zachová dosavadní laby. Produkce nevyžaduje rollback. Další krok je vizuální a funkční schválení tohoto preview; produkční integrace vyžaduje nové výslovné povolení.
+Rollback preview: vrátit pouze změnu `.github/workflows/preview.yml` v preview větvi na původní konfiguraci a znovu spustit její workflow; odstraní novou podcestu a zachová dosavadní laby. Produkce nevyžaduje rollback. Veřejný smoke test kontroluje přesný zdrojový SHA, všechna čtyři menu v obou tématech, URL, galerii a zachování původních C2/B labů. Další krok je vizuální a funkční schválení tohoto preview; produkční integrace vyžaduje nové výslovné povolení.
