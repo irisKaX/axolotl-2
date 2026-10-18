@@ -36,3 +36,5 @@
 .a-stage[data-scenario=long][data-narrow=true]{min-height:406px}.a-stage[data-scenario=long][data-narrow=true] .a-viewport,.a-stage[data-scenario=long][data-narrow=true] iframe{min-height:360px}
 @media(max-width:600px){.a-stage[data-scenario=long]{min-height:409px}.a-stage[data-scenario=long] .a-viewport,.a-stage[data-scenario=long] iframe{min-height:360px}}
 .a-live:focus-within{border-color:color-mix(in srgb,var(--a-accent) 35%,transparent)}
+/* Mobile default still reserves the complete production menu, not just its trigger. */
+@media(max-width:600px){.a-live{min-height:469px}.a-stage{min-height:337px}.a-viewport,.a-viewport iframe{min-height:288px}}
