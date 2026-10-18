@@ -1,5 +1,5 @@
 import { useId } from "react";
-import type { DisclosureProps } from "../../app/Header";
+import type { DisclosureProps } from "../../app/useDisclosure";
 import PillNav, { type PillNavLinkProps } from "../../components/navigation/PillNav";
 import { Icon } from "../../components/Icon";
 import { BrandMark } from "../../components/BrandLogo";

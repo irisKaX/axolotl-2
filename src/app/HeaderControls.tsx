@@ -6,8 +6,8 @@ import { useDisclosure } from "./useDisclosure";
 import { usePreferences } from "./PreferencesProvider";
 
 import { pillNavThemes } from "../components/navigation/PillNav";
-import type { DisclosureProps } from "./Header";
-import "./HeaderControls.css";
+import type { DisclosureProps } from "./useDisclosure";
+// Retained for Header Lab; its styles are loaded by HeaderPreview.
 
 export type HeaderVariant = "unified" | "spatial";
 const clockFormat = new Intl.DateTimeFormat("cs-CZ", { timeZone: "Europe/Prague", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });

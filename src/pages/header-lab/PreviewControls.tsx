@@ -1,6 +1,6 @@
 import { useId, useState } from "react";
 import { HeaderControls, type HeaderVariant } from "../../app/HeaderControls";
-import type { DisclosureProps } from "../../app/Header";
+import type { DisclosureProps } from "../../app/useDisclosure";
 export type { HeaderVariant } from "../../app/HeaderControls";
 
 export function PreviewControls({ variant, inline = false, disclosure }: { variant: HeaderVariant; inline?: boolean; disclosure?: DisclosureProps }) {

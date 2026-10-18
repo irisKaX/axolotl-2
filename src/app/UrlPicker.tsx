@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Icon } from "../components/Icon";
 import { usePageContext } from "./PageContextProvider";
 import { useDisclosure } from "./useDisclosure";
-import type { DisclosureProps } from "./Header";
+import type { DisclosureProps } from "./useDisclosure";
 export function UrlPicker({ openId, setOpenId, idPrefix = "axolotl" }: DisclosureProps & { idPrefix?: string }) {
   const { context, connection, tabs, store } = usePageContext();
   const menu = useDisclosure("tabs", openId, setOpenId);

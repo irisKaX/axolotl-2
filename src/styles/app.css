@@ -1,30 +1,17 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities) source(none);
 @source '../';
+@import "./base.css";
 @import "./cursor-effects.css";
-@import "./navigation.css";
-@import "./url-context.css";
-@import "./dashboard-layout.css";
-@import "./legacy-base.css";
-@import "./settings.css";
 @import "./design-tokens.css";
 @import "./design-system.css";
 @import "./tools.css";
-@import "./pill-navigation.css";
-@import "./header-layout.css";
 body {
   background: transparent;
 }
 html {
   background: var(--background);
   background-attachment: fixed;
-}
-.axolotl-settings {
-  position: relative;
-}
-.axolotl-design-link {
-  gap: 8px;
-  margin: 8px 4px;
 }
 .axolotl-skip-link {
   position: fixed;
@@ -40,12 +27,8 @@ html {
 .axolotl-skip-link:focus {
   transform: none;
 }
-/* Keep expanded content usable when text is enlarged. */
-.axolotl-settings-panel {
-  overscroll-behavior: contain;
-}
-@media (max-width: 900px) {
-  .axolotl-controls {
-    gap: 10px;
-  }
-}
+/* The header reserves its measured height; the workspace adds no second offset. */
+#axolotl-root { display:flex; flex-direction:column; min-height:100vh; min-height:100dvh; }
+#axolotl-root > [data-header-space] { flex:none; }
+.axolotl-workspace { flex:1; min-width:0; padding:0 20px 24px; outline:none; font-size:calc(14px * var(--axolotl-text-scale)); }
+.axolotl-view[hidden] { display:none; }

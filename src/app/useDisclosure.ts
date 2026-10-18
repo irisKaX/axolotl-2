@@ -1,3 +1,8 @@
+export interface DisclosureProps {
+  openId: string | null;
+  setOpenId: (id: string | null) => void;
+}
+
 import {
   useEffect,
   useRef,
