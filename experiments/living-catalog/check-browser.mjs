@@ -25,8 +25,8 @@ try{for(const direction of ['aperture','atelier','float']){
  await page.getByRole('combobox',{name:'Šířka náhledu'}).selectOption('768');assert.equal(Math.round((await page.locator('iframe').boundingBox()).width),768);await page.getByRole('combobox',{name:'Šířka náhledu'}).selectOption('available');results.push(`${direction}: real iframe viewport`);
  const before=(await page.locator('.lc-main').boundingBox()).width;await page.getByRole('button',{name:'Skrýt vlastnosti'}).click();assert.equal(await page.locator('#properties-panel').count(),0);assert.ok((await page.locator('.lc-main').boundingBox()).width>before+150);await page.getByRole('button',{name:'Zobrazit vlastnosti'}).click();results.push(`${direction}: properties collapse and restore`);
  for(const category of ['Základy','Vzory','Experimenty','Komponenty']){await page.getByRole('button',{name:category,exact:true}).click();}
- await page.getByRole('heading',{name:'Select.',exact:true}).waitFor();await page.getByRole('textbox',{name:'Hledat v katalogu'}).fill('výběr');await page.locator('.lc-results').getByRole('button').click();results.push(`${direction}: all categories and search`);
- await page.getByRole('button',{name:'Vzory',exact:true}).click();await page.goBack();await page.getByRole('heading',{name:'Select.',exact:true}).waitFor();results.push(`${direction}: browser history`);
+ await page.getByRole('heading',{name:/^Select\.?$/}).waitFor();await page.getByRole('textbox',{name:'Hledat v katalogu'}).fill('výběr');await page.locator('.lc-results').getByRole('button').click();results.push(`${direction}: all categories and search`);
+ await page.getByRole('button',{name:'Vzory',exact:true}).click();await page.goBack();await page.getByRole('heading',{name:/^Select\.?$/}).waitFor();results.push(`${direction}: browser history`);
  for(const light of [false,true]){
   await page.getByRole('checkbox',{name:'Tmavý režim',exact:true}).setChecked(!light);
   await page.getByRole('button',{name:light?'Světlý náhled':'Tmavý náhled',exact:true}).click();
