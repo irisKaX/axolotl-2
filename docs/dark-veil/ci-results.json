@@ -1,0 +1,80 @@
+{
+  "checks": [
+    "dark desktop 1366×768: canvas, theme uniform, overflow, accessibility, header popups, nested Radix Select/Escape",
+    "light desktop 1366×768: canvas, theme uniform, overflow, accessibility, header popups, nested Radix Select/Escape",
+    "Desktop: original API controls and WebGL uniforms, quality remount, reset",
+    "Desktop: pause/resume, typing, checkbox, accessible card reorder, HTML drag & drop, background pointer transparency",
+    "Desktop: static no-render fallback, live OS reduced-motion change, context loss and explicit recovery",
+    "Repeated responsive resize 320/768/1366/390/1366: no GL errors, correctly sized new canvases",
+    "dark mobile touch 390×844: canvas, theme uniform, overflow, accessibility, header popups, nested Radix Select/Escape",
+    "light mobile touch 390×844: canvas, theme uniform, overflow, accessibility, header popups, nested Radix Select/Escape",
+    "Mobile: original API controls and WebGL uniforms, quality remount, reset",
+    "Mobile: pause/resume, typing, checkbox, accessible card reorder, background pointer transparency",
+    "Mobile: static no-render fallback, live OS reduced-motion change, context loss and explicit recovery",
+    "WebGL2 unavailable: functional app and static fallback"
+  ],
+  "screenshots": [
+    "dark-1366.png",
+    "light-1366.png",
+    "dark-390.png",
+    "light-390.png",
+    "mobile-controls.png",
+    "fallback-no-webgl.png"
+  ],
+  "performance": [
+    {
+      "label": "desktop DPR1",
+      "framesPerSecond": 3.4,
+      "canvas": [
+        1366,
+        768
+      ],
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "recentFrameMedianMs": 296.19999999995343,
+      "recentFrameP95Ms": 303.5999999999767,
+      "longTasks": 491,
+      "maxLongTaskMs": 649
+    },
+    {
+      "label": "mobile DPR3 capped canvas DPR1",
+      "framesPerSecond": 10.7,
+      "canvas": [
+        390,
+        844
+      ],
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "recentFrameMedianMs": 92.90000000002328,
+      "recentFrameP95Ms": 96.70000000001164,
+      "longTasks": 609,
+      "maxLongTaskMs": 250
+    }
+  ],
+  "errors": [],
+  "axe": [
+    {
+      "theme": "dark",
+      "mobile": false,
+      "violations": []
+    },
+    {
+      "theme": "light",
+      "mobile": false,
+      "violations": []
+    },
+    {
+      "theme": "dark",
+      "mobile": true,
+      "violations": []
+    },
+    {
+      "theme": "light",
+      "mobile": true,
+      "violations": []
+    }
+  ],
+  "limitations": [
+    "Chromium uses the available GPU backend, not a physical Mac or iPhone.",
+    "Fixtures are local demo cards; no real browser-extension integration is asserted."
+  ],
+  "result": "PASS"
+}
