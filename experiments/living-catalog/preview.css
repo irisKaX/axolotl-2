@@ -1,0 +1,6 @@
+html,body,#example{height:100%;min-height:0;background:var(--axolotl-surface-card);overflow-x:auto}
+.example-layout{height:100%;min-height:290px;display:flex;flex-direction:column;justify-content:space-between;padding:24px;font-family:system-ui,sans-serif;color:var(--axolotl-text-primary)}
+.example-caption,.example-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--axolotl-text-secondary);font-size:10px;letter-spacing:.06em;line-height:1.6}
+.example-control{width:min(360px,100%);margin:30px auto 85px}
+.example-control .ax-field{display:grid;gap:12px}
+@media(max-width:480px){.example-layout{padding:20px}.example-caption span:last-child{display:none}.example-control{margin:28px auto 65px}.example-foot{font-size:9px}}
