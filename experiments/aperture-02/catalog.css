@@ -31,3 +31,8 @@
 @media(min-width:901px) and (max-height:850px){.a-inspector-intro{display:none}.a-panel-title{margin-bottom:8px}.a-property-group{padding-block:12px}.a-property-group p{font-size:10px}.a-property-group>.a-switch-row{margin-top:8px}.a-live-value{padding:12px 0}.a-contract{padding-block:11px;font-size:9px}.a-library-end p{display:none}.a-library-end{padding-top:16px}.a-library-end a{margin-top:8px}.a-library-end>.a-mini-label{font-size:7px}.a-search{margin-bottom:10px}.a-planned{padding-block:5px}}
 @media(max-width:1180px){.a-scenario-buttons button{font-size:9px}}
 @media(max-width:600px){.a-brand strong{font-size:18px}.a-event-bar{font-size:8px}.a-doc-buttons>button{font-size:9px}.a-live-label{font-size:8px}.a-scenario-buttons button{font-size:8px}.a-canvas-dimensions select{font-size:9px}.a-property-row .a-segments button{font-size:9px}}
+
+/* Space for the unchanged production popup with long, wrapping labels. */
+.a-stage[data-scenario=long][data-narrow=true]{min-height:406px}.a-stage[data-scenario=long][data-narrow=true] .a-viewport,.a-stage[data-scenario=long][data-narrow=true] iframe{min-height:360px}
+@media(max-width:600px){.a-stage[data-scenario=long]{min-height:409px}.a-stage[data-scenario=long] .a-viewport,.a-stage[data-scenario=long] iframe{min-height:360px}}
+.a-live:focus-within{border-color:color-mix(in srgb,var(--a-accent) 35%,transparent)}
