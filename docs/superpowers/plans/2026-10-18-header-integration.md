@@ -53,9 +53,9 @@
 **Interfaces:** Tests run the real built production entrypoint at `/axolotl-2/`; extension tests use the existing message protocol.
 
 - [x] Reuse approved header/select behavioral coverage with production URLs/storage keys; add all-tool route, QR, conversion, audit-result and provider/extension checks.
-- [ ] Run unit, legacy, tool/bridge tests, typecheck/build and browser suites. Run Chromium locally and Chromium/WebKit/Firefox in non-deploying CI.
+- [x] Run unit, legacy, tool/bridge tests, typecheck/build and browser suites. Run Chromium locally and Chromium/WebKit/Firefox in non-deploying CI.
 - [x] Capture key dark/light desktop/mobile screenshots and record exact results, limitations and rollback.
 - [x] Request a fresh whole-branch review; resolve material findings with regression tests.
 - [x] Push only the integration branch and create PR against main. Verify deployment jobs are skipped. Do not merge.
 
-Final CI results and deployment-skip verification are recorded in [PR #3](https://github.com/irisKaX/axolotl-2/pull/3). This checklist was committed while the remote three-engine run was in progress.
+Final CI results and deployment-skip verification are recorded in [PR #3](https://github.com/irisKaX/axolotl-2/pull/3). The complete three-engine run passed 129 scenarios. A final test-only synchronization refinement additionally waits for Radix focus restoration before opening the next choice.

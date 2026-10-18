@@ -102,6 +102,11 @@ test('all choices fit a narrow short viewport with enlarged text and retain keyb
   await page.keyboard.press('End');
   await expect(page.getByRole('option',{name:'Větší (115 %)',exact:true})).toBeFocused();
   await page.keyboard.press('Enter');
+  // Radix restores focus asynchronously; finish closing this choice before
+  // programmatically moving to another trigger.
+  await expect(size).toHaveText('Větší (115 %)');
+  await expect(page.getByRole('listbox')).toHaveCount(0);
+  await expect(size).toBeFocused();
   for(const name of ['Barevný režim','Velikost textu','Animace']) {
     const trigger=page.getByRole('combobox',{name,exact:true});await trigger.focus();
     await page.keyboard.press('Enter');

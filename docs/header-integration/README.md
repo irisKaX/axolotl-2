@@ -20,7 +20,7 @@ The approved C2 / Refined Spatial B header (product source `be2527ca9da9ab56e9fb
 | Tool and extension/bridge regression | 335 passed |
 | TypeScript and production build | Passed |
 | Local Chromium application suite | 43 passed |
-| Chromium / WebKit / Firefox CI | 43 scenarios per engine; current result is recorded in [PR #3 checks](https://github.com/irisKaX/axolotl-2/pull/3/checks) and its verification summary |
+| Chromium / WebKit / Firefox CI | 129 passed (43 per engine); [completed regression run](https://github.com/irisKaX/axolotl-2/actions/runs/39081723026), final commit checks and summary in [PR #3](https://github.com/irisKaX/axolotl-2/pull/3) |
 | Header Lab A/B, dark/light | Identical computed styles and control dimensions in 8 states against main |
 | Standalone Header Lab artifact checks | Passed; corrected a stale grid assertion which also failed on unchanged main |
 | Independent whole-branch review | Completed; fixed the single finding (portable Playwright executable selection) |
