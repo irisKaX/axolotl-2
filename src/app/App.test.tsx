@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
@@ -21,7 +21,9 @@ function mount() {
   };
 }
 describe("migrated application", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    // Drain the hashchange queued by test setup before mounting routing effects.
+    await act(() => new Promise(resolve => setTimeout(resolve, 0)));
     // jsdom has no layout; browser tests cover actual responsive measurements.
     vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(680);
   });
@@ -42,10 +44,8 @@ describe("migrated application", () => {
     const user = userEvent.setup();
     mount();
     const media = screen.getByRole("button", { name: "Média" });
-    // jsdom does not supply PointerEvent properties by default.
-    const enter = new MouseEvent("pointerover", { bubbles: true });
-    Object.defineProperty(enter, "pointerType", { value: "mouse" });
-    fireEvent(media, enter);
+    fireEvent.mouseEnter(media);
+    await waitFor(() => expect(media).toHaveAttribute("aria-expanded", "true"));
     expect(media).toHaveAttribute("aria-expanded", "true");
     await user.hover(screen.getByRole("link", { name: "QR" }));
     expect(location.hash).toBe("#dashboard");
@@ -64,8 +64,14 @@ describe("migrated application", () => {
     await user.click(
       screen.getByRole("button", { name: "Vzhled a prostředí" }),
     );
-    await user.selectOptions(screen.getByLabelText("Barevný režim"), "light");
-    await user.selectOptions(screen.getByLabelText("Animace"), "reduced");
+    Object.defineProperty(Element.prototype, 'scrollIntoView', {configurable:true,value:()=>{}});
+    try {
+      for (const [label, option] of [['Barevný režim','Světlý'],['Animace','Omezené']]) {
+        screen.getByRole('combobox',{name:label}).focus();
+        await user.keyboard('{Enter}');
+        await user.click(screen.getByRole('option',{name:option}));
+      }
+    } finally {Reflect.deleteProperty(Element.prototype,'scrollIntoView');}
     expect(
       screen.getByRole("switch", { name: "Efekt kurzoru" }),
     ).toBeDisabled();
@@ -82,6 +88,8 @@ describe("migrated application", () => {
     const user = userEvent.setup();
     mount();
     await user.click(screen.getByRole("button", { name: "Kontrola" }));
+    // Floating UI moves initial focus asynchronously after positioning the portal.
+    await waitFor(() => expect(screen.getByRole("button", { name: "Zavřít nabídku" })).toHaveFocus());
     await user.tab();
     expect(screen.getByRole("link", { name: "Metadata" })).toHaveFocus();
     await user.keyboard("{Escape}");
@@ -125,7 +133,7 @@ describe("migrated application", () => {
     expect(document.querySelector(".axolotl-cursor-layer")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Nastavení" }));
     await user.click(screen.getByRole("button", { name: "Vzhled a prostředí" }));
-    await user.click(screen.getByText("Efekt kurzoru", { selector: ".axolotl-cursor-option-text > span" }));
+    await user.click(screen.getByText("Efekt kurzoru", { exact: true }));
     expect(screen.getByRole("switch", { name: "Efekt kurzoru" })).not.toBeChecked();
     expect(document.querySelector(".axolotl-cursor-layer")).toBeNull();
     expect(localStorage.getItem("axolotl-2-cursor-effects")).toBe("false");
@@ -140,7 +148,7 @@ describe("migrated application", () => {
     fireEvent.click(media);
     fireEvent.click(screen.getByRole("link", { name: /^Dashboard$/ }));
     // Hiding a dropdown can dispatch pointerleave after it was already closed.
-    fireEvent.pointerLeave(media.closest(".axolotl-nav-group")!);
+    fireEvent.mouseLeave(media);
     const control = screen.getByRole("button", { name: "Kontrola" });
     fireEvent.click(control);
     act(() => vi.advanceTimersByTime(200));

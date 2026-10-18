@@ -1,0 +1,113 @@
+/* Shared document foundation; no production-header positioning. */
+.axolotl-nav-icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.axolotl-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+:root,
+.axolotl-header-preview[data-header-theme="dark"] {
+  color-scheme: dark;
+  --background:
+    radial-gradient(ellipse at 42% 5%, #383838 0%, transparent 58%),
+    radial-gradient(ellipse at 95% 85%, #222222 0%, transparent 50%), #050505;
+  --foreground: #fff;
+  --axolotl-settings-surface: #303136;
+  --axolotl-settings-accent-start: hsla(221, 100%, 50%, 1);
+  --axolotl-settings-accent-end: hsla(286, 100%, 50%, 1);
+  --axolotl-settings-border: rgba(255, 255, 255, 0.1);
+  --axolotl-settings-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
+}
+:root[data-theme="light"],
+.axolotl-header-preview[data-header-theme="light"] {
+  color-scheme: light;
+  --background:
+    radial-gradient(ellipse at 42% 5%, #d0d0d0 0%, transparent 58%),
+    radial-gradient(ellipse at 95% 85%, #e2e2e2 0%, transparent 50%), #fafafa;
+  --foreground: #000;
+  --axolotl-settings-surface: #f4f4f5;
+  --axolotl-settings-border: rgba(0, 0, 0, 0.1);
+  --axolotl-settings-shadow: 0 14px 40px rgba(0, 0, 0, 0.1);
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+}
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+:root,
+.axolotl-header-preview {
+  --axolotl-text-scale: 1;
+}
+:root[data-text-size="large"],
+.axolotl-header-preview[data-text-size="large"] {
+  --axolotl-text-scale: 1.15;
+}
+
+
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+  scroll-behavior: auto !important;
+}
+
+
+/* Shared BrandMark/BrandLogo primitives also used by the new header. */
+/* The logo shares the header surface. */
+.axolotl-logo-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 32px;
+  height: 32px;
+  margin-right: 8px;
+  color: var(--foreground);
+  border-radius: 8px;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+.axolotl-logo-art {
+  display: block;
+  width: 26px;
+  height: 26px;
+  background-color: currentColor;
+  mask: var(--axolotl-logo-image) center / contain no-repeat;
+}
+.axolotl-logo-slot:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 4px;
+}
+

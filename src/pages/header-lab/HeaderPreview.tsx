@@ -1,3 +1,4 @@
+import "./legacy-header.css";
 import { useState, type CSSProperties, type ReactNode } from "react";
 import { PreferencesProvider, usePreferences } from "../../app/PreferencesProvider";
 import { createPreferencesStore, type PreferencesStore } from "../../lib/preferences";

@@ -28,7 +28,8 @@ test("delivered desktop header has no stale two-column rule overriding its three
     if (!bar.matches(rule.selector)) return;
     rule.walkDecls("grid-template-columns", declaration => tracks.push(declaration.value));
   });
-  assert.equal(tracks.at(-1), "minmax(0,570px) minmax(160px,1fr) auto");
+  // Header Lab already uses the configurable URL track on main.
+  assert.equal(tracks.at(-1).replace(/\s/g, ""), "minmax(0,1fr)minmax(160px,var(--axolotl-header-url-width))auto");
 });
 
 test("delivered logo is a valid self-contained CSS image URL", () => {

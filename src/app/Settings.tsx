@@ -3,7 +3,7 @@ import { Icon, type IconName } from "../components/Icon";
 import { usePreferences } from "./PreferencesProvider";
 import { usePageContext } from "./PageContextProvider";
 import { useDisclosure } from "./useDisclosure";
-import type { DisclosureProps } from "./Header";
+import type { DisclosureProps } from "./useDisclosure";
 type View = "home" | "appearance" | "integrations" | "about";
 const entries: { label: string; icon: IconName; view?: View }[] = [
   { label: "Profil", icon: "profile" },
