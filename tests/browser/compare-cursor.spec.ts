@@ -55,8 +55,18 @@ test("converter compares actual WebP with hover, drag, zoom and keyboard", async
   const box = (await stage.boundingBox())!;
   await page.mouse.move(box.x + box.width * .3, box.y + box.height * .45);
   await expect(slider).toHaveAttribute("aria-valuenow", "30");
-  await expect(stage.locator(".compare-original")).toHaveCSS("clip-path", "inset(0px 70% 0px 0px)");
-  await expect(stage.locator(".compare-result")).toHaveCSS("clip-path", "inset(0px 0px 0px 30%)");
+  // Pointer coordinates are quantized differently across engines. Verify the
+  // actual clipping edge within one CSS pixel, retaining the other three edges.
+  for (const [selector, pattern, expected] of [
+    [".compare-original", /^inset\(0px ([\d.]+)% 0px 0px\)$/, 70],
+    [".compare-result", /^inset\(0px 0px 0px ([\d.]+)%\)$/, 30],
+  ] as const) {
+    await expect.poll(async () => {
+      const clip = await stage.locator(selector).evaluate(el => getComputedStyle(el).clipPath);
+      const match = clip.match(pattern);
+      return match ? Math.abs(Number(match[1]) - expected) * box.width / 100 : Infinity;
+    }).toBeLessThanOrEqual(1);
+  }
   await stage.screenshot({ path: info.outputPath("compare-dark.png") });
   await page.getByRole("button", { name: "Přiblížit oba obrázky", exact: true }).click();
   await expect(stage).toHaveAttribute("data-axolotl-compare-mode", "drag");

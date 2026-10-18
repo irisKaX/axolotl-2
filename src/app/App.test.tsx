@@ -88,6 +88,8 @@ describe("migrated application", () => {
     const user = userEvent.setup();
     mount();
     await user.click(screen.getByRole("button", { name: "Kontrola" }));
+    // Floating UI moves initial focus asynchronously after positioning the portal.
+    await waitFor(() => expect(screen.getByRole("button", { name: "Zavřít nabídku" })).toHaveFocus());
     await user.tab();
     expect(screen.getByRole("link", { name: "Metadata" })).toHaveFocus();
     await user.keyboard("{Escape}");
