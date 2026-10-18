@@ -1,7 +1,13 @@
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./tests/browser",
+  testDir: "./tests",
+  testMatch: ["browser/**/*.spec.ts", "header-integration/**/*.spec.ts"],
+  projects: [
+    {name:"chromium",use:{browserName:"chromium",launchOptions:{executablePath:process.env.PLAYWRIGHT_CHROME_EXECUTABLE || undefined}}},
+    {name:"webkit",use:{browserName:"webkit"}},
+    {name:"firefox",use:{browserName:"firefox"}},
+  ],
   timeout: 30_000,
   workers: 1,
   retries: 0,
@@ -14,9 +20,7 @@ export default defineConfig({
     reducedMotion: "reduce",
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
-    launchOptions: {
-      executablePath: process.env.PLAYWRIGHT_CHROME_EXECUTABLE || undefined,
-    },
+
   },
   webServer: {
     command: "npm run preview -- --host 127.0.0.1 --port 4173",

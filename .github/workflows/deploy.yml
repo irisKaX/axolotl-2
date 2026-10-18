@@ -24,18 +24,14 @@ jobs:
       - run: npm run test:tools
       - run: npm run build
       # GitHub Pages deploys the freshly built dist artifact below.
-      - name: Check navigation in a real browser
-        run: |
-          if command -v google-chrome >/dev/null 2>&1; then
-            export PLAYWRIGHT_CHROME_EXECUTABLE="$(command -v google-chrome)"
-          else
-            npx playwright install --with-deps chromium
-          fi
-          npm run test:browser
+      - name: Install browser engines for application regression
+        run: npx playwright install --with-deps chromium webkit firefox
+      - name: Check integrated application in Chromium, WebKit and Firefox
+        run: npm run test:browser
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: navigation-browser-check
+          name: application-browser-check
           path: test-results/
           retention-days: 7
       - uses: actions/upload-pages-artifact@v3

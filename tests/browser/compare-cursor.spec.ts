@@ -8,7 +8,7 @@ test("cursor can be disabled from its label and restored from the switch", async
   await expect(page.locator(".axolotl-cursor-layer canvas")).toHaveCount(1);
   await page.getByRole("button", { name: "Nastavení", exact: true }).hover();
   await page.getByRole("button", { name: "Vzhled a prostředí", exact: true }).click();
-  await page.locator(".axolotl-cursor-option-text").click();
+  await page.locator("label").filter({has:page.getByRole("switch",{name:"Efekt kurzoru",exact:true})}).click();
   const toggle = page.getByRole("switch", { name: "Efekt kurzoru" });
   await expect(toggle).not.toBeChecked();
   await expect(page.locator(".axolotl-cursor-layer")).toHaveCount(0);
