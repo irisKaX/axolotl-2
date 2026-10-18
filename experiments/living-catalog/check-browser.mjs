@@ -39,11 +39,6 @@ try{for(const direction of ['aperture','atelier','float']){
  results.push(`${direction}: dark/light, no horizontal page overflow`);
  await page.setViewportSize({width:1920,height:1080});await page.screenshot({path:path.join(evidence,`${direction}-1920.png`),fullPage:true});
  await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Otevřít knihovnu'}).click();await page.getByRole('button',{name:'Základy',exact:true}).click();await page.getByRole('button',{name:'Otevřít knihovnu'}).click();await page.getByRole('button',{name:'Komponenty',exact:true}).click();await page.locator('iframe').scrollIntoViewIfNeeded();await select.click();
- const diagnostics=[];
- for(let n=0;n<12;n++){
-  diagnostics.push({parent:await page.evaluate(()=>({y:scrollY,frame:document.querySelector('iframe').getBoundingClientRect().toJSON(),stage:document.querySelector('.lc-stage').getBoundingClientRect().toJSON()})),child:await frame.locator('body').evaluate(el=>({innerHeight,scrollY,body:el.getBoundingClientRect().toJSON(),overflow:getComputedStyle(el).overflow,trigger:document.querySelector('[role=combobox]')?.getBoundingClientRect().toJSON(),menu:document.querySelector('[role=listbox]')?.getBoundingClientRect().toJSON(),option:document.querySelector('[role=option]:last-child')?.getBoundingClientRect().toJSON(),rootScroll:document.documentElement.scrollHeight}))});await page.waitForTimeout(50);
- }
- await fs.writeFile(path.join(evidence,`${direction}-mobile-geometry.json`),JSON.stringify(diagnostics,null,2));
  await frame.getByRole('option',{name:'WebP',exact:true}).click({timeout:5000});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
  await page.getByRole('button',{name:'Otevřít navigaci',exact:true}).click();await page.getByRole('navigation',{name:'Kompaktní navigace'}).waitFor();await page.keyboard.press('Escape');
