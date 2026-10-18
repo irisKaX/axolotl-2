@@ -30,30 +30,32 @@
 **Files:** `src/app/App.tsx`, `src/app/header/*`, `src/app/HeaderIntegration.test.tsx`, `src/app/App.test.tsx`, `package.json`, `package-lock.json`.
 **Interfaces:** AppHeader consumes `route: string`, `onNavigate: () => void`; providers and stores keep existing interfaces.
 
-- [ ] Add a failing app-level nested select / persistence test; run it against the old header.
-- [ ] Port approved header and dependency versions; mount it in App and restore workspace focus on navigation/history.
-- [ ] Replace preview-only extension wording with production instructions; preserve bridge/download URLs.
-- [ ] Update old header-specific unit interactions to the approved contract without dropping application assertions.
-- [ ] Run all unit tests and typecheck; commit the integrated application.
+- [x] Add a failing app-level nested select / persistence test; run it against the old header.
+- [x] Port approved header and dependency versions; mount it in App and restore workspace focus on navigation/history.
+- [x] Replace preview-only extension wording with production instructions; preserve bridge/download URLs.
+- [x] Update old header-specific unit interactions to the approved contract without dropping application assertions.
+- [x] Run all unit tests and typecheck; commit the integrated application.
 
 ### Task 2: Retire conflicting production CSS while preserving labs
 
 **Files:** `src/styles/app.css`, new `src/styles/base.css`, legacy header styles, `src/app/Header.tsx`, `src/app/useDisclosure.ts`, lab imports.
 **Interfaces:** Base CSS owns document/theme/text-scale/icon utilities; AppHeader owns measured top space; lab styles apply only inside `.axolotl-header-preview`.
 
-- [ ] Add browser checks for one measured workspace offset and no style changes after Header Lab loads.
-- [ ] Remove unused Header; move its disclosure type to the shared legacy hook.
-- [ ] Extract shared base utilities, remove obsolete workspace offsets, scope retained legacy styles to Header Lab.
-- [ ] Check all remaining consumers before removing files; preserve shared PillNav and tool styles.
-- [ ] Verify labs and app in dark/light and responsive widths; commit cleanup.
+- [x] Add browser checks for one measured workspace offset and no style changes after Header Lab loads.
+- [x] Remove unused Header; move its disclosure type to the shared legacy hook.
+- [x] Extract shared base utilities, remove obsolete workspace offsets, scope retained legacy styles to Header Lab.
+- [x] Check all remaining consumers before removing files; preserve shared PillNav and tool styles.
+- [x] Verify labs and app in dark/light and responsive widths; commit cleanup.
 
 ### Task 3: Full regression, review and PR
 
 **Files:** `tests/browser/*`, `tests/header-integration/*`, Playwright config, verification workflow, `docs/header-integration/*`.
 **Interfaces:** Tests run the real built production entrypoint at `/axolotl-2/`; extension tests use the existing message protocol.
 
-- [ ] Reuse approved header/select behavioral coverage with production URLs/storage keys; add all-tool route, QR, conversion, audit-result and provider/extension checks.
+- [x] Reuse approved header/select behavioral coverage with production URLs/storage keys; add all-tool route, QR, conversion, audit-result and provider/extension checks.
 - [ ] Run unit, legacy, tool/bridge tests, typecheck/build and browser suites. Run Chromium locally and Chromium/WebKit/Firefox in non-deploying CI.
-- [ ] Capture key dark/light desktop/mobile screenshots and record exact results, limitations and rollback.
-- [ ] Request a fresh whole-branch review; resolve material findings with regression tests.
-- [ ] Push only the integration branch and create PR against main. Verify deployment jobs are skipped. Do not merge.
+- [x] Capture key dark/light desktop/mobile screenshots and record exact results, limitations and rollback.
+- [x] Request a fresh whole-branch review; resolve material findings with regression tests.
+- [x] Push only the integration branch and create PR against main. Verify deployment jobs are skipped. Do not merge.
+
+Final CI results and deployment-skip verification are recorded in [PR #3](https://github.com/irisKaX/axolotl-2/pull/3). This checklist was committed while the remote three-engine run was in progress.
