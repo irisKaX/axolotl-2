@@ -32,13 +32,13 @@ try{for(const direction of ['aperture','atelier','float']){
   await page.getByRole('button',{name:light?'Světlý náhled':'Tmavý náhled',exact:true}).click();
   await page.waitForTimeout(250);
   const header=await page.locator('header[aria-label="Ovládání Axolotlu"]').evaluate(el=>{const s=getComputedStyle(el);const b=el.getBoundingClientRect();return {height:b.height,top:b.top,left:b.left,width:b.width,background:s.background,borderRadius:s.borderRadius,font:s.font,shadow:s.boxShadow};});
-  headers[`${direction}-${light?'light':'dark'}`]=header;
+  headers[`${direction}-${light?'light':'dark'}`]=header;const mask=await page.locator('.axolotl-logo-art').evaluate(el=>getComputedStyle(el).maskImage);assert.notEqual(mask,'none','Logo mask must resolve to original SVG asset');
   await select.click();await page.screenshot({path:path.join(evidence,`${direction}-1366-${light?'light':'dark'}.png`),fullPage:true});await page.keyboard.press('Escape');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
  }
  results.push(`${direction}: dark/light, no horizontal page overflow`);
  await page.setViewportSize({width:1920,height:1080});await page.screenshot({path:path.join(evidence,`${direction}-1920.png`),fullPage:true});
- await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Otevřít knihovnu'}).click();await page.getByRole('button',{name:'Základy',exact:true}).click();await page.getByRole('button',{name:'Otevřít knihovnu'}).click();await page.getByRole('button',{name:'Komponenty',exact:true}).click();await select.click();await frame.getByRole('option',{name:'WebP',exact:true}).click();
+ await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Otevřít knihovnu'}).click();await page.getByRole('button',{name:'Základy',exact:true}).click();await page.getByRole('button',{name:'Otevřít knihovnu'}).click();await page.getByRole('button',{name:'Komponenty',exact:true}).click();await page.locator('iframe').scrollIntoViewIfNeeded();await select.click();await frame.getByRole('option',{name:'WebP',exact:true}).click();
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
  await page.getByRole('button',{name:'Otevřít navigaci',exact:true}).click();await page.getByRole('navigation',{name:'Kompaktní navigace'}).waitFor();await page.keyboard.press('Escape');
  await page.screenshot({path:path.join(evidence,`${direction}-390.png`),fullPage:true});results.push(`${direction}: mobile library, Select, header overlay and no overflow`);
@@ -47,4 +47,4 @@ try{for(const direction of ['aperture','atelier','float']){
 for(const theme of ['dark','light']){assert.deepEqual(headers[`aperture-${theme}`],headers[`atelier-${theme}`]);assert.deepEqual(headers[`aperture-${theme}`],headers[`float-${theme}`]);}results.push('Header computed styles and geometry identical across all 3 directions in both themes');
 assert.deepEqual(errors,[]);results.push('No browser runtime errors');
 await fs.writeFile(path.join(evidence,'report.json'),JSON.stringify({engine:'Chromium (GitHub Actions)',viewports:['1366×768','1920×1080','390×844'],passed:results.length,results,errors,headers},null,2));console.log(JSON.stringify({passed:results.length,results},null,2));
-}catch(error){await fs.writeFile(path.join(evidence,'failure.txt'),String(error.stack));for(const context of browser.contexts())for(const page of context.pages())await page.screenshot({path:path.join(evidence,'failure.png'),fullPage:true}).catch(()=>{});throw error;}finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
+}catch(error){await fs.writeFile(path.join(evidence,'failure.txt'),JSON.stringify({error:String(error.stack),results,errors},null,2));for(const context of browser.contexts())for(const page of context.pages())await page.screenshot({path:path.join(evidence,'failure.png'),fullPage:true}).catch(()=>{});throw error;}finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
