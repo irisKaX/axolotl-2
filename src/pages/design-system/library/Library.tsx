@@ -9,6 +9,7 @@ import {
 } from "../../../design-system/library";
 
 import { getCategories, type CategoryId } from "./registry";
+import { paints } from "./colors/paints";
 import { designLabel } from "./model";
 import { ApiReference } from "./PageFrame";
 import "./catalog.css";
@@ -27,11 +28,15 @@ const href = (id: CategoryId | null, testMode = false) =>
 export default function Library() {
   const prefs = usePreferences(),
     [route, setRoute] = useState(readRoute);
+  const [localTheme, setLocalTheme] = useState<"dark" | "light" | null>(null);
   const { section, testMode } = route;
   const categories = getCategories(testMode);
   const heading = useRef<HTMLHeadingElement>(null),
     first = useRef(true);
   const selected = categories.find((c) => c.id === section);
+  const previewTheme = selected?.isolatedTheme
+    ? (localTheme ?? prefs.resolvedTheme)
+    : prefs.resolvedTheme;
   useEffect(() => {
     const update = () => setRoute(readRoute());
     window.addEventListener("popstate", update);
@@ -85,13 +90,15 @@ export default function Library() {
             <Button
               size="small"
               onClick={() =>
-                prefs.setPreference(
-                  "theme",
-                  prefs.resolvedTheme === "dark" ? "light" : "dark",
-                )
+                selected?.isolatedTheme
+                  ? setLocalTheme(previewTheme === "dark" ? "light" : "dark")
+                  : prefs.setPreference(
+                      "theme",
+                      prefs.resolvedTheme === "dark" ? "light" : "dark",
+                    )
               }
             >
-              {prefs.resolvedTheme === "dark"
+              {previewTheme === "dark"
                 ? "Světlý náhled knihovny"
                 : "Tmavý náhled knihovny"}
             </Button>
@@ -182,20 +189,24 @@ export default function Library() {
             <section className="ds-foundations">
               <h2>Pracovní foundations</h2>
               <p>
-                Schválené akcenty: <strong>Axolotl Violet #7C3AED</strong> a{" "}
-                <strong>O2 Blue #0050FF</strong>. Další povrchy, textové a
-                významové barvy jsou pracovní návrh V1, nikoli schválená finální
-                paleta.
+                Schválené akcenty:{" "}
+                <strong>
+                  {paints
+                    .filter((p) => p.design === "approved")
+                    .map((p) => `${p.name} ${p.css}`)
+                    .join(" · ")}
+                </strong>
+                . Další povrchy, textové a významové barvy jsou pracovní návrh
+                V1, nikoli schválená finální paleta.
               </p>
-              <div className="ds-foundation-swatches">
-                <span style={{ background: "#7C3AED", color: "#fff" }}>
-                  Axolotl Violet
-                </span>
-                <span style={{ background: "#0050FF", color: "#fff" }}>
-                  O2 Blue
-                </span>
-                <span>Neutrální povrch</span>
-              </div>
+              <p>
+                <a
+                  href={href("colors", testMode)}
+                  onClick={(e) => navigate(e, "colors")}
+                >
+                  Otevřít Colors & Gradients →
+                </a>
+              </p>
               <p>
                 Počet variant nezahrnuje velikosti ani interakční stavy. Každý
                 detail ukazuje přesný seznam a původ exportů.
@@ -223,7 +234,11 @@ export default function Library() {
           <>
             <p className="ds-catalog-keyboard">{selected.keyboard}</p>
             <Suspense fallback={<p role="status">Načítám komponenty…</p>}>
-              <selected.Page category={selected} testMode={testMode} />
+              <selected.Page
+                category={selected}
+                testMode={testMode}
+                previewTheme={previewTheme}
+              />
             </Suspense>
             <ApiReference category={selected} />
           </>

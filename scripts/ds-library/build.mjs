@@ -43,6 +43,7 @@ writeFileSync(
         "overlays",
         "feedback",
         "navigation",
+      "colors",
       ],
       sourceHashes,
     },

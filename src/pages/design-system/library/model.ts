@@ -31,8 +31,13 @@ export type Entry = {
   api: string;
   previewProps?: Record<string, unknown>;
 };
-export type PageProps = { category: Category; testMode: boolean };
+export type PageProps = {
+  category: Category;
+  testMode: boolean;
+  previewTheme?: "dark" | "light";
+};
 export type Category = {
+  isolatedTheme?: boolean;
   id: string;
   title: string;
   description: string;

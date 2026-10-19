@@ -5,6 +5,8 @@
 
 Jedna knihovna, jeden záznam varianty, jedna stránka rodiny. Není potřeba nový experiment, kopie schválené komponenty ani administrační rozhraní.
 
+Colors & Gradients má [stručný návod a hranice kontrastní kontroly](COLORS.md). Nový záznam v `colors/paints.ts` automaticky rozšíří stávající stránku. Katalog má nyní sedm běžných kategorií, s testovacím Counterem osm.
+
 ## Kde změnu provést
 
 | Odpovědnost | Soubor |
@@ -72,7 +74,7 @@ Přehled, menu, lazy render, technické detaily i `?catalog=library&section=coun
 
 [Test B — nový typ](https://iriskax.github.io/axolotl-preview/ds-library-v1-1/?catalog=library&section=test-counter&catalogTests=1#design-system): +/- mění hodnotu, Disabled blokuje obě tlačítka. Vyzkoušej Tab a mezerník, reload a Back.
 
-Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled šest kategorií, Card dva původní materiály a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
+Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled sedm kategorií, Card dva původní materiály a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
 
 ## Kontroly před předáním
 

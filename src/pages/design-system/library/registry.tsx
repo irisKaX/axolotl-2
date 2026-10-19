@@ -1,3 +1,5 @@
+import { ColorSample } from "./colors/ColorSample";
+import { paints } from "./colors/paints";
 import { Play, Bookmark, Trash2 } from "lucide-react";
 import { Button } from "../../../design-system/Button";
 import * as UI from "../../../design-system/library";
@@ -519,6 +521,34 @@ export const categories: Category[] = [
           page: { kind: "range" },
           count: { kind: "range", min: 1, max: 12 },
           onPageChange: { kind: "callback" },
+        },
+      }),
+    ],
+  }),
+  defineCategory({
+    id: "colors",
+    title: "Colors & Gradients",
+    description:
+      "Barevné vzorky, přesné CSS gradienty a živý náhled na skutečných komponentách.",
+    keyboard:
+      "Tab → hodnota; Enter nebo mezerník → kopírování. Kliknutí na vzorek otevře playground. Náhled dark/light nemění preference aplikace.",
+    isolatedTheme: true,
+    load: () => import("./ColorsPage"),
+    entries: [
+      defineEntry(ColorSample, {
+        name: "ColorSample",
+        label: "Barvy a gradienty",
+        source: "src/pages/design-system/library/colors/ColorSample.tsx",
+        consumers:
+          "Nové barvy a gradienty jsou návrhové možnosti katalogu. Produkční použití zde eviduje barevnou hodnotu: O2 Blue používá Button Primary a CursorEffects, Axolotl Violet header. Ostatní role čekají na schválení. Registr: src/pages/design-system/library/colors/paints.ts.",
+        api: "paintId; selected; onSelect. Hodnota, designový stav a produkční použití pocházejí z typovaného registru paints.ts.",
+        variants: paints.map((p) =>
+          variant(p.id, p.name, { paintId: p.id }, p.design, p.production),
+        ),
+        properties: {
+          paintId: selectProperty(paints.map((p) => p.id)),
+          selected: { kind: "boolean" },
+          onSelect: { kind: "callback" },
         },
       }),
     ],
