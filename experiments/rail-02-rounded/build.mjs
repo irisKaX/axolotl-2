@@ -1,0 +1,12 @@
+import {build} from 'esbuild';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const folder=path.dirname(new URL(import.meta.url).pathname),out=path.join(folder,'dist');
+await fs.mkdir(out,{recursive:true});
+const result=await build({entryPoints:[path.join(folder,'studio.jsx')],bundle:true,write:false,outdir:out,minify:true,format:'iife',platform:'browser',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},legalComments:'eof'});
+const js=result.outputFiles.find(f=>f.path.endsWith('.js')).text.replace(/<\/script/gi,'<\\/script');
+const css=result.outputFiles.find(f=>f.path.endsWith('.css')).text;
+const license=await fs.readFile(path.join(folder,'../button-studio-01/vendor/LICENSE.md'),'utf8');
+const html=`<!doctype html><html lang="cs" data-theme="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#111214"><title>Rail 02 · Rounded Refinement — O2 Axolotl</title><meta name="description" content="Původní Rail a Rail 02 Rounded. Přímé srovnání zaobleného obrysu, nezměněný Ghost a originální Star Border."><style>${css}</style></head><body><div id="root"></div><script>${js}</script><!-- React Bits Star Border © 2026 David Haz. MIT + Commons Clause. Full notice below. --><template id="react-bits-license">${license.replaceAll('&','&amp;').replaceAll('<','&lt;')}</template></body></html>`;
+await fs.writeFile(path.join(out,'index.html'),html);await fs.writeFile(path.join(out,'LICENSE-react-bits.txt'),license);
+console.log('Built Rail 02 · Rounded Refinement, isolated standalone React experiment.');
