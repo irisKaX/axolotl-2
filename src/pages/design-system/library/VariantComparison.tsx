@@ -28,6 +28,12 @@ function Specimen({ entry, id }: { entry: Entry; id: string }) {
 export function VariantComparison({ entry }: { entry: Entry }) {
   const [left, setLeft] = useState(entry.variants[0].id),
     [right, setRight] = useState(entry.variants[1].id);
+  const visibleLeft = entry.variants.some((v) => v.id === left)
+    ? left
+    : entry.variants[0].id;
+  const visibleRight = entry.variants.some((v) => v.id === right)
+    ? right
+    : entry.variants[1].id;
   return (
     <section
       className="ds-catalog-comparison"
@@ -39,19 +45,19 @@ export function VariantComparison({ entry }: { entry: Entry }) {
           <VariantControl
             entry={entry}
             label="Levá varianta"
-            value={left}
+            value={visibleLeft}
             onValueChange={setLeft}
           />
-          <Specimen key={left} entry={entry} id={left} />
+          <Specimen key={visibleLeft} entry={entry} id={visibleLeft} />
         </div>
         <div>
           <VariantControl
             entry={entry}
             label="Pravá varianta"
-            value={right}
+            value={visibleRight}
             onValueChange={setRight}
           />
-          <Specimen key={right} entry={entry} id={right} />
+          <Specimen key={visibleRight} entry={entry} id={visibleRight} />
         </div>
       </div>
     </section>

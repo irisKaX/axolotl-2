@@ -41,6 +41,12 @@ export default function SurfacesPage({ category }: PageProps) {
     }, 600);
   }
   const selectedEntry = findEntry(kind, [category]);
+  // Keep the user's choice in memory while a test-only material is hidden.
+  const visibleMaterial =
+    selectedEntry.name === "Card" &&
+    !selectedEntry.variants.some((v) => v.id === material)
+      ? "flat"
+      : material;
   return (
     <>
       <Playground
@@ -56,7 +62,7 @@ export default function SurfacesPage({ category }: PageProps) {
                 <VariantControl
                   label="Materiál"
                   entry={selectedEntry}
-                  value={material}
+                  value={visibleMaterial}
                   onValueChange={(v) => setMaterial(v as typeof material)}
                 />
                 <PropertyControl
@@ -98,7 +104,7 @@ export default function SurfacesPage({ category }: PageProps) {
           {kind === "Card" ? (
             <Card
               title="Přehled kontroly"
-              material={material}
+              material={visibleMaterial}
               density={density}
               footer={<Status state="success">Kontrola dokončena</Status>}
             >

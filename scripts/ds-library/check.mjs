@@ -1,4 +1,5 @@
 import { chromium, expect } from "@playwright/test";
+import { checkTestToggle, checkMobileTestToggle } from "./check-toggle.mjs";
 import AxeBuilder from "@axe-core/playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 const base =
@@ -472,6 +473,9 @@ try {
   pass(
     "Extensions: real Card variant + comparison, new registered page, keyboard/disabled, deep link/reload, test-mode isolation and axe 0",
   );
+  await checkTestToggle(page, base, out);
+  await checkMobileTestToggle(mobile, base, out);
+  pass("Test toggle: both directions, URL/history/reload, preserved playground state, Card comparison fallback, Counter exit, keyboard and mobile touch");
   expect(errors).toEqual([]);
   pass("No browser runtime errors");
 } finally {

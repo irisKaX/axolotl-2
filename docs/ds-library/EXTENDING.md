@@ -72,7 +72,7 @@ Přehled, menu, lazy render, technické detaily i `?catalog=library&section=coun
 
 [Test B — nový typ](https://iriskax.github.io/axolotl-preview/ds-library-v1-1/?catalog=library&section=test-counter&catalogTests=1#design-system): +/- mění hodnotu, Disabled blokuje obě tlačítka. Vyzkoušej Tab a mezerník, reload a Back.
 
-Parametr `catalogTests=1` zachová navigace. Bez něj má přehled šest kategorií, Card dva původní materiály a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
+Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled šest kategorií, Card dva původní materiály a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
 
 ## Kontroly před předáním
 
@@ -87,7 +87,7 @@ node scripts/ds-library/check-built.mjs
 
 - Registr: skutečné exporty a loadery, jedinečné varianty, oddělené stavy, žádné mutace běžného katalogu při testovacím režimu.
 - Browser: všech šest původních stránek, dark/light, klávesnice, portály, invalid/disabled/loading, touch, 320px + zvětšený text, Star Border/reduced motion; test A/B včetně srovnání, navigace a izolace.
-- Při zásahu do společného základu porovnej existující varianty. `compare-v1.mjs` srovnává screenshoty, rozměry a vypočtené styly původních playgroundů v dark/light. `VISUAL_HOST` označuje lokální host se dvěma sestavenými verzemi pod cestami `ds-library-v1/` a `ds-library-v1-1/`.
+- Při zásahu do společného základu porovnej existující varianty. `compare-v1.mjs` srovnává screenshoty, rozměry a vypočtené styly původních playgroundů v dark/light. Při regresním screenshotu původních playgroundů se odstraní pouze nově přidaný obal horního přepínače, aby výška stránky neovlivnila podkladový gradient; celý přepínač ověřuje `check-toggle.mjs` a samostatné desktop/mobile screenshoty. `VISUAL_HOST` označuje lokální host se dvěma sestavenými verzemi pod cestami `ds-library-v1/` a `ds-library-v1-1/`.
 - Produkční header, nástroje, providery, Button a původní styly se nemigrují. Jediné rozšíření komponentového základu V1.1 je opt-in testovací materiál Card.
 
 ## Výsledek V1.1 a hranice

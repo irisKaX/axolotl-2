@@ -47,6 +47,12 @@ try {
             })
             .click();
         await page.evaluate(() => document.fonts.ready);
+        // This comparison covers unchanged specimens, not the intentionally
+        // added toolbar control (covered by check-toggle screenshots/tests).
+        // Remove only that new wrapper to equalize page height/background.
+        await page.locator('.ds-catalog-top .ds-switch').evaluateAll((nodes) => {
+          for (const node of nodes) node.parentElement.remove();
+        });
         const styles = await stage.evaluate((el) =>
           [
             el,

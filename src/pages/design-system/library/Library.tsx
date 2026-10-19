@@ -5,6 +5,7 @@ import {
   DesignSystemProvider,
   Status,
   Disclosure,
+  Switch,
 } from "../../../design-system/library";
 
 import { getCategories, type CategoryId } from "./registry";
@@ -51,6 +52,17 @@ export default function Library() {
     history.pushState(null, "", href(id, testMode));
     setRoute({ section: id, testMode });
   }
+  function setTestMode(enabled: boolean) {
+    const nextSection = getCategories(enabled).some((c) => c.id === section)
+      ? section
+      : null;
+    const url = new URL(location.href);
+    if (enabled) url.searchParams.set("catalogTests", "1");
+    else url.searchParams.delete("catalogTests");
+    if (section !== nextSection) url.searchParams.delete("section");
+    history.pushState(null, "", url);
+    setRoute({ section: nextSection, testMode: enabled });
+  }
   return (
     <DesignSystemProvider
       theme={prefs.resolvedTheme}
@@ -62,6 +74,13 @@ export default function Library() {
             Axolotl / Design System
           </a>
           <div className="ds-actions">
+            <div>
+              <Switch
+                label="Zobrazit testovací komponenty"
+                checked={testMode}
+                onChange={(e) => setTestMode(e.currentTarget.checked)}
+              />
+            </div>
             <Status state="neutral">Library V1.1 · k revizi</Status>
             <Button
               size="small"
@@ -112,7 +131,16 @@ export default function Library() {
         {testMode && (
           <p role="status">
             Testovací režim · technické fixtures jsou návrh.{" "}
-            <a href={href(section === "test-counter" ? null : section)}>
+            <a
+              href={href(
+                getCategories().some((c) => c.id === section) ? section : null,
+              )}
+              onClick={(e) => {
+                if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+                e.preventDefault();
+                setTestMode(false);
+              }}
+            >
               Ukončit testovací režim
             </a>
           </p>
