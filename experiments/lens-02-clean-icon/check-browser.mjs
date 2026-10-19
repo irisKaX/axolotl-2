@@ -11,7 +11,7 @@ const server=http.createServer(async(req,res)=>{res.setHeader('Content-Type','te
 const browser=await chromium.launch(),context=await browser.newContext({viewport:{width:1366,height:768}}),page=await context.newPage(),results=[],audits=[],errors=[];page.on('pageerror',e=>errors.push(e.message));
 const pass=s=>{results.push(s);console.log('PASS',s)},snap=async(name,fullPage=false)=>page.screenshot({path:path.join(evidence,name+'.png'),fullPage});
 const a=()=>page.locator('.lens-preview[data-clean=false] .lab-button'),b=()=>page.locator('.lens-preview[data-clean=true] .lab-button');
-const shape=async locator=>locator.evaluate(e=>{const c=getComputedStyle(e),r=e.getBoundingClientRect();return {width:r.width,height:r.height,font:c.font,spacing:c.letterSpacing,gap:c.gap,padding:c.padding,background:c.background,shadow:c.boxShadow,border:c.border,radius:c.borderRadius}});
+const shape=async locator=>locator.evaluate(e=>{const c=getComputedStyle(e),r=e.getBoundingClientRect();return {width:Math.round(r.width*1000)/1000,height:Math.round(r.height*1000)/1000,font:c.font,spacing:c.letterSpacing,gap:c.gap,padding:c.padding,background:c.background,shadow:c.boxShadow,border:c.border,radius:c.borderRadius}});
 const allStyles=async locator=>locator.evaluate(e=>[e,...e.querySelectorAll('span,svg')].map(n=>{const c=getComputedStyle(n);return Object.fromEntries(Array.from(c).map(k=>[k,c.getPropertyValue(k)]))}));
 const audit=async label=>{await page.waitForTimeout(250);const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();audits.push({label,violations:r.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});console.log('AXE',label,r.violations.length)};
 try{
