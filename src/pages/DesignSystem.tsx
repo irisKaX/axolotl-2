@@ -5,6 +5,7 @@ import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Dialog } from "../components/ui/Dialog";
 import { usePreferences } from "../app/PreferencesProvider";
+const ButtonShowcase = lazy(() => import("./design-system/ButtonShowcase"));
 const HeaderLab = lazy(() => import("./header-lab/HeaderLab"));
 const title = "Axolotl — tvůj prostor pro web";
 const description =
@@ -432,7 +433,7 @@ const tabs = [
   ["headers", "Hlavička · A/B"],
 ] as const;
 export function DesignSystem() {
-  const [tab, setTab] = useState<string>(new URLSearchParams(location.search).get("catalog") === "headers" ? "headers" : "metadata");
+  const [tab, setTab] = useState<string>(["headers", "buttons"].includes(new URLSearchParams(location.search).get("catalog") || "") ? new URLSearchParams(location.search).get("catalog")! : "metadata");
   const { resolvedTheme, setPreference } = usePreferences();
   return (
     <section
@@ -515,7 +516,10 @@ export function DesignSystem() {
         {tab === "headers" ? (
           <Suspense fallback={<p role="status">Načítám varianty hlavičky…</p>}><HeaderLab /></Suspense>
         ) : tab === "buttons" ? (
-          <ButtonGallery />
+          <>
+            <Suspense fallback={<p role="status">Načítám Button…</p>}><ButtonShowcase /></Suspense>
+            <details><summary>Původní demonstrační Star Border (legacy)</summary><ButtonGallery /></details>
+          </>
         ) : tab === "components" ? (
           <Components />
         ) : (

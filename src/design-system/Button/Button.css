@@ -1,0 +1,118 @@
+/* Lens 02 Clean Icon. Tokens are namespaced; no existing application token changes. */
+:where(:root, [data-theme="dark"]) {
+  --axo-button-surface-top: #383b44;
+  --axo-button-surface-bottom: #25272e;
+  --axo-button-edge: #656875;
+  --axo-button-text: #f2f1f4;
+  --axo-button-neutral-hover: #24262c;
+  --axo-button-line: #303239;
+  --axo-button-shadow: #0009;
+  --axo-button-focus: #b99aff;
+  --axo-button-danger-text: #ff9cae;
+  --axo-button-danger-surface: #48212d;
+}
+:where([data-theme="light"]) {
+  --axo-button-surface-top: #fff;
+  --axo-button-surface-bottom: #e5e3eb;
+  --axo-button-edge: #b0acbb;
+  --axo-button-text: #25252c;
+  --axo-button-neutral-hover: #e7e6eb;
+  --axo-button-line: #d4d2db;
+  --axo-button-shadow: #26203925;
+  --axo-button-focus: #6c28d6;
+  --axo-button-danger-text: #ac163c;
+  --axo-button-danger-surface: #fce4ec;
+}
+.axo-ds-button {
+  --btn-height: 44px;
+  --btn-font: 13px;
+  --btn-top: var(--axo-button-surface-top, #383b44);
+  --btn-bottom: var(--axo-button-surface-bottom, #25272e);
+  --btn-edge: var(--axo-button-edge, #656875);
+  --btn-text: var(--axo-button-text, #f2f1f4);
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 11px;
+  min-height: calc(var(--btn-height) * var(--axolotl-text-scale, 1));
+  max-width: 100%;
+  padding: 0 23px;
+  margin: 0;
+  border: 1px solid color-mix(in srgb, var(--btn-edge) 65%, transparent);
+  border-radius: 100px;
+  background: radial-gradient(ellipse at 30% 0%, #ffffff28, transparent 70%), linear-gradient(180deg, var(--btn-top), var(--btn-bottom));
+  box-shadow: inset 0 1px 1px #ffffff38, inset 0 -2px 3px #0002, 0 6px 14px var(--axo-button-shadow, #0009);
+  color: var(--btn-text);
+  font: 400 calc(var(--btn-font) * var(--axolotl-text-scale, 1))/1 ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: -.025em;
+  text-align: center;
+  text-decoration: none;
+  outline-offset: 4px;
+  vertical-align: middle;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .16s cubic-bezier(.22,1,.36,1), background-color .16s, box-shadow .16s, border-color .16s;
+}
+.axo-ds-button[data-has-icon] { padding-left: 10px; }
+.axo-ds-button[data-size="small"] { --btn-height: 36px; --btn-font: 12px; }
+.axo-ds-button[data-size="large"] { --btn-height: 52px; --btn-font: 14px; }
+.axo-ds-button[data-variant="primary"] { --btn-top: #2464ed; --btn-bottom: #0050ff; --btn-edge: #4c7dff; --btn-text: #fff; }
+.axo-ds-button[data-variant="destructive"] {
+  --btn-top: var(--axo-button-danger-surface); --btn-bottom: var(--axo-button-danger-surface);
+  --btn-edge: color-mix(in srgb, var(--axo-button-danger-text) 42%, var(--axo-button-line));
+  --btn-text: var(--axo-button-danger-text);
+}
+.axo-ds-button[data-variant="icon"] { width: calc(var(--btn-height) * var(--axolotl-text-scale, 1)); padding: 0; }
+.axo-ds-button__icon {
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: calc((var(--btn-height) - 16px) * var(--axolotl-text-scale, 1));
+  height: calc((var(--btn-height) - 16px) * var(--axolotl-text-scale, 1));
+  background: none; border: 0; box-shadow: none; border-radius: 0;
+}
+.axo-ds-button svg { width: calc(16px * var(--axolotl-text-scale, 1)); height: calc(16px * var(--axolotl-text-scale, 1)); pointer-events: none; flex-shrink: 0; }
+.axo-ds-button__icon > svg { transition: transform .2s cubic-bezier(.22,1,.36,1); }
+.axo-ds-button__label { display: grid; position: relative; min-width: 0; padding-block: 8px; overflow-wrap: anywhere; }
+.axo-ds-button__invisible { opacity: 0; }
+.axo-ds-button__label > span { grid-area: 1 / 1; align-self: center; }
+.axo-ds-button__loading-overlay { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.axo-ds-button[data-loading]:not([data-has-icon]) .axo-ds-button__label { opacity: 0; }
+.axo-ds-button[data-variant="ghost"] { background: transparent; border-color: transparent; box-shadow: none; }
+.axo-ds-button:hover:not(:disabled):not([aria-disabled="true"]) {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 3px #ffffff5e, inset 0 -2px 3px #0002, 0 8px 18px var(--axo-button-shadow);
+}
+.axo-ds-button:hover:not(:disabled):not([aria-disabled="true"]) .axo-ds-button__icon > svg { transform: translateX(1px); }
+.axo-ds-button[data-variant="ghost"]:hover:not(:disabled):not([aria-disabled="true"]) { background: var(--axo-button-neutral-hover); }
+.axo-ds-button:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: scale(.975); box-shadow: inset 0 2px 5px #0003, 0 1px 3px var(--axo-button-shadow);
+}
+.axo-ds-button:focus-visible { outline: 2px solid var(--axo-button-focus); outline-offset: 5px; }
+.axo-ds-button:is(:disabled, [aria-disabled="true"]) { opacity: .38; box-shadow: none; transform: none; filter: saturate(.25); cursor: not-allowed; }
+.axo-ds-button[data-loading] { opacity: .65; cursor: progress; }
+.axo-ds-button[data-motion-variant="star-border"] { border-color: transparent; }
+.axo-ds-button[data-motion-variant="star-border"]::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--btn-edge); pointer-events: none;
+}
+.axo-ds-button__spinner { animation: axo-button-spin 1s linear infinite; }
+@keyframes axo-button-spin { to { transform: rotate(360deg); } }
+@media (pointer: coarse) { .axo-ds-button[data-size="small"] { --btn-height: 44px; } }
+:where([data-motion="reduced"]) .axo-ds-button,
+.axo-ds-button[data-motion="reduced"],
+:where([data-motion="reduced"]) .axo-ds-button svg { animation: none !important; transition: none !important; transform: none !important; }
+.axo-ds-button[data-motion="reduced"] svg { animation: none !important; transition: none !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .axo-ds-button, .axo-ds-button svg { animation: none !important; transition: none !important; transform: none !important; }
+}
+@media (forced-colors: active) {
+  .axo-ds-button { border: 1px solid ButtonText; background: ButtonFace; color: ButtonText; box-shadow: none; }
+  .axo-ds-button[data-motion-variant="star-border"] { border-color: ButtonText; }
+  .axo-ds-button::before { display: none; }
+  .axo-ds-button:is(:disabled, [aria-disabled="true"]) { color: GrayText; opacity: 1; filter: none; }
+  .axo-ds-button:focus-visible { outline-color: Highlight; }
+}
