@@ -1,0 +1,314 @@
+.ds-catalog {
+  max-width: 1440px;
+  margin: auto;
+  padding: 26px 16px 48px;
+  min-width: 0;
+}
+.ds-catalog a {
+  color: inherit;
+  text-underline-offset: 4px;
+}
+.ds-catalog-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--ds-line);
+}
+.ds-catalog-top > a {
+  font-size: 13px;
+  text-decoration: none;
+}
+.ds-catalog-heading {
+  margin: 32px 0;
+}
+.ds-catalog-heading h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 450;
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  margin: 10px 0 16px;
+}
+.ds-catalog-heading p {
+  max-width: 70ch;
+  color: var(--ds-muted);
+  margin-bottom: 0;
+}
+.ds-catalog-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ds-muted);
+}
+.ds-catalog-heading h1:focus {
+  outline: none;
+}
+.ds-catalog-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--ds-line);
+}
+.ds-catalog-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 9px 14px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.ds-catalog-nav a:hover {
+  background: var(--ds-hover);
+}
+.ds-catalog-nav a[aria-current="page"] {
+  background: var(--ds-violet);
+  color: #fff;
+}
+.ds-catalog-keyboard {
+  font-size: 13px;
+  color: var(--ds-muted);
+  margin-bottom: 24px;
+}
+.ds-catalog-categories {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.ds-catalog-category {
+  display: flex;
+  flex-direction: column;
+  padding: 26px;
+  border: 1px solid var(--ds-line);
+  border-radius: 20px;
+  background: var(--ds-surface);
+  text-decoration: none;
+  min-width: 0;
+  transition: background 0.15s;
+}
+.ds-catalog-category:hover {
+  background: var(--ds-hover);
+}
+.ds-catalog-category h2 {
+  font-size: 24px;
+  margin: 20px 0 12px;
+}
+.ds-catalog-category p {
+  color: var(--ds-muted);
+  font-size: 13px;
+  flex: 1;
+}
+.ds-catalog-category-status {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+.ds-catalog-category-status span {
+  padding: 3px 8px;
+  border: 1px solid var(--ds-line);
+  border-radius: 6px;
+  font-size: 11px;
+}
+.ds-catalog-category footer {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-top: 1px solid var(--ds-line);
+  padding-top: 16px;
+  font-size: 12px;
+}
+.ds-foundations {
+  margin-top: 40px;
+  padding: 26px;
+  border: 1px solid var(--ds-line);
+  border-radius: 20px;
+}
+.ds-foundations > p {
+  color: var(--ds-muted);
+  font-size: 13px;
+  max-width: 90ch;
+}
+.ds-foundation-swatches {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+.ds-foundation-swatches span {
+  padding: 18px 22px;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: 12px;
+}
+.ds-catalog-links {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ds-catalog-playground {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  border: 1px solid var(--ds-line);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--ds-surface) 45%, transparent);
+  min-width: 0;
+}
+.ds-catalog-stage {
+  padding: 38px;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  min-width: 0;
+}
+.ds-catalog-stage output {
+  font-size: 12px;
+  color: var(--ds-muted);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.ds-catalog-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  border-left: 1px solid var(--ds-line);
+  min-width: 0;
+}
+.ds-catalog-controls > .ds-hint {
+  margin-top: 8px;
+}
+.ds-catalog-field-demo {
+  width: min(100%, 380px);
+}
+.ds-catalog-wide-demo {
+  width: min(100%, 560px);
+}
+.ds-catalog-examples {
+  margin-top: 40px;
+}
+.ds-catalog-examples > h2,
+.ds-catalog-api > h2,
+.ds-foundations > h2 {
+  font-size: 24px;
+  margin-bottom: 22px;
+}
+.ds-catalog-example-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+.ds-catalog-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.ds-catalog-stack > p[role="status"]:empty {
+  display: none;
+}
+.ds-catalog-api {
+  margin-top: 40px;
+}
+.ds-catalog-api > p {
+  color: var(--ds-muted);
+  font-size: 13px;
+}
+.ds-catalog-api details {
+  border-top: 1px solid var(--ds-line);
+  padding: 18px 0;
+}
+.ds-catalog-api summary {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+}
+.ds-catalog-api summary span {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--ds-muted);
+  margin-left: 12px;
+}
+.ds-catalog-api details p {
+  margin: 14px 0;
+  font-size: 13px;
+}
+.ds-catalog-api code,
+.ds-catalog-api a {
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+.ds-catalog-footer {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--ds-line);
+  font-size: 12px;
+  color: var(--ds-muted);
+  line-height: 1.8;
+}
+.ds-catalog-footer a {
+  margin-left: 10px;
+}
+@media (max-width: 1100px) {
+  .ds-catalog-categories {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 800px) {
+  .ds-catalog-playground,
+  .ds-catalog-example-grid {
+    grid-template-columns: 1fr;
+  }
+  .ds-catalog-controls {
+    border-left: 0;
+    border-top: 1px solid var(--ds-line);
+  }
+  .ds-catalog-top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .ds-catalog-stage {
+    padding: 26px 20px;
+  }
+  .ds-catalog {
+    padding: 22px 0 40px;
+  }
+  .ds-catalog-heading {
+    margin: 26px 0;
+  }
+  .ds-catalog-nav {
+    gap: 4px;
+  }
+  .ds-catalog-nav a {
+    padding: 8px 10px;
+  }
+  .ds-catalog-top .ds-actions {
+    gap: 12px;
+  }
+}
+@media (max-width: 540px) {
+  .ds-catalog-categories {
+    grid-template-columns: 1fr;
+  }
+  .ds-catalog-category {
+    padding: 22px;
+  }
+  .ds-foundations {
+    padding: 20px;
+  }
+  .ds-catalog-api summary span {
+    display: block;
+    margin: 5px 0 0 20px;
+  }
+}
+
+.ds-catalog-playground-section > h2 {
+  font-size: 24px;
+  margin: 0 0 22px;
+}

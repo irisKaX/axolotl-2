@@ -9,6 +9,7 @@ import { createPageStore } from "../lib/browser-bridge";
 import { system } from "../test/setup";
 
 async function catalog() {
+  history.replaceState(null, "", "?catalog=headers#design-system");
   vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(680);
   const post = vi.spyOn(window, "postMessage").mockImplementation(() => {});
   const page = createPageStore();

@@ -22,6 +22,7 @@ function mount() {
 }
 describe("migrated application", () => {
   beforeEach(async () => {
+    history.replaceState(null, "", location.pathname + location.hash);
     // Drain the hashchange queued by test setup before mounting routing effects.
     await act(() => new Promise(resolve => setTimeout(resolve, 0)));
     // jsdom has no layout; browser tests cover actual responsive measurements.
@@ -174,8 +175,8 @@ describe("migrated application", () => {
     await user.type(input, "novy.example{Enter}");
     expect(page.getSnapshot().context.url).toBe("https://novy.example/");
   });
-  it("exposes all eight sample variants without pretending QR generation works", async () => {
-    location.hash = "#design-system";
+  it("preserves all eight legacy sample variants without pretending QR generation works", async () => {
+    history.replaceState(null, "", "?catalog=legacy#design-system");
     const user = userEvent.setup();
     mount();
     expect(screen.getAllByRole("article")).toHaveLength(3);

@@ -5,6 +5,7 @@ import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { Dialog } from "../components/ui/Dialog";
 import { usePreferences } from "../app/PreferencesProvider";
+const Library = lazy(() => import("./design-system/library/Library"));
 const ButtonShowcase = lazy(() => import("./design-system/ButtonShowcase"));
 const HeaderLab = lazy(() => import("./header-lab/HeaderLab"));
 const title = "Axolotl — tvůj prostor pro web";
@@ -433,6 +434,10 @@ const tabs = [
   ["headers", "Hlavička · A/B"],
 ] as const;
 export function DesignSystem() {
+  const legacy = ["legacy", "headers"].includes(new URLSearchParams(location.search).get("catalog") || "");
+  return legacy ? <LegacyDesignSystem /> : <Suspense fallback={<p role="status">Načítám knihovnu…</p>}><Library /></Suspense>;
+}
+function LegacyDesignSystem() {
   const [tab, setTab] = useState<string>(["headers", "buttons"].includes(new URLSearchParams(location.search).get("catalog") || "") ? new URLSearchParams(location.search).get("catalog")! : "metadata");
   const { resolvedTheme, setPreference } = usePreferences();
   return (
