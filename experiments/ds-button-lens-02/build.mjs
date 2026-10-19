@@ -1,0 +1,17 @@
+import { build } from 'esbuild';
+import { mkdir, copyFile, readFile, writeFile } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import path from 'node:path';
+const here=path.dirname(new URL(import.meta.url).pathname),root=path.resolve(here,'../..'),out=path.join(here,'dist');
+await mkdir(out,{recursive:true});
+const result=await build({absWorkingDir:root,entryPoints:[path.join(here,'preview.tsx')],bundle:true,minify:true,jsx:'automatic',format:'esm',target:['es2020'],outfile:path.join(out,'preview.js'),metafile:true,define:{'process.env.NODE_ENV':'"production"'}});
+const inputs=Object.keys(result.metafile.inputs);
+if(!inputs.includes('src/design-system/Button/Button.tsx') || !inputs.includes('src/design-system/Button/vendor/StarBorder.jsx'))throw Error('Actual Button/StarBorder must be bundled');
+if(inputs.some(p=>p.startsWith('experiments/')&&!p.startsWith('experiments/ds-button-lens-02/')))throw Error('Do not import an old experiment');
+await copyFile(path.join(here,'index.html'),path.join(out,'index.html'));
+await copyFile(path.join(root,'src/design-system/Button/vendor/LICENSE.md'),path.join(out,'react-bits-license.txt'));
+const files=['src/design-system/Button/Button.tsx','src/design-system/Button/Button.css','src/design-system/Button/StarBorderMotion.tsx','src/design-system/Button/vendor/StarBorder.jsx','src/design-system/Button/vendor/StarBorder.css','src/pages/design-system/ButtonShowcase.tsx'];
+const hashes={};for(const file of files)hashes[file]=createHash('sha256').update(await readFile(path.join(root,file))).digest('hex');
+await writeFile(path.join(out,'provenance.json'),JSON.stringify({implementationCommit:'8b0bc17fdc381f7db76c750ffc67abcf54e3eb61',previewCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),component:'src/design-system/Button',actualSourceBundled:true,hashes},null,2));
+console.log('Built actual DS Button + actual ButtonShowcase, no original experiment renderer.');

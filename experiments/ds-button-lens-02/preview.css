@@ -1,0 +1,13 @@
+/* Preview shell only. All Button and playground styling comes from actual source imports. */
+*{box-sizing:border-box}
+:root{color-scheme:dark;--axolotl-text:#f2f1f4;--preview-background:#101115}
+:root[data-theme=light]{color-scheme:light;--axolotl-text:#25252c;--preview-background:#f3f2f6}
+body{margin:0;background:var(--preview-background);color:var(--axolotl-text);font:14px ui-sans-serif,system-ui,sans-serif}
+main{max-width:1366px;margin:auto;padding:32px 40px}
+.button-preview-toolbar{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-bottom:22px;border-bottom:1px solid var(--axo-button-line)}
+.button-preview-toolbar h1{margin:0;font-size:18px;font-weight:500;letter-spacing:-.03em}
+.button-preview-toolbar p,.button-preview-source{font-size:12px;line-height:1.7}
+.button-preview-source{margin:24px 0 32px;overflow-wrap:anywhere}
+.button-preview-footer{display:flex;flex-wrap:wrap;gap:20px;border-top:1px solid var(--axo-button-line);padding:24px 0;font-size:12px}
+.button-preview-footer a{color:inherit;text-underline-offset:4px}
+@media(max-width:600px){main{padding:22px 20px}.button-preview-toolbar{gap:16px;align-items:flex-start}.button-preview-toolbar p{max-width:200px}}

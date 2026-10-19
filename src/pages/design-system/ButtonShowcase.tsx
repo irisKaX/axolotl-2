@@ -14,7 +14,7 @@ function Sample({ variant, size = 'medium', ...props }: { variant: ButtonVariant
 }
 
 /** The actual DS export is used in every specimen and in the async/form examples. */
-export default function ButtonShowcase() {
+export default function ButtonShowcase({ preferenceHint = 'Dark/light a velikost textu přebírá komponenta z nastavení aplikace. Omezení pohybu respektuje i nastavení systému.' }: { preferenceHint?: string } = {}) {
   const [variant, setVariant] = useState<ButtonVariant>('primary');
   const [size, setSize] = useState<ButtonSize>('medium');
   const [motion, setMotion] = useState<ButtonMotion>('none');
@@ -43,7 +43,7 @@ export default function ButtonShowcase() {
         <fieldset><legend>Stav</legend><label><input type="checkbox" checked={disabled} onChange={e => setDisabled(e.target.checked)} />Disabled</label><label><input type="checkbox" checked={loading} onChange={e => setLoading(e.target.checked)} />Loading</label></fieldset>
         <fieldset><legend>Motion</legend><label><input type="checkbox" checked={motion === 'star-border'} onChange={e => setMotion(e.target.checked ? 'star-border' : 'none')} />Star Border</label><label><input type="checkbox" checked={reduced} onChange={e => setReduced(e.target.checked)} />Omezit pohyb</label></fieldset>
         <div className="axo-button-showcase__motion-controls"><label>Barva stopy<input aria-label="Barva stopy" type="color" value={color} onChange={e => setColor(e.target.value)} /></label><label htmlFor="button-duration">Doba oběhu: {duration} s<input id="button-duration" type="range" min="0.5" max="10" step="0.5" value={duration} onChange={e => setDuration(Number(e.target.value))} /></label></div>
-        <p>Dark/light a velikost textu přebírá komponenta z nastavení aplikace. Omezení pohybu respektuje i nastavení systému.</p>
+        <p>{preferenceHint}</p>
       </div>
     </div>
     <section aria-labelledby="button-matrix-heading"><h3 id="button-matrix-heading">Varianty a velikosti</h3><div className="axo-button-showcase__matrix">{variants.map(v => <section key={v} aria-label={names[v]}><h4>{names[v]}</h4>{sizes.map(s => <div key={s}><span>{s}</span><Sample variant={v} size={s} onClick={clicked} /></div>)}</section>)}</div></section>
