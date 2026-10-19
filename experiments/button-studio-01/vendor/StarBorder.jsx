@@ -567,4 +567,3 @@ const StarBorder = ({
 };
 
 export default StarBorder;
-
