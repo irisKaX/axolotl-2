@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
-import { categories, sourceUrl, type CategoryId } from "./registry";
+import { sourceUrl, type Category } from "./registry";
+import { designLabel } from "./model";
+import { VariantComparison } from "./VariantComparison";
 export function Playground({
   children,
   controls,
@@ -38,8 +40,7 @@ export function Examples({
     </section>
   );
 }
-export function ApiReference({ category }: { category: CategoryId }) {
-  const data = categories.find((c) => c.id === category)!;
+export function ApiReference({ category: data }: { category: Category }) {
   return (
     <section className="ds-catalog-api">
       <h2>API, zdroj a použití</h2>
@@ -49,17 +50,44 @@ export function ApiReference({ category }: { category: CategoryId }) {
           <summary>
             {entry.name}{" "}
             <span>
-              {entry.status} · {entry.variants.length}{" "}
+              {entry.variants.length}{" "}
               {entry.variants.length === 1 ? "varianta" : "varianty"}
             </span>
           </summary>
           <p>
-            <strong>Varianty:</strong> {entry.variants.join(", ")}
+            <strong>Varianty:</strong>{" "}
+            {entry.variants
+              .map((v) => `${v.label} · ${designLabel(v.design)}`)
+              .join(", ")}
           </p>
           <p>
             <code>{entry.api}</code>
           </p>
+          <p>
+            <strong>Produkční použití:</strong>{" "}
+            {entry.variants
+              .map(
+                (v) =>
+                  `${v.label}: ${v.production ? "Používá se" : "Zatím se nepoužívá"}`,
+              )
+              .join("; ")}
+          </p>
           <p>{entry.consumers}</p>
+          <p>
+            <strong>Skutečný export:</strong> <code>{entry.name}</code>
+          </p>
+          <p>
+            <strong>Podporované vlastnosti:</strong>{" "}
+            {Object.entries(entry.properties)
+              .map(
+                ([name, p]) =>
+                  `${name}${p.options ? " (" + p.options.map((o) => o.label).join(", ") + ")" : ""}`,
+              )
+              .join("; ")}
+          </p>
+          {entry.variants.length > 1 && entry.previewProps && (
+            <VariantComparison entry={entry} />
+          )}
           <a href={sourceUrl(entry.source)} target="_blank" rel="noreferrer">
             {entry.source} ↗
           </a>

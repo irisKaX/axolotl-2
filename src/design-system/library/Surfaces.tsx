@@ -16,7 +16,7 @@ export function Card({
   title: string;
   children: ReactNode;
   footer?: ReactNode;
-  material?: "flat" | "raised";
+  material?: "flat" | "raised" | "outline-test";
   density?: "compact" | "comfortable";
 }) {
   const id = useId();

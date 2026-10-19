@@ -312,3 +312,6 @@
   font-size: 24px;
   margin: 0 0 22px;
 }
+/* Optional comparison lives inside the existing technical details. */
+.ds-catalog-comparison { margin-block: 24px; }
+.ds-catalog-comparison .ds-catalog-example-grid > div { min-width: 0; }

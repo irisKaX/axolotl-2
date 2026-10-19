@@ -1,3 +1,9 @@
+import {
+  ComponentControl,
+  PropertyControl,
+  BooleanControl,
+} from "./Controls";
+import { findEntry, type PageProps } from "./registry";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../design-system/Button";
 import {
@@ -11,7 +17,6 @@ import {
   Field,
   Select,
   Slider,
-  Switch,
   type Tone,
 } from "../../../design-system/library";
 import { Playground, Examples } from "./PageFrame";
@@ -21,7 +26,7 @@ const meanings = {
   warning: "Vyžaduje pozornost",
   error: "Kontrola selhala",
 };
-export default function FeedbackPage() {
+export default function FeedbackPage({ category }: PageProps) {
   const [kind, setKind] = useState("Badge"),
     [tone, setTone] = useState<Tone>("neutral"),
     [progress, setProgress] = useState(35),
@@ -53,46 +58,38 @@ export default function FeedbackPage() {
       }
     }, 150);
   }
+  const selectedEntry = findEntry(kind, [category]);
   return (
     <>
       <Playground
         controls={
           <>
-            <Field label="Komponenta">
-              <Select
-                value={kind}
-                onValueChange={(v) => {
-                  setKind(v);
-                  setVisible(true);
-                }}
-                options={[
-                  "Badge",
-                  "Status",
-                  "Alert",
-                  "Progress",
-                  "Loading",
-                  "Empty State",
-                ].map((v) => ({ value: v, label: v }))}
-              />
-            </Field>
+            <ComponentControl
+              category={category}
+              value={kind}
+              onValueChange={(v) => {
+                setKind(v);
+                setVisible(true);
+              }}
+            />
             {["Badge", "Status", "Alert"].includes(kind) && (
               <Field label="Význam">
                 <Select
                   value={tone}
                   onValueChange={(v) => setTone(v as Tone)}
-                  options={Object.entries(meanings).map(([value, label]) => ({
-                    value,
-                    label,
-                  }))}
+                  options={selectedEntry.variants.map((v) => {
+                    const value = v.id === "info" ? "neutral" : v.id;
+                    return { value, label: meanings[value as Tone] };
+                  })}
                 />
               </Field>
             )}
             {kind === "Alert" && (
               <>
-                <Switch
+                <BooleanControl
                   label="Lze zavřít"
-                  checked={dismissible}
-                  onChange={(e) => setDismissible(e.target.checked)}
+                  value={dismissible}
+                  onValueChange={setDismissible}
                 />
                 <Button onClick={() => setVisible(true)}>
                   Zobrazit upozornění
@@ -101,10 +98,10 @@ export default function FeedbackPage() {
             )}
             {kind === "Progress" && (
               <>
-                <Switch
+                <BooleanControl
                   label="Neurčitý průběh"
-                  checked={indeterminate}
-                  onChange={(e) => setIndeterminate(e.target.checked)}
+                  value={indeterminate}
+                  onValueChange={setIndeterminate}
                 />
                 {!indeterminate && (
                   <>
@@ -122,16 +119,13 @@ export default function FeedbackPage() {
               </>
             )}
             {kind === "Loading" && (
-              <Field label="Rozložení">
-                <Select
-                  value={layout}
-                  onValueChange={(v) => setLayout(v as typeof layout)}
-                  options={[
-                    { value: "inline", label: "Inline" },
-                    { value: "block", label: "Block" },
-                  ]}
-                />
-              </Field>
+              <PropertyControl
+                label="Rozložení"
+                entry={selectedEntry}
+                property="layout"
+                value={layout}
+                onValueChange={(v) => setLayout(v as typeof layout)}
+              />
             )}
             <p className="ds-hint">
               Význam je vždy vyjádřen textem. Žádný stav se neopírá pouze o

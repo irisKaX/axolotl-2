@@ -734,3 +734,6 @@
     var(--ds-inset) 12px 20px
   );
 }
+
+/* Opt-in technical extension fixture; existing materials are untouched. */
+.ds-card[data-material="outline-test"] { background: transparent; border-style: dashed; }

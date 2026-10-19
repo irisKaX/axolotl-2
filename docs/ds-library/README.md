@@ -1,5 +1,7 @@
 # Axolotl Design System Library V1
 
+> Historická zpráva V1. Aktuální praktický návod a report V1.1: [EXTENDING.md](EXTENDING.md).
+
 Integrovaný katalog v existující aplikaci, izolovaný ve větvi `experiment/ds-library-v1`.
 
 **Preview:** https://iriskax.github.io/axolotl-preview/ds-library-v1/#design-system
@@ -15,7 +17,7 @@ Integrovaný katalog v existující aplikaci, izolovaný ve větvi `experiment/d
 | Feedback & Status | Badge, Status, Alert, Progress, Loading, EmptyState | Badge je existující katalogový export (experiment); Status přímo používá produkční ToolStatus; ostatní nové |
 | Navigation & Tabs | Tabs, SegmentedControl, Disclosure, Pagination | Nativní radio/details/buttons, Tabs s roving focus a zachováním obsahu panelů |
 
-26 hlavních exportů a 47 explicitně vyjmenovaných obsahových variant. Velikosti a interakční stavy se do počtu variant nepřičítají. Pomocné exporty: Field, DesignSystemProvider. Konkrétní API, varianty a konzumenti jsou na každé stránce v části **API, zdroj a použití** a v [registry.ts](../../src/pages/design-system/library/registry.ts).
+26 hlavních exportů a 47 explicitně vyjmenovaných obsahových variant. Velikosti a interakční stavy se do počtu variant nepřičítají. Pomocné exporty: Field, DesignSystemProvider. Konkrétní API, varianty a konzumenti jsou na každé stránce v části **API, zdroj a použití** a v [registry.ts](../../src/pages/design-system/library/registry.tsx).
 
 Produkční původ neznamená, že byly nové katalogové styly zavedeny do nástrojů: Checkbox používají PDF Scout a Obrázky z webu, Panel konvertor obrázků, Status konvertor a Screenshot; Field a původní Select QR Generator a Obrázky z webu. Nový Select používá stejné instalované Radix primitivum, nepřebírá runtime závislost starého tool Selectu na `.ax-ui`.
 

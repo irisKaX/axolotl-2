@@ -1,3 +1,9 @@
+import {
+  ComponentControl,
+  PropertyControl,
+  BooleanControl,
+} from "./Controls";
+import { findEntry, type PageProps } from "./registry";
 import { useRef, useState } from "react";
 import { Button } from "../../../design-system/Button";
 import {
@@ -13,21 +19,12 @@ import {
   type ControlSize,
 } from "../../../design-system/library";
 import { Playground, Examples } from "./PageFrame";
-const kinds = [
-  "Input",
-  "Textarea",
-  "Select",
-  "Checkbox",
-  "Radio",
-  "Switch",
-  "Slider",
-];
 const options = [
   { value: "workspace", label: "Workspace" },
   { value: "tools", label: "Tools" },
   { value: "archive", label: "Archiv (nedostupný)", disabled: true },
 ];
-export default function FormsPage() {
+export default function FormsPage({ category }: PageProps) {
   const [kind, setKind] = useState("Input"),
     [size, setSize] = useState<ControlSize>("medium"),
     [disabled, setDisabled] = useState(false),
@@ -64,51 +61,44 @@ export default function FormsPage() {
       `Ukázkový formulář uložen pro ${email}. Data neopouštějí tuto stránku.`,
     );
   }
+  const selectedEntry = findEntry(kind, [category]);
   return (
     <>
       <Playground
         controls={
           <>
-            <Field label="Komponenta">
-              <Select
-                value={kind}
-                onValueChange={setKind}
-                options={kinds.map((k) => ({ value: k, label: k }))}
-              />
-            </Field>
-            {["Input", "Textarea", "Select"].includes(kind) && (
-              <Field label="Velikost">
-                <Select
-                  value={size}
-                  onValueChange={(v) => setSize(v as ControlSize)}
-                  options={["small", "medium", "large"].map((v) => ({
-                    value: v,
-                    label: v,
-                  }))}
-                />
-              </Field>
-            )}
-            {kind === "Input" && (
-              <Field label="Typ hodnoty">
-                <Select
-                  value={type}
-                  onValueChange={setType}
-                  options={["text", "email", "url"].map((v) => ({
-                    value: v,
-                    label: v,
-                  }))}
-                />
-              </Field>
-            )}
-            <Switch
-              label="Disabled"
-              checked={disabled}
-              onChange={(e) => setDisabled(e.target.checked)}
+            <ComponentControl
+              category={category}
+              value={kind}
+              onValueChange={setKind}
             />
-            <Switch
+            {"size" in selectedEntry.properties && (
+              <PropertyControl
+                label="Velikost"
+                entry={selectedEntry}
+                property="size"
+                value={size}
+                onValueChange={(v) => setSize(v as ControlSize)}
+              />
+            )}
+            {"type" in selectedEntry.properties && (
+              <PropertyControl
+                label="Typ hodnoty"
+                entry={selectedEntry}
+                property="type"
+                value={type}
+                onValueChange={setType}
+              />
+            )}
+            <BooleanControl
+              label="Disabled"
+              value={disabled}
+              onValueChange={setDisabled}
+            />
+            <BooleanControl
               label="Invalid"
-              checked={invalid}
-              onChange={(e) => setInvalid(e.target.checked)}
+              value={invalid}
+              onValueChange={setInvalid}
             />
             {kind === "Checkbox" && (
               <Button onClick={() => setChecked("indeterminate")}>
@@ -263,10 +253,10 @@ export default function FormsPage() {
               value={selected}
               onValueChange={setSelected}
             />
-            <Switch
+            <BooleanControl
               label="Zapnout náhled"
-              checked={enabled}
-              onChange={(e) => setEnabled(e.target.checked)}
+              value={enabled}
+              onValueChange={setEnabled}
             />
             <Slider label="Úroveň" value={range} onValueChange={setRange} />
           </div>

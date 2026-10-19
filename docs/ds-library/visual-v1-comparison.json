@@ -1,0 +1,74 @@
+[
+  {
+    "theme": "dark",
+    "section": "buttons",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "dark",
+    "section": "forms",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "dark",
+    "section": "surfaces",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "dark",
+    "section": "overlays",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "dark",
+    "section": "feedback",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "dark",
+    "section": "navigation",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "light",
+    "section": "buttons",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "light",
+    "section": "forms",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "light",
+    "section": "surfaces",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "light",
+    "section": "overlays",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "light",
+    "section": "feedback",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  },
+  {
+    "theme": "light",
+    "section": "navigation",
+    "computedStylesEqual": true,
+    "pngIdentical": true
+  }
+]

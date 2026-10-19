@@ -1,8 +1,12 @@
+import {
+  ComponentControl,
+  BooleanControl,
+} from "./Controls";
+import { findEntry, type PageProps } from "./registry";
 import { useState } from "react";
 import {
   Field,
   Input,
-  Select,
   Switch,
   Slider,
   Tabs,
@@ -12,7 +16,7 @@ import {
   Card,
 } from "../../../design-system/library";
 import { Playground, Examples } from "./PageFrame";
-export default function NavigationPage() {
+export default function NavigationPage({ category }: PageProps) {
   const [kind, setKind] = useState("Tabs"),
     [value, setValue] = useState("overview"),
     [disable, setDisable] = useState(false),
@@ -42,23 +46,17 @@ export default function NavigationPage() {
       content: <p>Poslední akce: aktualizace ukázky.</p>,
     },
   ];
+  const selectedEntry = findEntry(kind, [category]);
   return (
     <>
       <Playground
         controls={
           <>
-            <Field label="Komponenta">
-              <Select
-                value={kind}
-                onValueChange={setKind}
-                options={[
-                  "Tabs",
-                  "Segmented Control",
-                  "Disclosure",
-                  "Pagination",
-                ].map((v) => ({ value: v, label: v }))}
-              />
-            </Field>
+            <ComponentControl
+              category={category}
+              value={kind}
+              onValueChange={setKind}
+            />
             {["Tabs", "Segmented Control"].includes(kind) && (
               <Switch
                 label="Zakázat Historii"
@@ -70,17 +68,17 @@ export default function NavigationPage() {
               />
             )}
             {kind === "Disclosure" && (
-              <Switch
+              <BooleanControl
                 label="Otevřená sekce"
-                checked={open}
-                onChange={(e) => setOpen(e.target.checked)}
+                value={open}
+                onValueChange={setOpen}
               />
             )}{" "}
             {kind === "Pagination" && (
               <Slider
                 label="Počet stránek"
-                min={1}
-                max={12}
+                min={selectedEntry.properties.count.min}
+                max={selectedEntry.properties.count.max}
                 value={count}
                 onValueChange={(v) => {
                   setCount(v);

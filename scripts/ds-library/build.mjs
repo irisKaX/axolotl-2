@@ -7,7 +7,7 @@ run("node", ["scripts/clean-build.mjs"]);
 run("node", [
   "node_modules/vite/bin/vite.js",
   "build",
-  "--base=/axolotl-preview/ds-library-v1/",
+  "--base=/axolotl-preview/ds-library-v1-1/",
 ]);
 run("node", ["scripts/finalize-build.mjs"]);
 const files = [];
@@ -34,7 +34,7 @@ writeFileSync(
       previewCommit: execFileSync("git", ["rev-parse", "HEAD"], {
         encoding: "utf8",
       }).trim(),
-      base: "/axolotl-preview/ds-library-v1/",
+      base: "/axolotl-preview/ds-library-v1-1/",
       entry: "#design-system",
       categories: [
         "buttons",

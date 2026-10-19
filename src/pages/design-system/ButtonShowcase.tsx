@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Play, Bookmark, Trash2 } from 'lucide-react';
 import { Button, type ButtonVariant, type ButtonSize, type ButtonMotion } from '../../design-system/Button';
 import './ButtonShowcase.css';
+import {buttonEntry,type Category} from './library/registry';
+import {propertyOptions} from './library/model';
 
-const variants: ButtonVariant[] = ['primary', 'secondary', 'ghost', 'icon', 'destructive'];
-const sizes: ButtonSize[] = ['small', 'medium', 'large'];
-const names = { primary: 'Primary', secondary: 'Secondary', ghost: 'Ghost', icon: 'Icon', destructive: 'Destructive' };
+const variants = buttonEntry.variants.map(v=>v.id as ButtonVariant);
+const sizes = propertyOptions(buttonEntry,'size').map(o=>o.value as ButtonSize);
+const names = Object.fromEntries(buttonEntry.variants.map(v=>[v.id,v.label]));
 const sample = (variant: ButtonVariant) => variant === 'destructive' ? <Trash2 strokeWidth={1.7} /> : variant === 'icon' ? <Bookmark strokeWidth={1.7} /> : <Play strokeWidth={1.7} />;
 function Sample({ variant, size = 'medium', ...props }: { variant: ButtonVariant; size?: ButtonSize; motion?: ButtonMotion; starBorder?: {color:string;duration:number}; disabled?:boolean; loading?:boolean; reducedMotion?:boolean; onClick?:()=>void; id?:string }) {
   return variant === 'icon'
@@ -14,7 +16,7 @@ function Sample({ variant, size = 'medium', ...props }: { variant: ButtonVariant
 }
 
 /** The actual DS export is used in every specimen and in the async/form examples. */
-export default function ButtonShowcase({ preferenceHint = 'Dark/light a velikost textu přebírá komponenta z nastavení aplikace. Omezení pohybu respektuje i nastavení systému.' }: { preferenceHint?: string } = {}) {
+export default function ButtonShowcase({ preferenceHint = 'Dark/light a velikost textu přebírá komponenta z nastavení aplikace. Omezení pohybu respektuje i nastavení systému.' }: { preferenceHint?: string; category?: Category; testMode?: boolean } = {}) {
   const [variant, setVariant] = useState<ButtonVariant>('primary');
   const [size, setSize] = useState<ButtonSize>('medium');
   const [motion, setMotion] = useState<ButtonMotion>('none');
@@ -52,6 +54,6 @@ export default function ButtonShowcase({ preferenceHint = 'Dark/light a velikost
       <article><h4>Asynchronní akce</h4><p>Loading zachová zaměření, zablokuje opakovanou aktivaci a vypne světelné stopy.</p><Button id="button-async" variant="primary" icon={<Play strokeWidth={1.7} />} motion="star-border" loading={busy} loadingLabel="Probíhá kontrola" onClick={run}>Spustit kontrolu</Button></article>
       <form onSubmit={e => { e.preventDefault(); setMessage('Formulář odeslán: ' + new FormData(e.currentTarget).get('workspace')); }}><h4>Nativní formulář</h4><label htmlFor="button-workspace">Název workspace<input id="button-workspace" name="workspace" required defaultValue="Můj workspace" /></label><Button type="submit" variant="secondary">Uložit workspace</Button></form>
     </div><p role="status" aria-live="polite">{message}</p></section>
-    <details><summary>API, původ a stav schválení</summary><p><code>src/design-system/Button</code> · stejný export používá playground, matice i příklady.</p><p><code>variant</code>: primary / secondary / ghost / icon / destructive. <code>size</code>: small / medium / large. <code>motion</code>: none / star-border. <code>starBorder</code>: color, duration (sekundy).</p><p>Nativní button props a ref, volitelná ikona, loading, loadingLabel, theme a reducedMotion. Icon vyžaduje přístupný název. Odkazy a automatická migrace stávajících tlačítek nejsou součástí této iterace.</p><p>Vzhled schválen; tato implementace čeká na schválení. Originální React Bits Star Border © 2026 David Haz, MIT + Commons Clause. Licence a přesný zdroj jsou v repozitáři vedle komponenty.</p></details>
+    <details><summary>API, původ a stav schválení</summary><p><code>src/design-system/Button</code> · stejný export používá playground, matice i příklady.</p><p><code>variant</code>: {variants.join(' / ')}. <code>size</code>: {sizes.join(' / ')}. <code>motion</code>: {propertyOptions(buttonEntry,'motion').map(o=>o.value).join(' / ')}. <code>starBorder</code>: color, duration (sekundy).</p><p>Nativní button props a ref, volitelná ikona, loading, loadingLabel, theme a reducedMotion. Icon vyžaduje přístupný název. Odkazy a automatická migrace stávajících tlačítek nejsou součástí této iterace.</p><p>Vzhled schválen; tato implementace čeká na schválení. Originální React Bits Star Border © 2026 David Haz, MIT + Commons Clause. Licence a přesný zdroj jsou v repozitáři vedle komponenty.</p></details>
   </section>;
 }

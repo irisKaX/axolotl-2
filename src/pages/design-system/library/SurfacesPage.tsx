@@ -1,3 +1,10 @@
+import {
+  ComponentControl,
+  PropertyControl,
+  VariantControl,
+  BooleanControl,
+} from "./Controls";
+import { findEntry, type PageProps } from "./registry";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../design-system/Button";
 import {
@@ -5,15 +12,14 @@ import {
   Panel,
   InteractiveCard,
   StateCard,
-  Field,
-  Select,
-  Switch,
   Status,
 } from "../../../design-system/library";
 import { Playground, Examples } from "./PageFrame";
-export default function SurfacesPage() {
+export default function SurfacesPage({ category }: PageProps) {
   const [kind, setKind] = useState("Card"),
-    [material, setMaterial] = useState<"flat" | "raised">("flat"),
+    [material, setMaterial] = useState<"flat" | "raised" | "outline-test">(
+      "flat",
+    ),
     [density, setDensity] = useState<"compact" | "comfortable">("comfortable"),
     [state, setState] = useState<"empty" | "loading" | "error">("empty"),
     [disabled, setDisabled] = useState(false),
@@ -34,68 +40,52 @@ export default function SurfacesPage() {
       setAdded(true);
     }, 600);
   }
+  const selectedEntry = findEntry(kind, [category]);
   return (
     <>
       <Playground
         controls={
           <>
-            <Field label="Komponenta">
-              <Select
-                value={kind}
-                onValueChange={setKind}
-                options={[
-                  "Card",
-                  "Panel",
-                  "Interactive Card",
-                  "State Card",
-                ].map((v) => ({ value: v, label: v }))}
-              />
-            </Field>
+            <ComponentControl
+              category={category}
+              value={kind}
+              onValueChange={setKind}
+            />
             {kind === "Card" && (
               <>
-                <Field label="Materiál">
-                  <Select
-                    value={material}
-                    onValueChange={(v) => setMaterial(v as typeof material)}
-                    options={["flat", "raised"].map((v) => ({
-                      value: v,
-                      label: v,
-                    }))}
-                  />
-                </Field>
-                <Field label="Hustota">
-                  <Select
-                    value={density}
-                    onValueChange={(v) => setDensity(v as typeof density)}
-                    options={["compact", "comfortable"].map((v) => ({
-                      value: v,
-                      label: v,
-                    }))}
-                  />
-                </Field>
+                <VariantControl
+                  label="Materiál"
+                  entry={selectedEntry}
+                  value={material}
+                  onValueChange={(v) => setMaterial(v as typeof material)}
+                />
+                <PropertyControl
+                  label="Hustota"
+                  entry={selectedEntry}
+                  property="density"
+                  value={density}
+                  onValueChange={(v) => setDensity(v as typeof density)}
+                />
               </>
             )}
             {kind === "Interactive Card" && (
-              <Switch
+              <BooleanControl
                 label="Disabled"
-                checked={disabled}
-                onChange={(e) => setDisabled(e.target.checked)}
+                value={disabled}
+                onValueChange={setDisabled}
               />
             )}{" "}
             {kind === "State Card" && (
-              <Field label="Stav obsahu">
-                <Select
-                  value={state}
-                  onValueChange={(v) => {
-                    setAdded(false);
-                    setState(v as typeof state);
-                  }}
-                  options={["empty", "loading", "error"].map((v) => ({
-                    value: v,
-                    label: v,
-                  }))}
-                />
-              </Field>
+              <PropertyControl
+                label="Stav obsahu"
+                entry={selectedEntry}
+                property="state"
+                value={state}
+                onValueChange={(v) => {
+                  setAdded(false);
+                  setState(v as typeof state);
+                }}
+              />
             )}
             <p className="ds-hint">
               Povrchy jsou pracovní V1. Žádný layout engine ani produkční widget
@@ -163,12 +153,27 @@ export default function SurfacesPage() {
         </div>
       </Playground>
       <Examples>
-        <Card title="Flat" material="flat">
-          <p>Klidný povrch pro běžný obsah.</p>
-        </Card>
-        <Card title="Raised" material="raised">
-          <p>Zvýšený povrch pro samostatný pracovní celek.</p>
-        </Card>
+        {findEntry("Card", [category]).variants.map((v) => (
+          <Card
+            key={v.id}
+            title={
+              v.id === "flat"
+                ? "Flat"
+                : v.id === "raised"
+                  ? "Raised"
+                  : v.label + " · Návrh"
+            }
+            material={v.props.material as typeof material}
+          >
+            <p>
+              {v.id === "flat"
+                ? "Klidný povrch pro běžný obsah."
+                : v.id === "raised"
+                  ? "Zvýšený povrch pro samostatný pracovní celek."
+                  : "Technická fixture rozšíření existujícího materiálu."}
+            </p>
+          </Card>
+        ))}
         <StateCard
           state="empty"
           action={

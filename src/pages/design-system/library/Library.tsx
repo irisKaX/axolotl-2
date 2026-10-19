@@ -1,11 +1,4 @@
-import {
-  lazy,
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-  type MouseEvent,
-} from "react";
+import { Suspense, useEffect, useRef, useState, type MouseEvent } from "react";
 import { usePreferences } from "../../../app/PreferencesProvider";
 import { Button } from "../../../design-system/Button";
 import {
@@ -13,35 +6,38 @@ import {
   Status,
   Disclosure,
 } from "../../../design-system/library";
-import ButtonShowcase from "../ButtonShowcase";
-import { categories, type CategoryId } from "./registry";
+
+import { getCategories, type CategoryId } from "./registry";
+import { designLabel } from "./model";
 import { ApiReference } from "./PageFrame";
 import "./catalog.css";
-const Forms = lazy(() => import("./FormsPage")),
-  Surfaces = lazy(() => import("./SurfacesPage")),
-  Overlays = lazy(() => import("./OverlaysPage")),
-  Feedback = lazy(() => import("./FeedbackPage")),
-  Navigation = lazy(() => import("./NavigationPage"));
-const readSection = () => {
+const readRoute = () => {
   const q = new URLSearchParams(location.search),
-    s = q.get("section") || (q.get("catalog") === "buttons" ? "buttons" : "");
-  return categories.some((c) => c.id === s) ? (s as CategoryId) : null;
+    testMode = q.get("catalogTests") === "1";
+  const id =
+    q.get("section") || (q.get("catalog") === "buttons" ? "buttons" : "");
+  return {
+    section: getCategories(testMode).some((c) => c.id === id) ? id : null,
+    testMode,
+  };
 };
-const href = (id: CategoryId | null) =>
-  `?catalog=library${id ? `&section=${id}` : ""}#design-system`;
+const href = (id: CategoryId | null, testMode = false) =>
+  `?catalog=library${id ? `&section=${id}` : ""}${testMode ? "&catalogTests=1" : ""}#design-system`;
 export default function Library() {
   const prefs = usePreferences(),
-    [section, setSection] = useState(readSection);
+    [route, setRoute] = useState(readRoute);
+  const { section, testMode } = route;
+  const categories = getCategories(testMode);
   const heading = useRef<HTMLHeadingElement>(null),
     first = useRef(true);
   const selected = categories.find((c) => c.id === section);
   useEffect(() => {
-    const update = () => setSection(readSection());
+    const update = () => setRoute(readRoute());
     window.addEventListener("popstate", update);
     return () => window.removeEventListener("popstate", update);
   }, []);
   useEffect(() => {
-    document.title = `${selected?.title || "Design System Library V1"} · Axolotl`;
+    document.title = `${selected?.title || "Design System Library V1.1"} · Axolotl`;
     if (first.current) {
       first.current = false;
       return;
@@ -52,8 +48,8 @@ export default function Library() {
   function navigate(e: MouseEvent<HTMLAnchorElement>, id: CategoryId | null) {
     if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
-    history.pushState(null, "", href(id));
-    setSection(id);
+    history.pushState(null, "", href(id, testMode));
+    setRoute({ section: id, testMode });
   }
   return (
     <DesignSystemProvider
@@ -62,11 +58,11 @@ export default function Library() {
     >
       <section className="ds-catalog" aria-labelledby="library-heading">
         <div className="ds-catalog-top">
-          <a href={href(null)} onClick={(e) => navigate(e, null)}>
+          <a href={href(null, testMode)} onClick={(e) => navigate(e, null)}>
             Axolotl / Design System
           </a>
           <div className="ds-actions">
-            <Status state="neutral">Library V1 · k revizi</Status>
+            <Status state="neutral">Library V1.1 · k revizi</Status>
             <Button
               size="small"
               onClick={() =>
@@ -89,7 +85,7 @@ export default function Library() {
               : "O2 Axolotl 2.0 / Component Library"}
           </span>
           <h1 id="library-heading" ref={heading} tabIndex={-1}>
-            {selected?.title || "Design System Library V1"}
+            {selected?.title || "Design System Library V1.1"}
           </h1>
           <p>
             {selected?.description ||
@@ -98,13 +94,13 @@ export default function Library() {
         </header>
         {selected && (
           <nav className="ds-catalog-nav" aria-label="Kategorie knihovny">
-            <a href={href(null)} onClick={(e) => navigate(e, null)}>
+            <a href={href(null, testMode)} onClick={(e) => navigate(e, null)}>
               ← Přehled
             </a>
             {categories.map((c) => (
               <a
                 key={c.id}
-                href={href(c.id)}
+                href={href(c.id, testMode)}
                 onClick={(e) => navigate(e, c.id)}
                 aria-current={section === c.id ? "page" : undefined}
               >
@@ -113,6 +109,14 @@ export default function Library() {
             ))}
           </nav>
         )}
+        {testMode && (
+          <p role="status">
+            Testovací režim · technické fixtures jsou návrh.{" "}
+            <a href={href(section === "test-counter" ? null : section)}>
+              Ukončit testovací režim
+            </a>
+          </p>
+        )}
         {!selected ? (
           <>
             <div className="ds-catalog-categories">
@@ -120,7 +124,7 @@ export default function Library() {
                 <a
                   className="ds-catalog-category"
                   key={c.id}
-                  href={href(c.id)}
+                  href={href(c.id, testMode)}
                   onClick={(e) => navigate(e, c.id)}
                 >
                   <span className="ds-catalog-eyebrow">
@@ -130,7 +134,13 @@ export default function Library() {
                   <h2>{c.title}</h2>
                   <p>{c.description}</p>
                   <div className="ds-catalog-category-status">
-                    {[...new Set(c.entries.map((e) => e.status))].map((s) => (
+                    {[
+                      ...new Set(
+                        c.entries.flatMap((e) =>
+                          e.variants.map((v) => designLabel(v.design)),
+                        ),
+                      ),
+                    ].map((s) => (
                       <span key={s}>{s}</span>
                     ))}
                   </div>
@@ -185,21 +195,9 @@ export default function Library() {
           <>
             <p className="ds-catalog-keyboard">{selected.keyboard}</p>
             <Suspense fallback={<p role="status">Načítám komponenty…</p>}>
-              {section === "buttons" ? (
-                <ButtonShowcase />
-              ) : section === "forms" ? (
-                <Forms />
-              ) : section === "surfaces" ? (
-                <Surfaces />
-              ) : section === "overlays" ? (
-                <Overlays />
-              ) : section === "feedback" ? (
-                <Feedback />
-              ) : (
-                <Navigation />
-              )}
+              <selected.Page category={selected} testMode={testMode} />
             </Suspense>
-            <ApiReference category={selected.id} />
+            <ApiReference category={selected} />
           </>
         )}
         <footer className="ds-catalog-footer">
@@ -207,7 +205,7 @@ export default function Library() {
             ? "Button Lens 02: schválený vzhled."
             : "Nové povrchy a komponenty: pracovní V1 ke schválení."}{" "}
           Header a nástroje se nemění.{" "}
-          <a href="https://github.com/irisKaX/axolotl-2/tree/experiment/ds-library-v1/docs/ds-library">
+          <a href="https://github.com/irisKaX/axolotl-2/tree/experiment/ds-library-v1-1/docs/ds-library/EXTENDING.md">
             API a technický report ↗
           </a>
         </footer>

@@ -32,7 +32,7 @@ try {
   await page.goto(route(""));
   await expect(
     page.getByRole("heading", {
-      name: "Design System Library V1",
+      name: "Design System Library V1.1",
       exact: true,
     }),
   ).toBeVisible();
@@ -104,7 +104,7 @@ try {
   await page.goBack();
   await expect(
     page.getByRole("heading", {
-      name: "Design System Library V1",
+      name: "Design System Library V1.1",
       exact: true,
     }),
   ).toBeVisible();
@@ -392,6 +392,86 @@ try {
   ).toBeVisible();
   await page.keyboard.press("Escape");
   pass("Existing AppHeader settings and providers remain functional");
+  await page.goto(`${base}?catalog=library&catalogTests=1#design-system`);
+  await expect(page.locator(".ds-catalog-category")).toHaveCount(7);
+  await page
+    .locator(".ds-catalog-category")
+    .filter({ hasText: "Cards & Surfaces" })
+    .click();
+  expect(new URL(page.url()).searchParams.get("catalogTests")).toBe("1");
+  await choose(page, "Materiál", "Test · obrys");
+  await expect(page.locator(".ds-catalog-stage .ds-card")).toHaveAttribute(
+    "data-material",
+    "outline-test",
+  );
+  expect(
+    await page
+      .locator(".ds-catalog-stage .ds-card")
+      .evaluate((el) => getComputedStyle(el).borderStyle),
+  ).toBe("dashed");
+  await page
+    .locator(".ds-catalog-api > details")
+    .first()
+    .locator("summary")
+    .click();
+  const comparison = page.getByRole("region", {
+    name: "Porovnání Card",
+    exact: true,
+  });
+  await choose(page, "Pravá varianta", "Test · obrys");
+  await expect(comparison.locator(".ds-card[data-material=flat]")).toHaveCount(
+    1,
+  );
+  await expect(
+    comparison.locator(".ds-card[data-material=outline-test]"),
+  ).toHaveCount(1);
+  await expect(comparison).toContainText("Návrh");
+  await page.screenshot({
+    path: `${out}/extension-card-comparison.png`,
+    fullPage: true,
+  });
+  await page
+    .getByRole("navigation", { name: "Kategorie knihovny" })
+    .getByRole("link", { name: "Test Counter", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Test Counter", exact: true }),
+  ).toBeFocused();
+  await page.getByRole("button", { name: "Zvýšit hodnotu" }).focus();
+  await page.keyboard.press("Space");
+  await expect(page.getByLabel("Hodnota čítače")).toHaveText("1");
+  await page.getByRole("switch", { name: "Disabled", exact: true }).check();
+  await expect(
+    page.getByRole("button", { name: "Zvýšit hodnotu" }),
+  ).toBeDisabled();
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Test Counter", exact: true }),
+  ).toBeVisible();
+  await page.screenshot({
+    path: `${out}/extension-counter.png`,
+    fullPage: true,
+  });
+  const fixtureAxe = await new AxeBuilder({ page })
+    .include(".ds-catalog")
+    .analyze();
+  expect(fixtureAxe.violations).toEqual([]);
+  await page.getByRole("link", { name: "Ukončit testovací režim" }).click();
+  await expect(page.locator(".ds-catalog-category")).toHaveCount(6);
+  await page.goto(route("surfaces"));
+  await page.getByRole("combobox", { name: "Materiál", exact: true }).click();
+  await expect(page.getByRole("option")).toHaveCount(2);
+  await page.keyboard.press("Escape");
+  await page.goto(`${base}?catalog=library&section=test-counter#design-system`);
+  await expect(
+    page.getByRole("heading", {
+      name: "Design System Library V1.1",
+      exact: true,
+    }),
+  ).toBeVisible();
+  pass(
+    "Extensions: real Card variant + comparison, new registered page, keyboard/disabled, deep link/reload, test-mode isolation and axe 0",
+  );
   expect(errors).toEqual([]);
   pass("No browser runtime errors");
 } finally {

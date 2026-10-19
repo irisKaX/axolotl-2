@@ -1,3 +1,9 @@
+import {
+  ComponentControl,
+  PropertyControl,
+  BooleanControl,
+} from "./Controls";
+import { findEntry, type PageProps } from "./registry";
 import { useState } from "react";
 import { HelpCircle } from "lucide-react";
 import { Button } from "../../../design-system/Button";
@@ -9,12 +15,11 @@ import {
   Field,
   Input,
   Select,
-  Switch,
   Card,
   Status,
 } from "../../../design-system/library";
 import { Playground, Examples } from "./PageFrame";
-export default function OverlaysPage() {
+export default function OverlaysPage({ category }: PageProps) {
   const [kind, setKind] = useState("Dialog"),
     [disabled, setDisabled] = useState(false),
     [size, setSize] = useState<"medium" | "large">("medium"),
@@ -52,39 +57,30 @@ export default function OverlaysPage() {
       </Button>
     </>
   );
+  const selectedEntry = findEntry(kind, [category]);
   return (
     <>
       <Playground
         controls={
           <>
-            <Field label="Komponenta">
-              <Select
-                value={kind}
-                onValueChange={setKind}
-                options={[
-                  "Dialog",
-                  "Confirmation Dialog",
-                  "Popover",
-                  "Tooltip",
-                ].map((v) => ({ value: v, label: v }))}
-              />
-            </Field>
-            <Switch
+            <ComponentControl
+              category={category}
+              value={kind}
+              onValueChange={setKind}
+            />
+            <BooleanControl
               label="Disabled trigger"
-              checked={disabled}
-              onChange={(e) => setDisabled(e.target.checked)}
+              value={disabled}
+              onValueChange={setDisabled}
             />
             {kind === "Dialog" && (
-              <Field label="Velikost dialogu">
-                <Select
-                  value={size}
-                  onValueChange={(v) => setSize(v as typeof size)}
-                  options={[
-                    { value: "medium", label: "Medium" },
-                    { value: "large", label: "Large" },
-                  ]}
-                />
-              </Field>
+              <PropertyControl
+                label="Velikost dialogu"
+                entry={selectedEntry}
+                property="size"
+                value={size}
+                onValueChange={(v) => setSize(v as typeof size)}
+              />
             )}
             <p className="ds-hint">
               Escape zavře vrstvu a vrátí focus. Select uvnitř dialogu ověřuje
