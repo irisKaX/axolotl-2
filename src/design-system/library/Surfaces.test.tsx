@@ -9,40 +9,35 @@ import {
   WidgetCard,
 } from "./Surfaces";
 import { categories } from "../../pages/design-system/library/registry";
-import { surfaceFamilies } from "./surfaceFamilies";
 
-it("retains default materials and only applies a family when requested", () => {
+it("retains default material and density API without experiment configuration", () => {
   const { rerender } = render(<Card title="Report">Content</Card>);
-  expect(screen.getByRole("article", { name: "Report" })).not.toHaveAttribute(
-    "data-surface-family",
-  );
+  expect(screen.getByRole("article")).toHaveAttribute("data-material", "flat");
   rerender(
-    <Card family="halo" title="Report">
+    <Card title="Report" material="raised" density="compact">
       Content
     </Card>,
   );
-  expect(screen.getByRole("article", { name: "Report" })).toHaveAttribute(
-    "data-surface-family",
-    "halo",
+  expect(screen.getByRole("article")).toHaveAttribute(
+    "data-material",
+    "raised",
+  );
+  expect(screen.getByRole("article")).toHaveAttribute(
+    "data-density",
+    "compact",
   );
 });
 it("supports keyboard activation and blocks loading without dropping focus", async () => {
   const click = vi.fn();
   const user = userEvent.setup();
   const { rerender } = render(
-    <InteractiveCard
-      family="halo"
-      title="Choose"
-      description="Item"
-      onClick={click}
-    />,
+    <InteractiveCard title="Choose" description="Item" onClick={click} />,
   );
   await user.tab();
   await user.keyboard("{Enter} ");
   expect(click).toHaveBeenCalledTimes(2);
   rerender(
     <InteractiveCard
-      family="halo"
       title="Choose"
       description="Item"
       loading
@@ -70,13 +65,11 @@ it("keeps action slots independent of container semantics", async () => {
   render(
     <>
       <ToolCard
-        family="studio"
         title="Tool"
         description="Description"
         action={<button onClick={click}>Open</button>}
       />
       <WidgetCard
-        family="obsidian"
         title="Widget"
         actions={<button onClick={click}>Refresh</button>}
       >
@@ -90,25 +83,27 @@ it("keeps action slots independent of container semantics", async () => {
   expect(click).toHaveBeenCalledTimes(2);
 });
 it("provides empty, busy, error, warning and success content", () => {
-  const { rerender } = render(<StateCard family="halo" state="empty" />);
+  const { rerender } = render(<StateCard state="empty" />);
   expect(screen.getByText("Zatím bez widgetů")).toBeVisible();
-  rerender(<StateCard family="halo" state="loading" />);
+  rerender(<StateCard state="loading" />);
   expect(screen.getByRole("status")).toHaveTextContent("Načítám");
-  rerender(<StateCard family="halo" state="error" />);
+  rerender(<StateCard state="error" />);
   expect(screen.getByRole("alert")).toHaveTextContent("Obsah není dostupný");
-  rerender(<StateCard family="halo" state="warning" />);
+  rerender(<StateCard state="warning" />);
   expect(screen.getByRole("status")).toHaveTextContent("neuložené");
-  rerender(<StateCard family="halo" state="success" />);
+  rerender(<StateCard state="success" />);
   expect(screen.getByRole("status")).toHaveTextContent("připravené");
 });
-it("registers all three families for all six real exports as proposals without production use", () => {
+it("registers only Halo Soft elevations, no historical family controls", () => {
   const entries = categories.find((c) => c.id === "surfaces")!.entries;
   expect(entries).toHaveLength(6);
-  for (const entry of entries)
-    for (const family of surfaceFamilies) {
-      const v = entry.variants.find((v) => v.id === family.id)!;
-      expect(v.props.family).toBe(family.id);
-      expect(v.design).toBe("draft");
+  for (const entry of entries) {
+    expect(entry.properties).not.toHaveProperty("family");
+    expect(entry.properties).not.toHaveProperty("halo");
+    for (const v of entry.variants) {
+      expect(v.label).toContain("Halo Soft");
       expect(v.production).toBe(false);
+      expect(v.design).toBe("draft");
     }
+  }
 });

@@ -1,5 +1,7 @@
 # Axolotl Design System Library V1
 
+> Historický záznam před vizuálním sjednocením. Aktuální stav a API popisuje [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md). Historické varianty nejsou aktivní součástí katalogu.
+
 > Historická zpráva V1. Aktuální praktický návod a report V1.1: [EXTENDING.md](EXTENDING.md).
 
 Integrovaný katalog v existující aplikaci, izolovaný ve větvi `experiment/ds-library-v1`.

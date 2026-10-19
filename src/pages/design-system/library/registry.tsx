@@ -13,16 +13,6 @@ import {
   type Entry,
 } from "./model";
 export type { CategoryId, Entry, Category, PageProps } from "./model";
-const haloVariants = () =>
-  UI.haloIntensities.map((intensity) =>
-    variant(`halo-${intensity}`, `Halo ${intensity}`, {
-      family: "halo" as const,
-      halo: { intensity },
-    }),
-  );
-const surfaceVariants = () =>
-  UI.surfaceFamilies.map((f) => variant(f.id, f.label, { family: f.id }));
-const familyProperty = selectProperty(UI.surfaceFamilies.map((f) => f.id));
 const controlSizes = selectProperty(["small", "medium", "large"]);
 // Approval is per visual/semantic variant, not inherited from catalog approval.
 // These exact catalog exports have not been migrated into production tools.
@@ -31,7 +21,7 @@ export const categories: Category[] = [
     id: "buttons",
     title: "Buttons",
     description:
-      "Akce a příkazy. Schválený Lens 02 Clean Icon se skutečným Star Border.",
+      "Akce a příkazy. Jednotný styl Navigation & Tabs; Lens 02 API a volitelný Star Border.",
     keyboard:
       "Tab → focus-visible; Enter a mezerník → akce. Loading zachovává focus a blokuje další aktivaci.",
     load: () => import("../ButtonShowcase"),
@@ -41,22 +31,22 @@ export const categories: Category[] = [
         label: "Button",
         source: "src/design-system/Button/Button.tsx",
         consumers:
-          "Skutečný katalog a ds-button-lens-02 preview. Vzhled schválen, produkční migrace čeká.",
+          "Skutečný export Button. Sjednocený katalogový vzhled je návrh; původní Lens 02 zůstává v Git historii a zachovaném preview.",
         api: "variant; size: small | medium | large; motion: none | star-border; starBorder: {color,duration}; loading; disabled; icon; nativní props a ref.",
         variants: [
           variant(
             "primary",
             "Primary",
             { variant: "primary" as const },
-            "approved",
+            "draft",
           ),
           variant(
             "secondary",
             "Secondary",
             { variant: "secondary" as const },
-            "approved",
+            "draft",
           ),
-          variant("ghost", "Ghost", { variant: "ghost" as const }, "approved"),
+          variant("ghost", "Ghost", { variant: "ghost" as const }, "draft"),
           variant(
             "icon",
             "Icon",
@@ -66,7 +56,7 @@ export const categories: Category[] = [
               icon: <Bookmark strokeWidth={1.7} />,
               "aria-label": "Uložit do oblíbených",
             },
-            "approved",
+            "draft",
           ),
           variant(
             "destructive",
@@ -76,7 +66,7 @@ export const categories: Category[] = [
               children: "Odstranit soubor",
               icon: <Trash2 strokeWidth={1.7} />,
             },
-            "approved",
+            "draft",
           ),
         ],
         properties: {
@@ -232,19 +222,14 @@ export const categories: Category[] = [
         label: "Card",
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Knihovna V1; čeká na schválení a budoucí integraci.",
-        api: "family?: obsidian | halo | studio; title; children; footer; material; density: compact | comfortable.",
+        api: "title; children; footer; material; density: compact | comfortable.",
         variants: [
-          variant("flat", "flat", { material: "flat" as const }),
-          variant("raised", "raised", { material: "raised" as const }),
-          ...surfaceVariants(),
-          ...haloVariants(),
+          variant("flat", "Halo Soft", { material: "flat" as const }),
+          variant("raised", "Halo Soft · zvýšená", {
+            material: "raised" as const,
+          }),
         ],
         properties: {
-          family: familyProperty,
-          halo: {
-            kind: "node",
-            note: "intensity; effects; accent; disabled. Volitelné Halo 2.0.",
-          },
           density: selectProperty(["compact", "comfortable"]),
           title: { kind: "text" },
           children: { kind: "node" },
@@ -261,18 +246,9 @@ export const categories: Category[] = [
         source: "src/design-system/library/Surfaces.tsx",
         consumers:
           "Tento adaptér a jeho katalogové styly zatím nejsou používány v produkci. Skutečný ToolPanel z components.jsx; konvertor obrázků. Lokální katalogové styly.",
-        api: "family?: obsidian | halo | studio; HTML section props; children; className.",
-        variants: [
-          variant("default", "Výchozí", {}),
-          ...surfaceVariants(),
-          ...haloVariants(),
-        ],
+        api: "HTML section props; children; className.",
+        variants: [variant("halo-soft", "Halo Soft", {})],
         properties: {
-          family: familyProperty,
-          halo: {
-            kind: "node",
-            note: "intensity; effects; accent; disabled. Volitelné Halo 2.0.",
-          },
           children: { kind: "node" },
           className: { kind: "text" },
         },
@@ -282,18 +258,9 @@ export const categories: Category[] = [
         label: "Interactive Card",
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Knihovna V1; čeká na schválení a budoucí integraci.",
-        api: "family?: obsidian | halo | studio; title; description; nativní button props; disabled; aria-pressed. Nevkládat vnořené ovládací prvky.",
-        variants: [
-          variant("default", "Výchozí", {}),
-          ...surfaceVariants(),
-          ...haloVariants(),
-        ],
+        api: "title; description; nativní button props; disabled; aria-pressed. Nevkládat vnořené ovládací prvky.",
+        variants: [variant("halo-soft", "Halo Soft", {})],
         properties: {
-          family: familyProperty,
-          halo: {
-            kind: "node",
-            note: "intensity; effects; accent; disabled. Volitelné Halo 2.0.",
-          },
           loading: { kind: "boolean" },
           disabled: { kind: "boolean" },
           "aria-pressed": { kind: "boolean" },
@@ -307,18 +274,9 @@ export const categories: Category[] = [
         label: "State Card",
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Knihovna V1; čeká na schválení a budoucí integraci.",
-        api: "family?: obsidian | halo | studio; state; action: ReactNode. Skládá Card + EmptyState/Loading/Alert.",
-        variants: [
-          variant("default", "Výchozí", {}),
-          ...surfaceVariants(),
-          ...haloVariants(),
-        ],
+        api: "state; action: ReactNode. Skládá Card + EmptyState/Loading/Alert.",
+        variants: [variant("halo-soft", "Halo Soft", {})],
         properties: {
-          family: familyProperty,
-          halo: {
-            kind: "node",
-            note: "intensity; effects; accent; disabled. Volitelné Halo 2.0.",
-          },
           state: selectProperty([
             "empty",
             "loading",
@@ -334,14 +292,9 @@ export const categories: Category[] = [
         label: "Tool Card",
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Cards & Surfaces V1.1; žádná produkční integrace.",
-        api: "family; title; description; metadata; action. Akce je samostatný ovládací prvek.",
-        variants: [...surfaceVariants(), ...haloVariants()],
+        api: "title; description; metadata; action. Akce je samostatný ovládací prvek.",
+        variants: [variant("halo-soft", "Halo Soft", {})],
         properties: {
-          family: familyProperty,
-          halo: {
-            kind: "node",
-            note: "intensity; effects; accent; disabled. Volitelné Halo 2.0.",
-          },
           title: { kind: "text" },
           description: { kind: "text" },
           metadata: { kind: "node" },
@@ -359,14 +312,9 @@ export const categories: Category[] = [
         source: "src/design-system/library/Surfaces.tsx",
         consumers:
           "Cards & Surfaces V1.1; žádný dashboard ani drag & drop engine se nemění.",
-        api: "family; title; children; actions; footer. Stav a příkazy řídí konzument.",
-        variants: [...surfaceVariants(), ...haloVariants()],
+        api: "title; children; actions; footer. Stav a příkazy řídí konzument.",
+        variants: [variant("halo-soft", "Halo Soft", {})],
         properties: {
-          family: familyProperty,
-          halo: {
-            kind: "node",
-            note: "intensity; effects; accent; disabled. Volitelné Halo 2.0.",
-          },
           title: { kind: "text" },
           children: { kind: "node" },
           actions: { kind: "node" },

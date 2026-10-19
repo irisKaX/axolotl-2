@@ -128,6 +128,7 @@ export function Select({
           data-ds-select
           className="axo-ds-scope ds-select-menu"
           data-theme={env.theme}
+          data-design={env.appearance}
           data-motion={env.reducedMotion ? "reduced" : "full"}
           position="popper"
           sideOffset={6}

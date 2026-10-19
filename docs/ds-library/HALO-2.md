@@ -1,5 +1,7 @@
 # Halo 2.0 · materiál a interakce
 
+> Historický záznam před vizuálním sjednocením. Aktuální stav a API popisuje [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md). Historické varianty nejsou aktivní součástí katalogu.
+
 Izolovaná implementace ve větvi `experiment/ds-library-v1-1`. Rozšiřuje existující Cards & Surfaces v Design System Library V1.1. Všechny nové varianty jsou **Návrh**, jejich produkční použití je **ne**. Původní Halo, Obsidian a Studio Outline zůstávají dostupné.
 
 ## Sdílené API

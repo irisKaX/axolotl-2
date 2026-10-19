@@ -5,6 +5,8 @@
 
 Jedna knihovna, jeden záznam varianty, jedna stránka rodiny. Není potřeba nový experiment, kopie schválené komponenty ani administrační rozhraní.
 
+Aktuální vizuální pravidla a hranice původních exportů: [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md).
+
 Colors & Gradients má [stručný návod a hranice kontrastní kontroly](COLORS.md). Nový záznam v `colors/paints.ts` automaticky rozšíří stávající stránku. Katalog má nyní sedm běžných kategorií, s testovacím Counterem osm.
 
 ## Kde změnu provést
@@ -63,18 +65,18 @@ Přehled, menu, lazy render, technické detaily i `?catalog=library&section=coun
 
 - Každý záznam varianty má dvě nezávislé hodnoty: `design: 'draft' | 'approved'` → **Návrh / Schváleno** a `production: boolean` → **Používá se / Zatím se nepoužívá**.
 - Změň hodnotu přímo u existujícího záznamu. Nevytvářej vedle něj schválenou ani produkční kopii. Historie zůstává v Gitu; rozhodnutí patří do Obsidianu.
-- Schválený Button má `approved`, ale není migrován do produkční aplikace. Schválení katalogu samo o sobě neschvaluje ostatní komponenty.
+- Sjednocený Button má `draft`, protože revidovaný vzhled čeká na schválení; není migrován do produkční aplikace. Schválení katalogu samo o sobě neschvaluje ostatní komponenty.
 - `production` popisuje přesný registrovaný export/variantu. Adaptéry Checkbox, Panel a Status zatím používá katalog; původní tool exporty mají produkční konzumenty uvedené v technickém textu. Znovupoužití jejich základu nepředstírá migraci nových stylů.
 - Produkční použití je pouze uvnitř technických detailů. Přehled a příklady nedostávají další produkční štítky.
 - „Porovnat varianty“ uvnitř technických detailů vykresluje dva skutečné exporty ze stejných `previewProps` + props vybraných variant. Button reaguje na kliknutí. U řízených nebo složitějších interakcí ponech vlastní živý adaptér, nevytvářej falešné ovládání.
 
 ## Jak ověřit technické testy
 
-[Test A — Card](https://iriskax.github.io/axolotl-preview/ds-library-v1-1/?catalog=library&section=surfaces&catalogTests=1#design-system): zvol Materiál → Test · obrys. V technických detailech Card porovnej flat / Test · obrys.
+[Test A — Card](https://iriskax.github.io/axolotl-preview/ds-library-v1-1/?catalog=library&section=surfaces&catalogTests=1#design-system): zvol Materiál → Test · obrys. V technických detailech Card porovnej Halo Soft / Test · obrys.
 
 [Test B — nový typ](https://iriskax.github.io/axolotl-preview/ds-library-v1-1/?catalog=library&section=test-counter&catalogTests=1#design-system): +/- mění hodnotu, Disabled blokuje obě tlačítka. Vyzkoušej Tab a mezerník, reload a Back.
 
-Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled sedm kategorií, Card dva původní materiály a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
+Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled sedm kategorií, Card dvě úrovně Halo Soft (flat/raised) a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
 
 ## Kontroly před předáním
 
@@ -89,11 +91,12 @@ node scripts/ds-library/check-built.mjs
 
 - Registr: skutečné exporty a loadery, jedinečné varianty, oddělené stavy, žádné mutace běžného katalogu při testovacím režimu.
 - Browser: všech šest původních stránek, dark/light, klávesnice, portály, invalid/disabled/loading, touch, 320px + zvětšený text, Star Border/reduced motion; test A/B včetně srovnání, navigace a izolace.
-- Při zásahu do společného základu porovnej existující varianty. `compare-v1.mjs` srovnává screenshoty, rozměry a vypočtené styly původních playgroundů v dark/light. Při regresním screenshotu původních playgroundů se odstraní pouze nově přidaný obal horního přepínače, aby výška stránky neovlivnila podkladový gradient; celý přepínač ověřuje `check-toggle.mjs` a samostatné desktop/mobile screenshoty. `VISUAL_HOST` označuje lokální host se dvěma sestavenými verzemi pod cestami `ds-library-v1/` a `ds-library-v1-1/`.
-- Produkční header, nástroje, providery, Button a původní styly se nemigrují. Jediné rozšíření komponentového základu V1.1 je opt-in testovací materiál Card.
+- `navigation-reference.mjs` porovnává čtyři skutečné navigační komponenty v dark/light: screenshoty a computed styles default/hover/focus proti přesnému předchozímu preview. `REFERENCE_URL` a `COMPARE_URL` označují dvě sestavené verze. Původní `compare-v1.mjs` je historický nástroj pro nezměněný katalog; po záměrném sjednocení není release gate pro ostatní stránky.
+- `check-surfaces.mjs` ověřuje jediný aktivní materiál Halo Soft, všech šest exportů, funkční stavy, touch a nový srovnávací přehled. Testy odstraněných pointer/tilt efektů jsou odstraněné spolu s jejich implementací.
+- Produkční Header, nástroje, Dashboard, Workspace a extension jsou nedotčené. Sdílený materiál zapíná pouze `DesignSystemProvider appearance="unified"`; výchozí prostředí je zpětně kompatibilní `original`.
 
-## Výsledek V1.1 a hranice
+## Výsledek aktuální iterace
 
-75 unit testů (původních 72 + 3 kontrakty registru), typecheck a build. Všech 12 porovnání původních playgroundů (6 stránek × dark/light) má shodné PNG, rozměry i vypočtené styly — [strojový záznam](visual-v1-comparison.json); úplné výsledky browser kontrol jsou v preview `evidence/verification.json` a CI. Nová evidence schválení a opravené počty jsou záměrné textové změny; struktura, ovládání a původní styly zůstávají stejné. Žádné nové runtime závislosti, databáze ani administrace.
+Aktuální výsledky: [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md), `evidence/verification.json`, `evidence/navigation-reference.json` a GitHub Actions. Registry, deep links, testovací režim a skutečné exporty se zachovávají. Žádné nové runtime závislosti, databáze ani administrace.
 
 Fyzický iPhone/Safari a ruční screen-reader audit nebyly nahrazeny emulací Chromia. Veřejná V1 zůstává zachovanou referencí, V1.1 je aktualizace stejné knihovny v izolované větvi. `main` ani produkční deployment nejsou součástí změny.

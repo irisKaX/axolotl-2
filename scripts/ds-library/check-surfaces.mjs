@@ -7,7 +7,10 @@ export async function checkSurfaces(page, mobile, base, out) {
     await p.getByRole("option", { name: value, exact: true }).click();
   };
   await page.goto(route);
-  const studio = page.getByRole("region", { name: "Prémiové rodiny povrchů" });
+  const studio = page.getByRole("region", {
+    name: "Halo Soft v kontextu",
+    exact: true,
+  });
   for (const theme of ["dark", "light"]) {
     if ((await page.locator("html").getAttribute("data-theme")) !== theme)
       await page
@@ -19,168 +22,188 @@ export async function checkSurfaces(page, mobile, base, out) {
           exact: true,
         })
         .click();
-    await studio
-      .getByRole("switch", { name: "Porovnat tři rodiny", exact: true })
-      .check();
-    await expect(studio.locator(".ds-surfaces-family")).toHaveCount(3);
-    for (const family of ["obsidian", "halo", "studio"])
-      await expect(
-        studio.locator(`[data-surface-family=${family}]`),
-      ).toHaveCount(6);
-    for (const state of ["Empty", "Loading", "Error", "Warning", "Success"]) {
+    await expect(
+      studio
+        .locator(".ds-surface-specimens")
+        .locator(".ds-card,.ds-interactive-card,.ax-panel"),
+    ).toHaveCount(6);
+    await expect(page.locator("[data-halo],[data-surface-family]")).toHaveCount(
+      0,
+    );
+    await expect(
+      page.getByRole("combobox", { name: "Intenzita Halo" }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("switch", { name: "Porovnat tři rodiny" }),
+    ).toHaveCount(0);
+    for (const state of ["empty", "loading", "error", "warning", "success"]) {
       await choose(page, "Stav ukázkových karet", state);
-      const axe = await new AxeBuilder({ page })
-        .include(".ds-surfaces-studio")
+      const result = await new AxeBuilder({ page })
+        .include(".ds-surface-examples")
         .analyze();
       expect(
-        axe.violations,
+        result.violations,
         JSON.stringify(
-          axe.violations.map((v) => ({
+          result.violations.map((v) => ({
             id: v.id,
-            nodes: v.nodes.map((n) => n.target),
+            nodes: v.nodes.map((n) => n.failureSummary),
           })),
         ),
       ).toEqual([]);
     }
-    await choose(page, "Stav ukázkových karet", "Empty");
-    await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({
-      path: `${out}/surfaces-${theme}-desktop.png`,
+      path: `${out}/unified-${theme}-surfaces.png`,
       fullPage: true,
     });
-  }
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  for (const family of ["obsidian", "halo", "studio"]) {
-    const card = studio.locator(
-      `.ds-interactive-card[data-surface-family=${family}]`,
-    );
+    const card = studio.locator(".ds-interactive-card");
     await card.hover();
+    expect(await card.evaluate((el) => getComputedStyle(el).transform)).toBe(
+      "none",
+    );
+    const neutral = await card.evaluate(
+      (el) => getComputedStyle(el).backgroundColor,
+    );
+    expect(neutral).not.toBe("rgb(124, 58, 237)");
+    await card.focus();
+    await page.keyboard.press("Space");
+    await expect(card).toHaveAttribute("aria-pressed", "true");
     await expect
-      .poll(() => card.evaluate((el) => getComputedStyle(el).transform))
-      .not.toBe("none");
-    const hover = await card.evaluate((el) => getComputedStyle(el).transform);
-    await page.mouse.down();
-    await expect
-      .poll(() => card.evaluate((el) => getComputedStyle(el).transform))
-      .not.toBe(hover);
-    await page.mouse.move(0, 0);
-    await page.mouse.up();
+      .poll(() => card.evaluate((el) => getComputedStyle(el).borderColor))
+      .toBe("rgb(124, 58, 237)");
+    await page.keyboard.press("Space");
+    await studio
+      .getByRole("switch", { name: "Načítání akcí", exact: true })
+      .check();
+    await card.click({ force: true });
+    await expect(card).toHaveAttribute("aria-pressed", "false");
+    await expect(card).toHaveAttribute("aria-busy", "true");
+    await studio
+      .getByRole("switch", { name: "Načítání akcí", exact: true })
+      .uncheck();
+    await studio
+      .getByRole("switch", { name: "Neaktivní akce", exact: true })
+      .check();
+    await expect(card).toBeDisabled();
+    await studio
+      .getByRole("switch", { name: "Neaktivní akce", exact: true })
+      .uncheck();
+    await studio
+      .getByRole("button", { name: "Vyzkoušet kontrolu", exact: true })
+      .click();
+    await expect(studio).toContainText("Titulek i popis jsou vyplněné");
+    await studio
+      .getByRole("button", { name: "Zavřít výsledek", exact: true })
+      .click();
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await card.hover();
+    expect(
+      await card.evaluate((el) => getComputedStyle(el).transitionDuration),
+    ).toBe("0s");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
   }
-  const item = studio.locator(".ds-interactive-card").first();
-  await item.focus();
-  await page.keyboard.press("Enter");
-  await expect(item).toHaveAttribute("aria-pressed", "true");
-  expect(await item.evaluate((el) => getComputedStyle(el).outlineStyle)).toBe(
-    "solid",
-  );
-  await page.keyboard.press("Space");
-  await expect(item).toHaveAttribute("aria-pressed", "false");
   await studio
-    .getByRole("switch", { name: "Načítání akcí", exact: true })
-    .check();
-  // Intentionally bypass Playwright actionability to exercise the loading guard.
-  await item.click({ force: true });
-  await item.focus();
-  await page.keyboard.press("Enter");
-  await page.keyboard.press("Space");
-  await expect(item).toHaveAttribute("aria-pressed", "false");
-  await expect(item).toHaveAttribute("aria-busy", "true");
-  await studio
-    .getByRole("switch", { name: "Načítání akcí", exact: true })
-    .uncheck();
-  await studio
-    .getByRole("switch", { name: "Neaktivní akce", exact: true })
-    .check();
-  await expect(item).toBeDisabled();
-  await studio
-    .getByRole("switch", { name: "Neaktivní akce", exact: true })
-    .uncheck();
-  await studio
-    .getByRole("button", { name: "Otevřít ukázku", exact: true })
-    .first()
+    .getByRole("button", { name: "Obnovit přehled", exact: true })
     .click();
-  await expect(studio).toContainText("Ukázkový výsledek");
-  await studio
-    .getByRole("button", { name: "Obnovit", exact: true })
-    .first()
-    .click();
-  await expect(
-    studio.getByText("Obnoveno 1× v ukázce", { exact: true }),
-  ).toHaveCount(3);
+  await expect(studio).toContainText("Obnoveno 1×");
   await studio
     .getByRole("button", { name: "Uložit poznámku", exact: true })
-    .first()
     .click();
   await expect(
     studio.getByRole("button", { name: "Poznámka uložena", exact: true }),
-  ).toHaveCount(3);
-  await choose(page, "Stav ukázkových karet", "Error");
-  await studio
-    .getByRole("button", { name: "Vyřešit ukázkový stav", exact: true })
-    .first()
-    .click();
-  await expect(studio).toContainText("Vše je připravené");
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  await item.hover();
-  expect(await item.evaluate((el) => getComputedStyle(el).transform)).toBe(
-    "none",
-  );
-  expect(
-    await item.evaluate((el) => getComputedStyle(el).transitionDuration),
-  ).toBe("0s");
-  await studio
-    .getByRole("switch", { name: "Porovnat tři rodiny", exact: true })
-    .uncheck();
-  for (const name of ["Obsidian", "Halo", "Studio Outline"]) {
-    await choose(page, "Stylová rodina", name);
-    await expect(studio.locator(".ds-surfaces-family")).toHaveCount(1);
-  }
+  ).toHaveAttribute("aria-pressed", "true");
+  const savedButton = studio.getByRole("button", {
+    name: "Poznámka uložena",
+    exact: true,
+  });
+  await savedButton.hover();
+  await expect
+    .poll(() =>
+      savedButton.evaluate((el) => getComputedStyle(el).backgroundColor),
+    )
+    .toBe("rgb(124, 58, 237)");
   for (const width of [390, 320]) {
     await mobile.setViewportSize({ width, height: 844 });
     await mobile.goto(route);
-    const m = mobile.locator(".ds-surfaces-studio");
-    for (const theme of ["dark", "light"]) {
-      if ((await mobile.locator("html").getAttribute("data-theme")) !== theme)
-        await mobile
-          .getByRole("button", {
-            name:
-              theme === "dark"
-                ? "Tmavý náhled knihovny"
-                : "Světlý náhled knihovny",
-            exact: true,
-          })
-          .tap();
-      await m
-        .getByRole("switch", { name: "Porovnat tři rodiny", exact: true })
-        .check();
-      expect(
-        await mobile.evaluate(
-          () => document.documentElement.scrollWidth <= innerWidth,
-        ),
-      ).toBe(true);
-      await m.locator(".ds-interactive-card").first().tap();
-      await mobile.evaluate(() => window.scrollTo(0, 0));
-      await mobile.screenshot({
-        path: `${out}/surfaces-${theme}-mobile-${width}.png`,
-        fullPage: true,
-      });
-    }
+    const card = mobile.locator(".ds-surface-examples .ds-interactive-card");
+    await card.tap();
+    await expect(card).toHaveAttribute("aria-pressed", "true");
+    await card.tap();
+    await expect(card).toHaveAttribute("aria-pressed", "false");
+    expect(
+      await mobile.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await mobile.screenshot({
+      path: `${out}/unified-mobile-surfaces-${width}.png`,
+      fullPage: true,
+    });
   }
-  await mobile.evaluate(
-    () =>
-      (document.querySelector(".ds-surfaces-studio").style.fontSize = "200%"),
-  );
+  await mobile
+    .locator(".ds-surface-examples")
+    .evaluate((el) => (el.style.fontSize = "200%"));
   expect(
     await mobile.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.goto(`${base}?catalog=library&section=colors#design-system`);
+  await page.goto(`${base}?catalog=library#design-system`);
+  const overview = page.getByRole("region", {
+    name: "Vizuální přehled Design Systemu",
+  });
+  await expect(overview.locator("[data-system-theme]")).toHaveCount(2);
+  const a = await new AxeBuilder({ page })
+    .include(".ds-system-overview")
+    .analyze();
+  expect(
+    a.violations,
+    JSON.stringify(
+      a.violations.map((v) => ({
+        id: v.id,
+        nodes: v.nodes.map((n) => n.failureSummary),
+      })),
+    ),
+  ).toEqual([]);
+  for (const theme of ["dark", "light"]) {
+    const column = overview.locator(`[data-system-theme=${theme}]`);
+    await expect(column.locator(":scope > section")).toHaveCount(7);
+    await column
+      .getByRole("button", { name: "Otevřít dialog", exact: true })
+      .click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toHaveAttribute("data-theme", theme);
+    await expect(dialog).toHaveAttribute("data-design", "unified");
+    await page.keyboard.press("Escape");
+    await expect(
+      column.getByRole("button", { name: "Otevřít dialog", exact: true }),
+    ).toBeFocused();
+  }
+  // Element screenshots can include fixed app chrome mid-image when taller than
+  // the viewport. Hide only the shell/cursor for this component comparison capture.
+  const comparisonStyle =
+    '[aria-label="Ovládání Axolotlu"], .axolotl-cursor-layer, .axolotl-skip-link { visibility: hidden !important; }';
+  await page.evaluate(() => document.activeElement?.blur());
+  await overview.screenshot({
+    path: `${out}/unified-system-dark-light.png`,
+    style: comparisonStyle,
+  });
+  await mobile.goto(`${base}?catalog=library#design-system`);
+  expect(
+    await mobile.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await mobile
+    .getByRole("region", { name: "Vizuální přehled Design Systemu" })
+    .screenshot({
+      path: `${out}/unified-system-mobile.png`,
+      style: comparisonStyle,
+    });
   await page.goBack();
   await expect(studio).toBeVisible();
   await page.reload();
   await expect(studio).toBeVisible();
   console.log(
-    "PASS Surfaces: 3 families × 6 real types; dark/light × 5 content states axe 0; actions, keyboard, loading, disabled, reduced motion, touch 390/320, text 200%, deep link/history",
+    "PASS Unified surfaces: one Halo Soft material, six real exports, semantic states, keyboard/actions, disabled/loading, dark/light axe, reduced motion, mobile, history and seven-category dual-theme overview with portals",
   );
 }

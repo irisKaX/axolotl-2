@@ -1,5 +1,7 @@
 # Cards & Surfaces · tři pracovní rodiny
 
+> Historický záznam před vizuálním sjednocením. Aktuální stav a API popisuje [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md). Historické varianty nejsou aktivní součástí katalogu.
+
 Izolované rozšíření Library V1.1. Všechny nové materiály jsou **Návrh**, produkční použití **false**. Schválení katalogu neznamená schválení jeho kandidátních materiálů.
 
 ## Rozdíly

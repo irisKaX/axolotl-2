@@ -1,5 +1,4 @@
-import { HaloShowcase } from "./HaloShowcase";
-import { SurfaceStudio } from "./SurfaceStudio";
+import { SurfaceExamples } from "./SurfaceExamples";
 import {
   ComponentControl,
   PropertyControl,
@@ -104,8 +103,8 @@ export default function SurfacesPage({ category }: PageProps) {
               />
             )}
             <p className="ds-hint">
-              Povrchy jsou pracovní V1. Žádný layout engine ani produkční widget
-              se nemění.
+              Halo Soft je jediný materiál. Zvýšená plocha má výraznější stín;
+              hustota řídí prostor pro obsah.
             </p>
           </>
         }
@@ -149,7 +148,6 @@ export default function SurfacesPage({ category }: PageProps) {
             />
           ) : kind === "Tool Card" ? (
             <ToolCard
-              family="obsidian"
               title="Kontrola metadat"
               description="Titulky a popisy stránky"
               metadata="SEO · dnes"
@@ -161,7 +159,6 @@ export default function SurfacesPage({ category }: PageProps) {
             />
           ) : kind === "Dashboard Widget Card" ? (
             <WidgetCard
-              family="obsidian"
               title="Kontrola projektu"
               actions={
                 <Button onClick={() => setAdded((v) => !v)}>Obnovit</Button>
@@ -190,8 +187,7 @@ export default function SurfacesPage({ category }: PageProps) {
           )}
         </div>
       </Playground>
-      <HaloShowcase category={category} />
-      <SurfaceStudio category={category} />
+      <SurfaceExamples />
       <Examples>
         {findEntry("Card", [category])
           .variants.filter((v) => v.props.material)
@@ -200,9 +196,9 @@ export default function SurfacesPage({ category }: PageProps) {
               key={v.id}
               title={
                 v.id === "flat"
-                  ? "Flat"
+                  ? "Halo Soft"
                   : v.id === "raised"
-                    ? "Raised"
+                    ? "Halo Soft · zvýšená"
                     : v.label + " · Návrh"
               }
               material={v.props.material as typeof material}

@@ -29,13 +29,3 @@ export {
   type Tone,
 } from "./Feedback";
 export { Tabs, SegmentedControl, Disclosure, Pagination } from "./Navigation";
-
-export { surfaceFamilies, type SurfaceFamily } from "./surfaceFamilies";
-
-export {
-  haloIntensities,
-  haloEffects,
-  type HaloIntensity,
-  type HaloEffect,
-  type HaloOptions,
-} from "./halo";

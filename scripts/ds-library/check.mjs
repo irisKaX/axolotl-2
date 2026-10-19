@@ -1,4 +1,3 @@
-import { checkHalo } from "./check-halo.mjs";
 import { checkSurfaces } from "./check-surfaces.mjs";
 import { checkColors } from "./check-colors.mjs";
 import { chromium, expect } from "@playwright/test";
@@ -306,10 +305,14 @@ try {
   await approvedButton.focus();
   expect(
     await approvedButton.evaluate((el) => getComputedStyle(el).fontFamily),
-  ).toContain("ui-sans-serif");
+  ).toBe(
+    await page
+      .locator(".ds-catalog")
+      .evaluate((el) => getComputedStyle(el).fontFamily),
+  );
   expect(
     await approvedButton.evaluate((el) => getComputedStyle(el).outlineOffset),
-  ).toBe("5px");
+  ).toBe("4px");
   await page.getByLabel("Star Border", { exact: true }).check();
   const canvas = page.locator("#button-playground canvas");
   await expect(canvas).toHaveCount(1);
@@ -319,7 +322,7 @@ try {
   expect(await canvas.evaluate((c) => c.toDataURL())).not.toBe(frame);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(canvas).toHaveCount(0);
-  pass("Unmodified Button actual export and live Star Border / reduced motion");
+  pass("Unified Button actual export and live Star Border / reduced motion");
   const mobileContext = await browser.newContext({
     viewport: { width: 390, height: 844 },
     isMobile: true,
@@ -482,13 +485,12 @@ try {
     "Test toggle: both directions, URL/history/reload, preserved playground state, Card comparison fallback, Counter exit, keyboard and mobile touch",
   );
   await checkColors(page, mobile, base, out);
-  await checkSurfaces(page, mobile, base, out);
   pass(
     "Colors: exact registry values, all registered clipboard values, local theme without preference changes, live exports, contrast fallback, keyboard, history and mobile layouts",
   );
-  await checkHalo(page, mobile, base, out);
+  await checkSurfaces(page, mobile, base, out);
   pass(
-    "Halo 2.0: pointer lighting, tilt/parallax, effect toggles, idle/reset, keyboard, loading/disabled, dark/light axe, reduced motion, mobile and history",
+    "Unified Halo Soft: six real exports, states/actions, keyboard and touch, dark/light axe, reduced motion, history, dual-theme seven-category overview and portals",
   );
   expect(errors).toEqual([]);
   pass("No browser runtime errors");

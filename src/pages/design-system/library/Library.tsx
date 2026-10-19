@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import { Suspense, useEffect, useRef, useState, type MouseEvent } from "react";
 import { usePreferences } from "../../../app/PreferencesProvider";
 import { Button } from "../../../design-system/Button";
@@ -11,6 +12,7 @@ import {
 import { getCategories, type CategoryId } from "./registry";
 import { paints } from "./colors/paints";
 import { designLabel } from "./model";
+import { SystemOverview } from "./SystemOverview";
 import { ApiReference } from "./PageFrame";
 import "./catalog.css";
 const readRoute = () => {
@@ -70,6 +72,7 @@ export default function Library() {
   }
   return (
     <DesignSystemProvider
+      appearance={section === "navigation" ? "original" : "unified"}
       theme={prefs.resolvedTheme}
       reducedMotion={prefs.reducedMotion}
     >
@@ -181,11 +184,16 @@ export default function Library() {
                   </div>
                   <footer>
                     {c.entries.reduce((sum, e) => sum + e.variants.length, 0)}{" "}
-                    dostupných variant <span>Otevřít playground ↗</span>
+                    dostupných variant{" "}
+                    <span>
+                      Otevřít playground{" "}
+                      <ArrowUpRight size={14} aria-hidden="true" />
+                    </span>
                   </footer>
                 </a>
               ))}
             </div>
+            <SystemOverview />
             <section className="ds-foundations">
               <h2>Pracovní foundations</h2>
               <p>
@@ -196,8 +204,9 @@ export default function Library() {
                     .map((p) => `${p.name} ${p.css}`)
                     .join(" · ")}
                 </strong>
-                . Další povrchy, textové a významové barvy jsou pracovní návrh
-                V1, nikoli schválená finální paleta.
+                . Společné povrchy, text a interaktivní stavy vycházejí z
+                referenčních Navigation & Tabs. Aktuální sjednocení komponent
+                čeká na vizuální revizi.
               </p>
               <p>
                 <a
@@ -218,7 +227,7 @@ export default function Library() {
                   </a>
                   <a href="?catalog=headers#design-system">Header Lab A/B</a>
                   <a href="https://iriskax.github.io/axolotl-preview/ds-button-lens-02/">
-                    Schválená reference Button
+                    Historický Lens 02 Button
                   </a>
                   <a href="https://iriskax.github.io/axolotl-preview/aperture-02-20261018/aperture-02.html">
                     Aperture 02
@@ -245,7 +254,7 @@ export default function Library() {
         )}
         <footer className="ds-catalog-footer">
           {section === "buttons"
-            ? "Button Lens 02: schválený vzhled."
+            ? "Button: sjednocený vzhled podle Navigation & Tabs, k revizi."
             : "Nové povrchy a komponenty: pracovní V1 ke schválení."}{" "}
           Header a nástroje se nemění.{" "}
           <a href="https://github.com/irisKaX/axolotl-2/tree/experiment/ds-library-v1-1/docs/ds-library/EXTENDING.md">

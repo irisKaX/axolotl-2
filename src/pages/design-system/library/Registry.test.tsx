@@ -56,8 +56,8 @@ describe("Catalog extensibility contract", () => {
     expect(test).toHaveLength(8);
     const normalCard = normal.find((c) => c.id === "surfaces")!.entries[0];
     const testCard = test.find((c) => c.id === "surfaces")!.entries[0];
-    expect(normalCard.variants).toHaveLength(8);
-    expect(testCard.variants).toHaveLength(9);
+    expect(normalCard.variants).toHaveLength(2);
+    expect(testCard.variants).toHaveLength(3);
     expect(testCard.variants.at(-1)).toMatchObject({
       id: "outline-test",
       design: "draft",
@@ -70,6 +70,6 @@ describe("Catalog extensibility contract", () => {
     expect(
       registry.getCategories(false).find((c) => c.id === "surfaces")!.entries[0]
         .variants,
-    ).toHaveLength(8);
+    ).toHaveLength(2);
   });
 });

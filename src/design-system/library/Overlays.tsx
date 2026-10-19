@@ -79,6 +79,7 @@ export function Dialog({
           data-ds-modal
           className="axo-ds-scope ds-dialog"
           data-theme={env.theme}
+          data-design={env.appearance}
           data-motion={env.reducedMotion ? "reduced" : "full"}
           data-size={size}
           role={role}
@@ -246,6 +247,7 @@ export function Popover({
               style={floating.floatingStyles}
               className="axo-ds-scope ds-popover"
               data-theme={env.theme}
+              data-design={env.appearance}
               data-motion={env.reducedMotion ? "reduced" : "full"}
               aria-labelledby={id}
             >
@@ -283,6 +285,7 @@ export function Tooltip({
           <TooltipPrimitive.Content
             className="axo-ds-scope ds-tooltip"
             data-theme={env.theme}
+            data-design={env.appearance}
             data-motion={env.reducedMotion ? "reduced" : "full"}
             sideOffset={8}
             collisionPadding={12}

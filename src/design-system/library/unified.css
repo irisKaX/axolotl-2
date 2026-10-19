@@ -1,0 +1,346 @@
+/* Navigation & Tabs is the source: existing colors, 9/12px controls,
+   44px targets, neutral hover, violet selection, separate focus.
+   Opt-in environment only; original consumers and reference page are unchanged. */
+.axo-ds-scope[data-design="unified"] {
+  --ds-background: var(--ds-inset);
+  --ds-text-secondary: var(--ds-muted);
+  --ds-border-hover: var(--ds-control-edge);
+  --ds-accent: var(--ds-violet);
+  --ds-accent-hover: var(--ds-violet);
+  --ds-accent-selected: var(--ds-violet);
+  --ds-radius-action: 9px;
+  --ds-radius-container: 12px;
+  --ds-radius: 12px;
+  --ds-control-radius: 9px;
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-6: 24px;
+  --ds-motion-duration: 150ms;
+  --ds-motion-easing: ease;
+  --ds-shadow-soft: inset 0 1px 0 #ffffff12, 0 4px 12px #0002;
+  --ds-shadow-raised: inset 0 1px 0 #ffffff1a, 0 8px 24px #0003;
+}
+.axo-ds-scope[data-design="unified"][data-theme="light"] {
+  --ds-shadow-soft: inset 0 1px 0 #fff, 0 4px 12px #30233d0d;
+  --ds-shadow-raised: inset 0 1px 0 #fff, 0 8px 24px #30233d18;
+}
+/* The real Lens export keeps its behavior. Only this environment changes its material. */
+.axo-ds-scope[data-design="unified"] .axo-ds-button {
+  --btn-top: var(--ds-surface);
+  --btn-bottom: var(--ds-surface);
+  --btn-edge: var(--ds-line);
+  --btn-text: var(--ds-text);
+  --btn-font: 14px;
+  gap: var(--ds-space-2);
+  padding-inline: 16px;
+  border: 1px solid var(--btn-edge);
+  border-radius: var(--ds-radius-action);
+  background: var(--paint-fill, var(--btn-top));
+  color: var(--paint-ink, var(--btn-text));
+  box-shadow: none;
+  font-family: inherit;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.4;
+  transition:
+    background-color var(--ds-motion-duration) var(--ds-motion-easing),
+    border-color var(--ds-motion-duration) var(--ds-motion-easing),
+    box-shadow var(--ds-motion-duration) var(--ds-motion-easing);
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-size="small"] {
+  --btn-font: 12px;
+  padding-inline: 12px;
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-size="large"] {
+  --btn-font: 16px;
+  padding-inline: 20px;
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="primary"] {
+  --btn-top: var(--ds-accent);
+  --btn-edge: var(--ds-accent);
+  --btn-text: #fff;
+}
+.axo-ds-scope[data-design="unified"]
+  .axo-ds-button[data-variant="destructive"] {
+  --btn-top: var(--ds-surface);
+  --btn-edge: var(--ds-error);
+  --btn-text: var(--ds-error);
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="ghost"] {
+  --btn-top: transparent;
+  --btn-edge: transparent;
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="icon"] {
+  padding: 0;
+}
+.axo-ds-scope[data-design="unified"]
+  .axo-ds-button:hover:not(:disabled):not([aria-disabled="true"]) {
+  --btn-top: var(--ds-hover);
+  border-color: var(--ds-border-hover);
+  transform: none;
+  box-shadow: none;
+}
+.axo-ds-scope[data-design="unified"]
+  .axo-ds-button[data-variant="primary"]:hover:not(:disabled):not(
+    [aria-disabled="true"]
+  ) {
+  --btn-top: var(--ds-accent-hover);
+  border-color: var(--ds-focus);
+  box-shadow: inset 0 0 0 1px var(--ds-focus);
+}
+.axo-ds-scope[data-design="unified"]
+  .axo-ds-button:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: none;
+  box-shadow: inset 0 2px 3px #0003;
+}
+.axo-ds-scope[data-design="unified"]
+  .axo-ds-button:hover
+  .axo-ds-button__icon
+  > svg {
+  transform: none;
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button:focus-visible {
+  outline: 2px solid var(--ds-focus);
+  outline-offset: 4px;
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[aria-pressed="true"] {
+  --btn-top: var(--ds-accent-selected);
+  --btn-edge: var(--ds-accent-selected);
+  --btn-text: #fff;
+}
+.axo-ds-scope[data-design="unified"]
+  .axo-ds-button:is(:disabled, [aria-disabled="true"]) {
+  opacity: 0.45;
+  filter: none;
+  box-shadow: none;
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-loading] {
+  opacity: 0.65;
+}
+/* Forms: same quiet surfaces and state hierarchy, with stronger field edges for legibility. */
+.axo-ds-scope[data-design="unified"]
+  :where(.ds-input, .ax-checkbox, .ds-switch-track) {
+  border-radius: var(--ds-control-radius);
+}
+.axo-ds-scope[data-design="unified"] .ax-checkbox {
+  border-radius: 6px;
+}
+.axo-ds-scope[data-design="unified"] .ds-switch-track {
+  border-radius: 99px;
+}
+.axo-ds-scope[data-design="unified"] .ds-input:hover:not(:disabled) {
+  border-color: var(--ds-border-hover);
+}
+.axo-ds-scope[data-design="unified"]
+  :where(.ds-select-menu, .ds-popover, .ds-dialog) {
+  border-radius: var(--ds-radius-container);
+  border-color: var(--ds-line);
+  box-shadow: var(--ds-shadow);
+}
+.axo-ds-scope[data-design="unified"] .ds-select-item {
+  border-radius: 8px;
+}
+.axo-ds-scope[data-design="unified"] .ds-select-item[data-state="checked"] {
+  background: var(--ds-accent-selected);
+}
+/* Halo Soft: a single quiet surface, static edge light, no pointer engine or 3D layers. */
+.axo-ds-scope[data-design="unified"]
+  :where(.ds-card, .ax-panel, .ds-interactive-card) {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-container);
+  box-shadow: var(--ds-shadow-soft);
+  color: var(--ds-text);
+  padding: var(--ds-space-6);
+  overflow-wrap: anywhere;
+  -webkit-tap-highlight-color: transparent;
+}
+.axo-ds-scope[data-design="unified"] .ds-card[data-material="raised"] {
+  background: var(--ds-surface-raised);
+  box-shadow: var(--ds-shadow-raised);
+}
+.axo-ds-scope[data-design="unified"] .ds-card[data-density="compact"] {
+  padding: var(--ds-space-4);
+}
+.axo-ds-scope[data-design="unified"] .ds-card[data-material="outline-test"] {
+  background: transparent;
+  border-style: dashed;
+  box-shadow: none;
+}
+.axo-ds-scope[data-design="unified"] .ds-interactive-card {
+  transition:
+    background-color var(--ds-motion-duration) var(--ds-motion-easing),
+    border-color var(--ds-motion-duration) var(--ds-motion-easing);
+}
+.axo-ds-scope[data-design="unified"]
+  .ds-interactive-card:hover:not(:disabled):not([aria-disabled="true"]) {
+  background: var(--ds-hover);
+  border-color: var(--ds-border-hover);
+}
+.axo-ds-scope[data-design="unified"] .ds-interactive-card[aria-pressed="true"] {
+  border-color: var(--ds-accent-selected);
+  box-shadow:
+    inset 0 0 0 1px var(--ds-accent-selected),
+    var(--ds-shadow-soft);
+}
+.axo-ds-scope[data-design="unified"]
+  .ds-interactive-card:active:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow: inset 0 2px 3px #0002;
+}
+.axo-ds-scope[data-design="unified"]
+  .ds-interactive-card:is(:disabled, [aria-disabled="true"]) {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.axo-ds-scope[data-design="unified"] .ds-interactive-card[aria-busy="true"] {
+  cursor: progress;
+}
+.axo-ds-scope .ds-surface-meta {
+  color: var(--ds-muted);
+  margin-top: 16px;
+  font-size: 0.9em;
+}
+.axo-ds-scope .ds-widget-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+/* Feedback keeps semantic colors. Shared geometry does not erase meaning. */
+.axo-ds-scope[data-design="unified"] :where(.ds-alert, .ds-tooltip) {
+  border-radius: var(--ds-radius-container);
+}
+.axo-ds-scope[data-design="unified"] .axolotl-badge {
+  border-radius: 8px;
+  font-size: calc(12px * var(--axolotl-text-scale, 1));
+}
+.axo-ds-scope[data-design="unified"] .ds-alert[data-tone="info"] {
+  border-left-color: var(--ds-accent);
+}
+.axo-ds-scope[data-design="unified"] .ds-progress progress {
+  appearance: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: 4px;
+  background: var(--ds-inset);
+}
+.axo-ds-scope[data-design="unified"]
+  .ds-progress
+  progress::-webkit-progress-bar {
+  background: var(--ds-inset);
+  border-radius: 4px;
+}
+.axo-ds-scope[data-design="unified"]
+  .ds-progress
+  progress::-webkit-progress-value {
+  background: var(--ds-accent);
+  border-radius: 4px;
+}
+.axo-ds-scope[data-design="unified"] .ds-progress progress::-moz-progress-bar {
+  background: var(--ds-accent);
+  border-radius: 4px;
+}
+.axo-ds-scope[data-design="unified"]
+  :where(
+    .ds-catalog-category,
+    .ds-foundations,
+    .ds-catalog-playground,
+    .ds-catalog-example-grid > article,
+    .ds-color-sample
+  ) {
+  border-radius: var(--ds-radius-container);
+}
+@media (forced-colors: active) {
+  .axo-ds-scope[data-design="unified"]
+    :where(.axo-ds-button, .ds-card, .ax-panel, .ds-interactive-card) {
+    background: Canvas;
+    color: CanvasText;
+    border-color: ButtonText;
+    box-shadow: none;
+  }
+  .axo-ds-scope[data-design="unified"] .axo-ds-button:focus-visible {
+    outline-color: Highlight;
+  }
+  .axo-ds-scope[data-design="unified"]
+    .ds-interactive-card[aria-pressed="true"] {
+    outline: 2px solid Highlight;
+  }
+}
+.axo-ds-scope[data-design="unified"] .axo-button-showcase {
+  --axo-button-line: var(--ds-line);
+  --axo-button-focus: var(--ds-focus);
+  --axo-button-edge: var(--ds-control-edge);
+  --axo-button-text: var(--ds-text);
+  --axo-button-surface-bottom: var(--ds-inset);
+  color: var(--ds-text);
+}
+.axo-ds-scope[data-design="unified"]
+  :where(
+    .axo-button-showcase__playground,
+    .axo-button-showcase__matrix > section,
+    .axo-button-showcase__contexts > *
+  ) {
+  border-radius: var(--ds-radius-container);
+  background: var(--ds-surface);
+}
+.axo-ds-scope[data-design="unified"] .axo-button-showcase__controls {
+  background: var(--ds-inset);
+  border-radius: 0 var(--ds-radius-container) var(--ds-radius-container) 0;
+}
+.axo-ds-scope[data-design="unified"] .axo-button-showcase fieldset label {
+  min-height: 44px;
+}
+.axo-ds-scope[data-design="unified"] .axo-button-showcase__hint {
+  color: var(--ds-muted);
+}
+@media (max-width: 800px) {
+  .axo-ds-scope[data-design="unified"] .axo-button-showcase__controls {
+    border-radius: 0 0 var(--ds-radius-container) var(--ds-radius-container);
+  }
+}
+/* Honor Button's existing explicit theme prop inside an opt-in environment. */
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-theme="light"] {
+  --ds-surface: #faf9fc;
+  --ds-text: #29232f;
+  --ds-line: #bdb4ca;
+  --ds-control-edge: #85778e;
+  --ds-hover: #e7e0ed;
+  --ds-focus: #6c28d6;
+  --ds-error: #a61b3b;
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-theme="dark"] {
+  --ds-surface: #292630;
+  --ds-text: #f4f1f8;
+  --ds-line: #625b70;
+  --ds-control-edge: #8d829f;
+  --ds-hover: #3c3746;
+  --ds-focus: #c2a2ff;
+  --ds-error: #ffb5c4;
+}
+
+.axo-ds-scope[data-design="unified"]
+  :where(
+    .axo-button-showcase__heading > a,
+    .ds-catalog-category footer > span
+  ) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.axo-ds-scope[data-design="unified"]
+  .axo-ds-button[aria-pressed="true"]:is(:hover, :active):not(:disabled):not(
+    [aria-disabled="true"]
+  ) {
+  --btn-top: var(--ds-accent-selected);
+  --btn-text: #fff;
+  border-color: var(--ds-accent-selected);
+}
+.axo-ds-scope[data-design="unified"]
+  .ds-interactive-card[aria-pressed="true"]:is(:hover, :active):not(
+    :disabled
+  ):not([aria-disabled="true"]) {
+  border-color: var(--ds-accent-selected);
+}
