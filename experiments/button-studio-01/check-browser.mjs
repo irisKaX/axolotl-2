@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 const folder=path.dirname(new URL(import.meta.url).pathname),evidence=path.join(folder,'evidence');await fs.mkdir(evidence,{recursive:true});
 const server=http.createServer(async(req,res)=>{try{res.setHeader('Content-Type',req.url.endsWith('.txt')?'text/plain':'text/html; charset=utf-8');res.end(await fs.readFile(path.join(folder,'dist',req.url.endsWith('.txt')?'LICENSE-react-bits.txt':'index.html')))}catch{res.writeHead(404);res.end()}});await new Promise(r=>server.listen(4194,'127.0.0.1',r));
-const browser=await chromium.launch(),results=[],errors=[],audits=[],geometry={};const page=await browser.newPage({viewport:{width:1366,height:768}});page.on('pageerror',e=>errors.push(e.message));
+const browser=await chromium.launch(),results=[],errors=[],audits=[],geometry={};const context=await browser.newContext({viewport:{width:1366,height:768}});const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
 const pass=s=>{results.push(s);console.log('PASS',s)},snap=async(name,fullPage=false)=>page.screenshot({path:path.join(evidence,name+'.png'),fullPage}),button=()=>page.locator('.hero-button');
 const view=async(name)=>page.getByRole('navigation',{name:'Pohled studia'}).getByRole('button',{name,exact:true}).click();
 const audit=async(label)=>{const r=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();audits.push({label,violations:r.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))});console.log('AXE',label,r.violations.length)};
