@@ -20,3 +20,4 @@
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.lab-button:active:not(:disabled),.lab-button:hover:not(:disabled),.lab-button .button-icon svg{transform:none!important}.reference-target .star-border__light{display:none}.reference-target .star-border{box-shadow:inset 0 0 0 1px var(--rim)}}
 @media(forced-colors:active){.lab-button{border:1px solid ButtonText;background:ButtonFace;color:ButtonText;box-shadow:none}.lab-button:disabled{color:GrayText}.star-border__light{display:none}.lab-button:focus-visible{outline-color:Highlight}}
 @media(min-width:801px) and (max-width:1599px){.studio-header{height:56px}.intro{padding:16px 0}.page-footer{padding:10px 0}}
+.hero-target[data-focus-demo=true] .lab-button:focus{outline:2px solid var(--focus);outline-offset:5px}
