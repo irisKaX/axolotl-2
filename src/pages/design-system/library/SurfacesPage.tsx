@@ -1,3 +1,4 @@
+import { HaloShowcase } from "./HaloShowcase";
 import { SurfaceStudio } from "./SurfaceStudio";
 import {
   ComponentControl,
@@ -189,6 +190,7 @@ export default function SurfacesPage({ category }: PageProps) {
           )}
         </div>
       </Playground>
+      <HaloShowcase category={category} />
       <SurfaceStudio category={category} />
       <Examples>
         {findEntry("Card", [category])

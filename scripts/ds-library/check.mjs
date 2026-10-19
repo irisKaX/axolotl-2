@@ -1,3 +1,4 @@
+import { checkHalo } from "./check-halo.mjs";
 import { checkSurfaces } from "./check-surfaces.mjs";
 import { checkColors } from "./check-colors.mjs";
 import { chromium, expect } from "@playwright/test";
@@ -484,6 +485,10 @@ try {
   await checkSurfaces(page, mobile, base, out);
   pass(
     "Colors: exact registry values, all registered clipboard values, local theme without preference changes, live exports, contrast fallback, keyboard, history and mobile layouts",
+  );
+  await checkHalo(page, mobile, base, out);
+  pass(
+    "Halo 2.0: pointer lighting, tilt/parallax, effect toggles, idle/reset, keyboard, loading/disabled, dark/light axe, reduced motion, mobile and history",
   );
   expect(errors).toEqual([]);
   pass("No browser runtime errors");

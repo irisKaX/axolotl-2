@@ -1,0 +1,216 @@
+/* Halo 2.0 is opt-in. No selector addresses the original Halo material alone. */
+.axo-ds-scope [data-halo] {
+  --halo-x: 50%;
+  --halo-y: 50%;
+  --halo-hot: 0;
+  --halo-edge: 0;
+  --halo-rx: 0deg;
+  --halo-ry: 0deg;
+  --halo-px: 0px;
+  --halo-py: 0px;
+  --halo-lift: 0px;
+  --halo-scale: 1;
+  --halo-angle: 90deg;
+  --halo-face: #171922;
+  --halo-well: #10131c;
+  --halo-ink: #f5f3fc;
+  --halo-muted: #c6c4d6;
+  --halo-line: #72758b;
+  --halo-light: #ffffff;
+  --halo-shadow:
+    inset 0 1px 0 #ffffff20, inset 0 -1px 0 #0006, 0 14px 30px #05061166;
+  --halo-depth: 10px;
+  background: var(--halo-face) !important;
+  color: var(--halo-ink);
+  box-shadow: var(--halo-shadow) !important;
+  border: 1px solid var(--halo-line);
+  border-radius: 20px;
+  transform-style: preserve-3d;
+  isolation: auto;
+  transform: perspective(900px) translateY(var(--halo-lift))
+    rotateX(var(--halo-rx)) rotateY(var(--halo-ry)) scale(var(--halo-scale)) !important;
+  transition: border-color 180ms ease;
+}
+.axo-ds-scope [data-halo="spatial"] {
+  --halo-face: linear-gradient(150deg, #272538, #141b29 70%);
+  --halo-depth: 24px;
+  --halo-shadow:
+    inset 0 1px 0 #ffffff40, inset 1px 0 0 #a49fff20, inset 0 -2px 3px #0008,
+    0 8px 0 -4px #0c0e18, 0 24px 40px #0007;
+  border-radius: 26px;
+  padding: 28px;
+}
+.axo-ds-scope [data-halo="cinematic"] {
+  --halo-face: linear-gradient(145deg, #202534, #0b101c 72%);
+  --halo-depth: 42px;
+  --halo-shadow:
+    inset 0 1px 0 #e3e8ff66, inset -1px -1px 0 #c8b7ff33, 0 3px 0 #050812,
+    0 12px 0 -6px #0b0f1c, 0 30px 48px #0009;
+  border-radius: 30px 12px 30px 12px;
+  padding: 28px;
+}
+.axo-ds-scope[data-theme="light"] [data-halo] {
+  --halo-face: #fdfcfe;
+  --halo-well: #f0f0f7;
+  --halo-ink: #202332;
+  --halo-muted: #51576e;
+  --halo-line: #969bb0;
+  --halo-light: #ffffff;
+  --halo-shadow: inset 0 1px 0 #fff, 0 8px 24px #272b421f;
+}
+.axo-ds-scope[data-theme="light"] [data-halo="spatial"] {
+  --halo-face: linear-gradient(145deg, #fff, #e8eef8);
+  --halo-shadow:
+    inset 0 1px 0 #fff, inset 0 -1px 0 #b4bfd5, 0 7px 0 -4px #c4cedc,
+    0 20px 34px #344b6a25;
+}
+.axo-ds-scope[data-theme="light"] [data-halo="cinematic"] {
+  --halo-face: linear-gradient(155deg, #fff 10%, #e0e8f5 70%, #ede5fb);
+  --halo-shadow:
+    inset 0 2px 0 #fff, inset -1px -1px 0 #a3abc366, 0 3px 0 #b5bfd2,
+    0 12px 0 -6px #c2cbe0, 0 28px 44px #35426933;
+}
+.axo-ds-scope [data-halo] > :not(.ds-halo-fx) {
+  position: relative;
+  z-index: 2;
+}
+.axo-ds-scope [data-halo] [data-halo-layer="heading"] {
+  transform: translate3d(
+    calc(var(--halo-px) * 0.45),
+    calc(var(--halo-py) * 0.45),
+    calc(var(--halo-depth) * 0.4)
+  );
+}
+.axo-ds-scope [data-halo] [data-halo-layer="content"] {
+  transform: translate3d(var(--halo-px), var(--halo-py), var(--halo-depth));
+}
+.axo-ds-scope [data-halo] [data-halo-layer="action"] {
+  transform: translate3d(
+    calc(var(--halo-px) * 0.7),
+    calc(var(--halo-py) * 0.7),
+    calc(var(--halo-depth) * 0.7)
+  );
+}
+.axo-ds-scope
+  [data-halo]:not([data-halo-effects~="parallax"])
+  [data-halo-layer] {
+  transform: none;
+}
+.axo-ds-scope [data-halo] .ds-surface-meta,
+.axo-ds-scope .ds-interactive-card[data-halo] > span:not(.ds-halo-fx) {
+  color: var(--halo-muted);
+}
+.ds-halo-fx {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.ds-halo-fx > span {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+}
+.ds-halo-spot {
+  background: radial-gradient(
+    300px circle at var(--halo-x) var(--halo-y),
+    color-mix(in srgb, var(--halo-accent) 36%, transparent),
+    transparent 75%
+  );
+}
+[data-halo-effects~="spotlight"] > .ds-halo-fx > .ds-halo-spot {
+  opacity: var(--halo-hot);
+}
+.ds-halo-edge {
+  padding: 2px;
+  background: conic-gradient(
+    from var(--halo-angle),
+    transparent 12%,
+    var(--halo-light) 25%,
+    var(--halo-accent) 38%,
+    transparent 52%
+  );
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+[data-halo-effects~="edge"] > .ds-halo-fx > .ds-halo-edge {
+  opacity: calc(0.18 + var(--halo-edge) * 0.82);
+}
+.ds-halo-ambient {
+  background:
+    radial-gradient(
+      ellipse at 90% 0%,
+      color-mix(in srgb, var(--halo-accent) 28%, transparent),
+      transparent 65%
+    ),
+    repeating-linear-gradient(135deg, #ffffff04 0 1px, transparent 1px 5px);
+}
+[data-halo-effects~="ambient"] > .ds-halo-fx > .ds-halo-ambient {
+  opacity: calc(0.28 + var(--halo-hot) * 0.5);
+}
+.ds-halo-sheen {
+  background: linear-gradient(
+    115deg,
+    transparent 25%,
+    #ffffff18 48%,
+    transparent 67%
+  );
+  transform: translateX(calc((var(--halo-x) - 50%) * 0.5));
+}
+[data-halo-effects~="sheen"] > .ds-halo-fx > .ds-halo-sheen {
+  opacity: calc(var(--halo-hot) * 0.7);
+}
+.axo-ds-scope [data-halo]:is(:focus-visible, :focus-within) {
+  outline: 3px solid var(--ds-focus);
+  outline-offset: 5px;
+}
+.axo-ds-scope
+  [data-halo][data-halo-effects~="edge"]:is(:focus-visible, :focus-within)
+  > .ds-halo-fx
+  > .ds-halo-edge {
+  opacity: 1;
+}
+.axo-ds-scope [data-halo][aria-pressed="true"] {
+  border-color: var(--ds-focus);
+  outline: 2px solid var(--ds-focus);
+  outline-offset: 3px;
+}
+.axo-ds-scope [data-halo][data-halo-disabled="true"] .ds-halo-fx {
+  opacity: 0.2;
+}
+.axo-ds-scope [data-halo][data-halo-motion="static"] [data-halo-layer] {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .axo-ds-scope [data-halo],
+  .axo-ds-scope [data-halo] [data-halo-layer] {
+    transform: none !important;
+    transition: none;
+  }
+  .axo-ds-scope [data-halo] .ds-halo-spot,
+  .axo-ds-scope [data-halo] .ds-halo-sheen {
+    opacity: 0;
+  }
+}
+.axo-ds-scope[data-motion="reduced"] [data-halo],
+.axo-ds-scope[data-motion="reduced"] [data-halo] [data-halo-layer] {
+  transform: none !important;
+  transition: none;
+}
+@media (forced-colors: active) {
+  .axo-ds-scope [data-halo] {
+    background: Canvas !important;
+    color: CanvasText;
+    border-color: CanvasText;
+    box-shadow: none !important;
+  }
+  .axo-ds-scope [data-halo] .ds-halo-fx {
+    display: none;
+  }
+}
