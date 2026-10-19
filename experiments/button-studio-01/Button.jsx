@@ -16,7 +16,7 @@ export const Button=forwardRef(function Button({family='milled',variant='primary
  // The unmodified upstream component owns its animation and canvas. Only its public API and className are used.
  const Component=effect?StarBorder:'button';
  const starProps=effect?{color,duration,radius:family==='lens'?100:family==='rail'?2:9,theme,stars:2,hover:'brighten',clickPulse:false,sparkle:false}:{};
- return <Component {...starProps} {...props} ref={effect?undefined:ref} type={props.type||'button'} disabled={disabled||loading} aria-busy={loading||undefined} aria-label={variant==='icon'?(loading?'Probíhá akce':label||'Uložit do oblíbených'):label} data-family={family} data-variant={variant} data-size={size} data-star={star} data-loading={loading} data-success={success} className={`lab-button ${className}`}>
+ return <Component {...starProps} {...props} {...(!effect?{ref}:{})} type={props.type||'button'} disabled={disabled||loading} aria-busy={loading||undefined} aria-label={variant==='icon'?(loading?'Probíhá akce':label||'Uložit do oblíbených'):label} data-family={family} data-variant={variant} data-size={size} data-star={star} data-loading={loading} data-success={success} className={`lab-button ${className}`}>
   {variant!=='icon'&&<span className="button-label">{loading?'Probíhá kontrola':success?'Hotovo':text}</span>}
   <span className="button-icon" aria-hidden="true"><Icon size={16} strokeWidth={1.7} className={loading?'spinner':''}/></span>
  </Component>;
