@@ -296,7 +296,7 @@ try {
   );
   await page.goto(route("buttons"));
   const approvedButton = page
-    .locator("#button-playground .axo-ds-button")
+    .locator("#button-playground.axo-ds-button")
     .first();
   await page.keyboard.press("Tab");
   await approvedButton.focus();
