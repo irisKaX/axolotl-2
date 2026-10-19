@@ -13,6 +13,9 @@ import {
   type Entry,
 } from "./model";
 export type { CategoryId, Entry, Category, PageProps } from "./model";
+const surfaceVariants = () =>
+  UI.surfaceFamilies.map((f) => variant(f.id, f.label, { family: f.id }));
+const familyProperty = selectProperty(UI.surfaceFamilies.map((f) => f.id));
 const controlSizes = selectProperty(["small", "medium", "large"]);
 // Approval is per visual/semantic variant, not inherited from catalog approval.
 // These exact catalog exports have not been migrated into production tools.
@@ -222,12 +225,14 @@ export const categories: Category[] = [
         label: "Card",
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Knihovna V1; čeká na schválení a budoucí integraci.",
-        api: "title; children; footer; material; density: compact | comfortable.",
+        api: "family?: obsidian | halo | studio; title; children; footer; material; density: compact | comfortable.",
         variants: [
           variant("flat", "flat", { material: "flat" as const }),
           variant("raised", "raised", { material: "raised" as const }),
+          ...surfaceVariants(),
         ],
         properties: {
+          family: familyProperty,
           density: selectProperty(["compact", "comfortable"]),
           title: { kind: "text" },
           children: { kind: "node" },
@@ -244,18 +249,24 @@ export const categories: Category[] = [
         source: "src/design-system/library/Surfaces.tsx",
         consumers:
           "Tento adaptér a jeho katalogové styly zatím nejsou používány v produkci. Skutečný ToolPanel z components.jsx; konvertor obrázků. Lokální katalogové styly.",
-        api: "HTML section props; children; className.",
-        variants: [variant("default", "Výchozí", {})],
-        properties: { children: { kind: "node" }, className: { kind: "text" } },
+        api: "family?: obsidian | halo | studio; HTML section props; children; className.",
+        variants: [variant("default", "Výchozí", {}), ...surfaceVariants()],
+        properties: {
+          family: familyProperty,
+          children: { kind: "node" },
+          className: { kind: "text" },
+        },
       }),
       defineEntry(UI.InteractiveCard, {
         name: "InteractiveCard",
         label: "Interactive Card",
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Knihovna V1; čeká na schválení a budoucí integraci.",
-        api: "title; description; nativní button props; disabled; aria-pressed. Nevkládat vnořené ovládací prvky.",
-        variants: [variant("default", "Výchozí", {})],
+        api: "family?: obsidian | halo | studio; title; description; nativní button props; disabled; aria-pressed. Nevkládat vnořené ovládací prvky.",
+        variants: [variant("default", "Výchozí", {}), ...surfaceVariants()],
         properties: {
+          family: familyProperty,
+          loading: { kind: "boolean" },
           disabled: { kind: "boolean" },
           "aria-pressed": { kind: "boolean" },
           title: { kind: "text" },
@@ -268,11 +279,58 @@ export const categories: Category[] = [
         label: "State Card",
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Knihovna V1; čeká na schválení a budoucí integraci.",
-        api: "state; action: ReactNode. Skládá Card + EmptyState/Loading/Alert.",
-        variants: [variant("default", "Výchozí", {})],
+        api: "family?: obsidian | halo | studio; state; action: ReactNode. Skládá Card + EmptyState/Loading/Alert.",
+        variants: [variant("default", "Výchozí", {}), ...surfaceVariants()],
         properties: {
-          state: selectProperty(["empty", "loading", "error"]),
+          family: familyProperty,
+          state: selectProperty([
+            "empty",
+            "loading",
+            "error",
+            "warning",
+            "success",
+          ]),
           action: { kind: "node" },
+        },
+      }),
+      defineEntry(UI.ToolCard, {
+        name: "ToolCard",
+        label: "Tool Card",
+        source: "src/design-system/library/Surfaces.tsx",
+        consumers: "Cards & Surfaces V1.1; žádná produkční integrace.",
+        api: "family; title; description; metadata; action. Akce je samostatný ovládací prvek.",
+        variants: surfaceVariants(),
+        properties: {
+          family: familyProperty,
+          title: { kind: "text" },
+          description: { kind: "text" },
+          metadata: { kind: "node" },
+          action: { kind: "node" },
+        },
+        previewProps: {
+          title: "Kontrola metadat",
+          description: "Titulky a popisy stránky",
+          action: <Button size="small">Otevřít</Button>,
+        },
+      }),
+      defineEntry(UI.WidgetCard, {
+        name: "WidgetCard",
+        label: "Dashboard Widget Card",
+        source: "src/design-system/library/Surfaces.tsx",
+        consumers:
+          "Cards & Surfaces V1.1; žádný dashboard ani drag & drop engine se nemění.",
+        api: "family; title; children; actions; footer. Stav a příkazy řídí konzument.",
+        variants: surfaceVariants(),
+        properties: {
+          family: familyProperty,
+          title: { kind: "text" },
+          children: { kind: "node" },
+          actions: { kind: "node" },
+          footer: { kind: "node" },
+        },
+        previewProps: {
+          title: "Kontrola projektu",
+          children: <p>24 hotových kontrol</p>,
         },
       }),
     ],

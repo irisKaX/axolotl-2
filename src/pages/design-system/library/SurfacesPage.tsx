@@ -1,3 +1,4 @@
+import { SurfaceStudio } from "./SurfaceStudio";
 import {
   ComponentControl,
   PropertyControl,
@@ -12,6 +13,8 @@ import {
   Panel,
   InteractiveCard,
   StateCard,
+  ToolCard,
+  WidgetCard,
   Status,
 } from "../../../design-system/library";
 import { Playground, Examples } from "./PageFrame";
@@ -21,7 +24,9 @@ export default function SurfacesPage({ category }: PageProps) {
       "flat",
     ),
     [density, setDensity] = useState<"compact" | "comfortable">("comfortable"),
-    [state, setState] = useState<"empty" | "loading" | "error">("empty"),
+    [state, setState] = useState<
+      "empty" | "loading" | "error" | "warning" | "success"
+    >("empty"),
     [disabled, setDisabled] = useState(false),
     [selected, setSelected] = useState(false),
     [added, setAdded] = useState(false);
@@ -40,7 +45,11 @@ export default function SurfacesPage({ category }: PageProps) {
       setAdded(true);
     }, 600);
   }
-  const selectedEntry = findEntry(kind, [category]);
+  const entry = findEntry(kind, [category]);
+  const selectedEntry =
+    kind === "Card"
+      ? { ...entry, variants: entry.variants.filter((v) => v.props.material) }
+      : entry;
   // Keep the user's choice in memory while a test-only material is hidden.
   const visibleMaterial =
     selectedEntry.name === "Card" &&
@@ -137,6 +146,28 @@ export default function SurfacesPage({ category }: PageProps) {
               disabled={disabled}
               onClick={() => setSelected((v) => !v)}
             />
+          ) : kind === "Tool Card" ? (
+            <ToolCard
+              family="obsidian"
+              title="Kontrola metadat"
+              description="Titulky a popisy stránky"
+              metadata="SEO · dnes"
+              action={
+                <Button onClick={() => setAdded((v) => !v)}>
+                  {added ? "Zavřít ukázku" : "Otevřít ukázku"}
+                </Button>
+              }
+            />
+          ) : kind === "Dashboard Widget Card" ? (
+            <WidgetCard
+              family="obsidian"
+              title="Kontrola projektu"
+              actions={
+                <Button onClick={() => setAdded((v) => !v)}>Obnovit</Button>
+              }
+            >
+              <p>{added ? "Obsah obnoven" : "24 hotových kontrol"}</p>
+            </WidgetCard>
           ) : added && state !== "loading" ? (
             <Card title="Widget připraven">
               <p>Ukázkový obsah workspace je dostupný.</p>
@@ -158,28 +189,31 @@ export default function SurfacesPage({ category }: PageProps) {
           )}
         </div>
       </Playground>
+      <SurfaceStudio category={category} />
       <Examples>
-        {findEntry("Card", [category]).variants.map((v) => (
-          <Card
-            key={v.id}
-            title={
-              v.id === "flat"
-                ? "Flat"
-                : v.id === "raised"
-                  ? "Raised"
-                  : v.label + " · Návrh"
-            }
-            material={v.props.material as typeof material}
-          >
-            <p>
-              {v.id === "flat"
-                ? "Klidný povrch pro běžný obsah."
-                : v.id === "raised"
-                  ? "Zvýšený povrch pro samostatný pracovní celek."
-                  : "Technická fixture rozšíření existujícího materiálu."}
-            </p>
-          </Card>
-        ))}
+        {findEntry("Card", [category])
+          .variants.filter((v) => v.props.material)
+          .map((v) => (
+            <Card
+              key={v.id}
+              title={
+                v.id === "flat"
+                  ? "Flat"
+                  : v.id === "raised"
+                    ? "Raised"
+                    : v.label + " · Návrh"
+              }
+              material={v.props.material as typeof material}
+            >
+              <p>
+                {v.id === "flat"
+                  ? "Klidný povrch pro běžný obsah."
+                  : v.id === "raised"
+                    ? "Zvýšený povrch pro samostatný pracovní celek."
+                    : "Technická fixture rozšíření existujícího materiálu."}
+              </p>
+            </Card>
+          ))}
         <StateCard
           state="empty"
           action={

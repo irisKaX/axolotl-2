@@ -1,3 +1,4 @@
+import { checkSurfaces } from "./check-surfaces.mjs";
 import { checkColors } from "./check-colors.mjs";
 import { chromium, expect } from "@playwright/test";
 import { checkTestToggle, checkMobileTestToggle } from "./check-toggle.mjs";
@@ -476,9 +477,14 @@ try {
   );
   await checkTestToggle(page, base, out);
   await checkMobileTestToggle(mobile, base, out);
-  pass("Test toggle: both directions, URL/history/reload, preserved playground state, Card comparison fallback, Counter exit, keyboard and mobile touch");
+  pass(
+    "Test toggle: both directions, URL/history/reload, preserved playground state, Card comparison fallback, Counter exit, keyboard and mobile touch",
+  );
   await checkColors(page, mobile, base, out);
-  pass("Colors: exact registry values, all registered clipboard values, local theme without preference changes, live exports, contrast fallback, keyboard, history and mobile layouts");
+  await checkSurfaces(page, mobile, base, out);
+  pass(
+    "Colors: exact registry values, all registered clipboard values, local theme without preference changes, live exports, contrast fallback, keyboard, history and mobile layouts",
+  );
   expect(errors).toEqual([]);
   pass("No browser runtime errors");
 } finally {

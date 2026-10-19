@@ -10,7 +10,14 @@ export {
   Slider,
   type ControlSize,
 } from "./Forms";
-export { Card, Panel, InteractiveCard, StateCard } from "./Surfaces";
+export {
+  Card,
+  Panel,
+  InteractiveCard,
+  StateCard,
+  ToolCard,
+  WidgetCard,
+} from "./Surfaces";
 export { Dialog, ConfirmationDialog, Popover, Tooltip } from "./Overlays";
 export {
   Badge,
@@ -22,3 +29,5 @@ export {
   type Tone,
 } from "./Feedback";
 export { Tabs, SegmentedControl, Disclosure, Pagination } from "./Navigation";
+
+export { surfaceFamilies, type SurfaceFamily } from "./surfaceFamilies";
