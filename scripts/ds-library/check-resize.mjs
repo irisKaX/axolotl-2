@@ -61,7 +61,12 @@ try {
   const tall = await first.boundingBox(), stacked = await third.boundingBox();
   expect(stacked.y).toBeLessThan(tall.y + tall.height - 50);
   expect(stacked.x).toBeGreaterThanOrEqual(tall.x + tall.width);
+  await page.getByRole("button", { name: "Hotovo", exact: true }).click();
+  await expect.poll(compactGap).toBeGreaterThanOrEqual(15);
+  await expect.poll(compactGap).toBeLessThan(21);
+  expect((await third.boundingBox()).y).toBeLessThan((await first.boundingBox()).y + (await first.boundingBox()).height - 50);
   await page.screenshot({ path: `${out}/layout-packed-resize.png`, fullPage: true });
+  await page.getByRole("button", { name: "Upravit Dashboard", exact: true }).click();
   // Width is no longer restricted to the original left/right zone either.
   await first.getByRole("combobox", { name: "Umístění Obecný widget" }).click();
   await page.getByRole("option", { name: "Levá zóna", exact: true }).click();
@@ -78,7 +83,9 @@ try {
     await page.setViewportSize({ width, height: 844 });
     const card = await first.boundingBox(), area = await board.boundingBox(), other = await second.boundingBox();
     expect(Math.abs(card.width - area.width)).toBeLessThan(2);
-    expect(other.y).toBeGreaterThanOrEqual(card.y + card.height);
+    // Moving the wide card changes DOM order. Dense packing may put the small
+    // card before it; the invariant is non-overlap, not the previous row order.
+    expect(other.y + other.height <= card.y || card.y + card.height <= other.y).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
   expect(errors).toEqual([]);
