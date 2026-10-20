@@ -48,6 +48,25 @@ try {
   await drag(0, 60);
   expect(parseFloat(await minHeight())).toBe(heightBeforeDrag + 60);
   expect(Math.abs((await first.boundingBox()).width - twoColumns.width)).toBeLessThan(2);
+  // Reported case: tall, wide card on the left; two shorter cards stack right.
+  for (let n = 0; n < 12; n++) await handle.press("ArrowDown");
+  await add();
+  const third = page.locator('[data-layout-item="generic-5"]');
+  const compactGap = async () => {
+    const small = await second.boundingBox(), below = await third.boundingBox();
+    return below.y - small.y - small.height;
+  };
+  await expect.poll(compactGap).toBeGreaterThanOrEqual(15);
+  await expect.poll(compactGap).toBeLessThan(21);
+  const tall = await first.boundingBox(), stacked = await third.boundingBox();
+  expect(stacked.y).toBeLessThan(tall.y + tall.height - 50);
+  expect(stacked.x).toBeGreaterThanOrEqual(tall.x + tall.width);
+  await page.screenshot({ path: `${out}/layout-packed-resize.png`, fullPage: true });
+  // Width is no longer restricted to the original left/right zone either.
+  await first.getByRole("combobox", { name: "Umístění Obecný widget" }).click();
+  await page.getByRole("option", { name: "Levá zóna", exact: true }).click();
+  expect(Math.abs((await first.boundingBox()).width - twoColumns.width)).toBeLessThan(2);
+  await third.getByRole("button", { name: "Odebrat Obecný widget" }).click();
   await first.getByRole("combobox", { name: "Šířka Obecný widget" }).click();
   await page.getByRole("option", { name: "Celá šířka", exact: true }).click();
   for (const composition of ["Vyvážený střed", "Pracovní patra"]) {
@@ -63,7 +82,7 @@ try {
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }
   expect(errors).toEqual([]);
-  console.log("PASS resize: new widgets, pointer width/height independently, full width, keyboard/select, gap filling, both compositions, 1024/390 responsive");
+  console.log("PASS 2D layout: tall wide left card + two short right cards, 16–20px gap, zone-independent width, pointer width/height, full width, keyboard/select, both compositions, 1024/390");
 } catch (error) {
   await page.screenshot({ path: `${out}/resize-failure.png`, fullPage: true });
   throw error;

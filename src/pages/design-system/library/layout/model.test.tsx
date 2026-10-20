@@ -1,14 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { initialLayout, reduceLayout, compositions, dimensions, packBottom } from "./model";
+import { initialLayout, reduceLayout, compositions, dimensions } from "./model";
 describe("layout sandbox", () => {
-  it("resizes new bottom widgets across columns independently of height and fills gaps", () => {
+  it("resizes new bottom widgets across columns independently of height", () => {
     let state = reduceLayout(initialLayout(), { type: "add", kind: "generic" });
     const item = state.items.at(-1)!;
     state = reduceLayout(state, { type: "resize", id: item.id, size: item.size, height: item.height, span: 3 });
     expect(state.items.at(-1)).toMatchObject({ span: 3, height: item.height });
-    const wide = state.items.at(-1)!;
-    const positions = packBottom([{ ...wide, id: "a", span: 2 }, { ...wide, id: "b", span: 2 }, { ...wide, id: "c", span: 1 }]);
-    expect(positions).toEqual([{ column: 1, row: 0, span: 2 }, { column: 1, row: 1, span: 2 }, { column: 3, row: 0, span: 1 }]);
+
   });
   it("keeps the centered default and fixed anchors outside editable items", () => {
     const state = initialLayout();

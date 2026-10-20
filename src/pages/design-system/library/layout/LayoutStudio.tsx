@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useLayoutEffect,
   useReducer,
   useRef,
   useState,
@@ -38,7 +39,6 @@ import {
   initialLayout,
   itemWidth,
   itemSpan,
-  packBottom,
   reduceLayout,
   zoneOptions,
   type Action,
@@ -168,7 +168,6 @@ function EditableWidget({
   onRemove: () => void;
 }) {
   const title = dimensions[item.kind].title;
-  const options = item.kind === "generic" ? sizes : sizes.slice(1);
   return (
     <section
       className="dls-item"
@@ -251,18 +250,18 @@ function EditableWidget({
           <Select
             size="small"
             aria-label={`Šířka ${title}`}
-            value={item.zone === "bottom" ? String(itemSpan(item)) : item.size}
-            options={item.zone === "bottom" ? [
+            value={String(itemSpan(item))}
+            options={[
               { value: "1", label: "1 sloupec" },
               { value: "2", label: "2 sloupce" },
               { value: "3", label: "Celá šířka" },
-            ] : options}
+            ]}
             onValueChange={(size) =>
               dispatch({
                 type: "resize",
                 id: item.id,
-                size: item.zone === "bottom" ? item.size : size as Size,
-                span: item.zone === "bottom" ? Number(size) : undefined,
+                size: item.size,
+                span: Number(size),
                 height: item.height,
               })
             }
@@ -292,29 +291,11 @@ function EditableWidget({
               )
                 return;
               e.preventDefault();
-              const size =
-                e.key === "ArrowLeft"
-                  ? options[
-                      Math.max(
-                        0,
-                        options.findIndex((x) => x.value === item.size) - 1,
-                      )
-                    ].value
-                  : e.key === "ArrowRight"
-                    ? options[
-                        Math.min(
-                          options.length - 1,
-                          options.findIndex((x) => x.value === item.size) + 1,
-                        )
-                      ].value
-                    : item.size;
               dispatch({
                 type: "resize",
                 id: item.id,
-                size: item.zone === "bottom" ? item.size : size as Size,
-                span: item.zone === "bottom"
-                  ? itemSpan(item) + (e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0)
-                  : undefined,
+                size: item.size,
+                span: itemSpan(item) + (e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0),
                 height:
                   item.height +
                   (e.key === "ArrowUp" ? -20 : e.key === "ArrowDown" ? 20 : 0),
@@ -335,6 +316,25 @@ export function LayoutStudio() {
   const [gesture, setGesture] = useState<Gesture | null>(null),
     gestureRef = useRef<Gesture | null>(null);
   const editButton = useRef<HTMLButtonElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const board = boardRef.current;
+    if (!board || typeof ResizeObserver === "undefined") return;
+    const measure = (element: HTMLElement) => {
+      const rows = Math.ceil((element.getBoundingClientRect().height + 16) / 4);
+      element.style.setProperty("--dls-rows", String(Math.max(1, rows)));
+    };
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) measure(entry.target as HTMLElement);
+    });
+    // CSS Grid owns collision handling and dense placement. Observe natural
+    // heights, not a shared row height; the extra 16px is the existing gutter.
+    for (const child of board.children) {
+      measure(child as HTMLElement);
+      observer.observe(child);
+    }
+    return () => observer.disconnect();
+  }, [layout.items]);
   const env = useDesignSystem();
   const changeGesture = (g: Gesture | null) => {
     gestureRef.current = g;
@@ -402,11 +402,6 @@ export function LayoutStudio() {
         dy = e.clientY - g.y;
       const moved = g.moved || Math.hypot(dx, dy) > 8;
       if (g.mode === "resize") {
-        const options = g.item.kind === "generic" ? sizes : sizes.slice(1),
-          base = options.findIndex((x) => x.value === g.item.size);
-        const size = options[
-          Math.max(0, Math.min(options.length - 1, base + Math.trunc(dx / 60)))
-        ].value as Size;
         const d = dimensions[g.item.kind],
           height = Math.max(
             d.minHeight,
@@ -417,8 +412,8 @@ export function LayoutStudio() {
           Math.abs(width - desired) < Math.abs(g.widths[best] - desired) ? i : best, 0) + 1;
         changeGesture({
           ...g, moved, height,
-          size: g.item.zone === "bottom" ? g.item.size : size,
-          span: g.item.zone === "bottom" && Math.abs(dx) > 8 ? span : g.span,
+          size: g.item.size,
+          span: Math.abs(dx) > 8 ? span : g.span,
         });
       } else {
         const target = document
@@ -462,10 +457,7 @@ export function LayoutStudio() {
       : i,
   );
   const left = items.filter((i) => i.zone === "left"),
-    right = items.filter((i) => i.zone === "right"),
-    bottom = items.filter((i) => i.zone === "bottom");
-  const rows = Math.max(1, left.length, right.length);
-  const bottomPositions = packBottom(bottom);
+    right = items.filter((i) => i.zone === "right");
   const leftWidth = Math.max(280, ...left.map(itemWidth)),
     rightWidth = Math.max(280, ...right.map(itemWidth));
   const add = (kind: Kind, size?: Size) => {
@@ -593,6 +585,7 @@ export function LayoutStudio() {
       )}
       <h2 className="dls-sr-only">Pracovní plocha</h2>
       <div
+        ref={boardRef}
         className="dls-board"
         style={
           {
@@ -604,7 +597,6 @@ export function LayoutStudio() {
         <section
           className="dls-office"
           aria-label="Pevná centrální zóna"
-          style={{ gridRow: `1 / span ${rows}` }}
         >
           <Card title="Axolotl Office" density="compact">
             <div className="dls-office-content">
@@ -625,23 +617,9 @@ export function LayoutStudio() {
           </Card>
         </section>
         {items.map((item) => {
-          const peers =
-              item.zone === "left"
-                ? left
-                : item.zone === "right"
-                  ? right
-                  : bottom,
-            index = peers.indexOf(item);
-          const row =
-            item.zone === "bottom"
-              ? rows + 1 + bottomPositions[index].row
-              : index + 1;
-          const col =
-            item.zone === "bottom"
-              ? `${bottomPositions[index].column} / span ${bottomPositions[index].span}`
-              : item.zone === "left"
-                ? 1
-                : 3;
+          const span = itemSpan(item);
+          const col = span > 1 || item.zone === "bottom"
+            ? `span ${span}` : item.zone === "left" ? 1 : 3;
           return (
             <EditableWidget
               key={item.id}
@@ -651,7 +629,7 @@ export function LayoutStudio() {
               style={
                 {
                   gridColumn: col,
-                  gridRow: row,
+                  "--dls-offset": layout.composition === "staggered" && item.id === right[0]?.id && span === 1 ? "80px" : "0px",
                   "--dls-height": `${item.height}px`,
                   "--dls-width": `${itemWidth(item)}px`,
                   "--dls-span": itemSpan(item),
@@ -678,7 +656,6 @@ export function LayoutStudio() {
               style={{
                 gridColumn:
                   z.value === "bottom" ? "1 / -1" : z.value === "left" ? 1 : 3,
-                gridRow: z.value === "bottom" ? rows + 1 : 1,
               }}
             >
               <span className="ds-hint">

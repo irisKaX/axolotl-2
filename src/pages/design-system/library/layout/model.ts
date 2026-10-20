@@ -157,20 +157,3 @@ export function itemWidth(item: Item) {
   return item.kind === "generic" && item.size === "small" ? 200 : 280;
 }
 export const itemSpan = (item: Item) => item.span ?? 1;
-
-// First-fit placement fills earlier holes when a later small card fits them.
-// Stable item keys stay under the same React parent when changing zones.
-export function packBottom(items: Item[]) {
-  const occupied: boolean[][] = [];
-  return items.map((item) => {
-    const span = itemSpan(item);
-    for (let row = 0; ; row++) {
-      occupied[row] ??= [false, false, false];
-      for (let column = 0; column <= 3 - span; column++) {
-        if (occupied[row].slice(column, column + span).some(Boolean)) continue;
-        occupied[row].fill(true, column, column + span);
-        return { row, column: column + 1, span };
-      }
-    }
-  });
-}

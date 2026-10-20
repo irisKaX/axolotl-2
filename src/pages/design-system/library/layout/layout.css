@@ -25,13 +25,20 @@
 .dls-board {
   display: grid;
   grid-template-columns: var(--dls-left) minmax(320px, 1fr) var(--dls-right);
-  gap: 16px;
+  column-gap: 16px;
+  row-gap: 0;
+  grid-auto-rows: 4px;
+  grid-auto-flow: row dense;
   align-items: start;
+}
+.dls-board > * {
+  grid-row: span var(--dls-rows, 80);
 }
 .dls-item {
   min-width: 0;
   width: 100%;
   align-self: start;
+  padding-top: var(--dls-offset, 0px);
 }
 .dls-item > .ds-card {
   min-height: var(--dls-height);
@@ -45,11 +52,9 @@
 }
 .dls-office {
   grid-column: 2;
-  align-self: center;
+  grid-row: 1 / span var(--dls-rows, 80);
+  align-self: start;
   min-width: 0;
-}
-.dls-item[data-size="small"]:not([data-layout-zone="bottom"]) {
-  width: min(100%, var(--dls-width));
 }
 .dls-office > .ds-card {
   min-height: 300px;
@@ -218,8 +223,8 @@
   white-space: nowrap;
 }
 /* Two working levels share the centered scene; bounded offset fits a laptop. */
-.dls[data-composition="staggered"] .dls-item[data-layout-zone="right"] {
-  margin-top: 80px;
+.dls[data-composition="staggered"] .dls-office {
+  padding-top: 40px;
 }
 @media (max-width: 1180px) {
   .dls-board {
@@ -228,23 +233,18 @@
   }
   .dls-office {
     grid-column: 1 / -1 !important;
-    grid-row: 1 !important;
     width: min(100%, 760px);
     justify-self: center;
   }
   .dls-item {
-    grid-column: auto !important;
-    grid-row: auto !important;
-  }
-  .dls-item[data-layout-zone="bottom"] {
     grid-column: span min(2, var(--dls-span)) !important;
+    padding-top: 0;
   }
   .dls-empty {
     grid-column: 1 / -1 !important;
-    grid-row: auto !important;
   }
-  .dls[data-composition="staggered"] .dls-item[data-layout-zone="right"] {
-    margin-top: 0;
+  .dls[data-composition="staggered"] .dls-office {
+    padding-top: 0;
   }
 }
 @media (max-width: 680px) {
@@ -254,7 +254,7 @@
   .dls-board {
     grid-template-columns: minmax(0, 1fr);
   }
-  .dls-item[data-layout-zone="bottom"] {
+  .dls-item {
     grid-column: 1 !important;
   }
   .dls-toolbar {
