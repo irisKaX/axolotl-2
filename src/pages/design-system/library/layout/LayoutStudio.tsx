@@ -543,6 +543,7 @@ export function LayoutStudio() {
           </p>
         </div>
       )}
+      <h2 className="dls-sr-only">Pracovní plocha</h2>
       <div
         className="dls-board"
         style={

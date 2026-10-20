@@ -16,6 +16,7 @@
   margin-bottom: 16px;
 }
 .dls-toolbar .ds-segmented {
+  width: min(100%, 330px);
   margin: 0;
 }
 .dls-toolbar .ds-actions {
@@ -208,6 +209,7 @@
   display: grid;
   gap: 12px;
 }
+.dls-sr-only,
 .dls-announcement {
   position: absolute;
   width: 1px;
