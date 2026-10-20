@@ -65,4 +65,8 @@ import { chromium, expect } from '@playwright/test';
  await expect(p.locator('[data-layout-item]')).toHaveCount(3);await expect(p.getByRole('button',{name:'Notebook',exact:true})).toBeVisible();
  console.log('PASS reset and persistent Notebook access');
  } finally {await b.close();}
-})().catch(e=>{console.error(e);process.exitCode=1});
+})().catch(e=>{
+ console.error(e);
+ if(process.env.GITHUB_ACTIONS) console.error('::error title=Grid interaction check::'+String(e.stack || e).replaceAll('%','%25').replaceAll('\r','%0D').replaceAll('\n','%0A'));
+ process.exitCode=1;
+});
