@@ -202,7 +202,7 @@ export function SystemOverview() {
       <header>
         <h2>Jeden systém. Dva kontexty.</h2>
         <p>
-          Srovnání všech hlavních kategorií se skutečnými React exporty. Ukázky
+          Srovnání základních kategorií se skutečnými React exporty. Ukázky
           lze ovládat, jejich motiv nemění preference aplikace.
         </p>
       </header>

@@ -7,13 +7,13 @@ Jedna knihovna, jeden záznam varianty, jedna stránka rodiny. Není potřeba no
 
 Aktuální vizuální pravidla a hranice původních exportů: [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md).
 
-Colors & Gradients má [stručný návod a hranice kontrastní kontroly](COLORS.md). Nový záznam v `colors/paints.ts` automaticky rozšíří stávající stránku. Katalog má nyní sedm běžných kategorií, s testovacím Counterem osm.
+Colors & Gradients má [stručný návod a hranice kontrastní kontroly](COLORS.md). Nový záznam v `colors/paints.ts` automaticky rozšíří stávající stránku. [Dashboard Widgets](DASHBOARD-WIDGETS.md) přidává skutečné řízené widgety a oddělené lokální adaptéry. Katalog má nyní osm běžných kategorií, s testovacím Counterem devět.
 
 ## Kde změnu provést
 
 | Odpovědnost | Soubor |
 | --- | --- |
-| Skutečné komponenty a tokeny | `src/design-system/Button/`, `src/design-system/library/` |
+| Skutečné komponenty a tokeny | `src/design-system/Button/`, `src/design-system/library/`, `src/design-system/widgets/` |
 | Registr rodin, loaderů stránek, exportů, variant a vlastností | `src/pages/design-system/library/registry.tsx` |
 | Malý typový kontrakt a validační hranice props | `src/pages/design-system/library/model.ts` |
 | Výběr komponenty, varianty, vlastnosti a boolean | `src/pages/design-system/library/Controls.tsx` |
@@ -76,7 +76,7 @@ Přehled, menu, lazy render, technické detaily i `?catalog=library&section=coun
 
 [Test B — nový typ](https://iriskax.github.io/axolotl-preview/ds-library-v1-1/?catalog=library&section=test-counter&catalogTests=1#design-system): +/- mění hodnotu, Disabled blokuje obě tlačítka. Vyzkoušej Tab a mezerník, reload a Back.
 
-Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled sedm kategorií, Card dvě úrovně Halo Soft (flat/raised) a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
+Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled osm kategorií, Card dvě úrovně Halo Soft (flat/raised) a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
 
 ## Kontroly před předáním
 

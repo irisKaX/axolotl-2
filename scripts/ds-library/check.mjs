@@ -1,3 +1,4 @@
+import { checkWidgets } from "./check-widgets.mjs";
 import { checkSurfaces } from "./check-surfaces.mjs";
 import { checkColors } from "./check-colors.mjs";
 import { chromium, expect } from "@playwright/test";
@@ -39,7 +40,7 @@ try {
       exact: true,
     }),
   ).toBeVisible();
-  await expect(page.locator(".ds-catalog-category")).toHaveCount(7);
+  await expect(page.locator(".ds-catalog-category")).toHaveCount(8);
   await expect(
     page.getByRole("banner", { name: "Ovládání Axolotlu" }),
   ).toBeVisible();
@@ -400,7 +401,7 @@ try {
   await page.keyboard.press("Escape");
   pass("Existing AppHeader settings and providers remain functional");
   await page.goto(`${base}?catalog=library&catalogTests=1#design-system`);
-  await expect(page.locator(".ds-catalog-category")).toHaveCount(8);
+  await expect(page.locator(".ds-catalog-category")).toHaveCount(9);
   await page
     .locator(".ds-catalog-category")
     .filter({ hasText: "Cards & Surfaces" })
@@ -464,7 +465,7 @@ try {
     .analyze();
   expect(fixtureAxe.violations).toEqual([]);
   await page.getByRole("link", { name: "Ukončit testovací režim" }).click();
-  await expect(page.locator(".ds-catalog-category")).toHaveCount(7);
+  await expect(page.locator(".ds-catalog-category")).toHaveCount(8);
   await page.goto(route("surfaces"));
   await page.getByRole("combobox", { name: "Materiál", exact: true }).click();
   await expect(page.getByRole("option")).toHaveCount(2);
@@ -491,6 +492,10 @@ try {
   await checkSurfaces(page, mobile, base, out);
   pass(
     "Unified Halo Soft: six real exports, states/actions, keyboard and touch, dark/light axe, reduced motion, history, dual-theme seven-category overview and portals",
+  );
+  await checkWidgets(page, mobile, base, out);
+  pass(
+    "Dashboard Widgets: local demo, real QR/PNG, validation, focus, theme, accessibility, mobile and isolated state",
   );
   expect(errors).toEqual([]);
   pass("No browser runtime errors");

@@ -176,7 +176,7 @@ export async function checkColors(page, mobile, base, out) {
     page.getByRole("heading", { name: "Colors & Gradients", exact: true }),
   ).toBeVisible();
   await page.goBack();
-  await expect(page.locator(".ds-catalog-category")).toHaveCount(7);
+  await expect(page.locator(".ds-catalog-category")).toHaveCount(8);
   await page.goForward();
   await expect(page.locator(".ds-colors")).toBeVisible();
   await page.reload();

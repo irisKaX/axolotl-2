@@ -52,8 +52,8 @@ describe("Catalog extensibility contract", () => {
     expect(registry.getCategories).toBeTypeOf("function");
     const normal = registry.getCategories(false),
       test = registry.getCategories(true);
-    expect(normal).toHaveLength(7);
-    expect(test).toHaveLength(8);
+    expect(normal).toHaveLength(8);
+    expect(test).toHaveLength(9);
     const normalCard = normal.find((c) => c.id === "surfaces")!.entries[0];
     const testCard = test.find((c) => c.id === "surfaces")!.entries[0];
     expect(normalCard.variants).toHaveLength(2);
@@ -72,4 +72,27 @@ describe("Catalog extensibility contract", () => {
         .variants,
     ).toHaveLength(2);
   });
+});
+
+it("registers only the two usable Dashboard widget exports as proposals", () => {
+  const widgets = registry.categories.find((c) => c.id === "widgets");
+  expect(
+    widgets,
+    "Dashboard Widgets must use the existing category registry",
+  ).toBeDefined();
+  expect(widgets!.entries.map((e) => e.name)).toEqual([
+    "FindPhraseWidget",
+    "MiniQrWidget",
+  ]);
+  expect(
+    widgets!.entries.every(
+      (e) =>
+        e.variants.length === 1 &&
+        e.variants[0].design === "draft" &&
+        !e.variants[0].production,
+    ),
+  ).toBe(true);
+  expect(
+    widgets!.entries[0].properties.size.options!.map((o) => o.value),
+  ).toEqual(["medium", "large"]);
 });

@@ -20,6 +20,7 @@ function walk(dir) {
 }
 walk("src/design-system/Button");
 walk("src/design-system/library");
+walk("src/design-system/widgets");
 walk("src/pages/design-system/library");
 const sourceHashes = Object.fromEntries(
   files.map((path) => [
@@ -43,7 +44,8 @@ writeFileSync(
         "overlays",
         "feedback",
         "navigation",
-      "colors",
+        "colors",
+        "widgets",
       ],
       sourceHashes,
     },

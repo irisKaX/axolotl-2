@@ -1,0 +1,58 @@
+.ds-dashboard-widget {
+  width: 100%;
+  min-width: 0;
+  max-width: 440px;
+}
+.ds-dashboard-widget[data-size="large"] {
+  max-width: 600px;
+}
+.ds-dashboard-widget .ds-card {
+  height: 100%;
+  box-sizing: border-box;
+}
+.ds-dashboard-widget form {
+  display: grid;
+  gap: 16px;
+  margin-block: 20px;
+}
+.ds-dashboard-widget form > .axo-ds-button {
+  justify-self: start;
+}
+.ds-dashboard-widget .ds-segmented {
+  margin: 0;
+}
+.ds-widget-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--ds-muted);
+  font-size: 0.85em;
+}
+.ds-widget-result {
+  min-height: 24px;
+  margin-block: 16px;
+}
+.ds-widget-result p {
+  margin: 8px 0 0;
+  color: var(--ds-muted);
+}
+.ds-widget-qr-preview {
+  margin-block: 20px;
+}
+.ds-widget-qr-preview canvas {
+  width: min(100%, 192px);
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+  background: #fff;
+}
+.ds-widget-qr-preview canvas[hidden] {
+  display: none;
+}
+.ds-widget-qr-preview p {
+  overflow-wrap: anywhere;
+}
+.ds-dashboard-widget .ds-hint {
+  overflow-wrap: anywhere;
+}

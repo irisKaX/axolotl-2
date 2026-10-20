@@ -1,3 +1,7 @@
+import {
+  FindPhraseWidget,
+  MiniQrWidget,
+} from "../../../design-system/widgets/Widgets";
 import { ColorSample } from "./colors/ColorSample";
 import { paints } from "./colors/paints";
 import { Play, Bookmark, Trash2 } from "lucide-react";
@@ -599,6 +603,66 @@ export const categories: Category[] = [
           paintId: selectProperty(paints.map((p) => p.id)),
           selected: { kind: "boolean" },
           onSelect: { kind: "callback" },
+        },
+      }),
+    ],
+  }),
+  defineCategory({
+    id: "widgets",
+    title: "Dashboard Widgets",
+    isolatedTheme: true,
+    description:
+      "Rychlé akce v Halo Soft: Find Phrase demo a funkční Mini QR / PNG.",
+    keyboard:
+      "Tab mezi vstupy a akcemi; Enter odešle formulář. Šipky mění Asset/Fráze. Chyba vstupu vrátí focus do pole. Demo se nespojuje s nástroji ani extension.",
+    load: () => import("./WidgetsPage"),
+    entries: [
+      defineEntry(FindPhraseWidget, {
+        name: "FindPhraseWidget",
+        label: "Find Phrase / Asset Search",
+        source: "src/design-system/widgets/Widgets.tsx",
+        consumers:
+          "Pouze katalogové demo. Budoucí Tool ID: search. Sdílená běhová úloha zatím neexistuje.",
+        api: "size: medium | large; value; mode: asset | phrase; state; onValueChange; onModeChange; onSearch; detailAction. UI je řízené, lokální demo adaptér je oddělený.",
+        variants: [variant("halo-soft", "Halo Soft · demo", {})],
+        properties: {
+          size: {
+            kind: "select",
+            options: [
+              { value: "medium", label: "M · pohodlný vstup" },
+              { value: "large", label: "L · širší plocha" },
+            ],
+          },
+          value: { kind: "text" },
+          mode: selectProperty(["phrase", "asset"]),
+          state: { kind: "node" },
+          onSearch: { kind: "callback" },
+          detailAction: { kind: "node" },
+          onValueChange: { kind: "callback" },
+          onModeChange: { kind: "callback" },
+        },
+      }),
+      defineEntry(MiniQrWidget, {
+        name: "MiniQrWidget",
+        label: "Mini QR",
+        source: "src/design-system/widgets/Widgets.tsx",
+        consumers:
+          "Pouze katalogový prototyp. Budoucí Tool ID: qr. Skutečný lokální createQr / paintQr / exportQrOutput; produkční nástroj se nemění.",
+        api: "size: medium | large; value; state; onValueChange; onGenerate; onDownload. Pevný černobílý PNG 512 × 512; bez extension, sítí a trvalého ukládání.",
+        variants: [variant("halo-soft", "Halo Soft · funkční QR", {})],
+        properties: {
+          size: {
+            kind: "select",
+            options: [
+              { value: "medium", label: "M · kompaktní" },
+              { value: "large", label: "L · širší plocha" },
+            ],
+          },
+          value: { kind: "text" },
+          state: { kind: "node" },
+          onValueChange: { kind: "callback" },
+          onGenerate: { kind: "callback" },
+          onDownload: { kind: "callback" },
         },
       }),
     ],
