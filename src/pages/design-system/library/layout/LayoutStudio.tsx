@@ -37,6 +37,8 @@ import {
   dimensions,
   initialLayout,
   itemWidth,
+  itemSpan,
+  packBottom,
   reduceLayout,
   zoneOptions,
   type Action,
@@ -58,6 +60,9 @@ type Gesture = {
   before?: string;
   height: number;
   size: Size;
+  span: number;
+  startWidth: number;
+  widths: number[];
 };
 type HandleEvents = {
   onPointerDown: (
@@ -246,13 +251,18 @@ function EditableWidget({
           <Select
             size="small"
             aria-label={`Šířka ${title}`}
-            value={item.size}
-            options={options}
+            value={item.zone === "bottom" ? String(itemSpan(item)) : item.size}
+            options={item.zone === "bottom" ? [
+              { value: "1", label: "1 sloupec" },
+              { value: "2", label: "2 sloupce" },
+              { value: "3", label: "Celá šířka" },
+            ] : options}
             onValueChange={(size) =>
               dispatch({
                 type: "resize",
                 id: item.id,
-                size: size as Size,
+                size: item.zone === "bottom" ? item.size : size as Size,
+                span: item.zone === "bottom" ? Number(size) : undefined,
                 height: item.height,
               })
             }
@@ -301,7 +311,10 @@ function EditableWidget({
               dispatch({
                 type: "resize",
                 id: item.id,
-                size: size as Size,
+                size: item.zone === "bottom" ? item.size : size as Size,
+                span: item.zone === "bottom"
+                  ? itemSpan(item) + (e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0)
+                  : undefined,
                 height:
                   item.height +
                   (e.key === "ArrowUp" ? -20 : e.key === "ArrowDown" ? 20 : 0),
@@ -355,6 +368,20 @@ export function LayoutStudio() {
       e.preventDefault();
       e.currentTarget.focus();
       e.currentTarget.setPointerCapture(e.pointerId);
+      const element = e.currentTarget.closest<HTMLElement>(".dls-item")!;
+      const board = element.parentElement!;
+      const columns = getComputedStyle(board).gridTemplateColumns.split(" ").map(parseFloat);
+      const gap = parseFloat(getComputedStyle(board).columnGap);
+      const rect = element.getBoundingClientRect();
+      let start = 0, offset = 0;
+      while (start < columns.length - 1 && offset + columns[start] < rect.left - board.getBoundingClientRect().left) {
+        offset += columns[start] + gap;
+        start++;
+      }
+      const widths = columns.map((_, i) => {
+        const count = i + 1, from = start + count > columns.length ? 0 : start;
+        return columns.slice(from, from + count).reduce((a, b) => a + b, 0) + gap * i;
+      });
       changeGesture({
         mode,
         item,
@@ -363,6 +390,9 @@ export function LayoutStudio() {
         moved: false,
         height: item.height,
         size: item.size,
+        span: itemSpan(item),
+        startWidth: rect.width,
+        widths,
       });
     },
     onPointerMove(e) {
@@ -382,7 +412,14 @@ export function LayoutStudio() {
             d.minHeight,
             Math.min(d.maxHeight, Math.round((g.item.height + dy) / 20) * 20),
           );
-        changeGesture({ ...g, moved, size, height });
+        const desired = g.startWidth + dx;
+        const span = g.widths.reduce((best, width, i) =>
+          Math.abs(width - desired) < Math.abs(g.widths[best] - desired) ? i : best, 0) + 1;
+        changeGesture({
+          ...g, moved, height,
+          size: g.item.zone === "bottom" ? g.item.size : size,
+          span: g.item.zone === "bottom" && Math.abs(dx) > 8 ? span : g.span,
+        });
       } else {
         const target = document
           .elementFromPoint(e.clientX, e.clientY)
@@ -405,6 +442,7 @@ export function LayoutStudio() {
             id: g.item.id,
             size: g.size,
             height: g.height,
+            span: g.span,
           });
         else if (g.zone)
           act({ type: "move", id: g.item.id, zone: g.zone, before: g.before });
@@ -420,13 +458,14 @@ export function LayoutStudio() {
   };
   const items = layout.items.map((i) =>
     gesture?.mode === "resize" && gesture.item.id === i.id
-      ? { ...i, height: gesture.height, size: gesture.size }
+      ? { ...i, height: gesture.height, size: gesture.size, span: gesture.span }
       : i,
   );
   const left = items.filter((i) => i.zone === "left"),
     right = items.filter((i) => i.zone === "right"),
     bottom = items.filter((i) => i.zone === "bottom");
   const rows = Math.max(1, left.length, right.length);
+  const bottomPositions = packBottom(bottom);
   const leftWidth = Math.max(280, ...left.map(itemWidth)),
     rightWidth = Math.max(280, ...right.map(itemWidth));
   const add = (kind: Kind, size?: Size) => {
@@ -595,11 +634,11 @@ export function LayoutStudio() {
             index = peers.indexOf(item);
           const row =
             item.zone === "bottom"
-              ? rows + 1 + Math.floor(index / 3)
+              ? rows + 1 + bottomPositions[index].row
               : index + 1;
           const col =
             item.zone === "bottom"
-              ? (index % 3) + 1
+              ? `${bottomPositions[index].column} / span ${bottomPositions[index].span}`
               : item.zone === "left"
                 ? 1
                 : 3;
@@ -615,6 +654,7 @@ export function LayoutStudio() {
                   gridRow: row,
                   "--dls-height": `${item.height}px`,
                   "--dls-width": `${itemWidth(item)}px`,
+                  "--dls-span": itemSpan(item),
                 } as CSSProperties
               }
               dispatch={act}

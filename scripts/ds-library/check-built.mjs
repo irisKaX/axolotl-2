@@ -25,7 +25,9 @@ try {
     await new Promise((r) => setTimeout(r, 250));
   }
   if (!ready) throw new Error("Built preview did not start");
-  const check = process.argv.includes("--layout-only")
+  const check = process.argv.includes("--resize-only")
+    ? "scripts/ds-library/check-resize.mjs"
+    : process.argv.includes("--layout-only")
     ? "scripts/ds-library/check-layout-only.mjs"
     : "scripts/ds-library/check.mjs";
   const child = spawn("node", [check], {

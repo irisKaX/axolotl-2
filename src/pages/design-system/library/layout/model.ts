@@ -20,6 +20,7 @@ export type Item = {
   zone: Zone;
   size: Size;
   height: number;
+  span?: number;
 };
 export const zoneOptions = [
   { value: "left", label: "Levá zóna" },
@@ -79,7 +80,7 @@ export type Action =
   | { type: "remove"; id: string }
   | { type: "move"; id: string; zone: Zone; before?: string }
   | { type: "step"; id: string; direction: -1 | 1 }
-  | { type: "resize"; id: string; size: Size; height: number }
+  | { type: "resize"; id: string; size: Size; height: number; span?: number }
   | { type: "reset" };
 export function reduceLayout(state: Layout, action: Action): Layout {
   if (action.type === "reset") return initialLayout();
@@ -123,6 +124,7 @@ export function reduceLayout(state: Layout, action: Action): Layout {
           ? {
               ...x,
               size,
+              ...(action.span === undefined ? {} : { span: Math.max(1, Math.min(3, action.span)) }),
               height: Math.max(minHeight, Math.min(maxHeight, action.height)),
             }
           : x,
@@ -153,4 +155,22 @@ export function reduceLayout(state: Layout, action: Action): Layout {
 export function itemWidth(item: Item) {
   if (item.size === "large") return dimensions[item.kind].wideWidth;
   return item.kind === "generic" && item.size === "small" ? 200 : 280;
+}
+export const itemSpan = (item: Item) => item.span ?? 1;
+
+// First-fit placement fills earlier holes when a later small card fits them.
+// Stable item keys stay under the same React parent when changing zones.
+export function packBottom(items: Item[]) {
+  const occupied: boolean[][] = [];
+  return items.map((item) => {
+    const span = itemSpan(item);
+    for (let row = 0; ; row++) {
+      occupied[row] ??= [false, false, false];
+      for (let column = 0; column <= 3 - span; column++) {
+        if (occupied[row].slice(column, column + span).some(Boolean)) continue;
+        occupied[row].fill(true, column, column + span);
+        return { row, column: column + 1, span };
+      }
+    }
+  });
 }
