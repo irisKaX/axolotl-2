@@ -40,6 +40,12 @@ export async function checkWidgets(page, mobile, base, out) {
         })
         .click();
     await expect(scope).toHaveAttribute("data-theme", theme);
+    // Opaque local backing is required: axe cannot infer a WebGL backdrop.
+    expect(
+      await page
+        .locator(".ds-widget-studio")
+        .evaluate((el) => getComputedStyle(el).backgroundColor),
+    ).toBe(theme === "light" ? "rgb(238, 234, 243)" : "rgb(32, 30, 38)");
     await search.getByRole("button", { name: "Hledat", exact: true }).click();
     await expect(
       search.getByLabel("Hledaná fráze", { exact: true }),
@@ -204,9 +210,30 @@ export async function checkWidgets(page, mobile, base, out) {
   for (const width of [390, 320]) {
     await mobile.setViewportSize({ width, height: 844 });
     await mobile.goto(route);
+    const mobileTheme = width === 320 ? "light" : "dark";
+    if (
+      (await mobile
+        .locator(".ds-widget-studio")
+        .locator("..")
+        .getAttribute("data-theme")) !== mobileTheme
+    )
+      await mobile
+        .getByRole("button", {
+          name:
+            mobileTheme === "light"
+              ? "Světlý náhled knihovny"
+              : "Tmavý náhled knihovny",
+          exact: true,
+        })
+        .click();
     for (const kind of ["Find Phrase / Asset Search", "Mini QR"]) {
       await choose(mobile, "Komponenta", kind);
       const widget = mobile.locator(".ds-catalog-stage .ds-dashboard-widget");
+      expect(
+        await widget
+          .locator('form input:not([type="radio"])')
+          .evaluate((el) => el.getBoundingClientRect().width),
+      ).toBeGreaterThanOrEqual(160);
       if (kind === "Mini QR") {
         await widget
           .getByLabel("URL pro QR", { exact: true })

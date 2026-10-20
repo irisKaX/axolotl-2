@@ -1,3 +1,11 @@
+.ds-widget-studio {
+  background: var(--ds-inset);
+  color: var(--ds-text);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius);
+  padding: clamp(16px, 3vw, 32px);
+  min-width: 0;
+}
 .ds-widget-studio .ds-catalog-stage {
   align-items: start;
 }
@@ -26,5 +34,13 @@
 @media (max-width: 800px) {
   .ds-widget-studio .ds-catalog-example-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .ds-widget-studio {
+    padding: 12px;
+  }
+  .ds-widget-studio .ds-catalog-stage {
+    padding: 16px;
   }
 }

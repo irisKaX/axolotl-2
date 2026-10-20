@@ -43,4 +43,4 @@ Aktuální skutečné výsledky jsou v CI a v publikovaném `evidence/verificati
 
 Header, skutečný Dashboard, Tools, Workspace, extension, Navigation & Tabs a původní komponentové exporty se nemění. Bez nové závislosti, skeneru, sdílené úlohy, drag & drop, resize, ukládání layoutu, Office či Notebooku.
 
-Stav ukázek je lokální a při opuštění stránky se neukládá. Dark/light je pouze kontext této kategorie. Mobilní browser test je emulace Chromia; fyzický iPhone/Safari a ruční screen-reader audit zůstávají samostatnou kontrolou.
+Stav ukázek je lokální a při opuštění stránky se neukládá. Dark/light je pouze kontext této kategorie. Náhled má vlastní neprůhledný podklad ze stávajících tokenů, aby světlý textový kontext nezávisel na pozadí aplikace. Mobilní browser test je emulace Chromia; fyzický iPhone/Safari a ruční screen-reader audit zůstávají samostatnou kontrolou.
