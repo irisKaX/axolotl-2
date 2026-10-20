@@ -257,39 +257,17 @@ export async function checkLayout(page, mobile, base, out) {
     );
     await d.getByRole("button", { name: "Hotovo", exact: true }).tap();
     await expect(d).toHaveAttribute("data-editing", "false");
-    await mobile.evaluate(() => {
-      scrollTo(0, 0);
-      window.__layoutTouchEvents = [];
-      for (const type of ["touchstart", "touchend", "click", "change"])
-        document.addEventListener(
-          type,
-          (event) => {
-            const target = event.target;
-            window.__layoutTouchEvents.push({
-              type,
-              at: performance.now(),
-              tag: target.tagName,
-              text: target.closest("label")?.textContent?.trim(),
-              checked: target.checked,
-              scrollY,
-            });
-          },
-          { once: true, capture: true },
-        );
-    });
+    await mobile.evaluate(() => scrollTo(0, 0));
     const realToggle = d.getByRole("switch", {
       name: "Skutečné UI widgetů",
       exact: true,
     });
+    // A same-URL hash navigation can retain the document and its local state.
+    if (await realToggle.isChecked()) {
+      await realToggle.tap();
+      await expect(realToggle).not.toBeChecked();
+    }
     await realToggle.tap();
-    await writeFile(
-      `${out}/layout-touch-${width}.json`,
-      JSON.stringify(
-        await mobile.evaluate(() => window.__layoutTouchEvents),
-        null,
-        2,
-      ),
-    );
     await expect(realToggle).toBeChecked();
     await expect(d.getByLabel("Hledaná fráze", { exact: true })).toBeVisible();
     expect(
