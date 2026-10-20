@@ -48,7 +48,7 @@ describe("layout editor", () => {
       screen.getByRole("button", { name: "Přesunout Find Phrase" }),
       { key: "ArrowRight" },
     );
-    expect(search).toHaveAttribute("data-layout-zone", "right");
+    expect(search).toHaveAttribute("data-layout-item", "search-1");
     expect(within(search).getByLabelText("Hledaná fráze")).toHaveValue(
       "Rozepsaný dotaz",
     );

@@ -1,77 +1,32 @@
-import { describe, expect, it } from "vitest";
-import { initialLayout, reduceLayout, compositions, dimensions } from "./model";
-describe("layout sandbox", () => {
-  it("resizes new bottom widgets across columns independently of height", () => {
-    let state = reduceLayout(initialLayout(), { type: "add", kind: "generic" });
-    const item = state.items.at(-1)!;
-    state = reduceLayout(state, { type: "resize", id: item.id, size: item.size, height: item.height, span: 3 });
-    expect(state.items.at(-1)).toMatchObject({ span: 3, height: item.height });
-
-  });
-  it("keeps the centered default and fixed anchors outside editable items", () => {
+import { describe, expect, it } from 'vitest';
+import { initialLayout, reduceLayout, layoutFor, available, columns } from './model';
+describe('free dashboard grid', () => {
+  it('protects Office and rejects collisions without moving other widgets', () => {
     const state = initialLayout();
-    expect(state.composition).toBe("centered");
-    expect(state.items.map((x) => x.kind)).toEqual(["search", "qr"]);
-    expect(state.items.map((x) => x.zone)).toEqual(["left", "right"]);
-    for (const id of ["office", "notebook"])
-      expect(reduceLayout(state, { type: "remove", id })).toEqual(state);
-    expect(compositions.length).toBeLessThanOrEqual(3);
+    expect(reduceLayout(state, { type: 'remove', id: 'office' })).toBe(state);
+    expect(reduceLayout(state, { type: 'adjust', view: 'desktop', id: 'office', patch: { y: 0 } })).toBe(state);
+    expect(reduceLayout(state, { type: 'adjust', view: 'desktop', id: 'search-1', patch: { x: 8, y: 4 } })).toBe(state);
   });
-  it("moves and reorders by stable id, without losing dimensions", () => {
-    let state = reduceLayout(initialLayout(), {
-      type: "add",
-      kind: "generic",
-      size: "small",
-    });
-    const item = state.items.at(-1)!;
-    state = reduceLayout(state, {
-      type: "move",
-      id: item.id,
-      zone: "left",
-      before: "search-1",
-    });
-    expect(
-      state.items.filter((x) => x.zone === "left").map((x) => x.id),
-    ).toEqual([item.id, "search-1"]);
-    state = reduceLayout(state, { type: "step", id: item.id, direction: 1 });
-    expect(
-      state.items.filter((x) => x.zone === "left").map((x) => x.id),
-    ).toEqual(["search-1", item.id]);
-    expect(state.items.find((x) => x.id === item.id)?.size).toBe("small");
+  it('keeps manual positions through add/remove and separate responsive layouts', () => {
+    let state = reduceLayout(initialLayout(), { type: 'adjust', view: 'desktop', id: 'search-1', patch: { y: 35, w: 24 } });
+    const desktop = layoutFor(state, 'desktop');
+    state = reduceLayout(state, { type: 'adjust', view: 'mobile', id: 'qr-2', patch: { y: 45 } });
+    expect(layoutFor(state, 'desktop')).toEqual(desktop);
+    state = reduceLayout(state, { type: 'add', kind: 'generic', size: 'small' });
+    expect(layoutFor(state, 'desktop').find(x => x.i === 'search-1')).toMatchObject({ y: 35, w: 24 });
+    for (const view of ['desktop', 'tablet', 'mobile'] as const) {
+      const layout = layoutFor(state, view);
+      expect(layout.every(item => available(layout, item, columns[view]))).toBe(true);
+    }
+    state = reduceLayout(state, { type: 'remove', id: 'generic-3' });
+    expect(layoutFor(state, 'desktop')).toEqual(desktop);
   });
-  it("bounds resize by content and permits removing optional items only", () => {
-    let state = reduceLayout(initialLayout(), {
-      type: "resize",
-      id: "search-1",
-      size: "small",
-      height: 20,
-    });
-    expect(state.items[0].size).toBe("medium");
-    expect(state.items[0].height).toBe(dimensions.search.minHeight);
-    state = reduceLayout(state, {
-      type: "resize",
-      id: "qr-2",
-      size: "large",
-      height: 5000,
-    });
-    expect(state.items[1].height).toBe(dimensions.qr.maxHeight);
-    expect(
-      reduceLayout(state, { type: "remove", id: "qr-2" }).items,
-    ).toHaveLength(1);
-  });
-  it("changes composition without replacing items and resets predictably", () => {
-    const state = reduceLayout(initialLayout(), {
-      type: "resize",
-      id: "search-1",
-      size: "large",
-      height: 360,
-    });
-    const staggered = reduceLayout(state, {
-      type: "composition",
-      value: "staggered",
-    });
-    expect(staggered.items).toEqual(state.items);
-    expect(staggered.composition).toBe("staggered");
-    expect(reduceLayout(staggered, { type: "reset" })).toEqual(initialLayout());
+  it('restores either existing composition without retaining added widgets', () => {
+    let state = reduceLayout(initialLayout(), { type: 'composition', value: 'staggered' });
+    state = reduceLayout(state, { type: 'add', kind: 'generic' });
+    state = reduceLayout(state, { type: 'reset' });
+    expect(state.composition).toBe('staggered');
+    expect(state.items).toHaveLength(2);
+    expect(layoutFor(state, 'desktop').find(x => x.i === 'office')).toMatchObject({ x: 8, y: 6, static: true });
   });
 });

@@ -671,13 +671,13 @@ export const categories: Category[] = [
   defineCategory({
     id: "layout", title: "Dashboard Layout Studio", isolatedTheme: true, workspace: true,
     description: "Kompozice pracovní plochy: pevný Office, trvalý Notebook a upravitelné widgety.",
-    keyboard: "Přesun a rozměry mají tlačítka i klávesnicovou alternativu. Escape zruší gesto. Veškeré změny jsou pouze v paměti.",
+    keyboard: "Přesun a rozměry: tažení, šipky na úchytech nebo číselné ovládání. Veškeré změny jsou pouze v paměti.",
     load: () => import("./LayoutPage"),
     entries: [defineEntry(LayoutStudio, {
       name: "LayoutStudio", label: "Dashboard Layout Studio",
       source: "src/pages/design-system/library/layout/LayoutStudio.tsx",
       consumers: "Pouze tato návrhová stránka. Používá skutečné FindPhraseWidget a MiniQrWidget; nemění produkční Dashboard ani AppHeader.",
-      api: "Lokální reducer, dvě kompozice. Office a Notebook jsou pevné. Volitelné widgety: zóna, pořadí, šířka a minimální výška. Bez persistence.",
+      api: "React Grid Layout, dvě kompozice, responzivní souřadnice x/y a rozměry w/h. Office a Notebook jsou pevné. Bez automatického zhušťování a persistence.",
       variants: [variant("centered", "Vyvážený střed", {}), variant("staggered", "Pracovní patra", {})], properties: {},
     })],
   }),

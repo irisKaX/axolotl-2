@@ -1,85 +1,18 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useReducer,
-  useRef,
-  useState,
-  type CSSProperties,
-  type PointerEvent,
-} from "react";
-import {
-  BookOpen,
-  Grip,
-  MoveDownRight,
-  Plus,
-  LockKeyhole,
-  ArrowUp,
-  ArrowDown,
-  Trash2,
-} from "lucide-react";
-import { Button } from "../../../../design-system/Button";
-import {
-  Card,
-  Dialog,
-  Select,
-  SegmentedControl,
-  Switch,
-} from "../../../../design-system/library";
-import {
-  FindPhraseWidget,
-  MiniQrWidget,
-} from "../../../../design-system/widgets/Widgets";
-import {
-  useFindPhraseDemo,
-  useMiniQr,
-} from "../../../../design-system/widgets/state";
-import {
-  compositions,
-  dimensions,
-  initialLayout,
-  itemWidth,
-  itemSpan,
-  reduceLayout,
-  zoneOptions,
-  type Action,
-  type Composition,
-  type Item,
-  type Kind,
-  type Size,
-  type Zone,
-} from "./model";
-import { useDesignSystem } from "../../../../design-system/library/Provider";
-import "./layout.css";
-type Gesture = {
-  mode: "move" | "resize";
-  item: Item;
-  x: number;
-  y: number;
-  moved: boolean;
-  zone?: Zone;
-  before?: string;
-  height: number;
-  size: Size;
-  span: number;
-  startWidth: number;
-  widths: number[];
-};
-type HandleEvents = {
-  onPointerDown: (
-    e: PointerEvent<HTMLButtonElement>,
-    item: Item,
-    mode: Gesture["mode"],
-  ) => void;
-  onPointerMove: (e: PointerEvent<HTMLButtonElement>) => void;
-  onPointerUp: () => void;
-  onPointerCancel: () => void;
-  onLostPointerCapture: () => void;
-};
-const sizes = [
-  { value: "small", label: "S · kompaktní" },
-  { value: "medium", label: "M · doporučená" },
-  { value: "large", label: "L · širší" },
-];
+import { useReducer, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { BookOpen, Grip, Plus, LockKeyhole, Trash2, Settings2 } from 'lucide-react';
+import { GridLayout, noCompactor, useContainerWidth, type LayoutItem } from 'react-grid-layout';
+import { Button } from '../../../../design-system/Button';
+import { Card, Dialog, SegmentedControl, Switch } from '../../../../design-system/library';
+import { FindPhraseWidget, MiniQrWidget } from '../../../../design-system/widgets/Widgets';
+import { useFindPhraseDemo, useMiniQr } from '../../../../design-system/widgets/state';
+import { useDesignSystem } from '../../../../design-system/library/Provider';
+import { compositions, dimensions, initialLayout, reduceLayout, layoutFor, viewFor, columns,
+  type Composition, type Item, type Kind, type Size } from './model';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+import './layout.css';
+const compactor = { ...noCompactor, preventCollision: true };
+const sizes = [{ value: 'small', label: 'S · kompaktní' }, { value: 'medium', label: 'M · doporučená' }, { value: 'large', label: 'L · širší' }];
 function WidgetContent({ item, real }: { item: Item; real: boolean }) {
   // Adapters live at a stable keyed position even while moving or hiding the UI.
   const search = useFindPhraseDemo(),
@@ -148,549 +81,117 @@ function WidgetContent({ item, real }: { item: Item; real: boolean }) {
     </Card>
   );
 }
-function EditableWidget({
-  item,
-  real,
-  editing,
-  style,
-  dispatch,
-  handles,
-  active,
-  onRemove,
-}: {
-  item: Item;
-  real: boolean;
-  editing: boolean;
-  style: CSSProperties;
-  dispatch: (a: Action) => void;
-  handles: HandleEvents;
-  active: boolean;
-  onRemove: () => void;
-}) {
-  const title = dimensions[item.kind].title;
-  return (
-    <section
-      className="dls-item"
-      aria-label={`${title} · volitelný widget`}
-      data-layout-item={item.id}
-      data-layout-zone={item.zone}
-      data-size={item.size}
-      data-dragging={active || undefined}
-      style={style}
-    >
-      {editing && (
-        <div className="dls-editor">
-          <div className="dls-edit-actions">
-            <Button
-              variant="icon"
-              size="small"
-              className="dls-drag"
-              aria-label={`Přesunout ${title}`}
-              aria-describedby="dls-move-help"
-              icon={<Grip />}
-              {...handles}
-              onPointerDown={(e) => handles.onPointerDown(e, item, "move")}
-              onKeyDown={(e) => {
-                const zone =
-                  e.key === "ArrowLeft"
-                    ? "left"
-                    : e.key === "ArrowRight"
-                      ? "right"
-                      : e.key === "End"
-                        ? "bottom"
-                        : null;
-                if (zone) {
-                  e.preventDefault();
-                  dispatch({ type: "move", id: item.id, zone });
-                } else if (["ArrowUp", "ArrowDown"].includes(e.key)) {
-                  e.preventDefault();
-                  dispatch({
-                    type: "step",
-                    id: item.id,
-                    direction: e.key === "ArrowUp" ? -1 : 1,
-                  });
-                }
-              }}
-            />
-            <Button
-              variant="icon"
-              size="small"
-              aria-label={`${title} dříve v zóně`}
-              icon={<ArrowUp />}
-              onClick={() =>
-                dispatch({ type: "step", id: item.id, direction: -1 })
-              }
-            />
-            <Button
-              variant="icon"
-              size="small"
-              aria-label={`${title} později v zóně`}
-              icon={<ArrowDown />}
-              onClick={() =>
-                dispatch({ type: "step", id: item.id, direction: 1 })
-              }
-            />
-            <Button
-              variant="icon"
-              size="small"
-              aria-label={`Odebrat ${title}`}
-              icon={<Trash2 />}
-              onClick={onRemove}
-            />
-          </div>
-          <Select
-            size="small"
-            aria-label={`Umístění ${title}`}
-            value={item.zone}
-            options={[...zoneOptions]}
-            onValueChange={(zone) =>
-              dispatch({ type: "move", id: item.id, zone: zone as Zone })
-            }
-          />
-          <Select
-            size="small"
-            aria-label={`Šířka ${title}`}
-            value={String(itemSpan(item))}
-            options={[
-              { value: "1", label: "1 sloupec" },
-              { value: "2", label: "2 sloupce" },
-              { value: "3", label: "Celá šířka" },
-            ]}
-            onValueChange={(size) =>
-              dispatch({
-                type: "resize",
-                id: item.id,
-                size: item.size,
-                span: Number(size),
-                height: item.height,
-              })
-            }
-          />
-        </div>
-      )}
-      <WidgetContent item={item} real={real} />
-      {editing && (
-        <div className="dls-resize-row">
-          <span className="ds-hint">
-            Min. výška {Math.round(item.height)} px · obsah může růst
-          </span>
-          <Button
-            variant="icon"
-            size="small"
-            className="dls-resize"
-            aria-label={`Změnit rozměry ${title}`}
-            aria-describedby="dls-resize-help"
-            icon={<MoveDownRight />}
-            {...handles}
-            onPointerDown={(e) => handles.onPointerDown(e, item, "resize")}
-            onKeyDown={(e) => {
-              if (
-                !["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(
-                  e.key,
-                )
-              )
-                return;
-              e.preventDefault();
-              dispatch({
-                type: "resize",
-                id: item.id,
-                size: item.size,
-                span: itemSpan(item) + (e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0),
-                height:
-                  item.height +
-                  (e.key === "ArrowUp" ? -20 : e.key === "ArrowDown" ? 20 : 0),
-              });
-            }}
-          />
-        </div>
-      )}
-    </section>
-  );
-}
 export function LayoutStudio() {
-  const [layout, dispatch] = useReducer(reduceLayout, undefined, initialLayout);
-  const [editing, setEditing] = useState(false),
-    [real, setReal] = useState(false),
-    [announcement, setAnnouncement] = useState(""),
-    [addOpen, setAddOpen] = useState(false);
-  const [gesture, setGesture] = useState<Gesture | null>(null),
-    gestureRef = useRef<Gesture | null>(null);
-  const editButton = useRef<HTMLButtonElement>(null);
-  const boardRef = useRef<HTMLDivElement>(null);
-  useLayoutEffect(() => {
-    const board = boardRef.current;
-    if (!board || typeof ResizeObserver === "undefined") return;
-    const measure = (element: HTMLElement) => {
-      const rows = Math.ceil((element.getBoundingClientRect().height + 16) / 4);
-      element.style.setProperty("--dls-rows", String(Math.max(1, rows)));
-    };
-    const observer = new ResizeObserver(entries => {
-      for (const entry of entries) measure(entry.target as HTMLElement);
-    });
-    // CSS Grid owns collision handling and dense placement. Observe natural
-    // heights, not a shared row height; the extra 16px is the existing gutter.
-    for (const child of board.children) {
-      measure(child as HTMLElement);
-      observer.observe(child);
-    }
-    return () => observer.disconnect();
-  }, [layout.items]);
+  const [state, dispatch] = useReducer(reduceLayout, undefined, initialLayout);
+  const [editing, setEditing] = useState(false), [real, setReal] = useState(false);
+  const [addOpen, setAddOpen] = useState(false), [selected, setSelected] = useState<string | null>(null);
+  const [announcement, setAnnouncement] = useState('');
+  const { width, containerRef } = useContainerWidth({ initialWidth: 1200 });
   const env = useDesignSystem();
-  const changeGesture = (g: Gesture | null) => {
-    gestureRef.current = g;
-    setGesture(g);
-  };
-  const act = (a: Action) => {
-    dispatch(a);
-    if (a.type === "move")
-      setAnnouncement(
-        `Widget přesunut: ${zoneOptions.find((z) => z.value === a.zone)?.label}.`,
-      );
-    else if (a.type === "step")
-      setAnnouncement("Pořadí widgetu v zóně upraveno.");
-    else if (a.type === "resize")
-      setAnnouncement("Rozměry widgetu upraveny v povolených mezích.");
-  };
-  useEffect(() => {
-    const cancel = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && gestureRef.current) {
-        e.preventDefault();
-        changeGesture(null);
-        setAnnouncement("Změna zrušena.");
-      }
-    };
-    window.addEventListener("keydown", cancel);
-    return () => window.removeEventListener("keydown", cancel);
-  }, []);
-  const handles: HandleEvents = {
-    onPointerDown(e, item, mode) {
-      if (e.button !== 0) return;
-      e.preventDefault();
-      e.currentTarget.focus();
-      e.currentTarget.setPointerCapture(e.pointerId);
-      const element = e.currentTarget.closest<HTMLElement>(".dls-item")!;
-      const board = element.parentElement!;
-      const columns = getComputedStyle(board).gridTemplateColumns.split(" ").map(parseFloat);
-      const gap = parseFloat(getComputedStyle(board).columnGap);
-      const rect = element.getBoundingClientRect();
-      let start = 0, offset = 0;
-      while (start < columns.length - 1 && offset + columns[start] < rect.left - board.getBoundingClientRect().left) {
-        offset += columns[start] + gap;
-        start++;
-      }
-      const widths = columns.map((_, i) => {
-        const count = i + 1, from = start + count > columns.length ? 0 : start;
-        return columns.slice(from, from + count).reduce((a, b) => a + b, 0) + gap * i;
-      });
-      changeGesture({
-        mode,
-        item,
-        x: e.clientX,
-        y: e.clientY,
-        moved: false,
-        height: item.height,
-        size: item.size,
-        span: itemSpan(item),
-        startWidth: rect.width,
-        widths,
-      });
-    },
-    onPointerMove(e) {
-      const g = gestureRef.current;
-      if (!g) return;
-      const dx = e.clientX - g.x,
-        dy = e.clientY - g.y;
-      const moved = g.moved || Math.hypot(dx, dy) > 8;
-      if (g.mode === "resize") {
-        const d = dimensions[g.item.kind],
-          height = Math.max(
-            d.minHeight,
-            Math.min(d.maxHeight, Math.round((g.item.height + dy) / 20) * 20),
-          );
-        const desired = g.startWidth + dx;
-        const span = g.widths.reduce((best, width, i) =>
-          Math.abs(width - desired) < Math.abs(g.widths[best] - desired) ? i : best, 0) + 1;
-        changeGesture({
-          ...g, moved, height,
-          size: g.item.size,
-          span: Math.abs(dx) > 8 ? span : g.span,
-        });
-      } else {
-        const target = document
-          .elementFromPoint(e.clientX, e.clientY)
-          ?.closest<HTMLElement>("[data-layout-zone]");
-        const zone = target?.dataset.layoutZone as Zone | undefined;
-        changeGesture({
-          ...g,
-          moved,
-          zone,
-          before: target?.dataset.layoutItem,
-        });
-      }
-    },
-    onPointerUp() {
-      const g = gestureRef.current;
-      if (g?.moved) {
-        if (g.mode === "resize")
-          act({
-            type: "resize",
-            id: g.item.id,
-            size: g.size,
-            height: g.height,
-            span: g.span,
-          });
-        else if (g.zone)
-          act({ type: "move", id: g.item.id, zone: g.zone, before: g.before });
-      }
-      changeGesture(null);
-    },
-    onPointerCancel() {
-      changeGesture(null);
-    },
-    onLostPointerCapture() {
-      changeGesture(null);
-    },
-  };
-  const items = layout.items.map((i) =>
-    gesture?.mode === "resize" && gesture.item.id === i.id
-      ? { ...i, height: gesture.height, size: gesture.size, span: gesture.span }
-      : i,
-  );
-  const left = items.filter((i) => i.zone === "left"),
-    right = items.filter((i) => i.zone === "right");
-  const leftWidth = Math.max(280, ...left.map(itemWidth)),
-    rightWidth = Math.max(280, ...right.map(itemWidth));
-  const add = (kind: Kind, size?: Size) => {
-    dispatch({ type: "add", kind, size });
-    setAddOpen(false);
-    setAnnouncement(`${dimensions[kind].title} přidán do dolní zóny.`);
-  };
-  return (
-    <div
-      className="dls"
-      data-composition={layout.composition}
-      data-editing={editing}
-      data-theme={env.theme}
-    >
-      <div className="dls-toolbar">
-        <SegmentedControl
-          label="Kompozice pracovní plochy"
-          items={compositions.map(({ value, label }) => ({ value, label }))}
-          value={layout.composition}
-          onValueChange={(value) => {
-            changeGesture(null);
-            dispatch({ type: "composition", value: value as Composition });
-          }}
-        />
-        <div className="ds-actions">
-          <Switch
-            label="Skutečné UI widgetů"
-            checked={real}
-            onChange={(e) => setReal(e.currentTarget.checked)}
-          />
-          <Dialog
-            title="Notebook · trvalý přístup"
-            description="Strukturální placeholder. Skutečný Notebook se zde neotevírá."
-            trigger={
-              <Button size="small" icon={<BookOpen />}>
-                Notebook
-              </Button>
-            }
-          >
-            <p>
-              Notebook zůstává dostupný v každé kompozici a nelze jej odstranit
-              z pracovní plochy.
-            </p>
-          </Dialog>
-          <Button
-            ref={editButton}
-            size="small"
-            variant={editing ? "primary" : "secondary"}
-            onClick={() => {
-              changeGesture(null);
-              setEditing(!editing);
-            }}
-          >
-            {editing ? "Hotovo" : "Upravit Dashboard"}
-          </Button>
-        </div>
+  const editButton = useRef<HTMLButtonElement>(null);
+  const view = viewFor(width), cols = columns[view], grid = layoutFor(state, view);
+  const selectedItem = state.items.find(item => item.id === selected);
+  const selectedGeometry = grid.find(item => item.i === selected);
+  function adjust(id: string, patch: Partial<Pick<LayoutItem, 'x' | 'y' | 'w' | 'h'>>) {
+    const action = { type: 'adjust' as const, view, id, patch };
+    const next = reduceLayout(state, action);
+    dispatch(action);
+    setAnnouncement(next === state ? 'Místo je obsazené. Zvolte volnou pozici nebo menší rozměr.' : 'Pozice a rozměry upraveny.');
+  }
+  function keyboard(e: KeyboardEvent, id: string, resize = false) {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+    e.preventDefault();
+    const item = grid.find(item => item.i === id)!;
+    const dx = e.key === 'ArrowLeft' ? -1 : e.key === 'ArrowRight' ? 1 : 0;
+    const dy = e.key === 'ArrowUp' ? -1 : e.key === 'ArrowDown' ? 1 : 0;
+    adjust(id, resize ? { w: item.w + dx, h: item.h + dy } : { x: item.x + dx, y: item.y + dy });
+  }
+  function add(kind: Kind, size?: Size) {
+    dispatch({ type: 'add', kind, size }); setAddOpen(false);
+    setAnnouncement(`${dimensions[kind].title} přidán na první volné místo.`);
+  }
+  return <div className="dls" data-composition={state.composition} data-editing={editing} data-theme={env.theme}>
+    <div className="dls-toolbar">
+      <SegmentedControl label="Kompozice pracovní plochy" items={compositions.map(({value, label}) => ({value, label}))}
+        value={state.composition} onValueChange={value => { dispatch({ type: 'composition', value: value as Composition }); setSelected(null); }} />
+      <div className="ds-actions">
+        <Switch label="Skutečné UI widgetů" checked={real} onChange={e => setReal(e.currentTarget.checked)} />
+        <Dialog title="Notebook · trvalý přístup" description="Strukturální placeholder. Skutečný Notebook se zde neotevírá."
+          trigger={<Button size="small" icon={<BookOpen />}>Notebook</Button>}>
+          <p>Notebook zůstává dostupný v každé kompozici a nelze jej odstranit z pracovní plochy.</p>
+        </Dialog>
+        <Button ref={editButton} size="small" variant={editing ? 'primary' : 'secondary'} onClick={() => { setEditing(!editing); setSelected(null); }}>
+          {editing ? 'Hotovo' : 'Upravit Dashboard'}
+        </Button>
       </div>
-      {editing && (
-        <div className="dls-edit-bar">
-          <div className="ds-actions">
-            <Dialog
-              title="Přidat widget"
-              description="Widget se přidá do dolní zóny. Poté jej můžete přesunout."
-              open={addOpen}
-              onOpenChange={setAddOpen}
-              trigger={
-                <Button size="small" icon={<Plus />}>
-                  Přidat widget
-                </Button>
-              }
-            >
-              <div className="dls-add-list">
-                <Button onClick={() => add("search")}>
-                  Find Phrase · demo
-                </Button>
-                <Button onClick={() => add("qr")}>
-                  Mini QR · lokální generování
-                </Button>
-                {sizes.map((s) => (
-                  <Button
-                    key={s.value}
-                    onClick={() => add("generic", s.value as Size)}
-                  >
-                    Obecný widget {s.label}
-                  </Button>
-                ))}
-              </div>
-            </Dialog>
-            <Button
-              size="small"
-              variant="ghost"
-              onClick={() => {
-                changeGesture(null);
-                dispatch({ type: "reset" });
-                setAnnouncement("Obnoveno výchozí rozložení.");
-              }}
-            >
-              Obnovit výchozí
-            </Button>
-          </div>
-          <div className="dls-drop-tray" aria-label="Cílové zóny přesunu">
-            {zoneOptions.map((z) => (
-              <span
-                key={z.value}
-                data-layout-zone={z.value}
-                data-drop-target={
-                  (gesture?.mode === "move" && gesture.zone === z.value) ||
-                  undefined
-                }
-              >
-                {z.label}
-              </span>
-            ))}
-          </div>
-          <p id="dls-move-help">
-            Přetáhněte úchyt do zóny nebo na widget. Alternativa: Umístění a
-            šipky pořadí. Na úchytu ←/→ mění zónu, ↑/↓ pořadí, End přesune dolů.
-            Escape zruší gesto.
-          </p>
-          <p id="dls-resize-help">
-            Rozměry: táhněte pravý dolní úchyt; šipky na něm mění šířku/výšku.
-            Obsah nikdy neořezáváme.
-          </p>
-        </div>
-      )}
-      <h2 className="dls-sr-only">Pracovní plocha</h2>
-      <div
-        ref={boardRef}
-        className="dls-board"
-        style={
-          {
-            "--dls-left": `${leftWidth}px`,
-            "--dls-right": `${rightWidth}px`,
-          } as CSSProperties
-        }
-      >
-        <section
-          className="dls-office"
-          aria-label="Pevná centrální zóna"
-        >
-          <Card title="Axolotl Office" density="compact">
-            <div className="dls-office-content">
-              <span className="ds-catalog-eyebrow">
-                <LockKeyhole size={14} aria-hidden="true" /> Pevný střed
-                pracovní plochy
-              </span>
-              <div className="dls-office-scene" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <p>Místo pro budoucí širokou scénu.</p>
-              <span className="ds-hint">
-                Pouze prostorový placeholder · bez postav a animací
-              </span>
-            </div>
-          </Card>
-        </section>
-        {items.map((item) => {
-          const span = itemSpan(item);
-          const col = span > 1 || item.zone === "bottom"
-            ? `span ${span}` : item.zone === "left" ? 1 : 3;
-          return (
-            <EditableWidget
-              key={item.id}
-              item={item}
-              real={real}
-              editing={editing}
-              style={
-                {
-                  gridColumn: col,
-                  "--dls-offset": layout.composition === "staggered" && item.id === right[0]?.id && span === 1 ? "80px" : "0px",
-                  "--dls-height": `${item.height}px`,
-                  "--dls-width": `${itemWidth(item)}px`,
-                  "--dls-span": itemSpan(item),
-                } as CSSProperties
-              }
-              dispatch={act}
-              handles={handles}
-              active={gesture?.item.id === item.id}
-              onRemove={() => {
-                dispatch({ type: "remove", id: item.id });
-                setAnnouncement(`${dimensions[item.kind].title} odebrán.`);
-                editButton.current?.focus();
-              }}
-            />
-          );
-        })}
-        {zoneOptions
-          .filter((z) => !items.some((i) => i.zone === z.value))
-          .map((z) => (
-            <div
-              key={z.value}
-              className="dls-empty"
-              data-layout-zone={z.value}
-              style={{
-                gridColumn:
-                  z.value === "bottom" ? "1 / -1" : z.value === "left" ? 1 : 3,
-              }}
-            >
-              <span className="ds-hint">
-                {z.value === "bottom"
-                  ? "Volný prostor pro další widgety"
-                  : z.label}
-              </span>
-              <Button
-                size="small"
-                variant="ghost"
-                icon={<Plus />}
-                onClick={() => {
-                  setEditing(true);
-                  setAddOpen(true);
-                }}
-              >
-                Přidat widget
-                {z.value === "bottom" ? "" : ` · ${z.label.toLowerCase()}`}
-              </Button>
-            </div>
-          ))}
-      </div>
-      <div className="dls-note">
-        <span>
-          {
-            compositions.find((c) => c.value === layout.composition)
-              ?.description
-          }
-        </span>
-        <span>Rozložení se neukládá. Header nahoře je skutečný AppHeader.</span>
-      </div>
-      <p className="dls-announcement" role="status" aria-live="polite">
-        {announcement}
-      </p>
-      {/* The add dialog remains reachable from an empty space before edit mode. */}
     </div>
-  );
+    {editing && <div className="dls-edit-bar">
+      <div className="ds-actions">
+        <Dialog title="Přidat widget" description="Widget se vloží na volné místo. Rozložení ostatních karet zůstane zachované."
+          open={addOpen} onOpenChange={setAddOpen} trigger={<Button size="small" icon={<Plus />}>Přidat widget</Button>}>
+          <div className="dls-add-list">
+            <Button onClick={() => add('search')}>Find Phrase · demo</Button>
+            <Button onClick={() => add('qr')}>Mini QR · lokální generování</Button>
+            {sizes.map(size => <Button key={size.value} onClick={() => add('generic', size.value as Size)}>Obecný widget {size.label}</Button>)}
+          </div>
+        </Dialog>
+        <Button size="small" variant="ghost" onClick={() => { dispatch({type:'reset'}); setSelected(null); setAnnouncement('Obnoveno výchozí rozložení.'); }}>Obnovit výchozí</Button>
+      </div>
+      <p id="dls-move-help">Uchopte tečkovaný úchyt a přesuňte kartu. Pravý dolní roh mění oba rozměry. Obsazená místa zůstávají chráněná.</p>
+      <p id="dls-resize-help">Klávesnice: šipky na úchytu přesouvají, na rohu mění rozměry. Přesná poloha a velikost jsou dostupné také tlačítkem u úchytu.</p>
+      {selectedItem && selectedGeometry && <form className="dls-inspector" key={`${selected}-${view}-${selectedGeometry.x}-${selectedGeometry.y}-${selectedGeometry.w}-${selectedGeometry.h}`}
+        onSubmit={e => {
+          e.preventDefault();
+          const values = Object.fromEntries(['x','y','w','h'].map(key => [key, (e.currentTarget.elements.namedItem(key) as HTMLInputElement).valueAsNumber]));
+          if (Object.values(values).every(Number.isInteger)) adjust(selectedItem.id, values);
+        }} aria-label={`Poloha a velikost ${dimensions[selectedItem.kind].title}`}>
+        <strong>{dimensions[selectedItem.kind].title}</strong>
+        {(['x','y','w','h'] as const).map((key, index) => <label key={key}>{['Sloupec', 'Řádek', 'Šířka', 'Výška'][index]}
+          <input key={`${selected}-${view}-${selectedGeometry[key]}`} type="number" name={key} required defaultValue={selectedGeometry[key]}
+            min={key === 'x' || key === 'y' ? 0 : key === 'w' ? selectedGeometry.minW : selectedGeometry.minH}
+            max={key === 'w' ? cols : key === 'x' ? cols - selectedGeometry.w : undefined}
+ />
+        </label>)}
+        <Button type="submit" size="small" variant="primary">Použít</Button>
+        <Button size="small" variant="secondary" onClick={() => adjust(selectedItem.id, { x: 0, w: cols })}>Celá šířka</Button>
+        <Button size="small" variant="ghost" onClick={() => setSelected(null)}>Zavřít ovládání</Button>
+      </form>}
+    </div>}
+    <h2 className="dls-sr-only">Pracovní plocha</h2>
+    <div ref={containerRef} className="dls-board" data-columns={cols}
+      style={{ '--dls-cell': `${(width + 8) / cols}px` } as CSSProperties}>
+      <GridLayout width={width} layout={grid} compactor={compactor}
+        gridConfig={{ cols, rowHeight: 12, margin: [8,8], containerPadding: [0,0] }}
+        dragConfig={{ enabled: editing, handle: '.dls-drag', threshold: 4 }}
+        resizeConfig={{ enabled: editing, handles: ['se'], handleComponent: (_axis, ref) =>
+          <button ref={ref as React.Ref<HTMLButtonElement>} className="react-resizable-handle react-resizable-handle-se dls-resize"
+            aria-label="Změnit rozměry widgetu" aria-describedby="dls-resize-help" tabIndex={editing ? 0 : -1}
+            onKeyDown={e => { const id = e.currentTarget.closest<HTMLElement>('[data-layout-item]')?.dataset.layoutItem; if (id) keyboard(e, id, true); }} /> }}
+        onDragStop={layout => { dispatch({type:'commit', view, layout}); setAnnouncement('Widget přesunut.'); }}
+        onResizeStop={layout => { dispatch({type:'commit', view, layout}); setAnnouncement('Rozměry widgetu změněny.'); }}>
+        <section key="office" className="dls-office" data-layout-item="office" aria-label="Pevná centrální zóna">
+          <Card title="Axolotl Office" density="compact"><div className="dls-office-content">
+            <span className="ds-catalog-eyebrow"><LockKeyhole size={14} aria-hidden="true" /> Pevný střed pracovní plochy</span>
+            <div className="dls-office-scene" aria-hidden="true"><span/><span/><span/></div>
+            <span className="ds-hint">Prostorový placeholder · bez postav a animací</span>
+          </div></Card>
+        </section>
+        {state.items.map(item => <section key={item.id} className="dls-item" data-layout-item={item.id}
+          data-size={item.size} aria-label={`${dimensions[item.kind].title} · volitelný widget`}>
+          <div className="dls-widget-content"><WidgetContent item={item} real={real}/></div>
+          {editing && <div className="dls-edit-actions">
+            <Button size="small" variant="icon" className="dls-drag" icon={<Grip/>}
+              aria-label={`Přesunout ${dimensions[item.kind].title}`} aria-describedby="dls-move-help" onKeyDown={e => keyboard(e, item.id)} />
+            <Button size="small" variant="icon" icon={<Settings2/>} aria-label={`Poloha a velikost ${dimensions[item.kind].title}`}
+              aria-pressed={selected === item.id} onClick={() => setSelected(selected === item.id ? null : item.id)} />
+            <Button size="small" variant="icon" icon={<Trash2/>} aria-label={`Odebrat ${dimensions[item.kind].title}`}
+              onClick={() => { dispatch({type:'remove', id:item.id}); setSelected(null); setAnnouncement('Widget odebrán.'); editButton.current?.focus(); }} />
+          </div>}
+        </section>)}
+      </GridLayout>
+    </div>
+    <div className="dls-note"><span>{compositions.find(c => c.value === state.composition)?.description}</span>
+      <span>Rozložení se neukládá. Header nahoře je skutečný AppHeader.</span></div>
+    <p className="dls-announcement" role="status" aria-live="polite">{announcement}</p>
+  </div>;
 }
