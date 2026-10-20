@@ -80,11 +80,34 @@ async function capture(base, theme, kind) {
     await p.mouse.move(0, 0);
     await item.evaluate((el) => el.blur());
     await p.locator("h1").focus();
+    const beforeAlignment = await stage.boundingBox();
+    await stage.screenshot({
+      path: `${out}/navigation-${theme}-${kind.replaceAll(" ", "-")}-${base === baseline ? "reference" : "current"}-raw.png`,
+      animations: "disabled",
+    });
+    // A newly registered category can wrap the catalog navigation. Compare the
+    // translucent component at the same viewport position over the fixed backdrop,
+    // rather than letting that unrelated document-flow shift alter its pixels.
+    await stage.evaluate((el) => {
+      window.scrollTo({
+        top: window.scrollY + el.getBoundingClientRect().top - 160,
+        behavior: "instant",
+      });
+    });
+    const afterAlignment = await stage.boundingBox();
     const png = await stage.screenshot({
       path: `${out}/navigation-${theme}-${kind.replaceAll(" ", "-")}-${base === baseline ? "reference" : "current"}.png`,
       animations: "disabled",
     });
-    return { states, png };
+    return {
+      states,
+      png,
+      context: {
+        beforeAlignment,
+        afterAlignment,
+        scrollY: await p.evaluate(() => window.scrollY),
+      },
+    };
   } finally {
     await context.close();
   }
@@ -100,6 +123,14 @@ try {
       const ref = await capture(baseline, theme, kind);
       if (target) {
         const next = await capture(target, theme, kind);
+        results.push({
+          theme,
+          kind,
+          compared: true,
+          referenceContext: ref.context,
+          currentContext: next.context,
+          states: ref.states,
+        });
         expect(next.states, `${theme}/${kind} computed states`).toEqual(
           ref.states,
         );
@@ -107,7 +138,14 @@ try {
           true,
         );
       }
-      results.push({ theme, kind, states: ref.states, compared: !!target });
+      if (!target)
+        results.push({
+          theme,
+          kind,
+          states: ref.states,
+          compared: false,
+          referenceContext: ref.context,
+        });
       console.log(
         "PASS Navigation reference",
         theme,
