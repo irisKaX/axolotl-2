@@ -47,6 +47,7 @@
   align-self: center;
   min-width: 0;
 }
+.dls-item[data-size="small"],
 .dls-item[data-layout-zone="bottom"] {
   width: min(100%, var(--dls-width));
 }

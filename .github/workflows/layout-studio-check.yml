@@ -5,7 +5,7 @@ on:
     paths:
       - 'src/pages/design-system/library/layout/**'
       - 'src/pages/design-system/library/LayoutPage.tsx'
-      - 'scripts/ds-library/check-layout.mjs'
+      - 'scripts/ds-library/check-layout*.mjs'
       - '.github/workflows/layout-studio-check.yml'
 permissions:
   contents: read
@@ -31,7 +31,7 @@ jobs:
       - run: npm test
       - run: node scripts/ds-library/build.mjs
       - run: npx playwright install --with-deps chromium
-      - run: node scripts/ds-library/check-built.mjs
+      - run: node scripts/ds-library/check-built.mjs --layout-only
       - uses: actions/upload-artifact@v4
         if: always()
         with:

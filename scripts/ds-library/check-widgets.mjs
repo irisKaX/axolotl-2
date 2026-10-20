@@ -16,6 +16,8 @@ export async function checkWidgets(page, mobile, base, out) {
     await p.getByRole("combobox", { name: label, exact: true }).click();
     await p.getByRole("option", { name: value, exact: true }).click();
   };
+  // Deterministic sampling of the 500ms/1600ms demo phases, even on a busy runner.
+  await page.clock.install();
   await page.goto(route);
   await expect(
     page.getByRole("heading", { name: "Dashboard Widgets", exact: true }),
@@ -62,14 +64,18 @@ export async function checkWidgets(page, mobile, base, out) {
       ["Chyba přístupu", "Demo: hledání se nezdařilo"],
     ]) {
       await choose(page, "Demo scénář", scenario);
+      await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
       await search.getByLabel("Hledaná fráze", { exact: true }).press("Enter");
       await expect(
         search.getByText("Demo: hledání spuštěno", { exact: true }),
       ).toBeVisible();
+      await page.clock.fastForward(500);
       await expect(
         search.getByText("Demo: probíhá skenování", { exact: true }),
       ).toBeVisible();
+      await page.clock.fastForward(1100);
       await expect(search.getByText(result, { exact: true })).toBeVisible();
+      await page.clock.resume();
       const axe = await new AxeBuilder({ page })
         .include(".ds-widget-studio")
         .analyze();

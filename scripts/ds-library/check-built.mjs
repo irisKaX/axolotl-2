@@ -25,7 +25,10 @@ try {
     await new Promise((r) => setTimeout(r, 250));
   }
   if (!ready) throw new Error("Built preview did not start");
-  const child = spawn("node", ["scripts/ds-library/check.mjs"], {
+  const check = process.argv.includes("--layout-only")
+    ? "scripts/ds-library/check-layout-only.mjs"
+    : "scripts/ds-library/check.mjs";
+  const child = spawn("node", [check], {
     stdio: "inherit",
     env: { ...process.env, LIBRARY_URL: url },
   });

@@ -52,6 +52,9 @@ export async function checkLayout(page, mobile, base, out) {
             studio.getByRole("button", { name: "Notebook", exact: true }),
           ].map((x) => x.boundingBox()),
         );
+        await page.screenshot({
+          path: `${out}/layout-${width}-${theme}-${id}.png`,
+        });
         for (const box of boxes) {
           expect(box).not.toBeNull();
           expect(box.y).toBeGreaterThanOrEqual(0);
@@ -75,9 +78,6 @@ export async function checkLayout(page, mobile, base, out) {
           office: boxes[1],
           search: boxes[2],
           qr: boxes[3],
-        });
-        await page.screenshot({
-          path: `${out}/layout-${width}-${theme}-${id}.png`,
         });
       }
     }

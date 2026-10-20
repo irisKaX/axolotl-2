@@ -319,7 +319,7 @@
 /* Compact workspace is opt-in for Layout Studio only. Existing category pages keep their layout. */
 .ds-catalog[data-workspace] { max-width:1800px; padding-top:0; }
 .ds-catalog[data-workspace] .ds-catalog-top { padding-bottom:8px; gap:12px; position:relative; }
-.ds-catalog[data-workspace] .ds-catalog-top > details { margin:0; }
+.ds-catalog[data-workspace] .ds-catalog-top > details { margin:0; width:auto; flex:0 0 auto; }
 .ds-catalog[data-workspace] .ds-catalog-top > details > summary { font-size:13px; min-height:44px; display:flex; align-items:center; cursor:pointer; }
 .ds-catalog[data-workspace] .ds-catalog-top > details[open] .ds-catalog-nav { position:absolute; z-index:20; top:100%; left:0; right:0; padding:16px; margin:0; border:1px solid var(--ds-line); border-radius:12px; background:var(--ds-inset); box-shadow:var(--ds-shadow-raised); }
 .ds-catalog[data-workspace] .ds-catalog-heading { margin:12px 0; }

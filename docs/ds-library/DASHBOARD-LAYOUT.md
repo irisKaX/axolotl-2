@@ -23,3 +23,5 @@ Pouze lokální React stav. Nezapisuje rozložení ani theme náhledu do storage
 `npm test`, `npm run typecheck`, `scripts/ds-library/check-layout.mjs` zapojený do existujícího `check.mjs`. Výsledky měření a screenshoty vznikají v `evidence/layout-*`. Oddělený workflow `layout-studio-check.yml` na experimentální větvi nemá deploy job ani Pages oprávnění. Publikace preview je samostatný ověřený krok v axolotl-preview, zachovávající ostatní artefakty.
 
 Browser kontrola zahrnuje obě kompozice, 1366 × 768 / 1440 × 900 / 1920 × 1080 dark/light, centrování Office a počáteční viditelnost headeru/widgetů, pointer drop a zrušení, resize, přidání/odebrání/reset, reálné widgety, izolaci preferencí, axe, keyboard, reduced motion, touch 1024/768/390/320 a historii URL. Mobilní kontrola je emulace Chromium; fyzický iPhone/Safari se tím nepotvrzuje.
+
+Při první CI regresi test přechodného stavu Find Phrase minul 500ms fázi a zastihl už dokončené demo. Test nyní používá Playwright Clock pro jednotlivé fáze; zachovává všechny původní aserce i chování komponenty.
