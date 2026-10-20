@@ -1,0 +1,270 @@
+/* Only the registered Layout Studio. Materials and controls come from the DS. */
+.dls {
+  background: var(--ds-inset);
+  color: var(--ds-text);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-container);
+  padding: 16px;
+  min-width: 0;
+}
+.dls-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.dls-toolbar .ds-segmented {
+  margin: 0;
+}
+.dls-toolbar .ds-actions {
+  flex-wrap: wrap;
+}
+.dls-board {
+  display: grid;
+  grid-template-columns: var(--dls-left) minmax(320px, 1fr) var(--dls-right);
+  gap: 16px;
+  align-items: start;
+}
+.dls-item {
+  min-width: 0;
+  width: 100%;
+  align-self: start;
+}
+.dls-item > .ds-card {
+  min-height: var(--dls-height);
+}
+.dls-item > .ds-dashboard-widget {
+  max-width: none;
+  min-height: var(--dls-height);
+}
+.dls-item > .ds-dashboard-widget > .ds-card {
+  min-height: var(--dls-height);
+}
+.dls-office {
+  grid-column: 2;
+  align-self: center;
+  min-width: 0;
+}
+.dls-item[data-layout-zone="bottom"] {
+  width: min(100%, var(--dls-width));
+}
+.dls-office > .ds-card {
+  min-height: 300px;
+}
+.dls-office-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dls-office-content .ds-catalog-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dls-office-content p {
+  margin: 0;
+}
+.dls-office-scene {
+  height: 130px;
+  width: 100%;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-action);
+  background: var(--ds-inset);
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+}
+.dls-office-scene span {
+  display: block;
+  width: 24%;
+  height: 32px;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-action);
+}
+.dls-office-scene span:nth-child(2) {
+  width: 38%;
+  height: 52px;
+}
+.dls-placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dls-placeholder p {
+  margin: 0;
+  color: var(--ds-muted);
+}
+.dls-wire {
+  display: grid;
+  gap: 8px;
+}
+.dls-wire i {
+  display: block;
+  height: 12px;
+  width: 100%;
+  border: 1px solid var(--ds-line);
+  border-radius: 4px;
+}
+.dls-wire i:nth-child(2) {
+  width: 70%;
+}
+.dls-wire i:last-child {
+  width: 40%;
+  height: 28px;
+  border-radius: var(--ds-radius-action);
+}
+.dls-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  border: 1px dashed var(--ds-line);
+  border-radius: var(--ds-radius-container);
+  padding: 8px 16px;
+  min-width: 0;
+}
+.dls-note {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--ds-muted);
+  font-size: 12px;
+  margin-top: 12px;
+}
+.dls-edit-bar {
+  display: grid;
+  gap: 8px;
+  padding: 0 0 16px;
+}
+.dls-edit-bar p {
+  margin: 0;
+  color: var(--ds-muted);
+  font-size: 12px;
+}
+.dls-drop-tray {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.dls-drop-tray span {
+  border: 1px dashed var(--ds-line);
+  border-radius: var(--ds-radius-action);
+  padding: 12px;
+  font-size: 12px;
+  text-align: center;
+}
+.dls-drop-tray span[data-drop-target] {
+  background: var(--ds-violet);
+  color: white;
+  border-style: solid;
+}
+.dls-editor {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-container);
+  margin-bottom: 8px;
+}
+.dls-edit-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: space-between;
+}
+.dls-resize-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+.dls-resize-row span {
+  font-size: 11px;
+}
+.dls-drag,
+.dls-resize {
+  touch-action: none;
+  user-select: none;
+}
+.dls-drag {
+  cursor: grab;
+}
+.dls-resize {
+  cursor: nwse-resize;
+}
+.dls-item[data-dragging] {
+  outline: 2px solid var(--ds-focus);
+  outline-offset: 4px;
+  border-radius: var(--ds-radius-container);
+}
+.dls-add-list {
+  display: grid;
+  gap: 12px;
+}
+.dls-announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* Two working levels share the centered scene; bounded offset fits a laptop. */
+.dls[data-composition="staggered"] .dls-item[data-layout-zone="right"] {
+  margin-top: 80px;
+}
+@media (max-width: 1180px) {
+  .dls-board {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .dls-office {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    width: min(100%, 760px);
+    justify-self: center;
+  }
+  .dls-item {
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+  .dls-empty {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+  }
+  .dls[data-composition="staggered"] .dls-item[data-layout-zone="right"] {
+    margin-top: 0;
+  }
+}
+@media (max-width: 680px) {
+  .dls {
+    padding: 12px;
+  }
+  .dls-board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dls-toolbar {
+    align-items: stretch;
+  }
+  .dls-toolbar > .ds-actions {
+    width: 100%;
+  }
+  .dls-toolbar .ds-switch {
+    flex-basis: 100%;
+  }
+  .dls-office > .ds-card {
+    min-height: 0;
+  }
+  .dls-office-scene {
+    height: 100px;
+    padding: 16px;
+  }
+  .dls-note {
+    font-size: 11px;
+  }
+}

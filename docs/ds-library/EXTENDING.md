@@ -7,7 +7,7 @@ Jedna knihovna, jeden záznam varianty, jedna stránka rodiny. Není potřeba no
 
 Aktuální vizuální pravidla a hranice původních exportů: [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md).
 
-Colors & Gradients má [stručný návod a hranice kontrastní kontroly](COLORS.md). Nový záznam v `colors/paints.ts` automaticky rozšíří stávající stránku. [Dashboard Widgets](DASHBOARD-WIDGETS.md) přidává skutečné řízené widgety a oddělené lokální adaptéry. Katalog má nyní osm běžných kategorií, s testovacím Counterem devět.
+Colors & Gradients má [stručný návod a hranice kontrastní kontroly](COLORS.md). Nový záznam v `colors/paints.ts` automaticky rozšíří stávající stránku. [Dashboard Widgets](DASHBOARD-WIDGETS.md) přidává skutečné řízené widgety a oddělené lokální adaptéry. Katalog má nyní devět běžných kategorií, s testovacím Counterem deset.
 
 ## Kde změnu provést
 
@@ -76,7 +76,7 @@ Přehled, menu, lazy render, technické detaily i `?catalog=library&section=coun
 
 [Test B — nový typ](https://iriskax.github.io/axolotl-preview/ds-library-v1-1/?catalog=library&section=test-counter&catalogTests=1#design-system): +/- mění hodnotu, Disabled blokuje obě tlačítka. Vyzkoušej Tab a mezerník, reload a Back.
 
-Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled osm kategorií, Card dvě úrovně Halo Soft (flat/raised) a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
+Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled devět kategorií, Card dvě úrovně Halo Soft (flat/raised) a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
 
 ## Kontroly před předáním
 
@@ -100,3 +100,5 @@ node scripts/ds-library/check-built.mjs
 Aktuální výsledky: [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md), `evidence/verification.json`, `evidence/navigation-reference.json` a GitHub Actions. Registry, deep links, testovací režim a skutečné exporty se zachovávají. Žádné nové runtime závislosti, databáze ani administrace.
 
 Fyzický iPhone/Safari a ruční screen-reader audit nebyly nahrazeny emulací Chromia. Veřejná V1 zůstává zachovanou referencí, V1.1 je aktualizace stejné knihovny v izolované větvi. `main` ani produkční deployment nejsou součástí změny.
+
+[Dashboard Layout Studio](DASHBOARD-LAYOUT.md) skládá existující widgety do pracovního návrhu. Kompaktní režim katalogu je opt-in metadatum `workspace`; ostatní stránky zachovávají běžné rozložení.

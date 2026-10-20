@@ -19,12 +19,12 @@ export async function checkTestToggle(page, base, out) {
   await toggle.focus();
   await page.keyboard.press("Space");
   await expect(toggle).toBeChecked();
-  await expect(page.locator(".ds-catalog-category")).toHaveCount(9);
+  await expect(page.locator(".ds-catalog-category")).toHaveCount(10);
   expect(new URL(page.url()).searchParams.get("catalogTests")).toBe("1");
   await expect(toggle).toBeFocused();
   await page.goBack();
   await expect(toggle).not.toBeChecked();
-  await expect(page.locator(".ds-catalog-category")).toHaveCount(8);
+  await expect(page.locator(".ds-catalog-category")).toHaveCount(9);
   await page.goForward();
   await expect(toggle).toBeChecked();
   expect(await page.evaluate(() => window.__catalogDocument)).toBe(
@@ -97,7 +97,7 @@ export async function checkTestToggle(page, base, out) {
   await page.reload();
   await expect(toggle).toBeChecked();
   await toggle.uncheck();
-  await expect(page.locator(".ds-catalog-category")).toHaveCount(8);
+  await expect(page.locator(".ds-catalog-category")).toHaveCount(9);
   expect(new URL(page.url()).searchParams.has("section")).toBe(false);
   expect(new URL(page.url()).searchParams.has("catalogTests")).toBe(false);
   await expect(
@@ -129,7 +129,7 @@ export async function checkMobileTestToggle(page, base, out) {
     await page.setViewportSize({ width, height: 844 });
     await toggle.tap();
     await expect(toggle).toBeChecked();
-    await expect(page.locator(".ds-catalog-category")).toHaveCount(9);
+    await expect(page.locator(".ds-catalog-category")).toHaveCount(10);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -138,6 +138,6 @@ export async function checkMobileTestToggle(page, base, out) {
     await page.screenshot({ path: `${out}/test-toggle-mobile-${width}.png` });
     await toggle.tap();
     await expect(toggle).not.toBeChecked();
-    await expect(page.locator(".ds-catalog-category")).toHaveCount(8);
+    await expect(page.locator(".ds-catalog-category")).toHaveCount(9);
   }
 }

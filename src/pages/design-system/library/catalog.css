@@ -315,3 +315,20 @@
 /* Optional comparison lives inside the existing technical details. */
 .ds-catalog-comparison { margin-block: 24px; }
 .ds-catalog-comparison .ds-catalog-example-grid > div { min-width: 0; }
+
+/* Compact workspace is opt-in for Layout Studio only. Existing category pages keep their layout. */
+.ds-catalog[data-workspace] { max-width:1800px; padding-top:0; }
+.ds-catalog[data-workspace] .ds-catalog-top { padding-bottom:8px; gap:12px; position:relative; }
+.ds-catalog[data-workspace] .ds-catalog-top > details { margin:0; }
+.ds-catalog[data-workspace] .ds-catalog-top > details > summary { font-size:13px; min-height:44px; display:flex; align-items:center; cursor:pointer; }
+.ds-catalog[data-workspace] .ds-catalog-top > details[open] .ds-catalog-nav { position:absolute; z-index:20; top:100%; left:0; right:0; padding:16px; margin:0; border:1px solid var(--ds-line); border-radius:12px; background:var(--ds-inset); box-shadow:var(--ds-shadow-raised); }
+.ds-catalog[data-workspace] .ds-catalog-heading { margin:12px 0; }
+.ds-catalog[data-workspace] .ds-catalog-heading h1 { font-size:24px; margin:0; }
+.ds-catalog[data-workspace] .ds-catalog-heading > p,
+.ds-catalog[data-workspace] .ds-catalog-heading > .ds-catalog-eyebrow,
+.ds-catalog[data-workspace] > .ds-catalog-keyboard { display:none; }
+@media (max-width:800px) {
+  .ds-catalog[data-workspace] { padding-inline:0; }
+  .ds-catalog[data-workspace] .ds-catalog-top { flex-direction:row; flex-wrap:wrap; align-items:center; gap:8px 16px; }
+  .ds-catalog[data-workspace] .ds-catalog-heading h1 { font-size:22px; }
+}

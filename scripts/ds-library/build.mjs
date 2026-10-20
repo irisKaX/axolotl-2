@@ -46,6 +46,7 @@ writeFileSync(
         "navigation",
         "colors",
         "widgets",
+        "layout",
       ],
       sourceHashes,
     },

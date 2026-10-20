@@ -70,17 +70,43 @@ export default function Library() {
     history.pushState(null, "", url);
     setRoute({ section: nextSection, testMode: enabled });
   }
+  const categoryNavigation = selected && (
+    <nav className="ds-catalog-nav" aria-label="Kategorie knihovny">
+      <a href={href(null, testMode)} onClick={(e) => navigate(e, null)}>
+        ← Přehled
+      </a>
+      {categories.map((c) => (
+        <a
+          key={c.id}
+          href={href(c.id, testMode)}
+          onClick={(e) => navigate(e, c.id)}
+          aria-current={section === c.id ? "page" : undefined}
+        >
+          {c.title}
+        </a>
+      ))}
+    </nav>
+  );
   return (
     <DesignSystemProvider
       appearance={section === "navigation" ? "original" : "unified"}
       theme={prefs.resolvedTheme}
       reducedMotion={prefs.reducedMotion}
     >
-      <section className="ds-catalog" aria-labelledby="library-heading">
+      <section
+        className="ds-catalog"
+        data-workspace={selected?.workspace || undefined}
+        aria-labelledby="library-heading"
+      >
         <div className="ds-catalog-top">
           <a href={href(null, testMode)} onClick={(e) => navigate(e, null)}>
             Axolotl / Design System
           </a>
+          {selected?.workspace && (
+            <Disclosure title="Kategorie knihovny">
+              {categoryNavigation}
+            </Disclosure>
+          )}
           <div className="ds-actions">
             <div>
               <Switch
@@ -89,7 +115,9 @@ export default function Library() {
                 onChange={(e) => setTestMode(e.currentTarget.checked)}
               />
             </div>
-            <Status state="neutral">Library V1.1 · k revizi</Status>
+            {!selected?.workspace && (
+              <Status state="neutral">Library V1.1 · k revizi</Status>
+            )}
             <Button
               size="small"
               onClick={() =>
@@ -121,23 +149,8 @@ export default function Library() {
               "Skutečné React komponenty. Jedna stránka pro každý typ, živé varianty a stav, který lze ověřit."}
           </p>
         </header>
-        {selected && (
-          <nav className="ds-catalog-nav" aria-label="Kategorie knihovny">
-            <a href={href(null, testMode)} onClick={(e) => navigate(e, null)}>
-              ← Přehled
-            </a>
-            {categories.map((c) => (
-              <a
-                key={c.id}
-                href={href(c.id, testMode)}
-                onClick={(e) => navigate(e, c.id)}
-                aria-current={section === c.id ? "page" : undefined}
-              >
-                {c.title}
-              </a>
-            ))}
-          </nav>
-        )}
+        {selected && !selected.workspace && categoryNavigation}
+
         {testMode && (
           <p role="status">
             Testovací režim · technické fixtures jsou návrh.{" "}

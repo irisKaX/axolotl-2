@@ -37,6 +37,7 @@ export type PageProps = {
   previewTheme?: "dark" | "light";
 };
 export type Category = {
+  workspace?: boolean;
   isolatedTheme?: boolean;
   id: string;
   title: string;
