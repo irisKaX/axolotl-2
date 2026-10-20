@@ -3,6 +3,17 @@ import AxeBuilder from "@axe-core/playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 export async function checkLayout(page, mobile, base, out) {
   await mkdir(out, { recursive: true });
+  const capture = async (p, options) => {
+    const reduced = await p.evaluate(
+      () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+    );
+    await p.emulateMedia({ reducedMotion: "reduce" });
+    await p.mouse.move(0, 0);
+    await p.screenshot(options);
+    await p.emulateMedia({
+      reducedMotion: reduced ? "reduce" : "no-preference",
+    });
+  };
   const route = `${base}?catalog=library&section=layout#design-system`,
     measurements = [];
   const choose = async (p, label, name) => {
@@ -52,7 +63,7 @@ export async function checkLayout(page, mobile, base, out) {
             studio.getByRole("button", { name: "Notebook", exact: true }),
           ].map((x) => x.boundingBox()),
         );
-        await page.screenshot({
+        await capture(page, {
           path: `${out}/layout-${width}-${theme}-${id}.png`,
         });
         for (const box of boxes) {
@@ -171,7 +182,17 @@ export async function checkLayout(page, mobile, base, out) {
   const resized = await search.locator(":scope > .ds-card").boundingBox();
   expect(resized.width).toBeGreaterThan(prior.width);
   expect(resized.height).toBeLessThan(prior.height);
+  const minBefore = await search
+    .locator(":scope > .ds-card")
+    .evaluate((el) => parseFloat(getComputedStyle(el).minHeight));
   await resize.focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(search.locator(":scope > .ds-card")).toHaveCSS(
+    "min-height",
+    `${minBefore + 20}px`,
+  );
+  // Content is allowed to grow beyond its minimum; increase past that floor.
+  await page.keyboard.press("ArrowDown");
   await page.keyboard.press("ArrowDown");
   expect(
     (await search.locator(":scope > .ds-card").boundingBox()).height,
@@ -185,6 +206,10 @@ export async function checkLayout(page, mobile, base, out) {
     .getByRole("button", { name: "Obecný widget S · kompaktní", exact: true })
     .click();
   await expect(studio.locator(".dls-item")).toHaveCount(3);
+  expect(
+    (await studio.locator('[data-size="small"] > .ds-card').boundingBox())
+      .height,
+  ).toBeLessThan(240);
   await studio
     .getByRole("button", { name: "Odebrat Obecný widget", exact: true })
     .click();
@@ -208,7 +233,7 @@ export async function checkLayout(page, mobile, base, out) {
   ).toBe("0s");
   const axeEdit = await new AxeBuilder({ page }).include(".dls").analyze();
   expect(axeEdit.violations, JSON.stringify(axeEdit.violations)).toEqual([]);
-  await page.screenshot({
+  await capture(page, {
     path: `${out}/layout-edit-desktop.png`,
     fullPage: true,
   });
@@ -251,7 +276,7 @@ export async function checkLayout(page, mobile, base, out) {
       ),
     ).toBe(true);
     await mobile.evaluate(() => scrollTo(0, 0));
-    await mobile.screenshot({
+    await capture(mobile, {
       path: `${out}/layout-mobile-${width}.png`,
       fullPage: true,
     });

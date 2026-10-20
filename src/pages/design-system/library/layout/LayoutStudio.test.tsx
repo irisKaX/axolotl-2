@@ -12,7 +12,9 @@ function mount() {
 describe("layout editor", () => {
   it("locks anchors, provides edit controls and returns to the default composition", () => {
     mount();
-    expect(screen.getByRole("heading", {name:"Pracovní plocha", level:2})).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Pracovní plocha", level: 2 }),
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Axolotl Office" }),
     ).toBeVisible();

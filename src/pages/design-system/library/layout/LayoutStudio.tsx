@@ -104,6 +104,15 @@ function WidgetContent({ item, real }: { item: Item; real: boolean }) {
       />
     );
   if (real && item.kind === "qr") return <MiniQrWidget {...qr} size={size} />;
+  if (item.kind === "generic" && item.size === "small")
+    return (
+      <Card title="Obecný widget" density="compact">
+        <div className="dls-placeholder">
+          <span className="ds-hint">S · kompaktní akce</span>
+          <p>Strukturální placeholder</p>
+        </div>
+      </Card>
+    );
   return (
     <Card title={dimensions[item.kind].title} density="compact">
       <div className="dls-placeholder">
