@@ -51,7 +51,9 @@ import { chromium, expect } from '@playwright/test';
  const large=rects.find(x=>x.id==='generic-5'),small1=rects.find(x=>x.id==='generic-3'),small2=rects.find(x=>x.id==='generic-4');
  expect(Math.abs(large.y-small1.y)).toBeLessThan(1);expect(Math.abs(small2.y-small1.bottom-8)).toBeLessThan(1);expect(small1.x).toBeGreaterThan(large.right);
  // Keyboard alternative and read mode lock.
+ const beforeKeyboard = (await geometry())['generic-4'].transform;
  await card('generic-4').locator('.dls-drag').focus();await p.keyboard.press('ArrowDown');
+ await expect.poll(async () => (await geometry())['generic-4'].transform).not.toBe(beforeKeyboard);
  const desktop=await geometry();
  await p.getByRole('button',{name:'Hotovo',exact:true}).click();await expect(p.locator('.dls-drag')).toHaveCount(0);
  expect(await geometry()).toEqual(desktop);
