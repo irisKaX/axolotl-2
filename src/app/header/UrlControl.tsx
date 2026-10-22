@@ -1,4 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import { Copy, Check, PanelsTopLeft } from 'lucide-react';
+import { SeoIndicator } from './SeoIndicator';
 import { Icon } from '../../components/Icon';
 import { usePageContext } from '../PageContextProvider';
 import { Popover } from './Popover';
@@ -30,6 +32,11 @@ export function UrlControl() {
   const { context, store } = usePageContext();
   const [draft, setDraft] = useState(context.url);
   const [invalid, setInvalid] = useState(false);
+  const [copyStatus,setCopyStatus] = useState('');
+  const copyTimer=useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const copySequence=useRef(0);
+  useEffect(()=>()=>{clearTimeout(copyTimer.current);copySequence.current++;},[]);
+  useEffect(()=>{setCopyStatus('');},[draft]);
   const input = useRef<HTMLInputElement>(null);
   const editing = useRef(false), dirty = useRef(false);
   const id = useId();
@@ -39,15 +46,25 @@ export function UrlControl() {
     try { adopt(store.commitManual(draft)); return true; }
     catch { setInvalid(true); input.current?.setCustomValidity('Zadej platnou adresu webu, například https://example.cz.'); return false; }
   }
-  return <form className={s.url} data-header-url onSubmit={event => { event.preventDefault(); if (commit()) input.current?.blur(); }} noValidate>
+  async function copyUrl() {
+    if (dirty.current && !commit()) return;
+    const value=store.getSnapshot().context.url;
+    const sequence=++copySequence.current;
+    try { await navigator.clipboard.writeText(value); if(sequence===copySequence.current&&value===store.getSnapshot().context.url)setCopyStatus('URL zkopírována.'); }
+    catch { if(sequence===copySequence.current)setCopyStatus('Kopírování není dostupné. Vyber URL a použij Ctrl/Cmd+C.'); }
+    clearTimeout(copyTimer.current); copyTimer.current=setTimeout(()=>setCopyStatus(''),2500);
+  }
+  return <div className={s.urlGroup}><SeoIndicator draft={draft}/><form className={s.url} data-header-url onSubmit={event => { event.preventDefault(); if (commit()) input.current?.blur(); }} noValidate>
     <label htmlFor={id} className={s.urlLabel}><Icon name="link"/><span className={s.visuallyHidden}>Aktuální URL</span></label>
     <input id={id} ref={input} type="text" inputMode="url" spellCheck={false} autoComplete="off" placeholder="Vlož URL stránky" title={context.url || 'Vlož URL stránky'} value={draft} aria-invalid={invalid || undefined} aria-describedby={invalid ? `${id}-error` : undefined}
-      onFocus={() => { editing.current = true; }} onChange={event => { setDraft(event.target.value); dirty.current = true; setInvalid(false); event.target.setCustomValidity(''); }}
+      onFocus={() => { editing.current = true; }} onChange={event => { copySequence.current++; setDraft(event.target.value); dirty.current = true; setInvalid(false); event.target.setCustomValidity(''); }}
       onBlur={() => { editing.current = false; if (dirty.current) commit(); else adopt(store.getSnapshot().context.url); }}
       onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); adopt(store.getSnapshot().context.url); input.current?.blur(); } }}/>
-    <Popover id="tabs" title="Otevřené karty" trigger={(props, ref) => <button {...props} ref={ref} type="button" className={s.tabsTrigger} aria-label="Vybrat kartu prohlížeče"><Icon name="tabs"/><Icon name="chevron"/></button>}>
+    <button type="button" className={s.copyTrigger} aria-label="Kopírovat URL" disabled={!draft.trim()} onClick={copyUrl}>{copyStatus==='URL zkopírována.'?<Check aria-hidden="true"/>:<Copy aria-hidden="true"/>}</button>
+    <Popover id="tabs" title="Otevřené karty" hover={false} trigger={(props, ref) => <button {...props} ref={ref} type="button" className={s.tabsTrigger} aria-label="Vybrat kartu prohlížeče"><PanelsTopLeft aria-hidden="true"/><Icon name="chevron"/></button>}>
       {close => <Tabs close={close} adopt={adopt}/>}
     </Popover>
     {invalid && <span id={`${id}-error`} className={s.urlError} role="alert">Zadej platnou webovou URL.</span>}
-  </form>;
+    <span role="status" className={copyStatus?s.urlFeedback:s.visuallyHidden}>{copyStatus}</span>
+  </form></div>;
 }

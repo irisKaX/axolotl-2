@@ -14,7 +14,7 @@ export const documentTokens = globalThis.__axolotlDocumentTokens = new Map();
 const operations = new Set(['TARGET_STATUS','TARGET_INDEXATION','TARGET_ACTIVATE','DASHBOARD_ACTIVATE','PDF_SCAN','SEARCH_SCAN','METADATA_SCAN','HEADINGS_SCAN','STRUCTURED_SCAN','IMAGE_AUDIT_SCAN','AUDIT_CANCEL','IMAGE_AUDIT_HIGHLIGHT','IMAGES_SCAN','PDF_VERIFY','DOWNLOAD_FILE','PICK_START','PICK_CANCEL','CAPTURE_BEGIN','CAPTURE_SCROLL','CAPTURE_FRAME','CAPTURE_END','REMOTE_FETCH','CANCEL_REQUEST','REMOTE_FETCH_CANCEL','SITE_ACCESS','TARGET_CHANGE','SESSION_END']);
 const events = new Set(['PICK_RESULT','PICK_CANCEL','PICK_ERROR','RETURN_DASHBOARD','CAPTURE_CANCEL']);
 const error = (code,message) => Object.assign(new Error(message),{code});
-export function isAxolotl(value) { try { const url=new URL(value);return url.origin==='https://iriskax.github.io' && ['/axolotl-2','/axolotl-2/'].includes(url.pathname); }catch{return false;} }
+export function isAxolotl(value) { try { const url=new URL(value);return url.origin==='https://iriskax.github.io' && ['/axolotl-2','/axolotl-2/','/axolotl-preview/ds-library-v1-1/'].includes(url.pathname); }catch{return false;} }
 export function authorizeSender(sender) {
   if(sender.id!==chrome.runtime.id || sender.frameId!==0 || !Number.isInteger(sender.tab?.id) || sender.tab.incognito || !isAxolotl(sender.url)) throw error('FORBIDDEN','Nepovolený zdroj požadavku.');
 }

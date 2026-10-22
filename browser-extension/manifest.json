@@ -8,7 +8,7 @@
   "host_permissions": ["<all_urls>"],
   "background": { "service_worker": "background/service-worker.js", "type": "module" },
   "content_scripts": [{
-    "matches": ["https://iriskax.github.io/axolotl-2/*"],
+    "matches": ["https://iriskax.github.io/axolotl-2/*", "https://iriskax.github.io/axolotl-preview/ds-library-v1-1/*"],
     "js": ["content.js"],
     "run_at": "document_idle"
   }]

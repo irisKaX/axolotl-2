@@ -3,7 +3,7 @@ const AXOLOTL_ORIGIN = 'https://iriskax.github.io';
 function isAxolotl(url) {
   try {
     const parsed = new URL(url);
-    return parsed.origin === AXOLOTL_ORIGIN && (parsed.pathname === '/axolotl-2' || parsed.pathname === '/axolotl-2/');
+    return parsed.origin === AXOLOTL_ORIGIN && ['/axolotl-2', '/axolotl-2/', '/axolotl-preview/ds-library-v1-1/'].includes(parsed.pathname);
   } catch { return false; }
 }
 

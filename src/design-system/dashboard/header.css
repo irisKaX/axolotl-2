@@ -3,8 +3,6 @@
 .ds-dashboard #approved-header .axolotl-logo-art{display:block;width:26px;height:26px;background-color:currentColor;mask:var(--axolotl-logo-image) center / contain no-repeat;}
 .ds-dashboard #approved-header input{box-shadow:none;}
 .ds-dashboard #approved-header input[type=checkbox]{width:100%;height:100%;padding:0;border:0;}
-.ds-dashboard #approved-header .axolotl-pill-nav__slot:not([data-on]) .axolotl-pill-nav__fill{background:var(--axo-tile);}
-.ds-dashboard #approved-header .axolotl-pill-nav__slot:not([data-on]) .axolotl-pill-nav__face-alt{color:var(--axo-ink);}
 .ds-dashboard #approved-header::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,var(--pg-header-backdrop) 0,var(--pg-header-backdrop) calc(100% - 14px),transparent);}
 body[data-ds-dashboard-theme] [data-header-panel] :is(h2,h3,p){margin:0;font-family:inherit;}
 body[data-ds-dashboard-theme] [data-header-panel] :is(h2,h3){font-weight:550;line-height:1.2;letter-spacing:-.04em;}
@@ -14,69 +12,20 @@ body[data-ds-dashboard-theme] [data-header-panel] :is(h2,h3){font-weight:550;lin
 }
 .ds-dashboard[data-motion="reduced"] #approved-header button>svg{transform:none!important;}
 @media(prefers-reduced-motion:reduce){.ds-dashboard #approved-header button>svg{transform:none!important;}}
-.ds-dashboard #approved-header header {
-  --axo-tile: var(--pg-widget-4);
-  --axo-nav-gap: 10px;
-  background: var(--pg-widget-3);
-  min-height: 64px;
-  padding-block: 8px;
-  box-shadow: inset 0 0 0 1px var(--pg-edge),inset 0 1px var(--pg-glint),0 10px 24px -16px var(--pg-shadow);
-}
+/* Approved Dashboard geometry; visual roles belong to the Header theme adapter. */
+.ds-dashboard #approved-header header { min-height:72px; padding-block:12px; --axo-nav-gap:10px; }
 .ds-dashboard #approved-header .axolotl-pill-nav {
-  --pn-h: 44px !important;
-  --pn-inner: 44px !important;
-  --pn-font: calc(13px * var(--axo-text-scale)) !important;
-  --pn-tile: var(--pg-widget-4) !important;
+ --pn-h:48px!important; --pn-inner:48px!important; --pn-font:calc(15px * var(--axo-text-scale))!important;
 }
-/* 44px hit areas with a 38px visible face, matching the right circular controls. */
-.ds-dashboard #approved-header .axolotl-pill-nav__item {
-  height: 38px;
-  align-self: center;
-  min-width: 38px;
-  transition: box-shadow 220ms ease,filter 220ms ease;
-}
-.ds-dashboard #approved-header .axolotl-pill-nav__item::after { content:""; position:absolute; inset:-3px 0; }
-.ds-dashboard #approved-header .axolotl-pill-nav__slot:first-child .axolotl-pill-nav__item { width:38px; padding-inline:0; }
-.ds-dashboard #approved-header header form { min-height:38px; }
-.ds-dashboard #approved-header header form input { height:38px; }
-.ds-dashboard #approved-header header form button { height:38px; }
-.ds-dashboard #approved-header header label:has(> input[aria-label="Tmavý režim"]) > span { height:38px; padding:5px; }
-.ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"])::before {
-  background: var(--pg-widget-4);
-  transition: filter 220ms ease,box-shadow 220ms ease;
-}
-.ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"])[aria-expanded="true"]::before { background:var(--axo-active); }
-.ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"]) > svg { transition:transform 320ms cubic-bezier(.22,1,.36,1); }
-@media (hover:hover) and (pointer:fine) {
-  .ds-dashboard #approved-header .axolotl-pill-nav__slot[data-on] .axolotl-pill-nav__item:hover {
-    filter:brightness(1.12);
-    box-shadow:inset 0 1px color-mix(in srgb,var(--pg-white) 28%,transparent),0 4px 14px -6px var(--pg-axolotl-violet);
-  }
-  .ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"]):hover::before { filter:brightness(1.12); box-shadow:var(--axo-rim),0 3px 12px -6px var(--pg-axolotl-violet); }
-  .ds-dashboard #approved-header button[aria-label="Nastavení"]:hover > svg { transform:rotate(24deg); }
-  .ds-dashboard #approved-header button[aria-label="Upozornění"]:hover > svg { transform-origin:50% 20%; transform:rotate(-14deg); }
-}
-/* Remove inline-baseline descent so both halves share the same optical center. */
-.ds-dashboard #approved-header header > div:has(> .axolotl-pill-nav) { display:flex; align-items:center; }
-
-/* Dashboard-only scale balance; preserve the approved header on other views. */
-.ds-dashboard #approved-header header {
-  min-height:72px;
-  padding-block:12px;
-}
-.ds-dashboard #approved-header .axolotl-pill-nav {
-  --pn-h:48px!important;
-  --pn-inner:48px!important;
-  --pn-font:calc(15px * var(--axo-text-scale))!important;
-}
-.ds-dashboard #approved-header .axolotl-pill-nav__item { height:42px; min-width:42px; }
-.ds-dashboard #approved-header .axolotl-pill-nav__slot:first-child .axolotl-pill-nav__item { width:42px; }
+.ds-dashboard #approved-header .axolotl-pill-nav__item { height:42px; align-self:center; min-width:42px; }
+.ds-dashboard #approved-header .axolotl-pill-nav__item::after { content:"";position:absolute;inset:-3px 0; }
+.ds-dashboard #approved-header .axolotl-pill-nav__slot:first-child .axolotl-pill-nav__item { width:42px;padding-inline:0; }
 .ds-dashboard #approved-header :is(.axolotl-pill-nav__face,.axolotl-pill-nav__face-alt) > svg:first-child,
-.ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"]) > svg { width:20px; height:20px; }
-.ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"]) { width:48px; height:48px; }
-.ds-dashboard #approved-header header form { min-height:42px; }
-.ds-dashboard #approved-header header form input { height:42px; font-size:calc(14px * var(--axo-text-scale)); }
-.ds-dashboard #approved-header header form button { height:42px; }
-.ds-dashboard #approved-header header label:has(> input[aria-label="Tmavý režim"]) { width:72px; height:48px; }
-.ds-dashboard #approved-header header label:has(> input[aria-label="Tmavý režim"]) > span { width:64px; height:42px; padding:7px; }
+.ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"]) > svg { width:20px;height:20px; }
+.ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"]) { width:48px;height:48px; }
+.ds-dashboard #approved-header [data-header-url] input { font-size:calc(14px * var(--axo-text-scale)); }
+.ds-dashboard #approved-header header label:has(>input[aria-label="Tmavý režim"]) { width:72px;height:48px; }
+.ds-dashboard #approved-header header label:has(>input[aria-label="Tmavý režim"]) > span { width:64px;height:42px;padding:7px; }
 .ds-dashboard #approved-header input[aria-label="Tmavý režim"]:checked + span > span { transform:translateX(22px); }
+.ds-dashboard #approved-header header > div:has(>.axolotl-pill-nav) { display:flex;align-items:center; }
+@media (max-width:680px) { .ds-dashboard #approved-header [data-header-url] input { font-size:16px; } }

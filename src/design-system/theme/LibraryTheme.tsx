@@ -1,6 +1,5 @@
 import { useLayoutEffect, type ReactNode } from 'react';
 import { themeStylesheet } from '../tokens/theme';
-import { headerThemeStylesheet } from './headerTheme';
 import './fonts.css';
 import './components.css';
 import './header.css';
@@ -10,5 +9,5 @@ export function LibraryTheme({children}: {children: ReactNode}) {
     document.documentElement.dataset.axolotlLibrary = 'tweakcn-v1';
     return () => { delete document.documentElement.dataset.axolotlLibrary; };
   }, []);
-  return <><style data-library-theme>{themeStylesheet + headerThemeStylesheet}</style>{children}</>;
+  return <><style data-library-theme>{themeStylesheet}</style>{children}</>;
 }

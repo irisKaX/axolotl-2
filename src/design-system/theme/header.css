@@ -1,27 +1,40 @@
-html[data-axolotl-library] [data-header-theme],
-html[data-axolotl-library] .ds-dashboard #approved-header header[data-header-theme] {
+/* Single Library adapter for Header materials; geometry stays in dashboard/header.css.
+   Every control shares hover/pressed/open roles, including PillNav's animated faces. */
+html[data-axolotl-library] [data-header-theme] {
   --axo-base:var(--card);--axo-raised:var(--card);--axo-ink:var(--foreground);--axo-muted:var(--muted-foreground);
-  --axo-edge:var(--border);--axo-hover:var(--secondary);--axo-active:var(--primary);--axo-active-ink:var(--primary-foreground);
-  --axo-focus:var(--ring);--axo-recessed:var(--background);--axo-tile:var(--secondary);--axo-rim:var(--shadow-xs);
+  --axo-edge:var(--border);--axo-hover:color-mix(in oklch,var(--primary) 20%,var(--card));--axo-hover-ink:var(--foreground);
+  --axo-active:var(--primary);--axo-active-ink:var(--primary-foreground);--axo-focus:var(--ring);
+  --axo-recessed:var(--background);--axo-tile:var(--secondary);--axo-rim:var(--shadow-xs);
   --axo-panel-shadow:var(--shadow-lg);--axo-panel-surface:var(--popover);
+  --axo-control-radius:var(--button-radius,calc(var(--radius-md) + 2px));--axo-url-border:var(--input);--axo-url-focus:var(--ring);
   font-family:var(--font-sans);
 }
-html[data-axolotl-library] .ds-dashboard #approved-header header[data-header-theme] {background:var(--card);color:var(--card-foreground);border:0;border-radius:var(--radius-xl);box-shadow:inset 0 0 0 1px var(--border),var(--shadow-md);backdrop-filter:none;}
-html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav {--pn-tile:var(--secondary)!important;--pn-active:var(--primary);--pn-ink:var(--foreground);--pn-active-ink:var(--primary-foreground);font-family:var(--font-sans);}
-html[data-axolotl-library] .ds-dashboard #approved-header :is(.axolotl-pill-nav__face,.axolotl-pill-nav__face-alt) {font-family:var(--font-sans);}
-html[data-axolotl-library] .ds-dashboard #approved-header header form {background:var(--background);border:1px solid var(--input);border-radius:var(--radius-md);box-shadow:var(--shadow-xs);}
-html[data-axolotl-library] .ds-dashboard #approved-header header form input {font-family:var(--font-sans);color:var(--foreground);}
-html[data-axolotl-library] .ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"])::before {background:var(--secondary);box-shadow:var(--shadow-xs);}
-html[data-axolotl-library] .ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"])[aria-expanded="true"]::before {background:var(--primary);}
-html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item {border-radius:var(--radius-md);}
-html[data-axolotl-library] [data-header-panel],html[data-axolotl-library] [data-header-select] {--axo-ink:var(--popover-foreground);background:var(--popover);color:var(--popover-foreground);border-color:var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);}
-html[data-axolotl-library] [data-header-panel] [data-nav-item] {border-radius:var(--radius-md);}
-html[data-axolotl-library] .ds-dashboard #approved-header {font-family:var(--font-sans);}
-/* PillNav receives its legacy palette as inline custom properties. Override only
-   the visual roles in the Library; its layout/hover engine is unchanged. */
-html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav {
- --pn-pill:var(--primary)!important;--pn-dot:var(--primary)!important;--pn-pill-ink:var(--primary-foreground)!important;
- --pn-strong:var(--foreground)!important;--pn-text:var(--muted-foreground)!important;
- --pn-edge:var(--border)!important;--pn-rim:var(--border)!important;--pn-ring:var(--ring)!important;
- --pn-tile-rim:var(--shadow-xs)!important;--pn-pill-shadow:var(--shadow-xs)!important;--pn-row-hover:var(--secondary)!important;
+html[data-axolotl-library] .ds-dashboard #approved-header header[data-header-theme] {
+  background:var(--card);color:var(--card-foreground);border:0;border-radius:var(--radius-xl);
+  box-shadow:inset 0 0 0 1px var(--border),var(--shadow-md);backdrop-filter:none;
 }
+html[data-axolotl-library] .ds-dashboard #approved-header {font-family:var(--font-sans);}
+html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav {
+  --pn-tile:var(--axo-tile)!important;--pn-pill:var(--axo-hover)!important;--pn-pill-ink:var(--axo-hover-ink)!important;
+  --pn-strong:var(--foreground)!important;--pn-text:var(--muted-foreground)!important;
+  --pn-edge:var(--border)!important;--pn-rim:var(--border)!important;--pn-ring:var(--ring)!important;
+  --pn-dot:var(--primary)!important;--pn-tile-rim:var(--shadow-xs)!important;
+  --pn-pill-shadow:var(--shadow-xs)!important;--pn-row-hover:var(--axo-hover)!important;
+  font-family:var(--font-sans);
+}
+html[data-axolotl-library] .ds-dashboard #approved-header :is(.axolotl-pill-nav__face,.axolotl-pill-nav__face-alt) {font-family:var(--font-sans);}
+html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item {border-radius:min(var(--button-radius),20px);}
+html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__slot[data-on],
+html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item:is([aria-expanded=true],:active) {
+  --pn-pill:var(--primary)!important;--pn-pill-ink:var(--primary-foreground)!important;
+}
+html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item:is([aria-expanded=true],:active) .axolotl-pill-nav__fill {transform:scale(1);}
+html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item:focus-visible {outline-color:currentColor;}
+html[data-axolotl-library] [data-header-panel],html[data-axolotl-library] [data-header-select] {
+  --axo-ink:var(--popover-foreground);background:var(--popover);color:var(--popover-foreground);
+  border-color:var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);
+}
+html[data-axolotl-library] [data-header-panel] [data-nav-item] {border-radius:var(--radius-md);}
+
+html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__slot[data-on] .axolotl-pill-nav__item,
+html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item:is([aria-expanded=true],:active) {color:var(--primary-foreground);}

@@ -85,11 +85,11 @@ try{
   const dimensions=await url.evaluate(el=>[el.getBoundingClientRect().width,el.getBoundingClientRect().height]);
   const singleUrlRing=async()=>{
    assert(await urlInput.evaluate(el=>{const s=getComputedStyle(el);return s.outlineStyle==='none'&&s.borderTopWidth==='0px'&&s.boxShadow==='none';}),'URL input must not draw a second ring');
-   assert(await url.evaluate(el=>{const s=getComputedStyle(el);return s.outlineStyle==='solid'&&parseFloat(s.outlineWidth)>=2;}),'URL capsule must show its focus ring');
+   assert(await url.evaluate(el=>{const s=getComputedStyle(el);return s.outlineStyle==='none'&&parseFloat(s.borderTopWidth)>=2&&s.borderTopColor===getComputedStyle(el.querySelector('label')).color;}),'URL capsule must show its focus ring');
    assert.deepEqual(await url.evaluate(el=>[el.getBoundingClientRect().width,el.getBoundingClientRect().height]),dimensions,'Focus must not change URL geometry');
   };
-  await urlInput.click();await singleUrlRing();
-  await urlInput.press('Tab');assert(await url.getByRole('button',{name:'Vybrat kartu prohlížeče'}).evaluate(el=>el===document.activeElement));
+  await urlInput.fill('https://example.cz/');await urlInput.click();await singleUrlRing();
+  await urlInput.press('Tab');assert(await url.getByRole('button',{name:'Kopírovat URL'}).evaluate(el=>el===document.activeElement));
   await page.keyboard.press('Shift+Tab');await singleUrlRing();
   await url.locator('label').click();assert(await urlInput.evaluate(el=>el===document.activeElement));
   await context.grantPermissions(['clipboard-read','clipboard-write']);

@@ -8,7 +8,7 @@
 /* Compound Header URL control owns its focus indicator on the capsule. */
 .axo-ds-scope
   :where(button, input, textarea, select, a, summary, [tabindex]):not(
-    :where(.axo-ds-button, [data-header-url] > input)
+    :where(.axo-ds-button, [data-header-url] > input, [data-header-url] > button)
   ):focus-visible {
   outline: 2px solid var(--ds-focus);
   outline-offset: 4px;
