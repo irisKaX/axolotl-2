@@ -103,7 +103,7 @@ export default function SurfacesPage({ category }: PageProps) {
               />
             )}
             <p className="ds-hint">
-              Halo Soft je jediný materiál. Zvýšená plocha má výraznější stín;
+              Povrchy používají společné TweakCN theme. Zvýšená plocha má výraznější stín;
               hustota řídí prostor pro obsah.
             </p>
           </>

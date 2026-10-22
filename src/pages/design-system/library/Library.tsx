@@ -31,15 +31,12 @@ const href = (id: CategoryId | null, testMode = false) =>
 export default function Library() {
   const prefs = usePreferences(),
     [route, setRoute] = useState(readRoute);
-  const [localTheme, setLocalTheme] = useState<"dark" | "light" | null>(null);
   const { section, testMode } = route;
   const categories = getCategories(testMode);
   const heading = useRef<HTMLHeadingElement>(null),
     first = useRef(true);
   const selected = categories.find((c) => c.id === section);
-  const previewTheme = selected?.isolatedTheme
-    ? (localTheme ?? prefs.resolvedTheme)
-    : prefs.resolvedTheme;
+  const previewTheme = prefs.resolvedTheme;
   useEffect(() => {
     const update = () => setRoute(readRoute());
     window.addEventListener("popstate", update);
@@ -90,7 +87,7 @@ export default function Library() {
   );
   return (
     <DesignSystemProvider
-      appearance={section === "navigation" ? "original" : "unified"}
+      appearance="unified"
       theme={prefs.resolvedTheme}
       reducedMotion={prefs.reducedMotion}
     >
@@ -122,9 +119,7 @@ export default function Library() {
             <Button
               size="small"
               onClick={() =>
-                selected?.isolatedTheme
-                  ? setLocalTheme(previewTheme === "dark" ? "light" : "dark")
-                  : prefs.setPreference(
+                prefs.setPreference(
                       "theme",
                       prefs.resolvedTheme === "dark" ? "light" : "dark",
                     )
@@ -218,9 +213,9 @@ export default function Library() {
             </div>
             <div id="themes"><SystemOverview /></div>
             <section className="ds-foundations" id="foundations-summary">
-              <h2>Foundations</h2><p>Barvy a gradienty, typografie a fonty, spacing, radius, elevation, shadows a borders vycházejí ze stávajících tokenů a skutečných komponent. Jejich hodnoty se touto konsolidací nemění.</p>
+              <h2>Foundations</h2><p>Barvy a gradienty, typografie a fonty, spacing, radius, elevation, shadows a borders vycházejí ze stávajících tokenů a skutečných komponent. Jednotný sémantický základ nyní určuje dodaný TweakCN export v přesných OKLCH hodnotách.</p>
               <p>
-                Schválené akcenty:{" "}
+                Brandové akcenty (oddělené od theme):{" "}
                 <strong>
                   {paints
                     .filter((p) => p.design === "approved")
@@ -228,8 +223,7 @@ export default function Library() {
                     .join(" · ")}
                 </strong>
                 . Společné povrchy, text a interaktivní stavy vycházejí z
-                referenčních Navigation & Tabs. Aktuální sjednocení komponent
-                čeká na vizuální revizi.
+                jednoho TweakCN theme. Brandové barvy nepřepisují sémantické role.
               </p>
               <p>
                 <a

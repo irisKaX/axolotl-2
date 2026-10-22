@@ -1,5 +1,7 @@
 # Jediný katalog · Design System Library V1.1
 
+> Aktuální vzhled: [TweakCN integrace](TWEAKCN.md). Níže je zachovaná dokumentace architektonické konsolidace V2; původní vizuální hodnoty 523c983 byly následně nahrazené uživatelkou dodaným theme.
+
 https://iriskax.github.io/axolotl-preview/ds-library-v1-1/#design-system
 
 Pracovní větev: `design-system/consolidate-v1-1`. Budoucí vizuální změny vznikají v této Library; další katalogy se nezakládají.

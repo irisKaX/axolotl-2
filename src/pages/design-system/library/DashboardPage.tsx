@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import type { PageProps } from './model';
 import { ApprovedDashboard } from '../../../design-system/dashboard/ApprovedDashboard';
 export { ApprovedDashboard } from '../../../design-system/dashboard/ApprovedDashboard';
-export default function DashboardPage({previewTheme}:PageProps) {
+export default function DashboardPage() {
   const [route,setRoute]=useState('dashboard');
   return <section aria-label="Schválený Dashboard">
-    <p><strong>Schváleno.</strong> Header, bento, Office placeholder a šest widgetových povrchů z revize <code>523c983</code>. Skutečné React komponenty; přesný katalogový vzhled zatím není produkčně použitý.</p>
+    <p><strong>TweakCN theme.</strong> Zachovaná schválená bento struktura, Header, Office placeholder a šest widgetů. Nové sémantické povrchy z dodaného CSS; katalogový vzhled zatím není produkčně použitý.</p>
     <p role="status">Navigační ukázka: {route}. Napojení widgetů na Tools není součástí návrhu.</p>
-    <ApprovedDashboard theme={previewTheme} onNavigate={setRoute}/>
+    <ApprovedDashboard onNavigate={setRoute}/>
   </section>;
 }

@@ -32,7 +32,7 @@ export const categories: Category[] = [
     id: "buttons",
     title: "Buttons",
     description:
-      "Akce a příkazy. Jednotný styl Navigation & Tabs; Lens 02 API a volitelný Star Border.",
+      "Akce a příkazy. Sémantické TweakCN theme; původní Button API a volitelný Star Border.",
     keyboard:
       "Tab → focus-visible; Enter a mezerník → akce. Loading zachovává focus a blokuje další aktivaci.",
     load: () => import("../ButtonShowcase"),
@@ -235,8 +235,8 @@ export const categories: Category[] = [
         consumers: "Knihovna V1; čeká na schválení a budoucí integraci.",
         api: "title; children; footer; material; density: compact | comfortable.",
         variants: [
-          variant("flat", "Halo Soft", { material: "flat" as const }),
-          variant("raised", "Halo Soft · zvýšená", {
+          variant("flat", "Theme Card", { material: "flat" as const }),
+          variant("raised", "Theme Card · zvýšená", {
             material: "raised" as const,
           }),
         ],
@@ -258,7 +258,7 @@ export const categories: Category[] = [
         consumers:
           "Tento adaptér a jeho katalogové styly zatím nejsou používány v produkci. Skutečný ToolPanel z components.jsx; konvertor obrázků. Lokální katalogové styly.",
         api: "HTML section props; children; className.",
-        variants: [variant("halo-soft", "Halo Soft", {})],
+        variants: [variant("halo-soft", "Theme Card", {})],
         properties: {
           children: { kind: "node" },
           className: { kind: "text" },
@@ -270,7 +270,7 @@ export const categories: Category[] = [
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Knihovna V1; čeká na schválení a budoucí integraci.",
         api: "title; description; nativní button props; disabled; aria-pressed. Nevkládat vnořené ovládací prvky.",
-        variants: [variant("halo-soft", "Halo Soft", {})],
+        variants: [variant("halo-soft", "Theme Card", {})],
         properties: {
           loading: { kind: "boolean" },
           disabled: { kind: "boolean" },
@@ -286,7 +286,7 @@ export const categories: Category[] = [
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Knihovna V1; čeká na schválení a budoucí integraci.",
         api: "state; action: ReactNode. Skládá Card + EmptyState/Loading/Alert.",
-        variants: [variant("halo-soft", "Halo Soft", {})],
+        variants: [variant("halo-soft", "Theme Card", {})],
         properties: {
           state: selectProperty([
             "empty",
@@ -304,7 +304,7 @@ export const categories: Category[] = [
         source: "src/design-system/library/Surfaces.tsx",
         consumers: "Cards & Surfaces V1.1; žádná produkční integrace.",
         api: "title; description; metadata; action. Akce je samostatný ovládací prvek.",
-        variants: [variant("halo-soft", "Halo Soft", {})],
+        variants: [variant("halo-soft", "Theme Card", {})],
         properties: {
           title: { kind: "text" },
           description: { kind: "text" },
@@ -324,7 +324,7 @@ export const categories: Category[] = [
         consumers:
           "Cards & Surfaces V1.1; žádný dashboard ani drag & drop engine se nemění.",
         api: "title; children; actions; footer. Stav a příkazy řídí konzument.",
-        variants: [variant("halo-soft", "Halo Soft", {})],
+        variants: [variant("halo-soft", "Theme Card", {})],
         properties: {
           title: { kind: "text" },
           children: { kind: "node" },
@@ -619,7 +619,7 @@ export const categories: Category[] = [
     title: "Dashboard Widgets",
     isolatedTheme: true,
     description:
-      "Rychlé akce v Halo Soft: Find Phrase demo a funkční Mini QR / PNG.",
+      "Rychlé akce ve společném theme: Find Phrase demo a funkční Mini QR / PNG.",
     keyboard:
       "Tab mezi vstupy a akcemi; Enter odešle formulář. Šipky mění Asset/Fráze. Chyba vstupu vrátí focus do pole. Demo se nespojuje s nástroji ani extension.",
     load: () => import("./WidgetsPage"),
@@ -631,7 +631,7 @@ export const categories: Category[] = [
         consumers:
           "Pouze katalogové demo. Budoucí Tool ID: search. Sdílená běhová úloha zatím neexistuje.",
         api: "size: medium | large; value; mode: asset | phrase; state; onValueChange; onModeChange; onSearch; detailAction. UI je řízené, lokální demo adaptér je oddělený.",
-        variants: [variant("halo-soft", "Halo Soft · demo", {})],
+        variants: [variant("halo-soft", "Theme Card · demo", {})],
         properties: {
           size: {
             kind: "select",
@@ -656,7 +656,7 @@ export const categories: Category[] = [
         consumers:
           "Pouze katalogový prototyp. Budoucí Tool ID: qr. Skutečný lokální createQr / paintQr / exportQrOutput; produkční nástroj se nemění.",
         api: "size: medium | large; value; state; onValueChange; onGenerate; onDownload. Pevný černobílý PNG 512 × 512; bez extension, sítí a trvalého ukládání.",
-        variants: [variant("halo-soft", "Halo Soft · funkční QR", {})],
+        variants: [variant("halo-soft", "Theme Card · funkční QR", {})],
         properties: {
           size: {
             kind: "select",
@@ -675,23 +675,23 @@ export const categories: Category[] = [
     ],
   }),
   defineCategory({
-    id: "dashboard", title: "Dashboard & Header", isolatedTheme: true,
-    description: "Schválený Header, bento Dashboard, Office placeholder a současné povrchy widgetů.",
+    id: "dashboard", title: "Dashboard & Header",
+    description: "Schválená bento struktura a Header se sémantickými povrchy TweakCN.",
     keyboard: "Tab a Shift+Tab pro vstup do náhledu a ovládání Headeru; Escape zavírá nabídky. Dark/light lze přepnout i uvnitř Headeru.",
     load: () => import("./DashboardPage"),
     entries: [defineEntry(ApprovedDashboard, {
       name: "ApprovedDashboard", label: "Header & Bento Dashboard",
       source: "src/design-system/dashboard/ApprovedDashboard.tsx",
-      consumers: "Library V1.1. Přesný schválený vzhled z Modular Playgroundu 523c983; produkční aplikace jej dosud nepoužívá.",
-      api: "theme: dark | light; onNavigate. React kompozice s původním AppHeaderem a lokálním stavem bez Tools.",
-      variants: [variant("approved-bento", "Header, Bento a Office placeholder", {}, "approved")],
-      properties: { theme: selectProperty(["dark", "light"]), onNavigate: {kind:"callback"} },
+      consumers: "Library V1.1. Struktura z Modular Playgroundu 523c983; nové theme z dodaného exportu; produkční aplikace jej dosud nepoužívá.",
+      api: "onNavigate; společný PreferencesProvider pro light/dark. React kompozice s původním AppHeaderem a lokálním stavem bez Tools.",
+      variants: [variant("approved-bento", "TweakCN · schválená bento struktura", {}, "draft")],
+      properties: { onNavigate: {kind:"callback"} },
     }),
     defineEntry(AppHeader, {
       name:"AppHeader", label:"Schválený Header", source:"src/app/header/AppHeader.tsx",
       consumers:"Jeden původní React export používaný produkcí i katalogem. Katalog přidává schválené scoped styly v src/design-system/dashboard/header.css; produkční vzhled zůstává beze změny.",
       api:"route; onNavigate. PillNav, URL, čas, notifikace, nastavení, dark/light, klávesnice a responzivní menu.",
-      variants:[variant("playground-523c983","Schválený katalogový vzhled",{route:"dashboard",onNavigate:()=>{}},"approved")],
+      variants:[variant("playground-523c983","TweakCN katalogový vzhled",{route:"dashboard",onNavigate:()=>{}},"draft")],
       properties:{route:{kind:"text"},onNavigate:{kind:"callback"}},
     }),
     defineEntry(BentoDashboard, {
@@ -702,12 +702,12 @@ export const categories: Category[] = [
     defineEntry(OfficePlaceholder, {
       name:"OfficePlaceholder",source:"src/design-system/dashboard/WidgetSurface.tsx",
       consumers:"Dominantní levý povrch schváleného benta. Není implementací budoucího Office.",api:"Pevný placeholder s ikonou a názvem.",
-      variants:[variant("placeholder","Office placeholder",{},"approved")],properties:{},
+      variants:[variant("placeholder","Office placeholder",{},"draft")],properties:{},
     }),
     defineEntry(WidgetSurface, {
       name:"WidgetSurface",source:"src/design-system/dashboard/WidgetSurface.tsx",
-      consumers:"Šest samostatně upravitelných pozic v BentoDashboard; společný export zachovává současné materiály a Border Beam.",api:"number: 1–6; title; children. Hover, reduced motion a dark/light; bez Tools.",
-      variants:([1,2,3,4,5,6] as const).map(number=>variant(`widget-${number}`,`Widget ${number}`,{number},"approved")),
+      consumers:"Šest samostatně upravitelných pozic v BentoDashboard; společný export zachovává nové sémantické povrchy a původní Border Beam.",api:"number: 1–6; title; children. Hover, reduced motion a dark/light; bez Tools.",
+      variants:([1,2,3,4,5,6] as const).map(number=>variant(`widget-${number}`,`Widget ${number}`,{number},"draft")),
       properties:{number:selectProperty(["1","2","3","4","5","6"]),title:{kind:"text"},children:{kind:"node"}},
     })],
   }),

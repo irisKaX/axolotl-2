@@ -1,0 +1,25 @@
+{
+  "packages": [
+    "@fontsource-variable/montserrat@5.3.0",
+    "@fontsource-variable/fira-code@5.3.0"
+  ],
+  "license": "SIL Open Font License 1.1",
+  "files": [
+    {
+      "file": "montserrat-latin-ext-wght-normal.woff2",
+      "sha256": "54d9a78b7ff60b689ad9f3017ffac8547b5d871afec733f6c1c3ae36577ee504"
+    },
+    {
+      "file": "montserrat-latin-wght-normal.woff2",
+      "sha256": "06b16db7a969135d48d38c49183be7fb88d4452e2a3011957c7851941f4e4879"
+    },
+    {
+      "file": "fira-code-latin-ext-wght-normal.woff2",
+      "sha256": "801677342d1191c5e964719bbcb5834f5da3c39a00e1e1501f450b1379fcc116"
+    },
+    {
+      "file": "fira-code-latin-wght-normal.woff2",
+      "sha256": "771bf4b79a97fc005d12866168bd39d868a9dd3d5903008fe8b796723c8a56f4"
+    }
+  ]
+}

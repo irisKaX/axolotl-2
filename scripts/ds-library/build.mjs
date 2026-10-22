@@ -21,6 +21,8 @@ walk("src/design-system/widgets");
 walk("src/pages/design-system/library");
 walk("src/design-system/dashboard");
 walk("src/design-system/tokens");
+walk("src/design-system/theme");
+walk("public/fonts/tweakcn");
 walk("src/app/header");
 const sourceHashes = Object.fromEntries(
   files.map((path) => [
@@ -36,6 +38,8 @@ writeFileSync(
         encoding: "utf8",
       }).trim(),
       architecture: "react-canonical-v2",
+      theme: "tweakcn-v1",
+      themeSource: "src/design-system/tokens/tweakcn.export.css",
       base: "/axolotl-preview/ds-library-v1-1/",
       entry: "#design-system",
       categories: [

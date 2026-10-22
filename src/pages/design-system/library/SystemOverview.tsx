@@ -89,7 +89,7 @@ function Specimens({ theme }: { theme: "dark" | "light" }) {
         <section aria-label={`Cards & Surfaces · ${theme}`}>
           <h4>03 / Cards & Surfaces</h4>
           <Card
-            title="Halo Soft"
+            title="Theme Card"
             footer={<Status state="success">Kontrola dokončena</Status>}
           >
             <p>Klidný povrch pro obsah, nástroje a pracovní plochy.</p>

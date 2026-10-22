@@ -1,0 +1,66 @@
+/* Preview-only adapters. Values live exclusively in tokens/tweakcn.export.css. */
+html[data-axolotl-library] {background:var(--background);color:var(--foreground);font-family:var(--font-sans);letter-spacing:var(--tracking-normal);}
+html[data-axolotl-library] body {background:var(--background);color:var(--foreground);font-family:var(--font-sans);}
+html[data-axolotl-library] .axo-ds-scope[data-design] .axo-ds-button[data-theme],
+html[data-axolotl-library] :is(.axo-ds-scope, .axo-ds-button[data-theme]) {
+  --ds-surface:var(--card); --ds-surface-raised:var(--card); --ds-inset:var(--muted);
+  --ds-background:var(--background); --ds-text:var(--foreground); --ds-muted:var(--muted-foreground);
+  --ds-text-secondary:var(--muted-foreground); --ds-line:var(--border); --ds-control-edge:var(--input);
+  --ds-hover:var(--secondary); --ds-focus:var(--ring); --ds-border-hover:var(--ring);
+  --ds-accent:var(--primary); --ds-accent-hover:var(--primary); --ds-accent-selected:var(--primary);
+  /* Compatibility names are semantic aliases, not copies of the brand palette. */
+  --ds-violet:var(--primary); --ds-blue:var(--accent);
+  --ds-error:var(--destructive); --ds-success:var(--foreground); --ds-warning:var(--foreground);
+  --ds-shadow:var(--shadow-lg); --ds-shadow-soft:var(--shadow-sm); --ds-shadow-raised:var(--shadow-md);
+  --ds-radius:var(--radius-lg); --ds-control-radius:var(--radius-md); --ds-radius-action:var(--radius-md); --ds-radius-container:var(--radius-lg);
+  --ds-space:calc(var(--spacing) * 4); --ds-space-1:var(--spacing); --ds-space-2:calc(var(--spacing) * 2);
+  --ds-space-3:calc(var(--spacing) * 3); --ds-space-4:calc(var(--spacing) * 4); --ds-space-6:calc(var(--spacing) * 6);
+  font-family:var(--font-sans);
+}
+html[data-axolotl-library] .axo-ds-scope {color:var(--foreground);}
+html[data-axolotl-library] :is(button,input,textarea,select) {font-family:var(--font-sans);}
+html[data-axolotl-library] :is(code,pre,kbd,.ds-color-code) {font-family:var(--font-mono);}
+html[data-axolotl-library] :is(input,progress) {accent-color:var(--primary);}
+html[data-axolotl-library] :is(h1,h2,h3,h4) {font-family:var(--font-sans);}
+html[data-axolotl-library] .axo-ds-scope[data-design] .axo-ds-button {
+  --btn-top:var(--secondary);--btn-bottom:var(--secondary);--btn-edge:var(--border);--btn-text:var(--secondary-foreground);
+  border-radius:var(--radius-md);box-shadow:var(--shadow-xs);font-family:var(--font-sans);
+}
+html[data-axolotl-library] .axo-ds-scope[data-design] .axo-ds-button:is([data-variant="primary"],[aria-pressed="true"]) {
+  --btn-top:var(--primary);--btn-bottom:var(--primary);--btn-edge:var(--primary);--btn-text:var(--primary-foreground);
+}
+html[data-axolotl-library] .axo-ds-scope[data-design] .axo-ds-button[data-variant="destructive"] {
+  --btn-top:var(--destructive);--btn-bottom:var(--destructive);--btn-edge:var(--destructive);--btn-text:var(--destructive-foreground);
+}
+html[data-axolotl-library] .axo-ds-scope[data-design] .axo-ds-button[data-variant="ghost"] {--btn-top:transparent;--btn-edge:transparent;--btn-text:var(--foreground);box-shadow:none;}
+html[data-axolotl-library] .axo-ds-scope[data-design] .axo-ds-button:hover:not(:disabled):not([aria-disabled="true"]) {box-shadow:var(--shadow-sm);border-color:var(--ring);}
+html[data-axolotl-library] .axo-ds-scope[data-design] .axo-ds-button[data-variant="ghost"]:hover:not(:disabled) {--btn-top:var(--accent);--btn-text:var(--accent-foreground);}
+html[data-axolotl-library] .axo-ds-scope .ds-input {background:var(--background);border-color:var(--input);color:var(--foreground);border-radius:var(--radius-md);}
+html[data-axolotl-library] .axo-ds-scope .ds-input:hover:not(:disabled) {background:var(--background);border-color:var(--ring);}
+html[data-axolotl-library] .axo-ds-scope :is(.ds-select-menu,.ds-popover,.ds-tooltip) {background:var(--popover);color:var(--popover-foreground);border-color:var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);}
+html[data-axolotl-library] .axo-ds-scope.ds-dialog {background:var(--card);color:var(--card-foreground);border-radius:var(--radius-xl);box-shadow:var(--shadow-xl);}
+html[data-axolotl-library] .axo-ds-scope :is(.ds-card,.ax-panel,.ds-interactive-card,.ds-alert) {color:var(--card-foreground);}
+html[data-axolotl-library] .axo-ds-scope :is(.ds-select-item[data-state="checked"],.ax-checkbox[data-state="checked"],.ax-checkbox[data-state="indeterminate"],.ds-tabs [aria-selected="true"],.ds-segmented input:checked + span,.ds-pagination button[aria-current="page"]) {background:var(--primary);color:var(--primary-foreground);}
+html[data-axolotl-library] .axo-ds-scope .ds-switch input:checked + .ds-switch-track::before {background:var(--primary-foreground);}
+html[data-axolotl-library] .axo-ds-scope :is(.ds-select-item[data-highlighted]:not([data-state="checked"]),.ds-tabs [role="tab"]:hover:not([aria-selected="true"]):not(:disabled)) {background:var(--accent);color:var(--accent-foreground);}
+html[data-axolotl-library] .axo-ds-scope :is(.ds-tabs [role="tab"],.ds-segmented,.ds-disclosure,.ds-select-item,.ds-pagination button) {border-radius:var(--radius-md);}
+html[data-axolotl-library] .ds-catalog-nav {background:var(--sidebar);color:var(--sidebar-foreground);border:1px solid var(--sidebar-border);border-radius:var(--radius-lg);padding:calc(var(--spacing) * 2);}
+html[data-axolotl-library] .ds-catalog-nav a {border-radius:var(--radius-md);}
+html[data-axolotl-library] .ds-catalog-nav a[aria-current="page"] {background:var(--sidebar-primary);color:var(--sidebar-primary-foreground);}
+html[data-axolotl-library] .ds-catalog-nav a:hover:not([aria-current="page"]) {background:var(--sidebar-accent);color:var(--sidebar-accent-foreground);}
+html[data-axolotl-library] .ds-catalog-nav a:focus-visible {outline-color:var(--sidebar-ring);}
+html[data-axolotl-library] .ds-system-column {background:var(--background);border-radius:var(--radius-lg);}
+html[data-axolotl-library] .axo-ds-scope .ds-alert[data-tone="error"] {border-left-color:var(--destructive);}
+/* Export has no success/warning palette. Existing icons and text retain meaning
+   without inventing new theme colors or reusing chart colors as status colors. */
+html[data-axolotl-library] .axo-ds-scope .ds-alert:is([data-tone="success"],[data-tone="warning"]) {border-left-color:var(--foreground);}
+html[data-axolotl-library] table {width:100%;border-collapse:collapse;background:var(--card);color:var(--card-foreground);font-size:.9em;}
+html[data-axolotl-library] :is(th,td) {text-align:left;padding:calc(var(--spacing) * 3);border-bottom:1px solid var(--border);overflow-wrap:anywhere;}
+html[data-axolotl-library] th {background:var(--muted);color:var(--muted-foreground);font-weight:600;}
+html[data-axolotl-library] tbody tr:hover {background:var(--secondary);color:var(--secondary-foreground);}
+html[data-axolotl-library] .ds-theme-table {overflow:auto;border:1px solid var(--border);border-radius:var(--radius-lg);margin-block:calc(var(--spacing) * 4);}
+html[data-axolotl-library] .ds-theme-swatch {display:inline-block;width:36px;height:36px;border:1px solid var(--border);border-radius:var(--radius-sm);vertical-align:middle;margin-right:calc(var(--spacing) * 2);}
+html[data-axolotl-library] .ds-theme-samples {display:flex;flex-wrap:wrap;gap:calc(var(--spacing) * 6);padding:calc(var(--spacing) * 4);}
+html[data-axolotl-library] .ds-theme-samples > div {padding:calc(var(--spacing) * 4);background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);}
+@media(forced-colors:active){html[data-axolotl-library] .axo-ds-scope :is(.axo-ds-button,.ds-card,.ds-input,.ds-select-item){background:Canvas;color:CanvasText;border-color:ButtonText;box-shadow:none;}}
+html[data-axolotl-library] .axo-ds-scope[data-theme] .ds-input[aria-invalid="true"] {border-color:var(--destructive);box-shadow:0 0 0 1px var(--destructive);}

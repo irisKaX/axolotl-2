@@ -1,0 +1,14 @@
+import { useLayoutEffect, type ReactNode } from 'react';
+import { themeStylesheet } from '../tokens/theme';
+import { headerThemeStylesheet } from './headerTheme';
+import './fonts.css';
+import './components.css';
+import './header.css';
+/** Installed only by library.html; production App never imports this theme. */
+export function LibraryTheme({children}: {children: ReactNode}) {
+  useLayoutEffect(() => {
+    document.documentElement.dataset.axolotlLibrary = 'tweakcn-v1';
+    return () => { delete document.documentElement.dataset.axolotlLibrary; };
+  }, []);
+  return <><style data-library-theme>{themeStylesheet + headerThemeStylesheet}</style>{children}</>;
+}
