@@ -1,0 +1,31 @@
+{
+  "playgroundCommit": "523c983",
+  "libraryCommit": "29fd04501ce5174040325e0a21443e6f9058d3b0",
+  "knowledgeCommit": "316927f6b143a4cc93d680e8c1945a3c85a013da",
+  "importedFiles": {
+    "dashboard/evolution.css": "b71150214ea49da038563799d07f8d3e3f09e5fc8272974972bcffc55470d6a1",
+    "dashboard/final-bento.css": "31b11f1429e59d85b25bd064da79c27aaf3b2fca7a744cb40730d068c4f58f9c",
+    "dashboard/README.md": "ccd20d859b07926b497c5e832966aaf338b3585d0a4ed8263659e34be5cbc806",
+    "dashboard/refinement.css": "d7961d15f33148da01d5064b97c961a1474da1cc4dcf5c108437e6ab40b06e61",
+    "dashboard/header-ui-polish.patch": "1660e5f262c2aad515c5bedc986ec91110ed9d32868c7fb3c483e9a58286b51d",
+    "dashboard/header-entry.tsx": "d4c2803796618133fa03e1999e6d662c1b0642e87a2d60fc1412722d1bfce7ae",
+    "dashboard/index.html": "09349486c853c7f507e9ead029e3f82bb4aa790b9dbb858a5d8d9af3e970ead6",
+    "dashboard/ui-polish.css": "a2dceb2adc82af4f38ad14bdebe96a5c380d7aad78385a0266c1f9f740b2a53a",
+    "dashboard/playground.js": "43a9b63f7628a2bf9f6292b97d00663e0a8d983a132418fb70b5a35ccbdf8069",
+    "dashboard/LICENSE.border-beam.txt": "a2057fa6e8c2b4ce7bcd4887a25a48cea415a9f0d29c1318009d3b2b61864e23",
+    "shared/style.css": "8ec0872befc801c5347172f1078760b9940b035abdcaedaa2214bf8cecde75bc",
+    "shared/o2.svg": "c20c273b68bca1285127921310eb1479f8a003637365c87b2a5652d2fb12a06f",
+    "dashboard/approved-header/o2-mark-4ET2ON54.svg": "c20c273b68bca1285127921310eb1479f8a003637365c87b2a5652d2fb12a06f",
+    "dashboard/approved-header/header.js.LEGAL.txt": "9a39947b309613ad0572d347538696c3fc2600e707d31987926a78e5d5bd0fb3",
+    "dashboard/approved-header/header.css": "60a4afe198a959c5604cbd41dfe24ffb437a2b8eb02e304ba41a75adbe72829c",
+    "dashboard/approved-header/source.json": "a516ff132ec048fa8a2898553dd71b80fa7a95c9f6f2f985e8d9f6f28605c20c",
+    "dashboard/approved-header/header.js": "bb54326757d8a812e5132d2e93c8670f447060a9ef8f3091adfabd326a3c51a2",
+    "dashboard/approved-header/LICENSE.react-bits.md": "c687bc4b0d9f3d1679d978ae5720f8c9367146e31614d886f5be9e3eff582d57",
+    "shared/fonts/space-grotesk.woff2": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
+    "shared/fonts/space-grotesk-LICENSE.txt": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
+    "shared/fonts/manrope-LICENSE.txt": "d826ab6583b12c26807d8716a545bdbbb672df04f48608a364ba9efdbe501c30",
+    "shared/fonts/space-grotesk-ext.woff2": "952dddb45d2f96f71cbf3b7f510b24379afc3c89ea02fcf89d377b45d62c0166",
+    "shared/fonts/manrope-ext.woff2": "3911b66d9f2e005a4b989223405d0e5032619c668597ba467cc76a23c8fffcfb",
+    "shared/fonts/manrope.woff2": "a30ddcd349703aff7464c34bef3fffdff405ee50c113440d7c8693c02d210972"
+  }
+}

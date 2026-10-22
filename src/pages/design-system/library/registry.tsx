@@ -1,4 +1,5 @@
-import { LayoutStudio } from './layout/LayoutStudio';
+import { ApprovedDashboard } from "./DashboardPage";
+import { MascotIdentity } from "./BrandPage";
 import {
   FindPhraseWidget,
   MiniQrWidget,
@@ -36,7 +37,7 @@ export const categories: Category[] = [
         label: "Button",
         source: "src/design-system/Button/Button.tsx",
         consumers:
-          "Skutečný export Button. Sjednocený katalogový vzhled je návrh; původní Lens 02 zůstává v Git historii a zachovaném preview.",
+          "Skutečný export Button. Sjednocený katalogový vzhled je návrh; původní Lens 02 zůstává v Git historii (archivní reference).",
         api: "variant; size: small | medium | large; motion: none | star-border; starBorder: {color,duration}; loading; disabled; icon; nativní props a ref.",
         variants: [
           variant(
@@ -669,16 +670,30 @@ export const categories: Category[] = [
     ],
   }),
   defineCategory({
-    id: "layout", title: "Dashboard Layout Studio", isolatedTheme: true, workspace: true,
-    description: "Kompozice pracovní plochy: pevný Office, trvalý Notebook a upravitelné widgety.",
-    keyboard: "Přesun a rozměry: tažení, šipky na úchytech nebo číselné ovládání. Veškeré změny jsou pouze v paměti.",
-    load: () => import("./LayoutPage"),
-    entries: [defineEntry(LayoutStudio, {
-      name: "LayoutStudio", label: "Dashboard Layout Studio",
-      source: "src/pages/design-system/library/layout/LayoutStudio.tsx",
-      consumers: "Pouze tato návrhová stránka. Používá skutečné FindPhraseWidget a MiniQrWidget; nemění produkční Dashboard ani AppHeader.",
-      api: "React Grid Layout, dvě kompozice, responzivní souřadnice x/y a rozměry w/h. Office a Notebook jsou pevné. Bez automatického zhušťování a persistence.",
-      variants: [variant("centered", "Vyvážený střed", {}), variant("staggered", "Pracovní patra", {})], properties: {},
+    id: "dashboard", title: "Dashboard & Header", isolatedTheme: true,
+    description: "Schválený Header, bento Dashboard, Office placeholder a současné povrchy widgetů.",
+    keyboard: "Tab a Shift+Tab pro vstup do náhledu a ovládání Headeru; Escape zavírá nabídky. Dark/light lze přepnout i uvnitř Headeru.",
+    load: () => import("./DashboardPage"),
+    entries: [defineEntry(ApprovedDashboard, {
+      name: "ApprovedDashboard", label: "Header & Bento Dashboard",
+      source: "public/library/dashboard/index.html",
+      consumers: "Library V1.1. Přesný schválený vzhled z Modular Playgroundu 523c983; produkční aplikace jej dosud nepoužívá.",
+      api: "theme: dark | light. Izolovaný viewport zachovává původní CSS, rozměry a interakce.",
+      variants: [variant("approved-bento", "Header, Bento a Office placeholder", {}, "approved")],
+      properties: { theme: selectProperty(["dark", "light"]) },
+    })],
+  }),
+  defineCategory({
+    id: "brand", title: "Brand & Mascot",
+    description: "Axolotl V3: schválená identita, paleta, pravidla použití a stav assetů.",
+    keyboard: "Dokumentace je dostupná nadpisy, seznamy a odkazem na autoritativní zdroj.",
+    load: () => import("./BrandPage"),
+    entries: [defineEntry(MascotIdentity, {
+      name: "MascotIdentity", label: "Axolotl Master V3",
+      source: "src/pages/design-system/library/BrandPage.tsx",
+      consumers: "Schválená identita; obrazový master není v repozitáři dostupný. Žádná nová ilustrace ani produkční integrace.",
+      api: "Dokumentace V3 a orientační paleta; bez generování nebo úprav postavy.",
+      variants: [variant("v3", "Master identity V3", {}, "approved")], properties: {},
     })],
   }),
 ];
@@ -742,4 +757,4 @@ export function componentOptions(category: Category) {
   return category.entries.map((e) => ({ value: e.label, label: e.label }));
 }
 export const sourceUrl = (path: string) =>
-  `https://github.com/irisKaX/axolotl-2/blob/experiment/ds-library-v1-1/${path}`;
+  `https://github.com/irisKaX/axolotl-2/blob/design-system/consolidate-v1-1/${path}`;

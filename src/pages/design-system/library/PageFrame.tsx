@@ -68,7 +68,7 @@ export function ApiReference({ category: data }: { category: Category }) {
             {entry.variants
               .map(
                 (v) =>
-                  `${v.label}: ${v.production ? "Používá se" : "Zatím se nepoužívá"}`,
+                  `${v.label}: ${v.production ? "Produkčně použito" : "Zatím se nepoužívá"}`,
               )
               .join("; ")}
           </p>

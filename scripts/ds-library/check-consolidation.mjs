@@ -1,0 +1,58 @@
+import assert from 'node:assert/strict';
+import {chromium} from 'playwright';
+import AxeBuilder from '@axe-core/playwright';
+import {writeFileSync} from 'node:fs';
+const base=process.env.LIBRARY_URL || 'http://127.0.0.1:4185/axolotl-preview/ds-library-v1-1/';
+const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROME_EXECUTABLE || '/usr/bin/chromium',headless:true});
+const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
+const page=await context.newPage();
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const failed=[];page.on('response',r=>{if(r.status()>=400)failed.push([r.status(),r.url()]);});
+try {
+ await page.goto(base+'#design-system');
+ await page.getByRole('heading',{name:'Design System Library V1.1',exact:true}).waitFor();
+ assert.equal(await page.locator('.ds-catalog-category').count(),10);
+ const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+ writeFileSync('/tmp/axolotl-catalog-accessibility.json',JSON.stringify(audit.violations,null,2));
+ assert.deepEqual(audit.violations.map(v=>v.id),[], 'Catalog accessibility');
+ for(const id of ['buttons','forms','surfaces','overlays','feedback','navigation','colors','widgets','brand']) {
+  await page.goto(base+'?catalog=library&section='+id+'#design-system');
+  await page.locator('.ds-catalog-api').waitFor();
+  await page.getByRole('status').filter({hasText:'Načítám komponenty'}).waitFor({state:'hidden'});
+ }
+ await page.goto(base+'?section=buttons#design-system');
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ await page.getByRole('checkbox',{name:'Omezit pohyb',exact:true}).uncheck();
+ await page.getByRole('checkbox',{name:'Star Border',exact:true}).check();
+ await page.locator('.axo-button-showcase__stage canvas').first().waitFor();
+ await page.getByRole('checkbox',{name:'Omezit pohyb',exact:true}).check();
+ assert.equal(await page.locator('.axo-button-showcase__stage canvas').count(),0);
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.goto(base+'?section=dashboard#design-system');
+ const frame=page.frameLocator('iframe');
+ await frame.locator('#approved-header .axolotl-pill-nav').waitFor();
+ assert.equal(await frame.locator('.bento-cell').count(),7);
+ await frame.getByRole('checkbox',{name:'Tmavý režim',exact:true}).setChecked(false);
+ await page.waitForFunction(()=>document.querySelector('iframe').contentDocument.documentElement.dataset.theme==='light');
+ await frame.getByRole('checkbox',{name:'Tmavý režim',exact:true}).setChecked(true);
+ await frame.getByRole('button',{name:'Média',exact:true}).hover();
+ await frame.locator('[data-header-panel="group:media"]').waitFor();
+ await page.keyboard.press('Escape');
+ await frame.getByRole('button',{name:'Nastavení',exact:true}).click();
+ await frame.getByRole('button',{name:'Vzhled a prostředí',exact:true}).click();
+ await frame.getByRole('button',{name:'Zavřít nabídku',exact:true}).waitFor();
+ await page.keyboard.press('Escape');
+ const input=frame.getByRole('textbox',{name:'Aktuální URL'});
+ await input.fill('example.cz');await input.press('Enter');assert.equal(await input.inputValue(),'https://example.cz/');
+ await page.screenshot({path:'/tmp/axolotl-library-dashboard.png',fullPage:true});
+ const dashboardAudit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+ assert.deepEqual(dashboardAudit.violations.map(v=>v.id),[], 'Dashboard accessibility');
+ writeFileSync('/tmp/axolotl-dashboard-accessibility.json',JSON.stringify(dashboardAudit.violations,null,2));
+ await page.setViewportSize({width:390,height:844});
+ assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Catalog mobile overflow');
+ assert(await frame.locator('html').evaluate(el=>el.scrollWidth<=window.innerWidth),'Dashboard mobile overflow');
+ await page.goto(base+'?section=layout#design-system');
+ assert(new URL(page.url()).searchParams.get('section')==='dashboard');
+ assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
+ console.log('PASS: 10 categories, embedded Header + 7 bento cells, themes, menus, URL input, Star Border/reduced motion, mobile, legacy layout redirect.');
+}finally{await browser.close();}

@@ -52,8 +52,8 @@ describe("Catalog extensibility contract", () => {
     expect(registry.getCategories).toBeTypeOf("function");
     const normal = registry.getCategories(false),
       test = registry.getCategories(true);
-    expect(normal).toHaveLength(9);
-    expect(test).toHaveLength(10);
+    expect(normal).toHaveLength(10);
+    expect(test).toHaveLength(11);
     const normalCard = normal.find((c) => c.id === "surfaces")!.entries[0];
     const testCard = test.find((c) => c.id === "surfaces")!.entries[0];
     expect(normalCard.variants).toHaveLength(2);

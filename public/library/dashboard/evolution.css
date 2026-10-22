@@ -1,0 +1,106 @@
+/* Host compatibility only: the approved AppHeader/PillNav CSS is compiled unchanged. */
+#approved-header,[data-header-panel],[data-header-select]{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+#approved-header .axolotl-logo-art{display:block;width:26px;height:26px;background-color:currentColor;mask:var(--axolotl-logo-image) center / contain no-repeat}
+[data-header-panel] :is(h2,h3),[data-header-select] :is(h2,h3){font-family:inherit}
+#approved-header input{box-shadow:none}
+#approved-header input[type=checkbox]{width:100%;height:100%;padding:0;border:0}
+#approved-header .axolotl-pill-nav__slot:not([data-on]) .axolotl-pill-nav__fill{background:var(--axo-tile)}
+#approved-header .axolotl-pill-nav__slot:not([data-on]) .axolotl-pill-nav__face-alt{color:var(--axo-ink)}
+:root[data-motion=reduced] *, :root[data-motion=reduced] *::before,:root[data-motion=reduced] *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:0s!important;scroll-behavior:auto!important}
+[data-concept=playground] .concept-bar{padding-top:0}
+/* One composition. Office owns the central three rows; supporting tools frame it. */
+@media(min-width:951px){
+ [data-concept=playground] .dashboard-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.38fr) minmax(0,1fr);grid-template-rows:172px 148px 150px;gap:15px}
+ [data-concept=playground] .dashboard-grid>.card{padding:19px}
+ [data-concept=playground] .dashboard-grid .office{grid-column:2;grid-row:1/4;overflow:hidden;padding:23px;box-shadow:inset 0 1px #ffffff70,0 6px 0 #00000010,0 22px 40px -30px #38304b55}
+ [data-concept=playground] .office-top{flex:none}
+ [data-concept=playground] .office-top .card-label{font-size:10px;letter-spacing:.12em}
+ [data-concept=playground] .office .office-scene{position:relative;inset:auto;flex:1;width:100%;overflow:visible;min-height:0;display:grid;place-items:center;z-index:0}
+ [data-concept=playground] .office .play-art{width:calc(100% + 52px);height:auto;max-height:320px;margin:0 -26px;transform:rotate(-3deg);filter:saturate(.85)}
+ [data-concept=playground] .office-bottom{max-width:none;width:100%;margin-top:0;align-items:flex-end;gap:15px;padding:0}
+ [data-concept=playground] .office-bottom>div{max-width:calc(100% - 43px)}
+ [data-concept=playground] .office-bottom h2{max-width:310px;font-size:35px;line-height:1.06;letter-spacing:-.05em}
+ [data-concept=playground] .office-bottom p{max-width:none;font-size:11px;line-height:1.6;margin-top:12px}
+ [data-concept=playground] .office-small{margin-bottom:12px;font-size:8px}
+ [data-concept=playground] .office .round-action{position:static;right:auto;bottom:auto;width:38px;height:38px;flex:none}
+ [data-concept=playground] .dashboard-grid .find-card{grid-column:1;grid-row:1/3;padding:24px}
+ [data-concept=playground] .find-card .card-head{margin-bottom:22px}
+ [data-concept=playground] .find-card h2{font-size:31px;line-height:1.12;margin-bottom:20px}
+ [data-concept=playground] .find-card .input-action input{font-size:12px;padding:12px}
+ [data-concept=playground] .find-card .input-action button{width:36px}
+ [data-concept=playground] .find-card .mini-result{font-size:11px;margin-top:15px}
+ [data-concept=playground] .find-card .text-lines{display:block;margin-top:20px;font-size:11px;line-height:1.9;border-top:1px solid var(--line);padding-top:13px}
+ [data-concept=playground] .find-card .text-lines span{display:block}
+ [data-concept=playground] .dashboard-grid .media-card{display:flex;grid-column:1;grid-row:3}
+ [data-concept=playground] .media-card .card-head{margin-bottom:8px}
+ [data-concept=playground] .media-card .card-bottom{margin-top:auto;gap:5px}
+ [data-concept=playground] .media-card .card-bottom strong{font-size:21px;max-width:145px;line-height:1.07}
+ [data-concept=playground] .media-card .card-bottom small{font-size:9px;max-width:145px}
+ [data-concept=playground] .media-card .card-bottom>.icon{display:none}
+ [data-concept=playground] .media-illustration{inset:19px 0 0 49%}
+ [data-concept=playground] .image-sheet{width:112px;height:81px;border-width:5px}
+ [data-concept=playground] .format-pill{bottom:15px;right:18px;font-size:8px;padding:3px 8px}
+ [data-concept=playground] .dashboard-grid .qr-card{grid-column:3;grid-row:1}
+ [data-concept=playground] .qr-card .card-head{margin-bottom:12px}
+ [data-concept=playground] .qr-content{flex-direction:row;align-items:center;gap:19px}
+ [data-concept=playground] .qr-content .qr-art{width:78px;height:78px;transform:rotate(3deg);padding:3px}
+ [data-concept=playground] .qr-content h2{font-size:21px;max-width:180px;line-height:1.1}
+ [data-concept=playground] .qr-content p{display:block;font-size:9px;margin:6px 0 8px}
+ [data-concept=playground] .qr-content .small-button{position:static;width:auto;height:auto;min-height:28px;font-size:9px;padding:5px 9px;border-radius:7px;gap:8px}
+ [data-concept=playground] .qr-content .small-button .icon{width:13px;height:13px}
+ [data-concept=playground] .qr-card .card-bottom{display:none}
+ [data-concept=playground] .dashboard-grid .notebook-card{grid-column:3;grid-row:2}
+ [data-concept=playground] .notebook-card .card-head{margin-bottom:8px}
+ [data-concept=playground] .notebook-card .chip{display:inline-flex;font-size:8px}
+ [data-concept=playground] .notebook-card .note-preview{min-height:0;justify-content:center}
+ [data-concept=playground] .notebook-card .handwritten{font-size:24px;line-height:1.2;max-width:none}
+ [data-concept=playground] .notebook-card .note-preview p,[data-concept=playground] .notebook-card .pencil-line{display:none}
+ [data-concept=playground] .notebook-card .card-bottom{padding-top:9px;margin-top:9px;font-size:10px}
+ [data-concept=playground] .dashboard-grid .metadata-card{grid-column:3;grid-row:3;padding:18px 19px!important}
+ [data-concept=playground] .metadata-card .card-head{margin-bottom:10px}
+ [data-concept=playground] .meta-inner{flex-direction:row;gap:15px;align-items:center}
+ [data-concept=playground] .score-ring{width:49px;height:49px}
+ [data-concept=playground] .score-ring>span{font-size:21px}
+ [data-concept=playground] .score-ring small{font-size:7px;margin-top:3px}
+ [data-concept=playground] .meta-inner h2{font-size:16px}
+ [data-concept=playground] .meta-inner p{display:block;font-size:9px;line-height:1.5;margin-top:5px}
+ [data-concept=playground] .metadata-card>.text-link{font-size:10px;margin-top:12px}
+}
+@media(min-width:951px) and (max-width:1150px){
+ [data-concept=playground] .dashboard-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr)}
+ [data-concept=playground] .dashboard-grid .find-card{padding:20px}
+ [data-concept=playground] .find-card h2{font-size:28px}
+ [data-concept=playground] .office-bottom h2{font-size:30px}
+ [data-concept=playground] .qr-content{gap:11px}
+ [data-concept=playground] .qr-content .qr-art{width:66px;height:66px}
+ [data-concept=playground] .qr-content h2{font-size:17px}
+ [data-concept=playground] .notebook-card .handwritten{font-size:22px}
+ [data-concept=playground] .notebook-card .chip{display:none}
+ [data-concept=playground] .media-card .card-bottom strong{font-size:18px;max-width:115px}
+ [data-concept=playground] .media-card .card-bottom small{max-width:115px;font-size:8px}
+ [data-concept=playground] .image-sheet{width:90px;height:70px}
+}
+@media(min-width:1600px){[data-concept=playground] .dashboard-grid{grid-template-rows:190px 163px 167px}[data-concept=playground] .office .play-art{max-height:350px}[data-concept=playground] .office-bottom h2{font-size:39px}[data-concept=playground] .notebook-card .handwritten{font-size:27px}}
+@media(min-width:641px) and (max-width:950px){
+ [data-concept=playground] .dashboard-grid{grid-template-columns:1fr 1fr;grid-template-rows:285px 390px 220px 180px}
+ [data-concept=playground] .dashboard-grid .find-card{grid-column:1;grid-row:1}
+ [data-concept=playground] .dashboard-grid .qr-card{grid-column:2;grid-row:1}
+ [data-concept=playground] .dashboard-grid .office{grid-column:1/3;grid-row:2;overflow:hidden;min-height:390px}
+ [data-concept=playground] .office .office-scene{inset:0 0 0 34%;width:auto}
+ [data-concept=playground] .office .play-art{width:450px;max-height:none;height:390px}
+ [data-concept=playground] .office .office-bottom h2{font-size:40px;max-width:260px}
+ [data-concept=playground] .office .office-bottom .round-action{right:0}
+ [data-concept=playground] .dashboard-grid .media-card{grid-column:1;grid-row:3}
+ [data-concept=playground] .dashboard-grid .notebook-card{grid-column:2;grid-row:3}
+ [data-concept=playground] .dashboard-grid .metadata-card{grid-column:1/3;grid-row:4}
+ [data-concept=playground] .meta-inner p{display:block}
+}
+@media(max-width:640px){
+ [data-concept=playground] .dashboard-grid .office{order:0;min-height:410px}
+ [data-concept=playground] .dashboard-grid .find-card{order:-1}
+ [data-concept=playground] .office .office-scene{inset:5px -40px 100px 10%}
+ [data-concept=playground] .office .play-art{width:370px;height:320px;max-height:none}
+ [data-concept=playground] .office .office-bottom h2{max-width:250px;font-size:38px}
+}
+/* Shared accessibility primitive used by the original icon-only PillNav item. */
+#approved-header .axolotl-visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}

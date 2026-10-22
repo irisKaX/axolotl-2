@@ -15,6 +15,7 @@ import { designLabel } from "./model";
 import { SystemOverview } from "./SystemOverview";
 import { ApiReference } from "./PageFrame";
 import "./catalog.css";
+import "./consolidation.css";
 const readRoute = () => {
   const q = new URLSearchParams(location.search),
     testMode = q.get("catalogTests") === "1";
@@ -116,7 +117,7 @@ export default function Library() {
               />
             </div>
             {!selected?.workspace && (
-              <Status state="neutral">Library V1.1 · k revizi</Status>
+              <Status state="neutral">Jediný katalog · Library V1.1</Status>
             )}
             <Button
               size="small"
@@ -146,7 +147,7 @@ export default function Library() {
           </h1>
           <p>
             {selected?.description ||
-              "Skutečné React komponenty. Jedna stránka pro každý typ, živé varianty a stav, který lze ověřit."}
+              "Jediný platný katalog vizuálního systému Axolotl 2.0. Každá komponenta má jeden zdroj a vlastní stav schválení."}
           </p>
         </header>
         {selected && !selected.workspace && categoryNavigation}
@@ -170,7 +171,16 @@ export default function Library() {
         )}
         {!selected ? (
           <>
-            <div className="ds-catalog-categories">
+            <nav aria-label="Oblasti designového systému"><ul className="ds-catalog-map">
+              <li><a href="#foundations">Foundations</a></li>
+              <li><a href="#themes">Themes</a></li>
+              <li><a href="#components">Components</a></li>
+              <li><a href={href("dashboard")} onClick={(e) => navigate(e, "dashboard")}>Dashboard</a></li>
+              <li><a href={href("buttons")} onClick={(e) => navigate(e, "buttons")}>Motion · Star Border</a></li>
+              <li><a href={href("brand")} onClick={(e) => navigate(e, "brand")}>Brand & Mascot</a></li>
+              <li><a href="#guidelines">Guidelines</a></li>
+            </ul></nav>
+            <div className="ds-catalog-categories" id="components">
               {categories.map((c, i) => (
                 <a
                   className="ds-catalog-category"
@@ -206,9 +216,9 @@ export default function Library() {
                 </a>
               ))}
             </div>
-            <SystemOverview />
-            <section className="ds-foundations">
-              <h2>Pracovní foundations</h2>
+            <div id="themes"><SystemOverview /></div>
+            <section className="ds-foundations" id="foundations">
+              <h2>Foundations</h2><p>Barvy a gradienty, typografie a fonty, spacing, radius, elevation, shadows a borders vycházejí ze stávajících tokenů a skutečných komponent. Jejich hodnoty se touto konsolidací nemění.</p>
               <p>
                 Schválené akcenty:{" "}
                 <strong>
@@ -233,23 +243,19 @@ export default function Library() {
                 Počet variant nezahrnuje velikosti ani interakční stavy. Každý
                 detail ukazuje přesný seznam a původ exportů.
               </p>
-              <Disclosure title="Historie a původní experimenty">
-                <div className="ds-catalog-links">
-                  <a href="?catalog=legacy#design-system">
-                    Původní katalog v aplikaci
-                  </a>
-                  <a href="?catalog=headers#design-system">Header Lab A/B</a>
-                  <a href="https://iriskax.github.io/axolotl-preview/ds-button-lens-02/">
-                    Historický Lens 02 Button
-                  </a>
-                  <a href="https://iriskax.github.io/axolotl-preview/aperture-02-20261018/aperture-02.html">
-                    Aperture 02
-                  </a>
-                  <a href="https://github.com/irisKaX/component-catalog">
-                    Experimentální component-catalog
-                  </a>
-                </div>
-              </Disclosure>
+              <section id="guidelines" className="ds-catalog-guidelines">
+                <h2>Guidelines · jeden zdroj pravdy</h2>
+                <p>Nové komponenty, tokeny, témata, Header, Dashboard i maskot vznikají a spravují se nejprve v této Library V1.1. Rozšiřujeme existující export a registr, nevytváříme paralelní katalogy.</p>
+                <ul>
+                  <li><strong>Návrh:</strong> experiment nebo úprava čekající na schválení.</li>
+                  <li><strong>Schváleno:</strong> konkrétní vizuální varianta potvrzená uživatelkou.</li>
+                  <li><strong>Produkčně použito:</strong> přesná varianta skutečně používaná aplikací; tento údaj se eviduje nezávisle na schválení.</li>
+                </ul>
+                <p>Schválení katalogu neschvaluje automaticky jeho ukázky. Header a bento odpovídají revizi 523c983; Office zůstává placeholderem. Návrhové widgety zůstávají označené jako návrhy.</p>
+                <p>Star Border je volitelný efekt existujícího Buttonu. Respektujeme klávesnici, focus, reduced motion a dark/light.</p>
+                <p>V1, historické Header Labs, Layout Studios a ostatní experimentální preview jsou vyřazené jako aktivní zdroje. Historie zůstává v Gitu. Starý produkční katalog není autoritou; jeho živá routa zůstává do samostatně schválené produkční změny.</p>
+                <p>Soukromá Inspiration Library zůstává soukromým zdrojem externích referencí. Její obsah se zde nezveřejňuje a neznamená schválení komponent.</p>
+              </section>
             </section>
           </>
         ) : (
@@ -266,13 +272,7 @@ export default function Library() {
           </>
         )}
         <footer className="ds-catalog-footer">
-          {section === "buttons"
-            ? "Button: sjednocený vzhled podle Navigation & Tabs, k revizi."
-            : "Nové povrchy a komponenty: pracovní V1 ke schválení."}{" "}
-          Header a nástroje se nemění.{" "}
-          <a href="https://github.com/irisKaX/axolotl-2/tree/experiment/ds-library-v1-1/docs/ds-library/EXTENDING.md">
-            API a technický report ↗
-          </a>
+          Design System Library V1.1 · jediný katalog. Stav každé varianty je uveden v registru a technických detailech.
         </footer>
       </section>
     </DesignSystemProvider>

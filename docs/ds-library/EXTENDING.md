@@ -1,3 +1,5 @@
+> **Aktuální pravidlo:** jediným katalogem je Library V1.1; nové vizuální změny vznikají zde. Převzatý Header/Dashboard a Brand & Mascot, vyřazení historických preview a aktuální build popisuje [CONSOLIDATION.md](CONSOLIDATION.md). Následující historické počty a odkazy na zachovaná aktivní preview již neplatí. Stav schválení se stále eviduje po jednotlivých variantách.
+
 # Rozšiřování Design System Library V1.1
 
 **Katalog:** https://iriskax.github.io/axolotl-preview/ds-library-v1-1/#design-system  

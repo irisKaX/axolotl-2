@@ -1,15 +1,12 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, renameSync } from "node:fs";
 import { createHash } from "node:crypto";
 const run = (file, args) => execFileSync(file, args, { stdio: "inherit" });
 run("npm", ["run", "typecheck"]);
-run("node", ["scripts/clean-build.mjs"]);
-run("node", [
-  "node_modules/vite/bin/vite.js",
-  "build",
-  "--base=/axolotl-preview/ds-library-v1-1/",
-]);
-run("node", ["scripts/finalize-build.mjs"]);
+const { build } = await import("vite");
+await build({ base: "/axolotl-preview/ds-library-v1-1/", build: { rollupOptions: { input: "library.html" } } });
+renameSync("dist/library.html", "dist/index.html");
+writeFileSync("dist/.nojekyll", "");
 const files = [];
 function walk(dir) {
   for (const item of readdirSync(dir, { withFileTypes: true })) {
@@ -22,6 +19,7 @@ walk("src/design-system/Button");
 walk("src/design-system/library");
 walk("src/design-system/widgets");
 walk("src/pages/design-system/library");
+walk("public/library");
 const sourceHashes = Object.fromEntries(
   files.map((path) => [
     path,
@@ -46,9 +44,11 @@ writeFileSync(
         "navigation",
         "colors",
         "widgets",
-        "layout",
+        "dashboard",
+        "brand",
       ],
       sourceHashes,
+      consolidation: JSON.parse(readFileSync("docs/ds-library/consolidation-source.json", "utf8")),
     },
     null,
     2,
