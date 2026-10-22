@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import {chromium} from 'playwright';
 import {sha256} from './contract.mjs';
 const require=createRequire(import.meta.url);
@@ -9,10 +10,12 @@ export const viewports=[[320,800],[390,844],[768,1024],[1180,820],[1366,768],[14
 export const purple='oklch(0.5547 0.2503 297.0156)';
 export async function launch(){
  const executablePath=process.env.PLAYWRIGHT_CHROME_EXECUTABLE||(existsSync('/usr/lib/chromium/chromium')?'/usr/lib/chromium/chromium':chromium.executablePath());
- const browser=await chromium.launch({executablePath});
- const fonts=execFileSync('fc-list',['--format','%{file}\n'],{encoding:'utf8'}).trim().split('\n');
+ const fontConfig=fileURLToPath(new URL('./fonts.conf',import.meta.url));
+ const environment={...process.env,FONTCONFIG_FILE:fontConfig,XDG_CACHE_HOME:process.env.XDG_CACHE_HOME||'/tmp/axolotl-test-cache'};
+ const browser=await chromium.launch({executablePath,env:environment});
+ const fonts=execFileSync('fc-list',['--format','%{file}\n'],{encoding:'utf8',env:environment}).trim().split('\n');
  const fontHashes=[...new Set(fonts)].map(p=>sha256(readFileSync(p))).sort();
- const toolchain={browser:browser.version(),browserExecutableSha256:sha256(readFileSync(executablePath)),playwright:require('playwright/package.json').version,node:process.version,platform:process.platform,arch:process.arch,osReleaseSha256:sha256(readFileSync('/etc/os-release')),systemFontsSha256:sha256(JSON.stringify(fontHashes))};
+ const toolchain={browser:browser.version(),browserExecutableSha256:sha256(readFileSync(executablePath)),playwright:require('playwright/package.json').version,node:process.version,platform:process.platform,arch:process.arch,osReleaseSha256:sha256(readFileSync('/etc/os-release')),systemFontsSha256:sha256(JSON.stringify(fontHashes)),fontConfigSha256:sha256(readFileSync(fontConfig))};
  return {browser,toolchain};
 }
 export function referenceCases(){
@@ -80,6 +83,12 @@ export async function openCase(browser,base,item){
  return {page,context};
 }
 export async function snapshot(page){
+ // Chromium full-page capture temporarily changes its viewport. Suspend page
+ // callbacks so resize/media-query handlers cannot change focus mid-capture.
+ // DOM, CSS and pixels remain untouched; real motion is tested separately.
+ await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+ const captureSession=await page.context().newCDPSession(page);
+ if(captureSession)await captureSession.send('Emulation.setScriptExecutionDisabled',{value:true});
  const focused=await page.evaluateHandle(()=>document.activeElement);
  try{
  const data=await page.evaluate(selectors=>{
@@ -93,7 +102,7 @@ export async function snapshot(page){
   const png=await page.screenshot({fullPage:true,caret:'hide'});
   assert(await focused.evaluate(e=>e===document.activeElement),'Focus changed during screenshot: unstable capture, not a valid baseline');
   return {data,png};
- }finally{await focused.dispose();}
+ }finally{await focused.dispose();if(captureSession){await captureSession.send('Emulation.setScriptExecutionDisabled',{value:false});await captureSession.detach();}}
 }
 export async function checkInvariants(page,item){
  if(item.section==='dashboard'){

@@ -13,19 +13,52 @@ The strict runner and preview wrapper never update reference files. The capture
 utility is manual S01 tooling, refuses an existing destination, and is not called
 by CI. Do not modify screenshots or approval status during a test run.
 
-The captured candidate has a known SEO-tooltip focus race (the PNG differs from
-its preceding computed snapshot) and small intermittent Chromium raster differences.
-Keep these evidence files unchanged. Approval is blocked. The harness now also
-rejects focus changes during capture. Full unit tests additionally expose the
-pre-existing `Surfaces.test.tsx` Halo Soft / Theme Card mismatch, outside S01/S02.
+The FINAL FIX regenerated only `dashboard-seo-tooltip-dark-1366x768.png` from
+that original build. The other 95 PNGs and all 96 computed snapshots are unchanged.
+Capture waits for two paint frames, then suspends JavaScript callbacks just while
+reading computed values and taking one screenshot. This prevents Chromium's
+full-page resize from moving focus or closing a popup; callbacks resume in `finally`.
+Focus drift still fails. Runtime interaction and motion tests run without suspension.
+Each comparison records exact PNG/computed hashes for independent-run comparison.
 
-The local baseline uses Node 24.19.0, Playwright 1.64.1, Debian 13 and system Chromium
-154.0.8037.57, identified by executable/OS/system-font hashes. The existing CI
-Ubuntu image and Playwright Chromium 156 are **not equivalent**; the gate blocks
-them. Do not bypass this with a tolerance or a newly captured reference. Establish
-and review an identical rendering environment before remote activation.
+Two further defective original references remain blocked: `forms-select-open`
+(dark/light) PNGs show a closed Select, while their JSON describes the open state.
+A raw screenshot reproduces both old PNG hashes and records focus moving from the
+selected option to the closed combobox. They must not be silently regenerated:
+the FINAL FIX authorizes replacement of the SEO tooltip PNG only.
+
+Final local verification in the shared container: three independent runs produced
+identical PNG and computed fingerprints for all 96 states. Geometry/computed
+values match all 96 references; exact PNG comparison passes 94/96 in each run,
+rejecting only the two preserved Select references. This is **BLOCKED**, not a
+successful baseline gate. The rebuilt public artifact matches all 63 original files.
+
+The stale Surfaces assertion now uses **Theme Card**, as introduced by registry
+commit `c586ee04a2dc15ed9bd01076a7ed7602a42dc461` and the superseding
+`docs/ds-library/CONSOLIDATION.md` / `TWEAKCN.md`. No component was changed.
+
+Local and CI use the same digest-pinned Node 24.19.0 / Debian 13 image, locked
+Playwright 1.64.1 and original Chromium 154.0.8037.57 binary. The original Chromium
+package is no longer in apt; `runtime/` holds its checksum-locked test-only archive
+in two Git-compatible chunks (112 MiB total), with upstream copyright notices.
+Fontconfig excludes incidental host-only OpenAI Sans fonts, unused by Axolotl;
+the 527 remaining font files match the container exactly. Proprietary fonts are
+not redistributed. The manifest retains the original capture toolchain separately
+and explicitly records this comparison-environment normalization. All checks still
+require exact executable, OS, font and Fontconfig hashes.
 
 ## Commands
+
+Build the same test container used by the existing preview workflow:
+
+```sh
+docker build -f scripts/visual-baseline/Dockerfile -t axolotl-milestone-a:test scripts/visual-baseline
+```
+
+Run `ci.sh` inside it with separate source, preview, harness and reference checkouts
+and a fresh `RUNNER_TEMP`. Follow the explicit bind mounts in
+`axolotl-preview/.github/workflows/preview.yml`, including a **read-only reference**.
+The script builds and tests only; a candidate or mismatch exits nonzero.
 
 Use separate checkouts for source, S01 reference and S02 test harness. Install the
 source's locked dependencies (`npm ci`), and make those dependencies available to
@@ -55,7 +88,7 @@ The preview publication wrapper intentionally offers no diagnostic mode:
 
 ```sh
 BASELINE_DIR=/absolute/pinned-reference/tests/visual/approved-v1-1 \
-BASELINE_SHA256=ff42865ee9f21a733aef22fa7b21da15279022bcdd728609d9201eda69c10e8b \
+BASELINE_SHA256=f311428b31cfd140f6d5c3c417d857e4e154531b37f0aef45af9d5391fec1096 \
 VISUAL_HARNESS_DIR=/absolute/pinned-harness/scripts/visual-baseline \
 BASELINE_OUTPUT=/absolute/new-results \
 LIBRARY_URL="$LIBRARY_URL" \

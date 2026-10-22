@@ -2,12 +2,12 @@ import assert from 'node:assert/strict';
 import {parseArgs} from 'node:util';
 import {mkdirSync,writeFileSync,realpathSync} from 'node:fs';
 import {resolve,dirname,basename} from 'node:path';
-import {loadReference,compareSnapshot,requireApproval} from './contract.mjs';
+import {loadReference,compareSnapshot,requireApproval,sha256} from './contract.mjs';
 import {launch,openCase,snapshot,checkInvariants,referenceCases} from './browser.mjs';
 const {values}=parseArgs({options:{baseline:{type:'string'},sha256:{type:'string'},url:{type:'string'},output:{type:'string'},diagnostic:{type:'boolean',default:false}}});
 assert(values.baseline&&values.sha256&&values.url&&values.output,'Required: --baseline PINNED_DIRECTORY --sha256 EXTERNAL_PIN --url BUILD_URL --output NEW_DIRECTORY');
 const requestedOutput=resolve(values.output),output=resolve(realpathSync(dirname(requestedOutput)),basename(requestedOutput)),baseline=realpathSync(values.baseline);assert(!output.startsWith(baseline+'/')&&output!==baseline,'Comparison must not write into reference');mkdirSync(output);
-const {browser,toolchain}=await launch();const report={mode:values.diagnostic?'diagnostic-candidate-comparison':'release-gate',compared:[],failed:[],approved:false};
+const {browser,toolchain}=await launch();const report={mode:values.diagnostic?'diagnostic-candidate-comparison':'release-gate',compared:[],fingerprints:[],failed:[],approved:false};
 try{
  const reference=loadReference(baseline,values.sha256,toolchain);
  const expected=referenceCases();
@@ -15,6 +15,7 @@ try{
  for(const item of reference.cases){
   const {page,context}=await openCase(browser,values.url,item);
   try{await checkInvariants(page,item);const actual=await snapshot(page);
+   report.fingerprints.push({id:item.id,png:sha256(actual.png),computed:sha256(JSON.stringify(actual.data)),computedMatches:JSON.stringify(actual.data)===JSON.stringify(item.data)});
    try{compareSnapshot(item.data,actual.data,item.png,actual.png);report.compared.push(item.id);console.log('COMPARE PASS',item.id);}catch(e){writeFileSync(resolve(output,item.id+'-actual.json'),JSON.stringify(actual.data,null,2));writeFileSync(resolve(output,item.id+'-actual.png'),actual.png);report.failed.push({id:item.id,error:e.message});console.error('COMPARE FAIL',item.id,e.message.split('\n')[0]);}
   }finally{await context.close();}
  }

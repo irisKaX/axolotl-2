@@ -94,14 +94,14 @@ it("provides empty, busy, error, warning and success content", () => {
   rerender(<StateCard state="success" />);
   expect(screen.getByRole("status")).toHaveTextContent("připravené");
 });
-it("registers only Halo Soft elevations, no historical family controls", () => {
+it("registers Theme Card elevations, no historical family controls", () => {
   const entries = categories.find((c) => c.id === "surfaces")!.entries;
   expect(entries).toHaveLength(6);
   for (const entry of entries) {
     expect(entry.properties).not.toHaveProperty("family");
     expect(entry.properties).not.toHaveProperty("halo");
     for (const v of entry.variants) {
-      expect(v.label).toContain("Halo Soft");
+      expect(v.label).toContain("Theme Card");
       expect(v.production).toBe(false);
       expect(v.design).toBe("draft");
     }
