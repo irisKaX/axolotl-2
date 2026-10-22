@@ -1,97 +1,49 @@
 @import "../tokens/unified.css";
-/* The real Lens export keeps its behavior. Only this environment changes its material. */
+/* One owner for Button paint in every state. Pair background/ink together;
+   never let the legacy Lens hover paint bypass these semantic roles. */
 .axo-ds-scope[data-design="unified"] .axo-ds-button {
-  --btn-top: var(--ds-surface);
-  --btn-bottom: var(--ds-surface);
+  --btn-top: var(--button-secondary, var(--ds-surface));
   --btn-edge: var(--ds-line);
-  --btn-text: var(--ds-text);
+  --btn-text: var(--button-secondary-foreground, var(--ds-text));
+  --btn-hover-top: var(--btn-top);
+  --btn-hover-text: var(--btn-text);
   --btn-font: 14px;
-  gap: var(--ds-space-2);
-  padding-inline: 16px;
-  border: 1px solid var(--btn-edge);
-  border-radius: var(--ds-radius-action);
-  background: var(--paint-fill, var(--btn-top));
-  color: var(--paint-ink, var(--btn-text));
-  box-shadow: none;
-  font-family: inherit;
-  font-weight: 400;
-  letter-spacing: normal;
-  line-height: 1.4;
-  transition:
-    background-color var(--ds-motion-duration) var(--ds-motion-easing),
-    border-color var(--ds-motion-duration) var(--ds-motion-easing),
-    box-shadow var(--ds-motion-duration) var(--ds-motion-easing);
+  gap: var(--ds-space-2); padding-inline: 16px;
+  border: 1px solid var(--btn-edge); border-radius: var(--ds-radius-action);
+  background: var(--paint-fill, var(--btn-top)); color: var(--paint-ink, var(--btn-text));
+  box-shadow: var(--button-shadow, none); font-family: inherit; font-weight: 400;
+  letter-spacing: normal; line-height: 1.4;
+  transition: background-color var(--ds-motion-duration) var(--ds-motion-easing),border-color var(--ds-motion-duration) var(--ds-motion-easing),box-shadow var(--ds-motion-duration) var(--ds-motion-easing);
 }
-.axo-ds-scope[data-design="unified"] .axo-ds-button[data-size="small"] {
-  --btn-font: 12px;
-  padding-inline: 12px;
-}
-.axo-ds-scope[data-design="unified"] .axo-ds-button[data-size="large"] {
-  --btn-font: 16px;
-  padding-inline: 20px;
-}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-size="small"] {--btn-font:12px;padding-inline:12px;}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-size="large"] {--btn-font:16px;padding-inline:20px;}
 .axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="primary"] {
-  --btn-top: var(--ds-accent);
-  --btn-edge: var(--ds-accent);
-  --btn-text: #fff;
+  --btn-top:var(--ds-accent);--btn-edge:var(--ds-accent);--btn-text:var(--button-primary-foreground, #fff);
 }
-.axo-ds-scope[data-design="unified"]
-  .axo-ds-button[data-variant="destructive"] {
-  --btn-top: var(--ds-surface);
-  --btn-edge: var(--ds-error);
-  --btn-text: var(--ds-error);
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="destructive"] {
+  --btn-top:var(--button-destructive, var(--ds-surface));--btn-edge:var(--ds-error);--btn-text:var(--button-destructive-foreground, var(--ds-error));
 }
 .axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="ghost"] {
-  --btn-top: transparent;
-  --btn-edge: transparent;
+  --btn-top:transparent;--btn-edge:transparent;--btn-text:var(--ds-text);
+  --btn-hover-top:var(--button-hover, var(--ds-hover));--btn-hover-text:var(--button-hover-foreground, var(--ds-text));box-shadow:none;
 }
-.axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="icon"] {
-  padding: 0;
-}
-.axo-ds-scope[data-design="unified"]
-  .axo-ds-button:hover:not(:disabled):not([aria-disabled="true"]) {
-  --btn-top: var(--ds-hover);
-  border-color: var(--ds-border-hover);
-  transform: none;
-  box-shadow: none;
-}
-.axo-ds-scope[data-design="unified"]
-  .axo-ds-button[data-variant="primary"]:hover:not(:disabled):not(
-    [aria-disabled="true"]
-  ) {
-  --btn-top: var(--ds-accent-hover);
-  border-color: var(--ds-focus);
-  box-shadow: inset 0 0 0 1px var(--ds-focus);
-}
-.axo-ds-scope[data-design="unified"]
-  .axo-ds-button:active:not(:disabled):not([aria-disabled="true"]) {
-  transform: none;
-  box-shadow: inset 0 2px 3px #0003;
-}
-.axo-ds-scope[data-design="unified"]
-  .axo-ds-button:hover
-  .axo-ds-button__icon
-  > svg {
-  transform: none;
-}
-.axo-ds-scope[data-design="unified"] .axo-ds-button:focus-visible {
-  outline: 2px solid var(--ds-focus);
-  outline-offset: 4px;
-}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="icon"] {padding:0;}
 .axo-ds-scope[data-design="unified"] .axo-ds-button[aria-pressed="true"] {
-  --btn-top: var(--ds-accent-selected);
-  --btn-edge: var(--ds-accent-selected);
-  --btn-text: #fff;
+  --btn-top:var(--ds-accent-selected);--btn-edge:var(--ds-accent-selected);--btn-text:var(--button-primary-foreground,#fff);
+  --btn-hover-top:var(--btn-top);--btn-hover-text:var(--btn-text);
 }
-.axo-ds-scope[data-design="unified"]
-  .axo-ds-button:is(:disabled, [aria-disabled="true"]) {
-  opacity: 0.45;
-  filter: none;
-  box-shadow: none;
+.axo-ds-scope[data-design="unified"] .axo-ds-button:hover:not(:disabled):not([aria-disabled="true"]) {
+  background:var(--paint-fill,var(--btn-hover-top));color:var(--paint-ink,var(--btn-hover-text));
+  border-color:var(--ds-focus);transform:none;box-shadow:var(--button-hover-shadow,none);
 }
-.axo-ds-scope[data-design="unified"] .axo-ds-button[data-loading] {
-  opacity: 0.65;
+.axo-ds-scope[data-design="unified"] .axo-ds-button:active:not(:disabled):not([aria-disabled="true"]) {
+  background:var(--paint-fill,var(--btn-hover-top));color:var(--paint-ink,var(--btn-hover-text));
+  transform:none;box-shadow:inset 0 0 0 1px var(--ds-focus);
 }
+.axo-ds-scope[data-design="unified"] .axo-ds-button:hover .axo-ds-button__icon > svg {transform:none;}
+.axo-ds-scope[data-design="unified"] .axo-ds-button:focus-visible {outline:2px solid var(--ds-focus);outline-offset:4px;}
+.axo-ds-scope[data-design="unified"] .axo-ds-button:is(:disabled,[aria-disabled="true"]) {opacity:.6;filter:none;box-shadow:none;}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-loading] {opacity:1;cursor:progress;}
 /* Forms: same quiet surfaces and state hierarchy, with stronger field edges for legibility. */
 .axo-ds-scope[data-design="unified"]
   :where(.ds-input, .ax-checkbox, .ds-switch-track) {
@@ -171,6 +123,9 @@
 .axo-ds-scope[data-design="unified"] .ds-interactive-card[aria-busy="true"] {
   cursor: progress;
 }
+.axo-ds-scope[data-design="unified"] .ds-interactive-card[aria-busy="true"]:not(:disabled) {
+  opacity: 1;
+}
 .axo-ds-scope .ds-surface-meta {
   color: var(--ds-muted);
   margin-top: 16px;
@@ -209,11 +164,11 @@
 .axo-ds-scope[data-design="unified"]
   .ds-progress
   progress::-webkit-progress-value {
-  background: var(--ds-accent);
+  background: var(--ds-progress, var(--ds-accent));
   border-radius: 4px;
 }
 .axo-ds-scope[data-design="unified"] .ds-progress progress::-moz-progress-bar {
-  background: var(--ds-accent);
+  background: var(--ds-progress, var(--ds-accent));
   border-radius: 4px;
 }
 .axo-ds-scope[data-design="unified"]
@@ -302,14 +257,6 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-}
-.axo-ds-scope[data-design="unified"]
-  .axo-ds-button[aria-pressed="true"]:is(:hover, :active):not(:disabled):not(
-    [aria-disabled="true"]
-  ) {
-  --btn-top: var(--ds-accent-selected);
-  --btn-text: #fff;
-  border-color: var(--ds-accent-selected);
 }
 .axo-ds-scope[data-design="unified"]
   .ds-interactive-card[aria-pressed="true"]:is(:hover, :active):not(

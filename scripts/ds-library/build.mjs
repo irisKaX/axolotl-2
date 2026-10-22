@@ -39,6 +39,7 @@ writeFileSync(
       }).trim(),
       architecture: "react-canonical-v2",
       theme: "tweakcn-v1",
+      themeRevision: "contrast-v1",
       themeSource: "src/design-system/tokens/tweakcn.export.css",
       base: "/axolotl-preview/ds-library-v1-1/",
       entry: "#design-system",

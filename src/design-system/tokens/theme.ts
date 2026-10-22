@@ -1,14 +1,17 @@
 import source from './tweakcn.export.css?raw';
+import corrections from './contrast-corrections.json';
 export type ThemeMode = 'light' | 'dark';
 export type ThemeTokens = Record<`--${string}`, string>;
 function declarations(block: string): ThemeTokens {
   return Object.fromEntries(Array.from(block.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g), m => [m[1], m[2].trim()]));
 }
-// The complete user export is the single source. Tailwind-only directives are
-// not applied globally; existing React components consume these exact values.
+// Preserve the complete export as provenance. Tailwind-only directives stay
+// local; existing React components consume the single resolved registry below.
 const light = declarations(source.match(/:root\s*\{([^}]+)\}/)![1]);
 const dark = {...light, ...declarations(source.match(/\.dark\s*\{([^}]+)\}/)![1])};
-export const themeTokens: Record<ThemeMode, ThemeTokens> = {light, dark};
+export const originalThemeTokens: Record<ThemeMode, ThemeTokens> = {light, dark};
+// One resolved registry. Original user export remains byte-for-byte auditable.
+export const themeTokens: Record<ThemeMode, ThemeTokens> = {light: {...light, ...corrections.light}, dark: {...dark, ...corrections.dark}};
 const aliases = declarations(source.match(/@theme inline\s*\{([^}]+)\}/)![1]);
 // Tailwind self-aliases are compiler instructions, not valid CSS declarations.
 export const themeAliases = Object.fromEntries(Object.entries(aliases).filter(([key, value]) => value !== `var(${key})`));

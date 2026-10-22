@@ -1,24 +1,25 @@
 import assert from 'node:assert/strict';
-import {readFileSync,existsSync,writeFileSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 import {chromium} from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 const base=process.env.LIBRARY_URL||'http://127.0.0.1:4185/axolotl-preview/ds-library-v1-1/';
 const raw=readFileSync('src/design-system/tokens/tweakcn.export.css','utf8');
 const parse=block=>Object.fromEntries([...block.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)].map(m=>[m[1],m[2].trim()]));
 const light=parse(raw.match(/:root\s*\{([^}]+)\}/)[1]),dark={...light,...parse(raw.match(/\.dark\s*\{([^}]+)\}/)[1])};
-const expected={light,dark};
+const corrections=JSON.parse(readFileSync('src/design-system/tokens/contrast-corrections.json','utf8'));
+const expected={light:{...light,...corrections.light},dark:{...dark,...corrections.dark}};
 const browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_CHROME_EXECUTABLE||(existsSync('/usr/bin/chromium')?'/usr/bin/chromium':undefined)});
 const context=await browser.newContext({viewport:{width:1366,height:900},reducedMotion:'reduce'});
 const page=await context.newPage();
 const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`${r.status()} ${r.url()}`);});
-const go=async(section='')=>{await page.goto(base+(section?`?section=${section}`:'')+'#design-system');await page.locator('.ds-catalog h1').waitFor();};
+const go=async(section='')=>{await page.goto(base+(section?`?section=${section}`:'')+'#design-system');await page.locator('.ds-catalog h1').waitFor();await page.getByText('Načítám komponenty…',{exact:true}).waitFor({state:'hidden'});await page.evaluate(()=>document.fonts.ready);};
 const roleMatches=async(locator,property,token)=>assert(await locator.first().evaluate((el,{property,token})=>{const probe=document.createElement('span');probe.style[property]=getComputedStyle(el).getPropertyValue(token);document.body.append(probe);const expected=getComputedStyle(probe)[property];probe.remove();return getComputedStyle(el)[property]===expected;},{property,token}),`${property} must use ${token}`);
 try{
  await go();await page.locator('[data-system-theme="light"] .ds-card').waitFor();
  for(const mode of ['light','dark']){
   const column=page.locator(`[data-system-theme="${mode}"]`);
   const actual=await column.evaluate((el,names)=>Object.fromEntries(names.map(name=>[name,getComputedStyle(el).getPropertyValue(name).trim()])),Object.keys(expected[mode]));
-  assert.deepEqual(actual,expected[mode],'All export values must remain exact, including inherited dark values');
+  assert.deepEqual(actual,expected[mode],'Resolved registry must match the original export plus explicit AA corrections');
   await roleMatches(column.locator('[data-variant="primary"]'),'backgroundColor','--primary');
   await roleMatches(column.locator('[data-variant="primary"]'),'color','--primary-foreground');
   await roleMatches(column.locator('.ds-card'),'backgroundColor','--card');
@@ -36,10 +37,7 @@ try{
  await page.evaluate(()=>document.fonts.ready);
  assert(await page.evaluate(()=>Array.from(document.fonts).some(f=>f.family==='Montserrat'&&f.status==='loaded')),'Montserrat must load');
  const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
- // Exact user-supplied pairs are not silently recolored to pass a contrast gate.
- writeFileSync('/tmp/axolotl-theme-contrast.json',JSON.stringify(audit.violations.filter(v=>v.id==='color-contrast'),null,2));
- assert.deepEqual(audit.violations.filter(v=>v.id!=='color-contrast').map(v=>v.id),[]);
- console.log('Exact export contrast findings:',audit.violations.filter(v=>v.id==='color-contrast').flatMap(v=>v.nodes).length);
+ assert.deepEqual(audit.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.failureSummary)})),[]);
  await go('foundations');await page.getByRole('heading',{name:'Chart Colors',exact:true}).waitFor();
  assert.equal(await page.locator('.ds-foundations-inventory > section').count(),13);
  await page.evaluate(()=>document.fonts.ready);
@@ -80,5 +78,5 @@ try{
  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Mobile overflow');
  await page.screenshot({path:'/tmp/axolotl-theme-dashboard-mobile.png'});
  assert.deepEqual(errors,[]);
- console.log('PASS: exact light/dark export, fonts, all families, Header/theme synchronization, focus, URL, mobile, native Dashboard, Star Border and reduced motion.');
+ console.log('PASS: resolved light/dark registry, fonts, all families, Header/theme synchronization, focus, URL, mobile, native Dashboard, Star Border and reduced motion.');
 }finally{await browser.close();}

@@ -2,6 +2,10 @@ import s from '../../app/header/header.module.css';
 // Address the existing CSS module classes without copying or changing AppHeader.
 const scoped = (rule:string) => rule.replace(/^([^{}]+)\{/, (_, selectors: string) => selectors.split(',').map(selector => `html[data-axolotl-library] ${selector.trim()}`).join(',') + '{');
 export const headerThemeStylesheet = [
+  scoped(`.${s.scope}.${s.panel} [data-navigation=desktop] .${s.row}[aria-current=page] {background:var(--primary);color:var(--primary-foreground);}`),
+  scoped(`.${s.scope}.${s.panel} [data-navigation=desktop] .${s.row}[aria-current=page] .${s.check} {display:block;}`),
+  scoped(`.${s.scope} .${s.selectTrigger}, .${s.scope} .${s.checkField} input, .${s.scope} .${s.themeTrack} {border-color:var(--input);}`),
+  scoped(`.${s.scope} .${s.selectOption}:focus-visible {outline-color:currentColor;}`),
   scoped(`.${s.control}[aria-expanded=true], .${s.menuTrigger}[aria-expanded=true], .${s.tabsTrigger}[aria-expanded=true] {color:var(--primary-foreground);}`),
   scoped(`.${s.scope} .${s.row}[aria-pressed=true] small {color:var(--primary-foreground);}`),
   scoped(`.${s.scope} .${s.url} {box-shadow:var(--shadow-xs);}`),

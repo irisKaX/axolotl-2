@@ -696,7 +696,7 @@
   border-radius: 4px;
   background: repeating-linear-gradient(
     120deg,
-    var(--ds-violet) 0 12px,
+    var(--ds-progress, var(--ds-violet)) 0 12px,
     var(--ds-inset) 12px 20px
   );
 }

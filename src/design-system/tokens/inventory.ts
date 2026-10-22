@@ -15,5 +15,4 @@ export const foundationTokens = Object.keys(themeTokens.light).map(name=>({name,
 export const openDecisions = [
  'Export neobsahuje samostatné barvy success/warning. Stávající popisy a ikony zůstávají; pro text se používá foreground, pro chyby destructive. Chart colors nejsou stavové barvy.',
  'Georgia vyžaduje systémovou instalaci nebo samostatnou webfontovou licenci. Montserrat a Fira Code se načítají lokálně pod SIL OFL 1.1.',
- 'Přesné barevné páry exportu zůstávají zachované. Například dark primary / primary-foreground vychází přibližně na 3,38:1, pod požadavkem WCAG AA pro běžný text.',
 ];

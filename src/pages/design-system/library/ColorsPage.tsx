@@ -25,8 +25,18 @@ export default function ColorsPage({ previewTheme }: PageProps) {
   const paint = getPaint(selected),
     ink = paintInk(paint.css);
   useLayoutEffect(() => {
-    if (textStage.current)
-      setTextSurface(getComputedStyle(textStage.current).backgroundColor);
+    if (textStage.current) {
+      // Computed theme colors remain OKLCH. Resolve only this contrast sample
+      // through the browser's sRGB canvas; the canonical tokens stay in OKLCH.
+      const color = getComputedStyle(textStage.current).backgroundColor;
+      const ctx = document.createElement('canvas').getContext('2d');
+      if (ctx) {
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, 1, 1);
+        const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+        setTextSurface(`rgb(${r}, ${g}, ${b})`);
+      } else setTextSurface(color); // Unsupported environments fail closed.
+    }
   }, [theme]);
   const textRatio = textContrast(paint.css, textSurface);
   function select(id: string) {
