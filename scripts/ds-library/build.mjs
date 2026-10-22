@@ -16,6 +16,7 @@ function walk(dir) {
   }
 }
 walk("src/design-system/Button");
+walk("src/design-system/brand");
 walk("src/design-system/library");
 walk("src/design-system/widgets");
 walk("src/pages/design-system/library");

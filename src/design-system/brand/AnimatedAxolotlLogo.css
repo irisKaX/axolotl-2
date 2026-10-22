@@ -1,0 +1,70 @@
+/* Adapted from sanjanaare_1029 / horrible-fly-78 (user-supplied Uiverse source).
+   Preserve the original 72/50/58 compact geometry, idle and orbit timing. */
+.axo-animated-mark {
+  --mark-size: 72px; --mark-scale: 1;
+  position: relative; display: inline-grid; place-items: center; flex-shrink: 0;
+  width: var(--mark-size); height: var(--mark-size); box-sizing: border-box;
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  background: var(--card); color: var(--foreground); overflow: visible;
+  font-family: var(--font-sans); vertical-align: middle;
+}
+.axo-animated-mark[data-size="small"] { --mark-size: 48px; --mark-scale: .6666667; border-radius: var(--radius-sm); }
+.axo-animated-mark[data-size="large"] { --mark-size: 104px; --mark-scale: 1.4444444; }
+.axo-animated-mark__frame { position: absolute; left: 50%; top: 50%; width: 72px; height: 72px; display: grid; place-items: center; transform: translate(-50%, -50%) scale(var(--mark-scale)); }
+.axo-animated-mark__bot {
+  width: 50px; height: 50px; position: relative; display: grid; place-items: center;
+  transform-origin: center; animation: axo-mark-idle 2.2s ease-in-out infinite;
+}
+.axo-animated-mark__orbit {
+  width: 58px; height: 58px; position: absolute; z-index: 0; border-radius: 50%;
+  background: conic-gradient(var(--primary), var(--ds-paint-o2-blue), var(--accent), var(--mascot-vibrant-frill-pink), var(--primary));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  filter: drop-shadow(0 0 4px color-mix(in oklch, var(--primary) 12%, transparent)) drop-shadow(0 0 7px color-mix(in oklch, var(--primary) 25%, transparent));
+  animation: axo-mark-orbit 2.2s linear infinite; transition: filter .3s ease;
+}
+.axo-animated-mark__gills { position: absolute; width: 60px; height: 50px; z-index: 1; fill: var(--mascot-vibrant-frill-pink); }
+.axo-animated-mark__gills path:nth-child(2) { fill: var(--mascot-neon-frill-pink); }
+.axo-animated-mark__body {
+  width: 38px; height: 31px; position: relative; z-index: 2;
+  background: radial-gradient(circle at 30% 25%, var(--mascot-soft-off-white) 0%, var(--mascot-soft-skin-blush) 65%, var(--mascot-vibrant-frill-pink) 100%);
+  border-radius: 46% 54% 51% 49% / 50% 43% 57% 50%;
+  box-shadow: inset -2px -3px 5px color-mix(in srgb, var(--mascot-plum-glow) 12%, transparent), inset 3px 3px 6px color-mix(in srgb, var(--mascot-soft-off-white) 70%, transparent);
+  animation: axo-mark-morph 1.7s ease-in-out infinite;
+}
+.axo-animated-mark__body::before {
+  content: ''; position: absolute; top: 4px; left: 8px; width: 11px; height: 4px;
+  border-radius: 50%; background: color-mix(in srgb, var(--mascot-soft-off-white) 80%, transparent);
+  transform: rotate(-18deg); filter: blur(.4px);
+}
+.axo-animated-mark__eyes { position: absolute; inset: 0; z-index: 5; }
+.axo-animated-mark__eye {
+  width: 7px; height: 8px; position: absolute; top: 12px; border-radius: 50%;
+  background: radial-gradient(circle at 65% 70%, var(--mascot-royal-violet-night), var(--mascot-deep-night-indigo) 70%);
+}
+.axo-animated-mark__eye--left { left: 7px; }
+.axo-animated-mark__eye--right { right: 7px; }
+.axo-animated-mark__eye::after { content: ''; width: 2px; height: 2px; position: absolute; left: 1.5px; top: 1.5px; border-radius: 50%; background: var(--mascot-soft-off-white); }
+.axo-animated-mark__smile { position: absolute; inset: 0; width: 38px; height: 31px; fill: var(--mascot-deep-night-indigo); }
+.axo-animated-mark__smile path { fill: none; stroke: var(--mascot-deep-night-indigo); stroke-width: .9; stroke-linecap: round; }
+.axo-animated-mark__status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@keyframes axo-mark-orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes axo-mark-idle {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  25% { transform: translateY(-1px) rotate(-1.5deg) scale(1.03, .97); }
+  50% { transform: translateY(1px) rotate(1.5deg) scale(.97, 1.03); }
+  75% { transform: translateY(-1px) rotate(-1deg) scale(1.02, .98); }
+}
+@keyframes axo-mark-morph {
+  0%, 100% { border-radius: 46% 54% 51% 49% / 50% 43% 57% 50%; }
+  25% { border-radius: 52% 48% 46% 54% / 43% 55% 45% 57%; }
+  50% { border-radius: 48% 52% 55% 45% / 55% 45% 55% 45%; }
+  75% { border-radius: 43% 57% 48% 52% / 48% 57% 43% 52%; }
+}
+.axo-animated-mark[data-paused] *, :where([data-motion="reduced"]) .axo-animated-mark * { animation-play-state: paused; transition: none; }
+@media (prefers-reduced-motion: reduce) { .axo-animated-mark * { animation: none; transition: none; } }
+@media (forced-colors: active) {
+  .axo-animated-mark { border-color: CanvasText; }
+  .axo-animated-mark__body, .axo-animated-mark__eye, .axo-animated-mark__eye::after, .axo-animated-mark__gills, .axo-animated-mark__smile { forced-color-adjust: none; }
+  .axo-animated-mark__orbit { background: Highlight; filter: none; }
+}

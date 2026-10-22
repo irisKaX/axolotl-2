@@ -1,17 +1,16 @@
+import { useState } from "react";
+import { Pause, Play } from "lucide-react";
+import { AnimatedAxolotlLogo } from "../../../design-system/brand";
+import { Button } from "../../../design-system/Button";
+import { DesignSystemProvider, useDesignSystem } from "../../../design-system/library/Provider";
+import originalHtml from "../../../design-system/brand/vendor/original.html.txt?url";
+import originalCss from "../../../design-system/brand/vendor/original.css.txt?url";
+import notice from "../../../design-system/brand/vendor/NOTICE.md?url";
+import license from "../../../design-system/brand/vendor/LICENSE.txt?url";
+import { mascotPalette } from "../../../design-system/tokens/mascot";
 import "./consolidation.css";
 
-const palette = [
-  ["Deep Night Indigo", "#0E0B35", "Tmavé prostředí"],
-  ["Royal Violet Night", "#371265", "Vedlejší prostředí"],
-  ["Plum Glow", "#853681", "Tmavý akcent"],
-  ["Soft Skin Blush", "#E4B6D6", "Pokožka"],
-  ["Neon Frill Pink", "#F7B5D5", "Světlá vlákna žaber"],
-  ["Vibrant Frill Pink", "#DE79C2", "Výrazná růžová žaber"],
-  ["Hoodie Lilac", "#B384CE", "Mikina"],
-  ["Accent Lilac", "#A67CD7", "Odlesky látky"],
-  ["Cargo Plum", "#63438F", "Kalhoty a stín látky"],
-  ["Soft Off-White", "#F3ECF7", "Tenisky"],
-];
+
 
 export function MascotIdentity() {
   return <section aria-labelledby="mascot-identity">
@@ -22,7 +21,7 @@ export function MascotIdentity() {
     <p>Master nosí světle levandulovou mikinu s malým tmavě fialovým logem O2, tmavší fialové cargo/jogger kalhoty a bílé tenisky. Přirozený postoj s rukama v kapsách. Indigo/fialové pozadí masteru není povinné pro každé použití.</p>
     <h3>Paleta maskota</h3>
     <p>Orientační vzorky ilustrace, nikoli přesné materiálové hodnoty. Slouží maskotovi, ilustracím a Office; nemění UI paletu O2 Blue <code>#0050FF</code> a Axolotl Violet <code>#7C3AED</code>.</p>
-    <ul className="ds-mascot-palette">{palette.map(([name, hex, role]) => <li key={hex}>
+    <ul className="ds-mascot-palette">{mascotPalette.map(([name, hex, role]) => <li key={hex}>
       <span className="ds-mascot-swatch" style={{ background: hex }} aria-hidden="true" />
       <strong>{name}</strong><code>{hex}</code><span>{role}</span>
     </li>)}</ul>
@@ -40,4 +39,51 @@ export function MascotIdentity() {
     <a href="https://github.com/irisKaX/axolotl-knowledge/blob/316927f6b143a4cc93d680e8c1945a3c85a013da/Axolotl%20Mascot%20Character%20Identity.md">Zdroj: Axolotl Mascot Character Identity · V3</a>
   </section>;
 }
-export default MascotIdentity;
+export default function BrandPage() {
+  const [paused, setPaused] = useState(false);
+  const env = useDesignSystem();
+  return <>
+    <section className="ds-animated-brand" aria-labelledby="animated-brand-heading">
+      <span className="axolotl-eyebrow">Brand & Mascot · referenční komponenta</span>
+      <h2 id="animated-brand-heading">Animated Axolotl Logo</h2>
+      <p><strong>Návrh · Assistant Mark.</strong> Kompaktní, přátelská značka s jemným jelly pohybem a orbitou. Hlava podle dodaného axolotlího symbolu, barevnost z identity V3 a aktuálního theme.</p>
+      <div className="ds-animated-brand__hero">
+        <AnimatedAxolotlLogo size="large" paused={paused} />
+        <div><h3>Hlavní varianta</h3><p>Výrazné oči, šest žaber a klidný úsměv. Značka pro identitu, načítání nebo označení asistenta.</p></div>
+        <Button variant="outline" icon={paused ? <Play /> : <Pause />} aria-pressed={paused} onClick={() => setPaused(value => !value)}>
+          {paused ? "Přehrát animaci" : "Pozastavit animaci"}
+        </Button>
+      </div>
+      <p>Omezení pohybu v systému nebo nastavení katalogu má přednost před přehráváním. Pozastavení zachová čitelnou statickou značku.</p>
+      <div className="ds-animated-brand__themes">
+        {(["dark", "light"] as const).map(theme => <DesignSystemProvider key={theme} theme={theme} appearance="unified" reducedMotion={env.reducedMotion}>
+          <section className="ds-animated-brand__theme" data-mark-theme={theme} aria-label={`${theme} ukázka značky`}>
+            <h3>{theme === "dark" ? "Dark" : "Light"}</h3>
+            <div className="ds-animated-brand__sizes">
+              {(["small", "medium", "large"] as const).map((size, i) => <figure key={size}>
+                <AnimatedAxolotlLogo size={size} paused={paused} />
+                <figcaption>{["S · 48 px", "M · 72 px", "L · 104 px"][i]}</figcaption>
+              </figure>)}
+            </div>
+          </section>
+        </DesignSystemProvider>)}
+      </div>
+      <h3>Doporučené použití</h3>
+      <div className="ds-animated-brand__uses">
+        <article><AnimatedAxolotlLogo size="small" paused={paused} decorative /><div><h4>Axolotl</h4><p>Logo / identitní prvek. Vedle názvu aplikace použij dekorativní režim bez duplicitního čtení.</p></div></article>
+        <article><AnimatedAxolotlLogo variant="loader" paused={paused} label="Ukázka: načítání pracovního prostoru" /><div><h4>Načítání prostoru</h4><p>Loader s textovým oznámením pro čtečky. Stejný význam zůstává i bez animace.</p></div></article>
+        <article><AnimatedAxolotlLogo variant="assistant" paused={paused} /><div><h4>Assistant Mark</h4><p>Označení průvodce nebo asistenta. Značka sama není tlačítko ani indikátor připojené AI služby.</p></div></article>
+      </div>
+      <h3>Původ a adaptace</h3>
+      <p>Motion základ: <a href="https://uiverse.io/sanjanaare_1029/horrible-fly-78">sanjanaare_1029 · Uiverse</a>. Zachovány proporce 72 / 50 / 58 px, rotace a idle 2,2 s a morph 1,7 s. Axolotl adaptace přidává dodanou podobu hlavy, žábry, úsměv, paletu V3 a theme; nahrazuje původní rainbow barvy.</p>
+      <p>Nová 2D značka je návrh k vizuální revizi. Schválená identita 3D masteru V3 je zachovaná níže.</p>
+      <nav className="ds-animated-brand__sources" aria-label="Zdroje reference">
+        <a href={originalHtml} download="uiverse-original.html.txt">Původní HTML</a>
+        <a href={originalCss} download="uiverse-original.css.txt">Původní CSS</a>
+        <a href={notice} download="axolotl-mark-provenance.md">Původ a rozsah adaptace</a>
+        <a href={license} download="uiverse-collection-LICENSE.txt">MIT licence kolekce Uiverse</a>
+      </nav>
+    </section>
+    <MascotIdentity />
+  </>;
+}

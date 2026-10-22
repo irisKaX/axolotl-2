@@ -50,6 +50,25 @@ try{
    await roleMatches(page.locator('.ds-catalog'),'color','--foreground');
   }
  }
+ await go('brand');
+ const marks=page.locator('.ds-animated-brand .axo-animated-mark');
+ for(const mark of await marks.all()){
+  const geometry=await mark.evaluate(el=>{const a=el.getBoundingClientRect(),b=el.querySelector('.axo-animated-mark__frame').getBoundingClientRect();return {size:el.dataset.size,w:a.width,h:a.height,dx:(a.left+a.right-b.left-b.right)/2,dy:(a.top+a.bottom-b.top-b.bottom)/2};});
+  assert.equal(geometry.w,{small:48,medium:72,large:104}[geometry.size]);assert.equal(geometry.h,geometry.w);
+  assert(Math.abs(geometry.dx)<.1 && Math.abs(geometry.dy)<.1,'Every mark size must center its scaled artwork');
+ }
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ await page.waitForFunction(()=>getComputedStyle(document.querySelector('.axo-animated-mark__orbit')).animationName==='axo-mark-orbit');
+ const timings=await marks.first().evaluate(el=>['bot','orbit','body'].map(part=>getComputedStyle(el.querySelector('.axo-animated-mark__'+part)).animationDuration));
+ assert.deepEqual(timings,['2.2s','2.2s','1.7s'],'Preserve reference motion timing');
+ await page.getByRole('button',{name:'Pozastavit animaci',exact:true}).click();
+ assert(await marks.evaluateAll(es=>es.every(el=>el.getAnimations({subtree:true}).every(a=>a.playState==='paused'))),'Pause every specimen');
+ await page.getByRole('button',{name:'Přehrát animaci',exact:true}).press('Enter');
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.waitForFunction(()=>[...document.querySelectorAll('.axo-animated-mark')].every(el=>el.getAnimations({subtree:true}).length===0));
+ assert.equal(await page.getByRole('status').filter({hasText:'Ukázka: načítání pracovního prostoru'}).count(),1,'Loader remains announced without motion');
+ for(const theme of ['light','dark']) await roleMatches(page.locator(`[data-mark-theme=${theme}] .axo-animated-mark`),'backgroundColor','--card');
+ await page.setViewportSize({width:390,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Brand mobile overflow');await page.setViewportSize({width:1366,height:900});
  await go('buttons');await page.emulateMedia({reducedMotion:'no-preference'});
  const buttonBox=await page.locator('#button-playground').boundingBox();
  await page.getByRole('checkbox',{name:'Omezit pohyb',exact:true}).uncheck();await page.getByRole('checkbox',{name:'Star Border',exact:true}).check();

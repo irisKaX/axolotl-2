@@ -1,0 +1,94 @@
+.nx-jelly-ai-card {
+  width: 72px;
+  height: 72px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 1px solid #252525;
+  border-radius: 16px;
+  background: #090909;
+  overflow: visible;
+  font-family: Arial, sans-serif;
+}
+.nx-jelly-ai-card .nx-jelly-ai-bot {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  transform-origin: center;
+  animation: nx-jelly-idle 2.2s ease-in-out infinite;
+}
+.nx-jelly-ai-card .nx-jelly-rainbow-ring {
+  width: 58px;
+  height: 58px;
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  background: conic-gradient(#ff0055, #ff7a00, #ffee00, #00ff88, #00d9ff, #006aff, #a000ff, #ff00c8, #ff0055);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.12)) drop-shadow(0 0 7px rgba(255, 0, 200, 0.25));
+  animation: nx-ring-spin 2.2s linear infinite;
+  transition: filter 0.3s ease;
+}
+.nx-jelly-ai-card .nx-jelly-body {
+  width: 38px;
+  height: 38px;
+  position: relative;
+  z-index: 2;
+  background: radial-gradient(circle at 30% 25%, #ffffff 0%, #ffffff 52%, #f3f3f3 80%, #dddddd 100%);
+  border-radius: 46% 54% 51% 49% / 50% 43% 57% 50%;
+  box-shadow: inset -2px -3px 5px rgba(0, 0, 0, 0.08), inset 3px 3px 6px rgba(255, 255, 255, 0.9), 0 3px 8px rgba(255, 255, 255, 0.05);
+  animation: nx-body-morph 1.7s ease-in-out infinite;
+}
+.nx-jelly-ai-card .nx-jelly-body::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  width: 11px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  transform: rotate(-18deg);
+  filter: blur(0.4px);
+}
+.nx-jelly-ai-card .nx-jelly-eyes { position: absolute; inset: 0; z-index: 5; }
+.nx-jelly-ai-card .nx-jelly-eye {
+  width: 7px;
+  height: 13px;
+  position: absolute;
+  border-radius: 50%;
+  background: #030303;
+  box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.1);
+}
+.nx-jelly-ai-card .nx-jelly-eye-left { left: 11px; top: 12px; }
+.nx-jelly-ai-card .nx-jelly-eye-right { left: 22px; top: 11px; }
+.nx-jelly-ai-card .nx-jelly-eye::after {
+  content: "";
+  width: 2px;
+  height: 2px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+@keyframes nx-ring-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes nx-jelly-idle {
+  0% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  25% { transform: translateY(-1px) rotate(-1.5deg) scale(1.03, 0.97); }
+  50% { transform: translateY(1px) rotate(1.5deg) scale(0.97, 1.03); }
+  75% { transform: translateY(-1px) rotate(-1deg) scale(1.02, 0.98); }
+  100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+}
+@keyframes nx-body-morph {
+  0%, 100% { border-radius: 46% 54% 51% 49% / 50% 43% 57% 50%; }
+  25% { border-radius: 52% 48% 46% 54% / 43% 55% 45% 57%; }
+  50% { border-radius: 48% 52% 55% 45% / 55% 45% 55% 45%; }
+  75% { border-radius: 43% 57% 48% 52% / 48% 57% 43% 52%; }
+}

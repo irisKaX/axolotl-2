@@ -4,6 +4,7 @@ import { BentoDashboard } from "../../../design-system/dashboard/BentoDashboard"
 import { OfficePlaceholder, WidgetSurface } from "../../../design-system/dashboard/WidgetSurface";
 import { lazy } from "react";
 const FoundationsInventory = lazy(() => import("./FoundationsPage"));
+import { AnimatedAxolotlLogo } from "../../../design-system/brand";
 import { MascotIdentity } from "./BrandPage";
 import {
   FindPhraseWidget,
@@ -740,10 +741,17 @@ export const categories: Category[] = [
   }),
   defineCategory({
     id: "brand", title: "Brand & Mascot",
-    description: "Axolotl V3: schválená identita, paleta, pravidla použití a stav assetů.",
-    keyboard: "Dokumentace je dostupná nadpisy, seznamy a odkazem na autoritativní zdroj.",
+    description: "Animated Axolotl Logo / Assistant Mark · referenční adaptace a schválená identita V3.",
+    keyboard: "Tab a Enter ovládají pozastavení pohybu a odkazy. Značka sama není tlačítko; respektuje omezení pohybu.",
     load: () => import("./BrandPage"),
-    entries: [defineEntry(MascotIdentity, {
+    entries: [defineEntry(AnimatedAxolotlLogo, {
+      name: "AnimatedAxolotlLogo", label: "Animated Axolotl Logo / Assistant Mark",
+      source: "src/design-system/brand/AnimatedAxolotlLogo.tsx",
+      consumers: "Návrh 2D značky podle dodaného axolotlího symbolu a Uiverse reference sanjanaare_1029. Zatím pouze Brand & Mascot.",
+      api: "variant: logo | loader | assistant; size: small (48) | medium (72) | large (104); label; paused; decorative. Theme a reduced motion přebírá z prostředí.",
+      variants: [variant("logo", "Logo", {variant: "logo" as const}), variant("loader", "Loader", {variant: "loader" as const}), variant("assistant", "Assistant Mark", {variant: "assistant" as const})],
+      properties: {size: controlSizes, paused: {kind: "boolean"}, decorative: {kind: "boolean"}, label: {kind: "text"}},
+    }), defineEntry(MascotIdentity, {
       name: "MascotIdentity", label: "Axolotl Master V3",
       source: "src/pages/design-system/library/BrandPage.tsx",
       consumers: "Schválená identita; obrazový master není v repozitáři dostupný. Žádná nová ilustrace ani produkční integrace.",

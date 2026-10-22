@@ -106,6 +106,7 @@ try{
     await measure(scope,{property:'--ds-progress',against:'--muted',minimum:3,label:label+' progress fill'});
    }
    if(['brand','foundations'].includes(section))await interactions('.ds-catalog a',label+' links');
+   if(section==='brand')await interactions('.ds-animated-brand button',label+' motion control');
 
    // Real controls in each family, not copies in the test harness.
    if(section==='buttons'){

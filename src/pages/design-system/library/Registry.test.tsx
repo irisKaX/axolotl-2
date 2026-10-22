@@ -98,3 +98,10 @@ it("registers only the two usable Dashboard widget exports as proposals", () => 
     widgets!.entries[0].properties.size.options!.map((o) => o.value),
   ).toEqual(["medium", "large"]);
 });
+
+it('registers the animated mark as a draft without changing the approved V3 identity', () => {
+  const brand = registry.categories.find(c => c.id === 'brand')!;
+  expect(brand.entries.find(e => e.name === 'AnimatedAxolotlLogo')?.variants.map(v => v.id)).toEqual(['logo', 'loader', 'assistant']);
+  expect(brand.entries.find(e => e.name === 'AnimatedAxolotlLogo')?.variants.every(v => v.design === 'draft' && !v.production)).toBe(true);
+  expect(brand.entries.find(e => e.name === 'MascotIdentity')?.variants[0].design).toBe('approved');
+});

@@ -1,0 +1,12 @@
+<div class="loader"></div>
+<div class="nx-jelly-ai-card">
+  <div class="nx-jelly-ai-bot">
+    <div class="nx-jelly-rainbow-ring"></div>
+    <div class="nx-jelly-body">
+      <div class="nx-jelly-eyes">
+        <div class="nx-jelly-eye nx-jelly-eye-left"></div>
+        <div class="nx-jelly-eye nx-jelly-eye-right"></div>
+      </div>
+    </div>
+  </div>
+</div>
