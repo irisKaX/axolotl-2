@@ -90,6 +90,7 @@ export async function snapshot(page){
  const captureSession=await page.context().newCDPSession(page);
  if(captureSession)await captureSession.send('Emulation.setScriptExecutionDisabled',{value:true});
  const focused=await page.evaluateHandle(()=>document.activeElement);
+ const openSelect=await page.locator('[data-ds-select-trigger][aria-expanded=true]').elementHandles();
  try{
  const data=await page.evaluate(selectors=>{
   const props=['color','backgroundColor','backgroundImage','borderTopWidth','borderTopColor','borderRadius','outlineStyle','outlineWidth','outlineColor','outlineOffset','boxShadow','fontFamily','fontSize','fontWeight','lineHeight','letterSpacing','padding','margin','gap','display','opacity','transform','gridTemplateColumns','gridTemplateRows','fill','stroke'];
@@ -101,10 +102,16 @@ export async function snapshot(page){
  },selectors);
   const png=await page.screenshot({fullPage:true,caret:'hide'});
   assert(await focused.evaluate(e=>e===document.activeElement),'Focus changed during screenshot: unstable capture, not a valid baseline');
+  for(const trigger of openSelect)assert(await trigger.evaluate(e=>e.getAttribute('aria-expanded')==='true'&&document.getElementById(e.getAttribute('aria-controls'))?.checkVisibility()),'Select must remain open during screenshot');
   return {data,png};
- }finally{await focused.dispose();if(captureSession){await captureSession.send('Emulation.setScriptExecutionDisabled',{value:false});await captureSession.detach();}}
+ }finally{await focused.dispose();for(const trigger of openSelect)await trigger.dispose();if(captureSession){await captureSession.send('Emulation.setScriptExecutionDisabled',{value:false});await captureSession.detach();}}
 }
 export async function checkInvariants(page,item){
+ if(item.section==='forms'&&item.state==='select-open'){
+  assert.equal(await page.getByLabel('Cílová oblast',{exact:true}).getAttribute('aria-expanded'),'true','Select must remain open: trigger');
+  assert(await page.getByRole('listbox').isVisible(),'Select must remain open: visible listbox');
+  assert(await page.getByRole('listbox').evaluate(e=>e.contains(document.activeElement)),'Select must remain open: focus inside listbox');
+ }
  if(item.section==='dashboard'){
   assert.equal(await page.locator('.ds-bento-cell').count(),7,'Office plus six widget positions');
   assert.equal(await page.locator('#approved-header .axo-animated-mark').count(),1);

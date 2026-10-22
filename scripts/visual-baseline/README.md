@@ -5,40 +5,41 @@ The reference is the independent S01 commit, never the build under test. Its man
 SHA-256 must come from a separate reviewed pin. Missing files, mismatched hashes,
 coverage or toolchain differences fail closed. Pixel comparison is exact.
 
-## Trust and current blockers
+## Trust and capture
 
 `tests/visual/approved-v1-1/manifest.json` is **candidate**, not approved. The directory
 name follows the blueprint. Diagnostic comparison never authorizes a release.
-The strict runner and preview wrapper never update reference files. The capture
-utility is manual S01 tooling, refuses an existing destination, and is not called
-by CI. Do not modify screenshots or approval status during a test run.
+The strict runner and preview wrapper never update reference files. The manual S01
+capture utility is not called by CI. Do not modify references during a test run.
 
-The FINAL FIX regenerated only `dashboard-seo-tooltip-dark-1366x768.png` from
-that original build. The other 95 PNGs and all 96 computed snapshots are unchanged.
-Capture waits for two paint frames, then suspends JavaScript callbacks just while
-reading computed values and taking one screenshot. This prevents Chromium's
-full-page resize from moving focus or closing a popup; callbacks resume in `finally`.
-Focus drift still fails. Runtime interaction and motion tests run without suspension.
-Each comparison records exact PNG/computed hashes for independent-run comparison.
+The preceding FINAL FIX repaired the dark SEO tooltip. This stabilization repairs
+only `forms-select-open-dark-1366x768.png` and `forms-select-open-light-1366x768.png`,
+explicitly authorized by the user, from the same independent original build.
+The other 94 PNGs (including SEO) and all 96 computed JSONs are unchanged from the
+preceding candidate. The manifest retains previous checksums and original identity.
 
-Two further defective original references remain blocked: `forms-select-open`
-(dark/light) PNGs show a closed Select, while their JSON describes the open state.
-A raw screenshot reproduces both old PNG hashes and records focus moving from the
-selected option to the closed combobox. They must not be silently regenerated:
-the FINAL FIX authorizes replacement of the SEO tooltip PNG only.
+Capture waits two paint frames, then suspends JavaScript callbacks only while
+reading computed values and taking one screenshot. This prevents screenshot-induced
+resize callbacks from moving focus or closing Select. Callbacks resume in `finally`.
+Select cases require an expanded trigger, visible listbox and focus inside it;
+visibility/expanded state and focus are also guarded through capture. A closed
+Select fails, rather than producing a new reference. Actual motion and interaction
+tests still run normally, without capture-time suspension.
 
-Final local verification in the shared container: three independent runs produced
-identical PNG and computed fingerprints for all 96 states. Geometry/computed
-values match all 96 references; exact PNG comparison passes 94/96 in each run,
-rejecting only the two preserved Select references. This is **BLOCKED**, not a
-successful baseline gate. The rebuilt public artifact matches all 63 original files.
+The remaining intermittent Header differences are rounded-edge raster output:
+all Header CSS properties, unrounded rects, font states, animation timing, viewport
+and scroll remained identical in the controlled probe, including failing PNGs.
+The existing renderer is already software-only. A trial with one raster worker
+matched 16/16 targeted frames but failed two cases in a full run; it was reverted.
+The pinned Node, Playwright, Chromium, fonts and Chromium launch settings therefore
+remain unchanged. No pixel tolerance, masking or automatic approval is allowed.
 
-The subsequent full CI-equivalent pipeline also caught intermittent Header raster
-mismatches: `dashboard-default-light-320x800` (80 pixels, maximum channel delta 19)
-and `dashboard-settings-open-dark-1366x768` (44 pixels, maximum channel delta 3).
-Their computed CSS/geometry matches exactly. These failures are **not waived**;
-three matching isolated runs do not establish complete pipeline stability. Further
-renderer stabilization and the two Select-reference corrections remain blockers.
+The remaining renderer issue is still **BLOCKED**, not waived as harmless noise.
+Proposed next narrow investigation: force complete compositor/raster work before
+capture in this same Chromium (`--run-all-compositor-stages-before-draw`), validate
+the two affected states first, and retain it only if all 96 references match exactly.
+This is an unverified proposal, not an implemented fix or permission to update the
+other 94 PNGs. Evidence retains the exact diff images and the rejected worker trial.
 
 The stale Surfaces assertion now uses **Theme Card**, as introduced by registry
 commit `c586ee04a2dc15ed9bd01076a7ed7602a42dc461` and the superseding
@@ -53,6 +54,16 @@ the 527 remaining font files match the container exactly. Proprietary fonts are
 not redistributed. The manifest retains the original capture toolchain separately
 and explicitly records this comparison-environment normalization. All checks still
 require exact executable, OS, font and Fontconfig hashes.
+
+Final stabilization verification: 121/121 unit tests, 15/15 baseline contracts and
+8/8 required negatives (+2 existing guards) passed. Three final runs completed all
+96 cases: exact PNG matches **95/96, 95/96, 96/96**; computed CSS/geometry matches
+**96/96 in each**. Both corrected Select references match in all three runs.
+Remaining failures are light Media (60 pixels) and light Settings (31 pixels),
+rounded focus-outline edges only, maximum channel delta4/255. They remain strict
+failures. **BLOCKED**, candidate only. One initial unit run under simultaneous
+browser load timed out waiting for the QR tool heading; the full isolated suite
+passed unchanged, with no increased timeout or retry setting.
 
 ## Commands
 
@@ -95,7 +106,7 @@ The preview publication wrapper intentionally offers no diagnostic mode:
 
 ```sh
 BASELINE_DIR=/absolute/pinned-reference/tests/visual/approved-v1-1 \
-BASELINE_SHA256=f311428b31cfd140f6d5c3c417d857e4e154531b37f0aef45af9d5391fec1096 \
+BASELINE_SHA256=d0f695525f0c0d2c4df542638bf3c55394b66bda4ba5c809c6b9ce660f9c0d26 \
 VISUAL_HARNESS_DIR=/absolute/pinned-harness/scripts/visual-baseline \
 BASELINE_OUTPUT=/absolute/new-results \
 LIBRARY_URL="$LIBRARY_URL" \
