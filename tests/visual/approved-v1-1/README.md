@@ -14,6 +14,13 @@ The same locked test container is used locally and in CI. Every comparison requi
 
 Three independent final container runs have identical fingerprints for all 96 states. Computed CSS/geometry matches 96/96; PNG reference equality is 94/96 in each run, failing exactly the two Select references above. Milestone remains **BLOCKED**.
 
+The subsequent full CI-equivalent pipeline also caught intermittent Header raster
+mismatches: `dashboard-default-light-320x800` (80 pixels, maximum channel delta 19)
+and `dashboard-settings-open-dark-1366x768` (44 pixels, maximum channel delta 3).
+Their computed CSS/geometry matches exactly. These failures are **not waived**;
+three matching isolated runs do not establish complete pipeline stability. Further
+renderer stabilization and the two Select-reference corrections remain blockers.
+
 ## Cases
 
 | Case | Screenshot | Geometry / computed CSS |

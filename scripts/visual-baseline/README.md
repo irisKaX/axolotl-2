@@ -33,6 +33,13 @@ values match all 96 references; exact PNG comparison passes 94/96 in each run,
 rejecting only the two preserved Select references. This is **BLOCKED**, not a
 successful baseline gate. The rebuilt public artifact matches all 63 original files.
 
+The subsequent full CI-equivalent pipeline also caught intermittent Header raster
+mismatches: `dashboard-default-light-320x800` (80 pixels, maximum channel delta 19)
+and `dashboard-settings-open-dark-1366x768` (44 pixels, maximum channel delta 3).
+Their computed CSS/geometry matches exactly. These failures are **not waived**;
+three matching isolated runs do not establish complete pipeline stability. Further
+renderer stabilization and the two Select-reference corrections remain blockers.
+
 The stale Surfaces assertion now uses **Theme Card**, as introduced by registry
 commit `c586ee04a2dc15ed9bd01076a7ed7602a42dc461` and the superseding
 `docs/ds-library/CONSOLIDATION.md` / `TWEAKCN.md`. No component was changed.
