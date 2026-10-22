@@ -29,3 +29,5 @@ test('screenshot regression fails even when computed styles match',t=>{const f=f
 test('candidate can never authorize release',()=>assert.throws(()=>requireApproval({status:'candidate'}),/candidate|approved/i));
 test('approved status without explicit review decision is rejected',()=>assert.throws(()=>requireApproval({status:'approved',approval:null}),/approval/i));
 test('explicit approved decision is accepted',()=>assert.doesNotThrow(()=>requireApproval({status:'approved',approval:{decision:'user review',reference:'decision-123'}})));
+
+test('negative candidate fixture does not downgrade an approved reference',()=>{const approved=Object.freeze({status:'approved',approval:Object.freeze({decision:'fixture review only',reference:'synthetic-decision'})});assert.throws(()=>requireApproval({...approved,status:'candidate',approval:null}),/candidate/);assert.doesNotThrow(()=>requireApproval(approved));assert.equal(approved.status,'approved');});

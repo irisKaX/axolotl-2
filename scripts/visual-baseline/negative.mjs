@@ -35,7 +35,9 @@ try{
    if(section==='buttons')await assert.rejects(()=>checkInvariants(page,item),/six variants/);
   }finally{await context.close();}
  }
- reject('candidate cannot authorize a release',()=>requireApproval(reference.manifest),/candidate/);
+ // A future approved live reference must still pass this negative suite.
+ // Simulate candidate status only on an isolated in-memory copy.
+ reject('candidate cannot authorize a release',()=>requireApproval({...reference.manifest,status:'candidate',approval:null}),/candidate/);
  const focusCase=reference.cases.find(c=>c.id==='dashboard-url-focus-dark-1366x768');
  const {page,context}=await openCase(browser,values.url,focusCase);
  try{
