@@ -59,6 +59,22 @@ try{
  for(const mode of ['dark','light']){
   await page.getByRole('checkbox',{name:'Tmavý režim',exact:true}).setChecked(mode==='dark');
   await page.waitForFunction(mode=>document.documentElement.dataset.theme===mode,mode);
+  // URL is a compound control: its container owns the input focus ring.
+  const url=page.locator('[data-header-url]'),urlInput=url.getByRole('textbox',{name:'Aktuální URL'});
+  const dimensions=await url.evaluate(el=>[el.getBoundingClientRect().width,el.getBoundingClientRect().height]);
+  const singleUrlRing=async()=>{
+   assert(await urlInput.evaluate(el=>{const s=getComputedStyle(el);return s.outlineStyle==='none'&&s.borderTopWidth==='0px'&&s.boxShadow==='none';}),'URL input must not draw a second ring');
+   assert(await url.evaluate(el=>{const s=getComputedStyle(el);return s.outlineStyle==='solid'&&parseFloat(s.outlineWidth)>=2;}),'URL capsule must show its focus ring');
+   assert.deepEqual(await url.evaluate(el=>[el.getBoundingClientRect().width,el.getBoundingClientRect().height]),dimensions,'Focus must not change URL geometry');
+  };
+  await urlInput.click();await singleUrlRing();
+  await urlInput.press('Tab');assert(await url.getByRole('button',{name:'Vybrat kartu prohlížeče'}).evaluate(el=>el===document.activeElement));
+  await page.keyboard.press('Shift+Tab');await singleUrlRing();
+  await url.locator('label').click();assert(await urlInput.evaluate(el=>el===document.activeElement));
+  await context.grantPermissions(['clipboard-read','clipboard-write']);
+  await urlInput.selectText();await page.keyboard.press('ControlOrMeta+c');assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),await urlInput.inputValue());
+  await url.getByRole('button',{name:'Vybrat kartu prohlížeče'}).click();await page.getByRole('heading',{name:'Otevřené karty',exact:true}).waitFor();await page.keyboard.press('Escape');
+  await page.getByRole('button',{name:'Média',exact:true}).focus();assert(await url.evaluate(el=>getComputedStyle(el).outlineStyle==='none'),'URL ring must disappear after focus leaves');
   await roleMatches(page.locator('#approved-header header'),'backgroundColor','--card');
   await roleMatches(page.locator('[data-widget="2"]'),'backgroundColor','--card');
   await roleMatches(page.locator('.axolotl-pill-nav__slot[data-on] .axolotl-pill-nav__fill'),'backgroundColor','--primary');

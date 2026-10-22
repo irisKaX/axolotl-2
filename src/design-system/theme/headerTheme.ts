@@ -9,6 +9,7 @@ export const headerThemeStylesheet = [
   scoped(`.${s.control}[aria-expanded=true], .${s.menuTrigger}[aria-expanded=true], .${s.tabsTrigger}[aria-expanded=true] {color:var(--primary-foreground);}`),
   scoped(`.${s.scope} .${s.row}[aria-pressed=true] small {color:var(--primary-foreground);}`),
   scoped(`.${s.scope} .${s.url} {box-shadow:var(--shadow-xs);}`),
+  scoped(`.${s.scope} .${s.url}:focus-within {outline:2px solid var(--axo-focus);outline-offset:3px;}`),
   scoped(`.${s.scope} .${s.themeOrb} {box-shadow:var(--shadow-xs);}`),
   scoped(`.${s.scope} .${s.themeOrb}::after {background:var(--primary-foreground);box-shadow:0 -7px 0 -4px var(--primary-foreground),0 7px 0 -4px var(--primary-foreground),-7px 0 0 -4px var(--primary-foreground),7px 0 0 -4px var(--primary-foreground),-5px -5px 0 -4px var(--primary-foreground),5px 5px 0 -4px var(--primary-foreground),-5px 5px 0 -4px var(--primary-foreground),5px -5px 0 -4px var(--primary-foreground);}`),
   scoped(`.${s.scope} .${s.theme} input:checked + .${s.themeTrack} .${s.themeOrb}::after {background:transparent;box-shadow:3px 3px 0 0 var(--primary-foreground);}`),
