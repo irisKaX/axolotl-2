@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useState, type CSSProperties, type ReactNode } from "react";
+import { paletteVariables } from "../tokens/paints";
 import "./library.css";
 import "./unified.css";
 const Context = createContext<{
@@ -33,6 +34,7 @@ export function DesignSystemProvider({
     >
       <div
         className="axo-ds-scope"
+        style={paletteVariables as CSSProperties}
         data-theme={theme}
         data-design={visual}
         data-motion={reducedMotion ? "reduced" : "full"}

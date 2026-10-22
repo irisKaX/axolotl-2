@@ -172,7 +172,7 @@ export default function Library() {
         {!selected ? (
           <>
             <nav aria-label="Oblasti designového systému"><ul className="ds-catalog-map">
-              <li><a href="#foundations">Foundations</a></li>
+              <li><a href={href("foundations")} onClick={(e) => navigate(e, "foundations")}>Foundations</a></li>
               <li><a href="#themes">Themes</a></li>
               <li><a href="#components">Components</a></li>
               <li><a href={href("dashboard")} onClick={(e) => navigate(e, "dashboard")}>Dashboard</a></li>
@@ -217,7 +217,7 @@ export default function Library() {
               ))}
             </div>
             <div id="themes"><SystemOverview /></div>
-            <section className="ds-foundations" id="foundations">
+            <section className="ds-foundations" id="foundations-summary">
               <h2>Foundations</h2><p>Barvy a gradienty, typografie a fonty, spacing, radius, elevation, shadows a borders vycházejí ze stávajících tokenů a skutečných komponent. Jejich hodnoty se touto konsolidací nemění.</p>
               <p>
                 Schválené akcenty:{" "}

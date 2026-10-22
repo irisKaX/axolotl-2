@@ -1,18 +1,12 @@
-import type { PageProps } from "./model";
-import "./consolidation.css";
-
-export function ApprovedDashboard({ theme = "dark" }: { theme?: "dark" | "light" }) {
-  return <iframe
-    className="ds-approved-dashboard"
-    title="Schválený Header, bento Dashboard a Office placeholder"
-    src={`${import.meta.env.BASE_URL}library/dashboard/?theme=${theme}#dashboard`}
-  />;
-}
-
-export default function DashboardPage({ previewTheme }: PageProps) {
+import { useState } from 'react';
+import type { PageProps } from './model';
+import { ApprovedDashboard } from '../../../design-system/dashboard/ApprovedDashboard';
+export { ApprovedDashboard } from '../../../design-system/dashboard/ApprovedDashboard';
+export default function DashboardPage({previewTheme}:PageProps) {
+  const [route,setRoute]=useState('dashboard');
   return <section aria-label="Schválený Dashboard">
-    <p><strong>Schváleno.</strong> Header, pevné bento, Office placeholder a šest povrchů widgetů z Modular Playgroundu, revize <code>523c983</code>. Převzatý vzhled dosud není produkčně použitý.</p>
-    <p>Živý Header zachovává nabídky, nastavení vzhledu a ruční URL. Nástroje a další pohledy uvnitř ukázky jsou návrhová data, nikoli skutečné výsledky kontrol.</p>
-    <ApprovedDashboard theme={previewTheme} />
+    <p><strong>Schváleno.</strong> Header, bento, Office placeholder a šest widgetových povrchů z revize <code>523c983</code>. Skutečné React komponenty; přesný katalogový vzhled zatím není produkčně použitý.</p>
+    <p role="status">Navigační ukázka: {route}. Napojení widgetů na Tools není součástí návrhu.</p>
+    <ApprovedDashboard theme={previewTheme} onNavigate={setRoute}/>
   </section>;
 }

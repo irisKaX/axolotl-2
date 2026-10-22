@@ -1,0 +1,28 @@
+/* Navigation & Tabs is the source: existing colors, 9/12px controls,
+   44px targets, neutral hover, violet selection, separate focus.
+   Opt-in environment only; original consumers and reference page are unchanged. */
+.axo-ds-scope[data-design="unified"] {
+  --ds-background: var(--ds-inset);
+  --ds-text-secondary: var(--ds-muted);
+  --ds-border-hover: var(--ds-control-edge);
+  --ds-accent: var(--ds-violet);
+  --ds-accent-hover: var(--ds-violet);
+  --ds-accent-selected: var(--ds-violet);
+  --ds-radius-action: 9px;
+  --ds-radius-container: 12px;
+  --ds-radius: 12px;
+  --ds-control-radius: 9px;
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-6: 24px;
+  --ds-motion-duration: 150ms;
+  --ds-motion-easing: ease;
+  --ds-shadow-soft: inset 0 1px 0 #ffffff12, 0 4px 12px #0002;
+  --ds-shadow-raised: inset 0 1px 0 #ffffff1a, 0 8px 24px #0003;
+}
+.axo-ds-scope[data-design="unified"][data-theme="light"] {
+  --ds-shadow-soft: inset 0 1px 0 #fff, 0 4px 12px #30233d0d;
+  --ds-shadow-raised: inset 0 1px 0 #fff, 0 8px 24px #30233d18;
+}

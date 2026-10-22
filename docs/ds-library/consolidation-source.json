@@ -2,7 +2,7 @@
   "playgroundCommit": "523c983",
   "libraryCommit": "29fd04501ce5174040325e0a21443e6f9058d3b0",
   "knowledgeCommit": "316927f6b143a4cc93d680e8c1945a3c85a013da",
-  "importedFiles": {
+  "historicalReferenceHashes": {
     "dashboard/evolution.css": "b71150214ea49da038563799d07f8d3e3f09e5fc8272974972bcffc55470d6a1",
     "dashboard/final-bento.css": "31b11f1429e59d85b25bd064da79c27aaf3b2fca7a744cb40730d068c4f58f9c",
     "dashboard/README.md": "ccd20d859b07926b497c5e832966aaf338b3585d0a4ed8263659e34be5cbc806",
@@ -27,5 +27,11 @@
     "shared/fonts/space-grotesk-ext.woff2": "952dddb45d2f96f71cbf3b7f510b24379afc3c89ea02fcf89d377b45d62c0166",
     "shared/fonts/manrope-ext.woff2": "3911b66d9f2e005a4b989223405d0e5032619c668597ba467cc76a23c8fffcfb",
     "shared/fonts/manrope.woff2": "a30ddcd349703aff7464c34bef3fffdff405ee50c113440d7c8693c02d210972"
+  },
+  "architecture": "react-canonical-v2",
+  "canonicalSources": {
+    "header": "src/app/header/AppHeader.tsx",
+    "dashboard": "src/design-system/dashboard/",
+    "tokens": "src/design-system/tokens/"
   }
 }

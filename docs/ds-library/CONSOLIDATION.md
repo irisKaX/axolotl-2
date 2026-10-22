@@ -1,27 +1,35 @@
 # Jediný katalog · Design System Library V1.1
 
-Cíl: https://iriskax.github.io/axolotl-preview/ds-library-v1-1/#design-system
+https://iriskax.github.io/axolotl-preview/ds-library-v1-1/#design-system
 
-Pracovní větev: `design-system/consolidate-v1-1`. Změny nejsou nasazené.
+Pracovní větev: `design-system/consolidate-v1-1`. Budoucí vizuální změny vznikají v této Library; další katalogy se nezakládají.
 
-- Základ Library V1.1 a její registr zůstávají zachované, včetně Buttonu a React Bits Star Border. Návrhy nejsou automaticky schválené.
-- Header, bento, Office placeholder a povrchy šesti widgetů jsou převzaté z přesné reference `axolotl-preview@523c983`. Kanonický zdroj: `public/library/dashboard/`; iframe uvnitř katalogu izoluje původní CSS bez redesignu. Přímá adresa náhledu vrací do katalogu.
-- Brand & Mascot přebírá identitu V3, všech deset barev a pravidla z knowledge revize `316927f`. Master obrázek v repozitáři chybí a je tak označený. Historické Office assety jsou pouze odkazované jako archiv, ne jako náhrada V3.
-- Layout Studio zmizelo z aktivního registru; jeho podklady a skutečné widgetové exporty zůstávají. Stará `section=layout`, `catalog=legacy` a `catalog=headers` v samostatném buildu vedou do Dashboardu.
-- Historické veřejné preview adresy mají přesměrování připravená ve větvi axolotl-preview. Prototype a component-catalog mají vlastní pracovní větve se stejným přesměrováním. Historie ani celé repozitáře se nemažou.
-- Soukromá Inspiration Library zůstává beze změn a její obsah není publikovaný.
-- Produkční main, App, Header, runtime nástrojů i stará produkční routa jsou beze změn. Živé přesměrování produkčního katalogu vyžaduje samostatně schválenou produkční změnu.
+## Kanonické zdroje
 
-## Vývoj a kontrola
+- Header: původní `src/app/header/AppHeader.tsx`, přímo použitý přes `ApprovedDashboard`. Produkční implementace se nemění. Schválený vzhled z `axolotl-preview@523c983` aplikují scoped styly v `src/design-system/dashboard/header.css`; lokální focus adaptér vynechává skryté desktopové zavírací tlačítko.
+- Dashboard: `src/design-system/dashboard/BentoDashboard.tsx`, `WidgetSurface.tsx` a `ApprovedDashboard.tsx`. Office je placeholder, šest povrchů přijímá samostatný obsah. Žádné napojení na Tools, iframe ani druhý zkompilovaný Header.
+- Tokeny: `src/design-system/tokens/`. Přesunuté původní palety a Library CSS tokeny zachovávají hodnoty; starý import palety je pouze re-export. Dashboard používá stejnou paletu. Foundations čte skutečné definice, včetně nezměněných produkčních Header/Button tokenů. Otevřená rozhodnutí jsou Návrh, nikoli nově schválené hodnoty.
+- Registr: `src/pages/design-system/library/registry.tsx`; 11 kategorií, skutečné exporty a zdrojové soubory, varianty, vlastnosti a oddělené stavy Návrh / Schváleno / Produkčně použito.
+- Původní Button, React Bits Star Border a ostatní funkční komponenty zůstávají. Brand & Mascot používá identitu V3 z knowledge `316927f`; chybějící master obrázek není nahrazený. Inspiration Library zůstává soukromá a beze změn.
 
-`npm ci`, pak `node scripts/ds-library/build.mjs`. Build používá stejnou Library přes `library.html`, nikoli produkční App. Výstup je `dist/` se stejnou cílovou cestou `/axolotl-preview/ds-library-v1-1/`.
+## Historické zdroje
 
-Lokálně: `npm run dev -- --host 127.0.0.1`, vstup `library.html#design-system`. Pro sestavenou verzi použij `npm run preview -- --host 127.0.0.1 --port 4185 --base /axolotl-preview/ds-library-v1-1/`.
+Samostatné HTML/CSS/JS Playgroundu a zkompilovaná kopie Headeru byly odstraněny z buildu Library až po porovnání vzhledu. Git historie a hashe regresní reference zůstávají v `consolidation-source.json`. Pro opakování reference použij `git archive 523c983 creative-concepts` v repozitáři axolotl-preview a spusť statický server na portu 4191.
 
-Kontrola sestavené verze: `node scripts/ds-library/check-consolidation.mjs`.
+Preview repo sestavuje pouze tuto Library a přesměrování historických rout. Modular Playground vede přímo na `?section=dashboard#design-system`. Historické Labs, Layout Studios, Immersive a Spatial nejsou součástí aktivního katalogu. Prototype a component-catalog mají připravené vlastní konsolidační větve. Produkční `axolotl-2/#design-system` se nemění: jeho živé přesměrování by vyžadovalo produkční zásah, který tento úkol nepovoluje.
 
-Ověřeno: TypeScript a build, registr, načtení deseti kategorií, skutečný Header (menu, Escape, URL, dark/light), sedm bento buněk a mobilní overflow, Star Border a omezení pohybu. Automatický axe audit hlavního katalogu a Dashboardu: žádná porušení kontrolovaných WCAG A/AA pravidel. Ruční audit čtečkou obrazovky není součástí této kontroly.
+## Build a cílená kontrola
 
-Každý další vizuální vývoj začíná v tomto registru. Stavy: Návrh / Schváleno, nezávisle Produkčně použito. Převzatý Header a bento jsou schválené; jejich přesný preview vzhled není produkčně použitý.
+```sh
+npm ci
+node scripts/ds-library/build.mjs
+npx vitest run src/pages/design-system/library/Registry.test.tsx
+npm run preview -- --host 127.0.0.1 --port 4185 --base /axolotl-preview/ds-library-v1-1/
+# V druhém terminálu:
+node scripts/ds-library/check-consolidation.mjs
+node scripts/ds-library/compare-dashboard.mjs
+```
 
-Publikace vyžaduje výslovný souhlas. Review workflow axolotl-preview vytváří pouze artifact a nemá deployment job.
+Build používá `library.html`, nikoli produkční App. Výstup `dist/` obsahuje provenance s commitem a hashi zdrojů. Kontroly pokrývají Header, focus/Escape, URL, dark/light, sticky, mobil, widgety, Border Beam, Star Border, reduced motion a automatický axe audit katalogu/Dashboardu. Vizuální porovnání kontroluje geometrii a materiály v obou tématech na desktopu a mobilu, s tolerancí 0,25 px pro subpixelový scroll. Ruční screen-reader audit ani fyzický Safari nejsou součástí této cílené kontroly.
+
+V2 zadání výslovně povoluje nasazení experimentální Library. Workflow v axolotl-preview publikuje připnutý zdrojový commit pouze do jeho GitHub Pages. Produkční main, aplikace, sdílené runtime funkce a nástroje zůstávají beze změn; žádný merge není součástí práce.

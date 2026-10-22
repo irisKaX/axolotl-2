@@ -1,8 +1,0 @@
-{
-  "repository": "irisKaX/axolotl-2",
-  "ref": "main",
-  "commit": "02a2ff32b8da590d0d7232c063a43d62bc736e7d",
-  "component": "src/app/header/AppHeader.tsx",
-  "sourceChanges": false,
-  "previewPatch": "../header-ui-polish.patch"
-}

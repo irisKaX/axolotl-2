@@ -19,7 +19,9 @@ walk("src/design-system/Button");
 walk("src/design-system/library");
 walk("src/design-system/widgets");
 walk("src/pages/design-system/library");
-walk("public/library");
+walk("src/design-system/dashboard");
+walk("src/design-system/tokens");
+walk("src/app/header");
 const sourceHashes = Object.fromEntries(
   files.map((path) => [
     path,
@@ -33,6 +35,7 @@ writeFileSync(
       previewCommit: execFileSync("git", ["rev-parse", "HEAD"], {
         encoding: "utf8",
       }).trim(),
+      architecture: "react-canonical-v2",
       base: "/axolotl-preview/ds-library-v1-1/",
       entry: "#design-system",
       categories: [
@@ -46,6 +49,7 @@ writeFileSync(
         "widgets",
         "dashboard",
         "brand",
+        "foundations",
       ],
       sourceHashes,
       consolidation: JSON.parse(readFileSync("docs/ds-library/consolidation-source.json", "utf8")),

@@ -1,4 +1,9 @@
-import { ApprovedDashboard } from "./DashboardPage";
+import { ApprovedDashboard } from "../../../design-system/dashboard/ApprovedDashboard";
+import { AppHeader } from "../../../app/header/AppHeader";
+import { BentoDashboard } from "../../../design-system/dashboard/BentoDashboard";
+import { OfficePlaceholder, WidgetSurface } from "../../../design-system/dashboard/WidgetSurface";
+import { lazy } from "react";
+const FoundationsInventory = lazy(() => import("./FoundationsPage"));
 import { MascotIdentity } from "./BrandPage";
 import {
   FindPhraseWidget,
@@ -676,11 +681,42 @@ export const categories: Category[] = [
     load: () => import("./DashboardPage"),
     entries: [defineEntry(ApprovedDashboard, {
       name: "ApprovedDashboard", label: "Header & Bento Dashboard",
-      source: "public/library/dashboard/index.html",
+      source: "src/design-system/dashboard/ApprovedDashboard.tsx",
       consumers: "Library V1.1. Přesný schválený vzhled z Modular Playgroundu 523c983; produkční aplikace jej dosud nepoužívá.",
-      api: "theme: dark | light. Izolovaný viewport zachovává původní CSS, rozměry a interakce.",
+      api: "theme: dark | light; onNavigate. React kompozice s původním AppHeaderem a lokálním stavem bez Tools.",
       variants: [variant("approved-bento", "Header, Bento a Office placeholder", {}, "approved")],
-      properties: { theme: selectProperty(["dark", "light"]) },
+      properties: { theme: selectProperty(["dark", "light"]), onNavigate: {kind:"callback"} },
+    }),
+    defineEntry(AppHeader, {
+      name:"AppHeader", label:"Schválený Header", source:"src/app/header/AppHeader.tsx",
+      consumers:"Jeden původní React export používaný produkcí i katalogem. Katalog přidává schválené scoped styly v src/design-system/dashboard/header.css; produkční vzhled zůstává beze změny.",
+      api:"route; onNavigate. PillNav, URL, čas, notifikace, nastavení, dark/light, klávesnice a responzivní menu.",
+      variants:[variant("playground-523c983","Schválený katalogový vzhled",{route:"dashboard",onNavigate:()=>{}},"approved")],
+      properties:{route:{kind:"text"},onNavigate:{kind:"callback"}},
+    }),
+    defineEntry(BentoDashboard, {
+      name:"BentoDashboard",source:"src/design-system/dashboard/BentoDashboard.tsx",
+      consumers:"Jediná schválená bento kompozice v Library, bez napojení na Tools.",api:"widgets: obsah pozic 1–6; geometrie je oddělená od obsahu.",
+      variants:[variant("approved","Bento 523c983",{},"approved")],properties:{widgets:{kind:"node"}},
+    }),
+    defineEntry(OfficePlaceholder, {
+      name:"OfficePlaceholder",source:"src/design-system/dashboard/WidgetSurface.tsx",
+      consumers:"Dominantní levý povrch schváleného benta. Není implementací budoucího Office.",api:"Pevný placeholder s ikonou a názvem.",
+      variants:[variant("placeholder","Office placeholder",{},"approved")],properties:{},
+    }),
+    defineEntry(WidgetSurface, {
+      name:"WidgetSurface",source:"src/design-system/dashboard/WidgetSurface.tsx",
+      consumers:"Šest samostatně upravitelných pozic v BentoDashboard; společný export zachovává současné materiály a Border Beam.",api:"number: 1–6; title; children. Hover, reduced motion a dark/light; bez Tools.",
+      variants:([1,2,3,4,5,6] as const).map(number=>variant(`widget-${number}`,`Widget ${number}`,{number},"approved")),
+      properties:{number:selectProperty(["1","2","3","4","5","6"]),title:{kind:"text"},children:{kind:"node"}},
+    })],
+  }),
+  defineCategory({
+    id:"foundations",title:"Foundations",description:"Existující tokeny, témata, typografie, spacing, radius, materiály a motion. Otevřené volby zůstávají návrhem.",
+    keyboard:"Tab a Enter otevírají detaily jednotlivých tokenů a odkazy na skutečné zdroje.",load:()=>import("./FoundationsPage"),
+    entries:[defineEntry(FoundationsInventory,{
+      name:"FoundationsInventory",source:"src/pages/design-system/library/FoundationsPage.tsx",consumers:"Čte skutečné tokeny a metadata; nevytváří kopie hodnot.",api:"Skupiny a stav jednotlivých definic podle jejich zdroje a rozsahu.",
+      variants:[variant("inventory","Průběžný inventář",{})],properties:{},
     })],
   }),
   defineCategory({

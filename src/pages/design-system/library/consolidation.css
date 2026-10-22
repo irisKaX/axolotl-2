@@ -1,7 +1,5 @@
-.ds-approved-dashboard { display: block; width: 100%; height: 768px; border: 1px solid var(--ds-line); border-radius: 16px; margin: 24px 0; background: var(--ds-surface); }
 .ds-mascot-palette { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
 .ds-mascot-palette li { display: grid; gap: 6px; }
 .ds-mascot-swatch { display: block; height: 64px; border-radius: 12px; border: 1px solid var(--ds-line); }
 .ds-catalog-map { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 24px 0; padding: 0; list-style: none; }
 .ds-catalog-guidelines { margin-top: 40px; }
-@media (max-width: 600px) { .ds-approved-dashboard { height: 844px; } }

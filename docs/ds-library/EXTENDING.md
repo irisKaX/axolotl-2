@@ -3,13 +3,13 @@
 # Rozšiřování Design System Library V1.1
 
 **Katalog:** https://iriskax.github.io/axolotl-preview/ds-library-v1-1/#design-system  
-**Větev:** `experiment/ds-library-v1-1` · navazuje na V1 `62808f182479c947cf70e7e2918b5fba74b321ad`.
+**Větev:** `design-system/consolidate-v1-1` · navazuje na V1 `62808f182479c947cf70e7e2918b5fba74b321ad`.
 
 Jedna knihovna, jeden záznam varianty, jedna stránka rodiny. Není potřeba nový experiment, kopie schválené komponenty ani administrační rozhraní.
 
 Aktuální vizuální pravidla a hranice původních exportů: [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md).
 
-Colors & Gradients má [stručný návod a hranice kontrastní kontroly](COLORS.md). Nový záznam v `colors/paints.ts` automaticky rozšíří stávající stránku. [Dashboard Widgets](DASHBOARD-WIDGETS.md) přidává skutečné řízené widgety a oddělené lokální adaptéry. Katalog má nyní devět běžných kategorií, s testovacím Counterem deset.
+Colors & Gradients má [stručný návod a hranice kontrastní kontroly](COLORS.md). Nový záznam v `src/design-system/tokens/paints.ts` automaticky rozšíří stávající stránku. [Dashboard Widgets](DASHBOARD-WIDGETS.md) přidává skutečné řízené widgety a oddělené lokální adaptéry. Katalog má nyní jedenáct běžných kategorií, s testovacím Counterem dvanáct.
 
 ## Kde změnu provést
 
@@ -78,7 +78,7 @@ Přehled, menu, lazy render, technické detaily i `?catalog=library&section=coun
 
 [Test B — nový typ](https://iriskax.github.io/axolotl-preview/ds-library-v1-1/?catalog=library&section=test-counter&catalogTests=1#design-system): +/- mění hodnotu, Disabled blokuje obě tlačítka. Vyzkoušej Tab a mezerník, reload a Back.
 
-Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled devět kategorií, Card dvě úrovně Halo Soft (flat/raised) a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
+Přepínač **Zobrazit testovací komponenty** v horní liště ovládá parametr `catalogTests=1` bez reloadu. Back/Forward obnovuje jeho stav. Vypnutí na testovací stránce vrací na přehled; ostatní otevřené playgroundy zachovávají nastavení. Vybraný testovací materiál Card a porovnání po dobu vypnutí zobrazí dostupnou běžnou variantu. Parametr `catalogTests=1` zachová navigace. Bez něj má přehled jedenáct kategorií, Card dvě úrovně Halo Soft (flat/raised) a deep link na testovací čítač se bezpečně vrátí na přehled. Obě fixtures jsou **Návrh**, nejsou schváleným designem.
 
 ## Kontroly před předáním
 
@@ -101,6 +101,6 @@ node scripts/ds-library/check-built.mjs
 
 Aktuální výsledky: [VISUAL-UNIFICATION.md](VISUAL-UNIFICATION.md), `evidence/verification.json`, `evidence/navigation-reference.json` a GitHub Actions. Registry, deep links, testovací režim a skutečné exporty se zachovávají. Žádné nové runtime závislosti, databáze ani administrace.
 
-Fyzický iPhone/Safari a ruční screen-reader audit nebyly nahrazeny emulací Chromia. Veřejná V1 zůstává zachovanou referencí, V1.1 je aktualizace stejné knihovny v izolované větvi. `main` ani produkční deployment nejsou součástí změny.
+Fyzický iPhone/Safari a ruční screen-reader audit nebyly nahrazeny emulací Chromia. V1 je vyřazená; historie zůstává v Gitu. V1.1 je jediná aktivní Library. `main` ani produkční deployment nejsou součástí změny.
 
-[Dashboard Layout Studio](DASHBOARD-LAYOUT.md) skládá existující widgety do pracovního návrhu. Kompaktní režim katalogu je opt-in metadatum `workspace`; ostatní stránky zachovávají běžné rozložení.
+[Dashboard Layout Studio](DASHBOARD-LAYOUT.md) je historická dokumentace. Platný Dashboard spravuje `src/design-system/dashboard/`, tokeny `src/design-system/tokens/` a stávající registr.

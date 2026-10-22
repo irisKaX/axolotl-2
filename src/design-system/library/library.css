@@ -1,43 +1,9 @@
-/* Working foundation V1. Scoped, provisional, no production token overrides. */
+@import "../tokens/library.css";
 .axo-ds-scope {
-  --ds-violet: #7c3aed;
-  --ds-blue: #0050ff;
-  --ds-surface: #292630;
-  --ds-surface-raised: #34303d;
-  --ds-inset: #201e26;
-  --ds-text: #f4f1f8;
-  --ds-muted: #c1b9cc;
-  --ds-line: #625b70;
-  --ds-control-edge: #8d829f;
-  --ds-hover: #3c3746;
-  --ds-focus: #c2a2ff;
-  --ds-shadow: 0 14px 40px #0004;
-  --ds-success: #a2e4bc;
-  --ds-warning: #f4d28a;
-  --ds-error: #ffb5c4;
-  --ds-radius: 16px;
-  --ds-control-radius: 10px;
-  --ds-space: 16px;
-  --ds-font: calc(14px * var(--axolotl-text-scale, 1));
   color: var(--ds-text);
   font-size: var(--ds-font);
   line-height: 1.6;
   min-width: 0;
-}
-.axo-ds-scope[data-theme="light"] {
-  --ds-surface: #faf9fc;
-  --ds-surface-raised: #fff;
-  --ds-inset: #eeeaf3;
-  --ds-text: #29232f;
-  --ds-muted: #61566e;
-  --ds-line: #bdb4ca;
-  --ds-control-edge: #85778e;
-  --ds-hover: #e7e0ed;
-  --ds-focus: #6c28d6;
-  --ds-shadow: 0 14px 40px #30233d1a;
-  --ds-success: #1c6136;
-  --ds-warning: #73520b;
-  --ds-error: #a61b3b;
 }
 .axo-ds-scope
   :where(button, input, textarea, select, a, summary, [tabindex]):not(
