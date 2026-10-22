@@ -8,7 +8,7 @@ Reconstructed exclusively from source `63bda318f5556b12b629016e821e08feb7374281`
 
 96 cases: 12 Dashboard viewport/theme combinations, Header interactions and synthetic SEO bridge states, ten Library families, Button/Split/form/dialog/navigation states, existing private Button Lens 02 fixture. Each case has a PNG and computed-style/geometry JSON. The manifest lists environment, fonts, asset hashes and each state.
 
-Exact comparison is required; no tolerance or update-snapshots. A repeat comparison already found renderer differences in the mobile Header despite identical geometry/computed values. This candidate is preserved for review, not replaced to hide differences. See the S01/S02 handover for complete comparison results and blocking conditions.
+Exact comparison is required; no tolerance or update-snapshots. A repeat comparison already found renderer differences in the mobile Header despite identical geometry/computed values. A second comparison found a changed focus in the SEO-tooltip screenshot and a 19-pixel light compact-menu raster difference. The tooltip screenshot is unsuitable for approval; the harness now rejects focus changes during screenshot capture. This candidate is preserved as evidence, not replaced to hide differences. See the S01/S02 handover for complete comparison results and blocking conditions.
 
 The original Lens fixture is private test infrastructure, not another catalog or published artifact. Static screenshots freeze infinite animations at t=0, finish finite animations, fix Date, locale and storage, and hide the caret. Separate tests verify real-time motion. Public artifact data is unchanged.
 

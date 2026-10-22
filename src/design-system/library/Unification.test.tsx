@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { it, expect } from "vitest";
 import { DesignSystemProvider, useDesignSystem } from "./Provider";
+import { Button, SplitButton } from "../Button";
 import { categories } from "../../pages/design-system/library/registry";
 function Probe() {
   const e = useDesignSystem();
@@ -30,7 +31,14 @@ it("inherits unified appearance through nested theme scopes without changing the
 });
 it("keeps Button variants and motion API but records revised visuals as proposals", () => {
   const button = categories.find((c) => c.id === "buttons")!.entries[0];
-  expect(button.variants).toHaveLength(5);
+  expect(button.component).toBe(Button);
+  expect(button.variants.map((variant) => variant.id)).toEqual([
+    "primary", "secondary", "outline", "ghost", "icon", "destructive",
+  ]);
+  const split = categories.find((c) => c.id === "buttons")!.entries.find((entry) => entry.name === "SplitButton");
+  expect(split?.component).toBe(SplitButton);
+  expect(split?.source).toBe("src/design-system/Button/SplitButton.tsx");
+  expect(split?.variants.map((variant) => variant.id)).toEqual(["default"]);
   expect(
     button.variants.every((v) => v.design === "draft" && !v.production),
   ).toBe(true);
