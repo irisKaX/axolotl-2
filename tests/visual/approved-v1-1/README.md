@@ -1,25 +1,26 @@
 # Library V1.1 — reference candidate
 
-**Status: candidate. No approval or release authorization.** The path follows the blueprint; its name does not imply approval.
+**Status: candidate. Explicit final approval is still required.** The directory name does not imply approval.
 
-Manifest SHA-256: `f311428b31cfd140f6d5c3c417d857e4e154531b37f0aef45af9d5391fec1096`.
+Manifest SHA-256: `d0f695525f0c0d2c4df542638bf3c55394b66bda4ba5c809c6b9ce660f9c0d26`.
 
-Original identity: source `63bda318f5556b12b629016e821e08feb7374281`, preview `0c2bfdcd4ed1a206c23d0988f0c0661c58397f3a`, Header patch `9293f18080e928225f5da9931153e5df1e5b3f1c3e21f10813505d02c669a6d2`. Independent reconstruction matched all 63 public files byte for byte. This identity is unchanged; the reference is not generated from the implementation branch.
+Original identity: source `63bda318f5556b12b629016e821e08feb7374281`, preview `0c2bfdcd4ed1a206c23d0988f0c0661c58397f3a`, Header patch `9293f18080e928225f5da9931153e5df1e5b3f1c3e21f10813505d02c669a6d2`. The original independent build was rechecked against all 63 public artifact hashes before correction. This is not a reference generated from the implementation branch.
 
-FINAL FIX replaced **only the dark SEO-tooltip PNG**, with focus held on the SEO indicator and tooltip visible. All other 95 PNGs and all 96 computed-style/geometry JSON files remain byte-identical to the original S01 commit `40693e2b53513701e744b8313e182001c1871af6`. The manifest records its old hash, old PNG hash, correction and explicit font-environment normalization. Original capture metadata/history are retained.
+The user-authorized stabilization regenerates exactly two PNGs: **forms-select-open-dark-1366x768** and **forms-select-open-light-1366x768**. Both visibly show the open listbox with focus on its selected option. The other 94 PNGs, including the previously repaired SEO tooltip, and all 96 computed/geometry JSONs are byte-identical to preceding candidate `f311428b31cfd140f6d5c3c417d857e4e154531b37f0aef45af9d5391fec1096`. Previous checksums and correction history remain in the manifest/Git history.
 
-**Remaining blocker:** both `forms-select-open` PNGs show the closed Select because full-page capture triggered a resize/close callback. Their original computed JSON shows it open. The corrected capture preserves the open state and must reject those PNGs. They remain unchanged because only the SEO reference replacement was authorized. No tolerance, mask or automatic snapshot update is allowed.
+The original pinned Node, Playwright, Chromium binary, fonts and launch configuration are unchanged. The one-worker raster trial was rejected after a full-run mismatch; it is not part of this candidate. Select state/focus are explicitly checked through capture. Exact PNG and computed comparisons remain mandatory; missing/corrupt reference files fail, and candidate status continues to block release.
 
-The same locked test container is used locally and in CI. Every comparison requires exact pixel and computed/geometry equality and the externally pinned manifest hash. Candidate status independently blocks the strict publication gate.
+**Remaining blocker:** intermittent rounded-edge Header raster differences despite equal CSS/geometry. No exception or pixel tolerance has been introduced. This candidate requires completion of raster stabilization and explicit user approval before it can authorize publication.
 
-Three independent final container runs have identical fingerprints for all 96 states. Computed CSS/geometry matches 96/96; PNG reference equality is 94/96 in each run, failing exactly the two Select references above. Milestone remains **BLOCKED**.
-
-The subsequent full CI-equivalent pipeline also caught intermittent Header raster
-mismatches: `dashboard-default-light-320x800` (80 pixels, maximum channel delta 19)
-and `dashboard-settings-open-dark-1366x768` (44 pixels, maximum channel delta 3).
-Their computed CSS/geometry matches exactly. These failures are **not waived**;
-three matching isolated runs do not establish complete pipeline stability. Further
-renderer stabilization and the two Select-reference corrections remain blockers.
+Final stabilization verification: 121/121 unit tests, 15/15 baseline contracts and
+8/8 required negatives (+2 existing guards) passed. Three final runs completed all
+96 cases: exact PNG matches **95/96, 95/96, 96/96**; computed CSS/geometry matches
+**96/96 in each**. Both corrected Select references match in all three runs.
+Remaining failures are light Media (60 pixels) and light Settings (31 pixels),
+rounded focus-outline edges only, maximum channel delta4/255. They remain strict
+failures. **BLOCKED**, candidate only. One initial unit run under simultaneous
+browser load timed out waiting for the QR tool heading; the full isolated suite
+passed unchanged, with no increased timeout or retry setting.
 
 ## Cases
 

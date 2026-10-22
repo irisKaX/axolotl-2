@@ -498,7 +498,8 @@
     "caret": "hidden; no visual area masked",
     "demo": "default isolated storage; SEO states explicitly synthetic",
     "scriptExecution": "Page callbacks suspended only during atomic computed/PNG capture; resumed in finally. Prevents screenshot-induced resize from changing Header focus or closing Select.",
-    "paint": "Two requestAnimationFrame boundaries after animation/font stabilization, before suspending callbacks and one atomic screenshot. No repeat capture, tolerance, masks or reference-based frame selection."
+    "paint": "Two requestAnimationFrame boundaries after animation/font stabilization, before suspending callbacks and one atomic screenshot. No repeat capture, tolerance, masks or reference-based frame selection.",
+    "select": "Assert expanded trigger, visible listbox and focus inside before capture; assert expanded trigger and visible listbox after PNG while callbacks remain suspended"
   },
   "cases": [
     {
@@ -2368,7 +2369,7 @@
       },
       "screenshot": {
         "file": "forms-select-open-dark-1366x768.png",
-        "sha256": "f594d4221d521ac92376165ee40090bb2a935e1dedfc6f77f81e064edcd3dfb2"
+        "sha256": "a67b023bff57af2196b110817f7a09e3fb7868cd5cf527d59b0f3b40f22cd8af"
       }
     },
     {
@@ -2390,7 +2391,7 @@
       },
       "screenshot": {
         "file": "forms-select-open-light-1366x768.png",
-        "sha256": "9ac96794a001892406f7e36e7a51f8e4dd43b869fca931a1816f4b676690e08e"
+        "sha256": "943c37d4b685a4e32bc393442b74d1760a1c6c745527104f712af691eb34ec71"
       }
     },
     {
@@ -2640,10 +2641,28 @@
   "knownBlockers": [
     {
       "ids": [
-        "forms-select-open-dark-1366x768",
-        "forms-select-open-light-1366x768"
+        "dashboard-default-light-320x800",
+        "dashboard-settings-open-dark-1366x768"
       ],
-      "reason": "Original full-page screenshot closes Radix Select via resize; PNG contains closed state while original computed snapshot contains open state. Preserved unchanged: FINAL FIX authorizes only SEO tooltip reference replacement."
+      "reason": "Intermittent rounded-edge PNG differences with exact computed CSS/geometry. One-raster-worker diagnostic trial did not remove all differences and was reverted; no tolerance/waiver applied."
     }
-  ]
+  ],
+  "selectCorrection": {
+    "authorization": "User: Milestone A Final Baseline Stabilization, section 1",
+    "previousManifestSha256": "f311428b31cfd140f6d5c3c417d857e4e154531b37f0aef45af9d5391fec1096",
+    "cases": [
+      {
+        "id": "forms-select-open-dark-1366x768",
+        "previousScreenshotSha256": "f594d4221d521ac92376165ee40090bb2a935e1dedfc6f77f81e064edcd3dfb2",
+        "screenshotSha256": "a67b023bff57af2196b110817f7a09e3fb7868cd5cf527d59b0f3b40f22cd8af"
+      },
+      {
+        "id": "forms-select-open-light-1366x768",
+        "previousScreenshotSha256": "9ac96794a001892406f7e36e7a51f8e4dd43b869fca931a1816f4b676690e08e",
+        "screenshotSha256": "943c37d4b685a4e32bc393442b74d1760a1c6c745527104f712af691eb34ec71"
+      }
+    ],
+    "source": "Same independent original reference build; all 63 served files verified against original manifest",
+    "preserved": "94 other PNGs and all 96 computed/geometry JSON unchanged"
+  }
 }
