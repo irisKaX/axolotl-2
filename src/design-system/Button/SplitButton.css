@@ -1,0 +1,27 @@
+.axo-ds-split { display: inline-flex; align-items: stretch; max-width: 100%; vertical-align: middle; }
+.axo-ds-scope[data-design="unified"] .axo-ds-split > .axo-ds-button[data-split-part="action"] {
+  border-start-end-radius: 0; border-end-end-radius: 0; flex-shrink: 1;
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-split > .axo-ds-button[data-split-part="menu"] {
+  border-start-start-radius: 0; border-end-start-radius: 0; margin-inline-start: -1px;
+  width: calc(var(--btn-height) * var(--axolotl-text-scale, 1)); padding-inline: 0;
+}
+.axo-ds-split > [data-split-part="menu"]::after {
+  content: ''; position: absolute; inset-inline-start: 0; top: 25%; height: 50%;
+  border-inline-start: 1px solid currentColor; pointer-events: none;
+}
+.axo-ds-split > .axo-ds-button:focus-visible { z-index: 1; }
+.axo-ds-split-menu {
+  display: grid; gap: var(--spacing); padding: calc(var(--spacing) * 2);
+  min-width: 10rem; max-width: calc(100vw - 24px); z-index: 1000;
+  background: var(--popover); color: var(--popover-foreground);
+  border: 1px solid var(--input); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+}
+.axo-ds-scope[data-design="unified"].axo-ds-split-menu > .axo-ds-button { justify-content: flex-start; }
+.axo-ds-scope[data-design="unified"].axo-ds-split-menu > .axo-ds-button:focus-visible {
+  background: var(--accent); color: var(--accent-foreground); outline-color: currentColor; outline-offset: -2px;
+}
+@media (forced-colors: active) {
+  .axo-ds-split-menu { background: Canvas; color: CanvasText; border-color: ButtonText; }
+}
+.axo-ds-split > [data-split-part="menu"] .axo-ds-button__label { display: none; }

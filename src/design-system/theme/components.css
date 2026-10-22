@@ -7,6 +7,7 @@ html[data-axolotl-library] :is(.axo-ds-scope, .axo-ds-button[data-theme]) {
   --ds-background:var(--background); --ds-text:var(--foreground); --ds-muted:var(--muted-foreground);
   --ds-text-secondary:var(--muted-foreground); --ds-line:var(--border); --ds-control-edge:var(--input);
   --ds-hover:var(--secondary); --ds-focus:var(--ring); --ds-border-hover:var(--ring);
+  --button-radius:calc(var(--radius-md) + 2px);
   --button-secondary:var(--secondary); --button-secondary-foreground:var(--secondary-foreground);
   --button-primary-foreground:var(--primary-foreground); --button-destructive:var(--destructive); --button-destructive-foreground:var(--destructive-foreground);
   --button-hover:var(--accent); --button-hover-foreground:var(--accent-foreground); --button-shadow:var(--shadow-xs); --button-hover-shadow:var(--shadow-sm);

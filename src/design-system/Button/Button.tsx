@@ -2,7 +2,7 @@ import { forwardRef, useCallback, useImperativeHandle, useRef, useState, type Bu
 import { StarBorderMotion, type StarBorderOptions } from './StarBorderMotion';
 import './Button.css';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'icon' | 'destructive';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'icon' | 'destructive';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonMotion = 'none' | 'star-border';
 type NativeProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'dangerouslySetInnerHTML' | 'aria-busy'>;

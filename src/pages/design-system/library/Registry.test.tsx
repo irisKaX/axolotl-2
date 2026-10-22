@@ -35,10 +35,12 @@ describe("Catalog extensibility contract", () => {
     expect(button.variants.map((v) => v.id)).toEqual([
       "primary",
       "secondary",
+      "outline",
       "ghost",
       "icon",
       "destructive",
     ]);
+    expect(entries.find((e) => e.name === "SplitButton")?.source).toBe("src/design-system/Button/SplitButton.tsx");
     expect(button.properties.size.options!.map((o) => o.value)).toEqual([
       "small",
       "medium",

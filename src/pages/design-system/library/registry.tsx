@@ -12,7 +12,7 @@ import {
 import { ColorSample } from "./colors/ColorSample";
 import { paints } from "./colors/paints";
 import { Play, Bookmark, Trash2 } from "lucide-react";
-import { Button } from "../../../design-system/Button";
+import { Button, SplitButton } from "../../../design-system/Button";
 import * as UI from "../../../design-system/library";
 import { TestCounter } from "../../../design-system/library/fixtures/TestCounter";
 import {
@@ -57,10 +57,11 @@ export const categories: Category[] = [
             { variant: "secondary" as const },
             "draft",
           ),
+          variant("outline", "Outline", { variant: "outline" as const }, "draft"),
           variant("ghost", "Ghost", { variant: "ghost" as const }, "draft"),
           variant(
             "icon",
-            "Icon",
+            "Icon Button",
             {
               variant: "icon" as const,
               children: undefined,
@@ -91,6 +92,24 @@ export const categories: Category[] = [
         previewProps: {
           children: "Spustit kontrolu",
           icon: <Play strokeWidth={1.7} />,
+        },
+      }),
+      defineEntry(SplitButton, {
+        name: "SplitButton",
+        label: "Split Button",
+        source: "src/design-system/Button/SplitButton.tsx",
+        consumers: "Button System V1 · složený Button; návrh pro budoucí integraci.",
+        api: "Button props bez icon varianty; menuLabel; items: {id,label,onSelect,disabled?}[]; ref hlavní akce. Šipky, Home/End, psaní, Enter, Escape a Tab.",
+        variants: [variant("default", "Split Button", {}, "draft")],
+        properties: {
+          size: controlSizes,
+          disabled: {kind: "boolean"},
+          loading: {kind: "boolean"},
+          motion: selectProperty(["none", "star-border"]),
+        },
+        previewProps: {
+          children: "Exportovat", menuLabel: "Formát exportu",
+          items: ["CSV", "XLSX", "PNG"].map(label => ({id: label, label, onSelect: () => {}})),
         },
       }),
     ],

@@ -9,7 +9,7 @@
   --btn-hover-text: var(--btn-text);
   --btn-font: 14px;
   gap: var(--ds-space-2); padding-inline: 16px;
-  border: 1px solid var(--btn-edge); border-radius: var(--ds-radius-action);
+  border: 1px solid var(--btn-edge); border-radius: min(var(--button-radius, var(--ds-radius-action)), calc(var(--btn-height) * .495));
   background: var(--paint-fill, var(--btn-top)); color: var(--paint-ink, var(--btn-text));
   box-shadow: var(--button-shadow, none); font-family: inherit; font-weight: 400;
   letter-spacing: normal; line-height: 1.4;
@@ -25,6 +25,10 @@
 }
 .axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="ghost"] {
   --btn-top:transparent;--btn-edge:transparent;--btn-text:var(--ds-text);
+  --btn-hover-top:var(--button-hover, var(--ds-hover));--btn-hover-text:var(--button-hover-foreground, var(--ds-text));box-shadow:none;
+}
+.axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="outline"] {
+  --btn-top:transparent;--btn-edge:var(--ds-control-edge);--btn-text:var(--ds-text);
   --btn-hover-top:var(--button-hover, var(--ds-hover));--btn-hover-text:var(--button-hover-foreground, var(--ds-text));box-shadow:none;
 }
 .axo-ds-scope[data-design="unified"] .axo-ds-button[data-variant="icon"] {padding:0;}

@@ -51,8 +51,10 @@ try{
   }
  }
  await go('buttons');await page.emulateMedia({reducedMotion:'no-preference'});
+ const buttonBox=await page.locator('#button-playground').boundingBox();
  await page.getByRole('checkbox',{name:'Omezit pohyb',exact:true}).uncheck();await page.getByRole('checkbox',{name:'Star Border',exact:true}).check();
  await page.locator('.axo-button-showcase__stage canvas').first().waitFor();
+ const motionBox=await page.locator('#button-playground').boundingBox();assert.equal(motionBox.width,buttonBox.width);assert.equal(motionBox.height,buttonBox.height);
  await page.getByRole('checkbox',{name:'Omezit pohyb',exact:true}).check();assert.equal(await page.locator('.axo-button-showcase__stage canvas').count(),0);
  await page.emulateMedia({reducedMotion:'reduce'});
  await go('dashboard');await page.locator('#approved-header header').waitFor();

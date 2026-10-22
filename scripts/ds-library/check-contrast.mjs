@@ -110,15 +110,33 @@ try{
    // Real controls in each family, not copies in the test harness.
    if(section==='buttons'){
     await interactions('.axo-button-showcase__matrix .axo-ds-button',label);
-    for(const variant of ['primary','secondary','ghost','icon','destructive']){
+    for(const variant of ['primary','secondary','outline','ghost','icon','destructive','split']){
      await page.locator(`input[name=button-variant][value=${variant}]`).check();
+     const beforeLoading=await page.locator('#button-playground').boundingBox();
      await page.getByRole('checkbox',{name:'Loading',exact:true}).check();
+     const duringLoading=await page.locator('#button-playground').boundingBox();
+     record(beforeLoading.width===duringLoading.width && beforeLoading.height===duringLoading.height,label+' '+variant+' stable loading size');
      await textAndIcons(page.locator('.axo-button-showcase__stage'),label+' '+variant+' loading');
      await page.getByRole('checkbox',{name:'Loading',exact:true}).uncheck();
      await page.getByRole('checkbox',{name:'Disabled',exact:true}).check();
-     record(await page.locator('.axo-button-showcase__stage .axo-ds-button').isDisabled(),label+' disabled');
+     record(await page.locator('.axo-button-showcase__stage .axo-ds-button').first().isDisabled(),label+' disabled');
      await page.getByRole('checkbox',{name:'Disabled',exact:true}).uncheck();
     }
+    const trigger=page.locator('.axo-button-showcase__stage [data-split-part=menu]');
+    await trigger.focus();await page.keyboard.press('ArrowDown');
+    await page.getByRole('menuitem',{name:'CSV',exact:true}).waitFor();
+    record(await page.getByRole('menuitem',{name:'CSV',exact:true}).evaluate(el=>el===document.activeElement),label+' split initial focus');
+    await audit(label+' split open','.axo-ds-split-menu');
+    await interactions('.axo-ds-split-menu [role=menuitem]',label+' split menu');
+    await page.keyboard.press('Home');await page.keyboard.press('ArrowDown');
+    record(await page.getByRole('menuitem',{name:'XLSX',exact:true}).evaluate(el=>el===document.activeElement),label+' split arrow navigation');
+    await page.keyboard.press('End');await page.keyboard.press('Enter');
+    record(await page.getByRole('status').filter({hasText:'Ukázkový export: PNG'}).count()===1,label+' split action');
+    record(await trigger.evaluate(el=>el===document.activeElement),label+' split returns focus');
+    await trigger.click();await page.getByRole('menuitem',{name:'CSV',exact:true}).waitFor();await page.keyboard.press('Escape');
+    record(await page.getByRole('menu').count()===0,label+' split Escape');
+    await trigger.click();await page.getByRole('menuitem',{name:'CSV',exact:true}).waitFor();await page.keyboard.press('Tab');
+    record(await page.getByRole('menu').count()===0,label+' split Tab leaves menu');
    }
    for(const name of await components()){
     await choose('Komponenta',name);await audit(label+'/'+name,'.ds-catalog-playground');
