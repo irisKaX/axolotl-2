@@ -16,7 +16,8 @@
     "platform": "linux",
     "arch": "x64",
     "osReleaseSha256": "14c430da04c2d571793fc68a8f5e17fce3d7a746e316c3f23192590861b18bd7",
-    "systemFontsSha256": "6513f3d1639f88565cb69ce8d9ae48aecca8cb7a512e669714fd11c350f12269"
+    "systemFontsSha256": "79b7038484b1e34fd43d9255ddd9c19182b63fe410baaa28737529e0cfd043f9",
+    "fontConfigSha256": "1625a04d7cb330b672b2c8048e13eb53ab6864af5ce86ed797bdfe0b45a1066e"
   },
   "evidence": {
     "identity": {
@@ -495,7 +496,9 @@
     "reducedMotion": "reduce",
     "animations": "finite finish; infinite pause at t=0; separate real-time motion test",
     "caret": "hidden; no visual area masked",
-    "demo": "default isolated storage; SEO states explicitly synthetic"
+    "demo": "default isolated storage; SEO states explicitly synthetic",
+    "scriptExecution": "Page callbacks suspended only during atomic computed/PNG capture; resumed in finally. Prevents screenshot-induced resize from changing Header focus or closing Select.",
+    "paint": "Two requestAnimationFrame boundaries after animation/font stabilization, before suspending callbacks and one atomic screenshot. No repeat capture, tolerance, masks or reference-based frame selection."
   },
   "cases": [
     {
@@ -1001,7 +1004,7 @@
       },
       "screenshot": {
         "file": "dashboard-seo-tooltip-dark-1366x768.png",
-        "sha256": "d092b9390f07949c5fec2ae132e0b5cb601ba063f0dbf92c898fe4fe0f66fd04"
+        "sha256": "fc4b69771d2bae69d597d1bd52ad69dc1cb3abe2a7b12e0bf4472deb48d22ef7"
       }
     },
     {
@@ -2609,6 +2612,38 @@
         "file": "lens-default-light-390x844.png",
         "sha256": "f05b8b9eaadc92a15da19e6efa8dc97ae7ab24019ead965325de2bbfa5f99756"
       }
+    }
+  ],
+  "correction": {
+    "authorization": "User: Milestone A FINAL FIX, A/B, 2026-10-22",
+    "previousManifestSha256": "ff42865ee9f21a733aef22fa7b21da15279022bcdd728609d9201eda69c10e8b",
+    "case": "dashboard-seo-tooltip-dark-1366x768",
+    "previousScreenshotSha256": "d092b9390f07949c5fec2ae132e0b5cb601ba063f0dbf92c898fe4fe0f66fd04",
+    "reason": "Full-page capture dispatched responsive focus change; preserve SEO focus and open tooltip from original exact build. All 95 other PNG and all 96 JSON files unchanged."
+  },
+  "originalCaptureToolchain": {
+    "browser": "154.0.8037.57",
+    "browserExecutableSha256": "4dc9f9f9b20e9bd95bf201f43d2d643f48938f36a70ddcb6fce3dd611a178180",
+    "playwright": "1.64.1",
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64",
+    "osReleaseSha256": "14c430da04c2d571793fc68a8f5e17fce3d7a746e316c3f23192590861b18bd7",
+    "systemFontsSha256": "6513f3d1639f88565cb69ce8d9ae48aecca8cb7a512e669714fd11c350f12269"
+  },
+  "environmentNormalization": {
+    "authorization": "User Milestone A FINAL FIX D, 2026-10-22",
+    "previousManifestSha256": "1f90a1ca335e548e2790475000de39197bded28099f3043f25f33c4aa5f0de46",
+    "scope": "Same Node24.19.0/Playwright1.64.1/Chromium154.0.8037.57 executable and OS; identical pinned fonts, excluding host-only OpenAI Sans via shared Fontconfig. No application CSS changes or image regeneration. Exact comparison required.",
+    "containerBase": "node:24.19.0-trixie-slim@sha256:ab3eebe934147fee049b5eb83c570f68c849a13c930bdfa482de99fcdfa3b3de"
+  },
+  "knownBlockers": [
+    {
+      "ids": [
+        "forms-select-open-dark-1366x768",
+        "forms-select-open-light-1366x768"
+      ],
+      "reason": "Original full-page screenshot closes Radix Select via resize; PNG contains closed state while original computed snapshot contains open state. Preserved unchanged: FINAL FIX authorizes only SEO tooltip reference replacement."
     }
   ]
 }
