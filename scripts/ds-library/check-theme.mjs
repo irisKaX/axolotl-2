@@ -59,8 +59,23 @@ try{
  }
  await page.emulateMedia({reducedMotion:'no-preference'});
  await page.waitForFunction(()=>getComputedStyle(document.querySelector('.axo-animated-mark__orbit')).animationName==='axo-mark-orbit');
- const timings=await marks.first().evaluate(el=>['bot','orbit','body'].map(part=>getComputedStyle(el.querySelector('.axo-animated-mark__'+part)).animationDuration));
- assert.deepEqual(timings,['2.2s','2.2s','1.7s'],'Preserve reference motion timing');
+ for(const mark of await marks.all()) {
+  const art=await mark.evaluate(el=>{
+   const svg=el.querySelector('.axo-animated-mark__symbol');
+   return {
+    animations:el.getAnimations({subtree:true}).map(a=>[a.animationName,a.effect.target.className]),
+    gills:svg.querySelectorAll('[data-gill]').length,
+    fills:[...svg.querySelectorAll('[data-head],[data-gill]')].map(e=>getComputedStyle(e).fill),
+    eyes:[...svg.querySelectorAll('[data-eye]')].map(e=>getComputedStyle(e).fill),
+    transform:getComputedStyle(svg).transform,filter:getComputedStyle(svg).filter,
+    orbitDuration:getComputedStyle(el.querySelector('.axo-animated-mark__orbit')).animationDuration,
+   };
+  });
+  assert.deepEqual(art.animations,[['axo-mark-orbit','axo-animated-mark__orbit']],'Only the ring animates; the logo head stays static');
+  assert.equal(art.gills,6);assert.deepEqual(art.fills,Array(7).fill('rgb(255, 255, 255)'),'Head and all six gills stay white in both themes');
+  assert.deepEqual(art.eyes,['rgb(23, 23, 27)','rgb(23, 23, 27)']);
+  assert.equal(art.transform,'none');assert.equal(art.filter,'none');assert.equal(art.orbitDuration,'2.2s');
+ }
  await page.getByRole('button',{name:'Pozastavit animaci',exact:true}).click();
  assert(await marks.evaluateAll(es=>es.every(el=>el.getAnimations({subtree:true}).every(a=>a.playState==='paused'))),'Pause every specimen');
  await page.getByRole('button',{name:'Přehrát animaci',exact:true}).press('Enter');

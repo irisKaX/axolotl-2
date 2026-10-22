@@ -46,10 +46,10 @@ export default function BrandPage() {
     <section className="ds-animated-brand" aria-labelledby="animated-brand-heading">
       <span className="axolotl-eyebrow">Brand & Mascot · referenční komponenta</span>
       <h2 id="animated-brand-heading">Animated Axolotl Logo</h2>
-      <p><strong>Návrh · Assistant Mark.</strong> Kompaktní, přátelská značka s jemným jelly pohybem a orbitou. Hlava podle dodaného axolotlího symbolu, barevnost z identity V3 a aktuálního theme.</p>
+      <p><strong>Návrh · Assistant Mark.</strong> Minimalistická bílá SVG hlava s tmavýma očima, jemným úsměvem a šesti symetrickými žábrami. Hlava je stabilní; pohyb a energie zůstávají v prstenci.</p>
       <div className="ds-animated-brand__hero">
         <AnimatedAxolotlLogo size="large" paused={paused} />
-        <div><h3>Hlavní varianta</h3><p>Výrazné oči, šest žaber a klidný úsměv. Značka pro identitu, načítání nebo označení asistenta.</p></div>
+        <div><h3>Hlavní varianta</h3><p>Čistá 2D silueta čitelná i v malé velikosti. Značka pro identitu, načítání nebo označení asistenta.</p></div>
         <Button variant="outline" icon={paused ? <Play /> : <Pause />} aria-pressed={paused} onClick={() => setPaused(value => !value)}>
           {paused ? "Přehrát animaci" : "Pozastavit animaci"}
         </Button>
@@ -75,8 +75,8 @@ export default function BrandPage() {
         <article><AnimatedAxolotlLogo variant="assistant" paused={paused} /><div><h4>Assistant Mark</h4><p>Označení průvodce nebo asistenta. Značka sama není tlačítko ani indikátor připojené AI služby.</p></div></article>
       </div>
       <h3>Původ a adaptace</h3>
-      <p>Motion základ: <a href="https://uiverse.io/sanjanaare_1029/horrible-fly-78">sanjanaare_1029 · Uiverse</a>. Zachovány proporce 72 / 50 / 58 px, rotace a idle 2,2 s a morph 1,7 s. Axolotl adaptace přidává dodanou podobu hlavy, žábry, úsměv, paletu V3 a theme; nahrazuje původní rainbow barvy.</p>
-      <p>Nová 2D značka je návrh k vizuální revizi. Schválená identita 3D masteru V3 je zachovaná níže.</p>
+      <p>Motion základ: <a href="https://uiverse.io/sanjanaare_1029/horrible-fly-78">sanjanaare_1029 · Uiverse</a>. Princip MINI NX: centrální symbol a animovaný prstenec. Zachovány proporce 72 / 50 / 58 px a rotace 2,2 s. Prstenec používá theme a O2 Blue; hlava je plochý bílý SVG mark bez deformací, textur a odlesků.</p>
+      <p>Logo Mark a Master Maskot V3 jsou dvě oddělené vrstvy identity. Bílá 2D značka nepřebírá ilustrativní vzhled ani paletu maskota. Schválená identita 3D masteru V3 je zachovaná níže.</p>
       <nav className="ds-animated-brand__sources" aria-label="Zdroje reference">
         <a href={originalHtml} download="uiverse-original.html.txt">Původní HTML</a>
         <a href={originalCss} download="uiverse-original.css.txt">Původní CSS</a>

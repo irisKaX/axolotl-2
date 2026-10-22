@@ -1,5 +1,3 @@
-import type { CSSProperties } from 'react';
-import { mascotVariables } from '../tokens/mascot';
 import './AnimatedAxolotlLogo.css';
 
 export type AnimatedAxolotlLogoProps = {
@@ -11,37 +9,30 @@ export type AnimatedAxolotlLogoProps = {
 };
 const labels = {logo: 'Axolotl', loader: 'Načítání…', assistant: 'Asistent Axolotl'};
 
-/** Uiverse Jelly AI motion adapted to the user-supplied axolotl head. See vendor/NOTICE.md. */
+/** MINI NX / Uiverse orbit with a stable flat Axolotl logo mark, separate from Mascot V3. See vendor/NOTICE.md. */
 export function AnimatedAxolotlLogo({
   variant = 'logo', size = 'medium', label = labels[variant], paused = false, decorative = false,
 }: AnimatedAxolotlLogoProps) {
   return <div className="axo-animated-mark" data-size={size} data-variant={variant}
-    data-paused={paused || undefined} style={mascotVariables as CSSProperties}
+    data-paused={paused || undefined}
     role={decorative ? undefined : variant === 'loader' ? 'status' : 'img'}
     aria-label={decorative || variant === 'loader' ? undefined : label}
     aria-hidden={decorative || undefined}>
     <div className="axo-animated-mark__frame" aria-hidden="true">
       <div className="axo-animated-mark__bot">
         <div className="axo-animated-mark__orbit" />
-        <svg className="axo-animated-mark__gills" viewBox="0 0 60 50" focusable="false">
-          {/* Three feather-like branches on each side, following the supplied silhouette. */}
-          {[false, true].map(mirror => <g key={String(mirror)} transform={mirror ? 'translate(60 0) scale(-1 1)' : undefined}>
-            <path d="M17 21 C12 20 7 18 6 14 C3 12 2 8 5 9 C1 4 3 1 5 3 L7 7 C7 2 10 4 10 9 C12 5 13 8 13 11 C13 14 16 16 19 17 Z" />
-            <path d="M14 27 C9 29 6 29 6 27 C2 27 1 25 4 24 C0 22 -1 18 2 18 L5 21 C3 15 6 16 8 21 C8 17 10 19 11 23 L15 24 Z" />
-            <path d="M16 32 C14 35 12 38 10 37 C9 40 6 40 7 36 C4 40 2 38 4 35 C0 37 -1 33 2 32 L5 33 C3 29 6 29 8 32 C7 28 10 29 11 32 L15 30 Z" />
+        <svg className="axo-animated-mark__symbol" viewBox="0 0 60 50" focusable="false">
+          {/* One mirrored set: exactly three compact leaf-shaped gills per side. */}
+          {[false, true].map(mirror => <g key={String(mirror)} data-gills={mirror ? 'right' : 'left'} transform={mirror ? 'translate(60 0) scale(-1 1)' : undefined}>
+            <path data-gill d="M16 22 C10 22 6 16 7 11 C13 11 17 16 16 22Z" />
+            <path data-gill d="M14 28 C8 31 3 28 2 24 C7 21 12 23 14 28Z" />
+            <path data-gill d="M16 32 C15 38 10 41 6 38 C7 33 11 30 16 32Z" />
           </g>)}
+          <path data-head d="M30 13 C19 13 12 20 12 29 C12 38 20 40 30 40 C40 40 48 38 48 29 C48 20 41 13 30 13Z" />
+          <circle data-eye cx="23" cy="27" r="2.2" />
+          <circle data-eye cx="37" cy="27" r="2.2" />
+          <path data-smile d="M26 33 Q30 36 34 33" />
         </svg>
-        <div className="axo-animated-mark__body">
-          <div className="axo-animated-mark__eyes">
-            <div className="axo-animated-mark__eye axo-animated-mark__eye--left" />
-            <div className="axo-animated-mark__eye axo-animated-mark__eye--right" />
-          </div>
-          <svg className="axo-animated-mark__smile" viewBox="0 0 38 31" focusable="false">
-            <ellipse cx="16" cy="21" rx=".65" ry=".4" transform="rotate(30 16 21)" />
-            <ellipse cx="22" cy="21" rx=".65" ry=".4" transform="rotate(-30 22 21)" />
-            <path d="M10.5 23.5 C14 26.5 24 26.5 27.5 23.5" />
-          </svg>
-        </div>
       </div>
     </div>
     {!decorative && variant === 'loader' && <span className="axo-animated-mark__status">{label}</span>}
