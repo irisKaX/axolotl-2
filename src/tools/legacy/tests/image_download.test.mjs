@@ -4,9 +4,10 @@ import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
 import {existsSync} from 'node:fs';
 const base=new URL('../tools/image-download/',import.meta.url);
-test('bulk image download is available',()=>assert.ok(existsSync(new URL('collect.js',base)),'Image collector has not been implemented'));
-if(existsSync(new URL('collect.js',base))){
- const {collectImages}=await import(new URL('collect.js',base));
+const collector=new URL('../../../../browser-extension/tools/image-download/collect.js',import.meta.url);
+test('bulk image download is available',()=>assert.ok(existsSync(collector),'Image collector has not been implemented'));
+if(existsSync(collector)){
+ const {collectImages}=await import(collector);
  const {filterImages,imageFilename}=await import(new URL('model.js',base));
  const {fetchImage,prepareArchive}=await import(new URL('download.js',base));
  function page(html){
