@@ -45,3 +45,8 @@
 :where(.axolotl-tool-root, .ax-ui) .audit-filters input[type=checkbox] {width:16px;height:16px;flex:none;margin:0;cursor:pointer}
 :where(.axolotl-tool-root, .ax-ui) .audit-panel>details {padding-block:12px;border-top:1px solid var(--line)}
 :where(.axolotl-tool-root, .ax-ui) .audit-panel>details>summary {cursor:pointer;font-size:14px;line-height:1.6;font-weight:600;color:var(--theme-accent)}
+
+/* Canonical tool treatment (formerly current-design); preserve breakpoint order. */
+
+.axolotl-tool-root .audit-intro { min-height: 330px; }
+.axolotl-tool-root .audit-intro .tool-intro { min-height: 280px; }

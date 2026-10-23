@@ -81,3 +81,7 @@
   :where(.axolotl-tool-root, .ax-ui) .metadata-results .metadata-formula {gap:8px}
   :where(.axolotl-tool-root, .ax-ui) .metadata-results .metadata-formula>span:not([aria-hidden]) {font-size:12px}
 }
+
+/* Canonical tool treatment (formerly current-design); preserve breakpoint order. */
+
+.axolotl-tool-root .metadata-meter-fill { background: var(--muted); }

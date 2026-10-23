@@ -1,10 +1,16 @@
 /* Tool layout, scoped to the Axolotl workspace and its portals. */
 .axolotl-tool-root#view-qr .qr-background-settings{display:grid;gap:12px;min-height:108px}
-.axolotl-tool-root#view-qr .qr-background-colors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.axolotl-tool-root#view-qr .qr-background-colors{display:grid;gap:14px}
 .axolotl-tool-root#view-qr .qr-background-angle{position:relative;min-width:0}
 .axolotl-tool-root#view-qr .qr-background-angle output{position:absolute;top:0;right:0;color:var(--muted);font-size:13px;line-height:20px;font-variant-numeric:tabular-nums}
 .axolotl-tool-root#view-qr .qr-background-settings input[type=range]{height:44px;min-height:44px;width:100%;padding:0;border:0;background:transparent;accent-color:var(--ink);cursor:pointer}
-.axolotl-tool-root#view-qr .qr-background-hint{font-size:12px;line-height:1.5;color:var(--muted);align-self:start}
+.axolotl-tool-root#view-qr .qr-background-hint{font-size:12px;color:var(--muted);align-self:start}
 .axolotl-tool-root#view-qr .qr-preview-frame[data-background=transparent]:has(canvas:not([hidden])){background:repeating-conic-gradient(#d4dae4 0% 25%,#f3f5f9 0% 50%) 0 0 / 20px 20px}
 @media(max-width:1150px){.axolotl-tool-root#view-qr .qr-background-colors{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.axolotl-tool-root#view-qr .qr-background-angle{grid-column:1/-1}}
 @media(min-width:601px) and (max-width:900px){.axolotl-tool-root#view-qr .qr-background-colors{grid-template-columns:repeat(3,minmax(0,1fr))}.axolotl-tool-root#view-qr .qr-background-angle{grid-column:auto}}
+
+/* Canonical tool treatment (formerly current-design); preserve breakpoint order. */
+
+.axolotl-tool-root#view-qr .qr-background-colors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.axolotl-tool-root#view-qr .qr-background-angle { grid-column: 1 / -1; }
+.axolotl-tool-root#view-qr .qr-background-hint { line-height: 1.65; }

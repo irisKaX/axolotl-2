@@ -70,3 +70,11 @@
 :where(.axolotl-tool-root, .ax-ui) .image-audit-preview-hit:focus-visible{outline-offset:-4px}
 @media(max-width:620px){:where(.axolotl-tool-root, .ax-ui) .image-audit-summary{gap:14px 18px;padding:16px}:where(.axolotl-tool-root, .ax-ui) .image-audit-summary p{max-width:none;margin-left:0;flex-basis:100%}:where(.axolotl-tool-root, .ax-ui) .image-audit-summary strong{font-size:24px}:where(.axolotl-tool-root, .ax-ui) .image-audit-filters .image-audit-search{flex-basis:100%}:where(.axolotl-tool-root, .ax-ui) .image-audit-filters>label:not(.image-audit-budget){flex:1}:where(.axolotl-tool-root, .ax-ui) .image-audit-filters select{max-width:none}:where(.axolotl-tool-root, .ax-ui) .image-audit-gallery{gap:16px}}
 @media(prefers-reduced-motion:reduce){:where(.axolotl-tool-root, .ax-ui) .image-audit-results *{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* Canonical tool treatment (formerly current-design); preserve breakpoint order. */
+
+.axolotl-tool-root .image-audit-preview-hit { background: var(--field); }
+.axolotl-tool-root .image-audit-preview-hit img { filter: none; }
+.axolotl-tool-root .image-audit-preview-hit:hover:not(:disabled) .image-audit-preview-hint { box-shadow: none; border-color: var(--muted); }
+.axolotl-tool-root .image-audit-actions .ax-button { border-radius: 999px; font-size: 12px; }
+.axolotl-tool-root .image-audit-filters :is(input, select) { min-height: 42px; height: 42px; font-size: 13px; }

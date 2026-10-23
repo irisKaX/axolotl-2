@@ -107,7 +107,7 @@
 .axolotl-tool-root .tool-heading { margin: 0 0 24px; padding: 0; }
 .axolotl-tool-root .ax-tool-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; width: 100%; }
 .axolotl-tool-root .ax-tool-header > :first-child { flex: 1; min-width: 0; }
-.axolotl-tool-root .ax-tool-header h1 { margin: 0; color: var(--ink); font-size: clamp(26px, 2.3vw, 34px); font-weight: 550; line-height: 1.2; letter-spacing: -.04em; text-transform: none; }
+.axolotl-tool-root .ax-tool-header h1 { margin: 0; color: var(--ink); line-height: 1.2; text-transform: none; }
 .axolotl-tool-root .ax-tool-description { margin-top: 8px; max-width: 74ch; color: var(--muted); font-size: 14px; line-height: 1.65; }
 .axolotl-tool-root .tool-heading-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 12px; padding-top: 3px; }
 .axolotl-tool-root :is(.workspace-grid, .convert-panels) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; min-width: 0; }
@@ -210,3 +210,23 @@
 }
 .axolotl-tools .axolotl-tool-toast.error { color: var(--theme-error); }
 .axolotl-tools .axolotl-tool-toast button { flex: none; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 999px; color: inherit; background: transparent; font: inherit; font-size: 20px; cursor: pointer; }
+
+/* Canonical tool treatment (formerly current-design); preserve breakpoint order. */
+
+.axolotl-tool-root .ax-tool-header h1 { font-size: clamp(26px, 2.3vw, 34px); font-weight: 550; letter-spacing: -.04em; }
+.axolotl-tool-root :is(.ax-panel, .workspace-card, .audit-panel, .metadata-field, .metadata-checks, .metadata-preview, .metadata-template, .headings-hierarchy, .headings-aria, .image-download-card, .image-audit-card, .structured-product-card, .structured-overview, .search-form, .search-progress-panel) {
+  border-radius: var(--axolotl-radius-card);
+  box-shadow: none;
+}
+.axolotl-tool-root :is(.ax-panel, .workspace-card, .audit-panel) { background: var(--surface); }
+.axolotl-tool-root :is(.ax-button, .button, .ds-action--labeled) { border-radius: var(--axolotl-radius-pill); }
+.axolotl-tool-root :is(.ax-select, .qr-color-control, .convert-mode, .screenshot-mode, .filename-input, .images-field input, .images-field select, .image-audit-filters input, .image-audit-filters select) { border-radius: var(--axolotl-radius-input); }
+.axolotl-tool-root .ax-preview-stage { display: grid; place-items: center; min-width: 0; min-height: 320px; padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: var(--field); }
+.axolotl-tool-root .dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.axolotl-tool-root :is(.button, .ds-action) { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--field); font-size: 13px; font-weight: 500; }
+.axolotl-tool-root .ds-action:not(.ds-action--labeled) { width: 38px; height: 38px; padding: 9px; }
+.axolotl-tool-root .ds-action__icon { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.axolotl-tool-root .ds-action--labeled { background: var(--ink); color: var(--surface); }
+@media(max-width:700px) {
+  .axolotl-tool-root .ax-preview-stage { padding: 18px; }
+}

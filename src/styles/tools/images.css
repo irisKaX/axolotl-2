@@ -303,3 +303,8 @@
     top: 0;
   }
 }
+
+/* Canonical tool treatment (formerly current-design); preserve breakpoint order. */
+
+.axolotl-tool-root .image-download-card.is-selected { border-color: var(--muted); box-shadow: inset 0 0 0 1px var(--muted); }
+.axolotl-tool-root .images-grid { align-items: start; }

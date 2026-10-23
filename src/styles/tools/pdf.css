@@ -286,3 +286,10 @@
     flex-wrap: wrap;
   }
 }
+
+/* Canonical tool treatment (formerly current-design); preserve breakpoint order. */
+
+.axolotl-tool-root #pdf-scan:not(:disabled) { background: var(--ink); border-color: transparent; color: var(--surface); box-shadow: none; min-height: 40px; }
+.axolotl-tool-root #pdf-scan:hover:not(:disabled) { background: var(--ink); border-color: transparent; color: var(--surface); box-shadow: none; min-height: 40px; }
+.axolotl-tool-root #pdf-scan:focus-visible { outline-color: var(--axolotl-focus); }
+.axolotl-tool-root :is(.pdf-result-count, .images-result-count) { font-size: 20px; font-weight: 550; }

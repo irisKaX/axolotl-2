@@ -90,3 +90,7 @@
   :where(.axolotl-tool-root, .ax-ui) .headings-results .headings-skip>svg {vertical-align:middle;margin-right:4px;margin-top:-2px}
   :where(.axolotl-tool-root, .ax-ui) .headings-results .headings-legend {font-size:11px;gap:7px 12px}
 }
+
+/* Canonical tool treatment (formerly current-design); preserve breakpoint order. */
+
+.axolotl-tool-root .headings-results .headings-filter input { accent-color: var(--ink); }

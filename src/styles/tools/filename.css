@@ -62,3 +62,9 @@
   font-size: 14px;
   white-space: normal;
 }
+
+/* Canonical tool treatment (formerly current-design); preserve breakpoint order. */
+
+.axolotl-tool-root .filename-name { padding: 2px 0; min-height: 28px; justify-content: flex-start; white-space: normal; }
+.axolotl-tool-root .filename-name__text { text-decoration-color: var(--muted); }
+.axolotl-tool-root .filename-name__pencil { stroke: currentColor; }
