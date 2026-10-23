@@ -139,3 +139,13 @@ Lens build, font/build manifests and reconstruction instructions. Proposed durab
 storage is a release asset in the existing preview repository, only after separate
 approval. This milestone does not push, open a PR, publish a release, deploy, or
 continue to S03.
+
+## Final validation: CSS Module comparison identity
+
+The comparison now normalizes only Vite's generated `_local_hash_line` class
+identity, retaining `local`, ordinary classes, node order and every captured
+computed/geometry/SVG value. Raw snapshots and their pinned checksums stay intact.
+The runner separately records raw equality and class-identity-only changes.
+PNG comparison remains exact; a pixel mismatch with equal visual data is still
+FAIL pending diagnosis, never automatic raster-noise approval. Candidate status
+continues to block release even when all visual comparisons pass.

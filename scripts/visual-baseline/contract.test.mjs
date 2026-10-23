@@ -31,3 +31,16 @@ test('approved status without explicit review decision is rejected',()=>assert.t
 test('explicit approved decision is accepted',()=>assert.doesNotThrow(()=>requireApproval({status:'approved',approval:{decision:'user review',reference:'decision-123'}})));
 
 test('negative candidate fixture does not downgrade an approved reference',()=>{const approved=Object.freeze({status:'approved',approval:Object.freeze({decision:'fixture review only',reference:'synthetic-decision'})});assert.throws(()=>requireApproval({...approved,status:'candidate',approval:null}),/candidate/);assert.doesNotThrow(()=>requireApproval(approved));assert.equal(approved.status,'approved');});
+
+test('generated module build identity may change while semantic classes and pixels remain exact',()=>{
+ const png=Buffer.from('same pixels');
+ const expected={nodes:[{class:'_scope_13dlj_2 ds-card _seoIndicator_13dlj_77',styles:{color:'rgb(1, 2, 3)'},geometry:[1,2,3,4],svg:'<path d="M0 0"/>'}]};
+ const actual=structuredClone(expected);actual.nodes[0].class='_scope_abc12_4 ds-card _seoIndicator_abc12_81';
+ assert.doesNotThrow(()=>compareSnapshot(expected,actual,png,png));
+ for(const className of ['_different_abc12_4 ds-card _seoIndicator_abc12_81','_scope_abc12_4 ds-panel _seoIndicator_abc12_81','_scope_abc12_4 ds-card']){
+  const changed=structuredClone(actual);changed.nodes[0].class=className;assert.throws(()=>compareSnapshot(expected,changed,png,png),/snapshot/);
+ }
+ for(const key of ['styles','geometry','svg']){const changed=structuredClone(actual);changed.nodes[0][key]=key==='styles'?{color:'pink'}:key==='geometry'?[1,2,4,4]:'<path d="M1 0"/>';assert.throws(()=>compareSnapshot(expected,changed,png,png),/snapshot/);}
+ assert.throws(()=>compareSnapshot(expected,actual,png,Buffer.from('changed pixel')),/screenshot/);
+ assert.equal(expected.nodes[0].class,'_scope_13dlj_2 ds-card _seoIndicator_13dlj_77','Comparison must not mutate reference');
+});

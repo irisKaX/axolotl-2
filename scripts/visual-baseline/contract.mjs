@@ -27,8 +27,17 @@ export function loadReference(directory,pin,toolchain){
  });
  return {manifest,cases};
 }
+// Vite's default scoped name encodes a CSS content hash and declaration line.
+// Preserve the local class identity, all ordinary classes and every visual field.
+// Raw reference files remain immutable; this is only a comparison projection.
+export function visualSnapshot(data){
+ if(!Array.isArray(data.nodes))return data;
+ return {...data,nodes:data.nodes.map(node=>({...node,class:typeof node.class==='string'
+  ?node.class.replace(/(^|\s)_([A-Za-z][\w-]*)_[a-z0-9]{5}_[0-9]+(?=\s|$)/g,'$1_$2_[module]')
+  :node.class}))};
+}
 export function compareSnapshot(expected,actual,expectedPng,actualPng){
- assert.deepEqual(actual,expected,'Computed/geometry snapshot mismatch');
+ assert.deepEqual(visualSnapshot(actual),visualSnapshot(expected),'Computed/geometry snapshot mismatch');
  assert.equal(sha256(actualPng),sha256(expectedPng),'Exact screenshot mismatch (no tolerance)');
 }
 export function requireApproval(manifest){
