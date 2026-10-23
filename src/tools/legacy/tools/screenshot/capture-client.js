@@ -1,4 +1,4 @@
-import { capturePositions, sleep } from '../../shared/utils.js';
+import { capturePositions, sleep } from '../../../../../browser-extension/shared/utils.js';
 const LIMIT_PIXELS = 40000000,
   LIMIT_SIDE = 32760;
 function validateSize(width, height) {

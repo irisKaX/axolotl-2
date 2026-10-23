@@ -1,5 +1,5 @@
 import test from 'node:test'; import assert from 'node:assert/strict'; import {JSDOM} from 'jsdom'; import fs from 'node:fs';
-import {collectStructuredData} from '../tools/structured-data/collect.js';
+import {collectStructuredData} from '../../../../browser-extension/tools/structured-data/collect.js';
 import {analyzeStructuredData} from '../tools/structured-data/model.js';
 function scan(html){const w=new JSDOM(html,{url:'https://example.test',runScripts:'outside-only'}).window;const snapshot=w.eval('('+collectStructuredData.toString()+')()');return analyzeStructuredData(snapshot);}
 const schema=p=>`<script type="application/ld+json">${JSON.stringify(p)}</script>`;

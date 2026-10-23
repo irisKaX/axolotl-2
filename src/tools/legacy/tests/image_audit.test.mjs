@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {probeImageResources} from '../tools/image-audit/probe.js';
+import {probeImageResources} from '../../../../browser-extension/tools/image-audit/probe.js';
 import {analyzeImageAudit} from '../tools/image-audit/model.js';
-import {collectImageAudit} from '../tools/image-audit/collect.js';
+import {collectImageAudit} from '../../../../browser-extension/tools/image-audit/collect.js';
 import {JSDOM} from 'jsdom';
 test('collector retains occurrences and selected currentSrc',()=>{const dom=new JSDOM('<img src="old" alt="one"><img src="old" alt="">',{url:'https://example.com'});const w=dom.window;Object.assign(globalThis,{document:w.document,location:w.location,getComputedStyle:(node,pseudo)=>pseudo?{content:'none'}:w.getComputedStyle(node),innerWidth:800,innerHeight:600,performance:{now:()=>0,getEntriesByName:()=>[]}});for(const n of w.document.querySelectorAll('*')){n.getClientRects=()=>[{width:100,height:100}];n.getBoundingClientRect=()=>({left:0,top:0,right:100,bottom:100,width:100,height:100});}Object.defineProperty(w.document.querySelector('img'),'currentSrc',{value:'https://example.com/current'});const s=collectImageAudit();assert.equal(s.items.length,3);assert.equal(s.items.filter(i=>!i.variant).length,2);assert.equal(s.items[0].url,'https://example.com/current');assert.equal(s.items[1].variant,true);assert.equal(s.items[2].alt,'');dom.window.close();});
 test('hero eager allowed, unknown bytes and guessed formats remain unverified',()=>{const r=analyzeImageAudit({items:[{sourceKind:'img',alt:'hero',loading:'eager',aboveFold:true,url:'https://x/a.webp',bytes:null}]});assert.equal(r.items[0].issues.length,0);assert.equal(r.items[0].bytes,null);assert.equal(r.items[0].formatVerified,false);});

@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {JSDOM} from 'jsdom';
 import {crawlSite,normalizePageUrl,parseSitemap} from '../tools/web-search/crawler.js';
 import {fetchSearchText} from '../tools/web-search/network.js';
-import {collectSearchPage} from '../tools/web-search/collect.js';import {validateOptions} from '../tools/web-search/model.js';
+import {collectSearchPage} from '../../../../browser-extension/tools/web-search/collect.js';import {validateOptions} from '../tools/web-search/model.js';
 const base='https://example.test',w=new JSDOM('',{url:base,runScripts:'outside-only'}).window;
 const parse=(html,url)=>w.eval('('+collectSearchPage.toString()+')')({html,url});
 const xml=s=>parseSitemap(s,w.DOMParser);

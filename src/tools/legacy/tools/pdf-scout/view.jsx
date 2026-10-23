@@ -4,7 +4,7 @@ import { Button } from '../../shared/react-ui/components.jsx';
 import { Checkbox } from '../../shared/react-ui/fields.jsx';
 import { Dialog } from '../../shared/react-ui/dialog.jsx';
 import { EmptyState, Message, ScanIntro, ToolHeading, WorkspaceCard } from '../../shared/react-ui/tool-parts.jsx';
-import { formatBytes } from '../../shared/utils.js';
+import { formatBytes } from '../../../../../browser-extension/shared/utils.js';
 import { collectPdfAssets } from './assets.js';
 const labels={pdf:['Ověřené PDF','green'],link:['Typ zatím neověřen','yellow'],possible:['Typ zatím neověřen','yellow']};
 function DocumentRow({item,state,controller}){

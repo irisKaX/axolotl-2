@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {collectSearchPage} from '../tools/web-search/collect.js';
+import {collectSearchPage} from '../../../../browser-extension/tools/web-search/collect.js';
 import {searchSnapshot,validateOptions} from '../tools/web-search/model.js';
 import {crawlSite} from '../tools/web-search/crawler.js';
 

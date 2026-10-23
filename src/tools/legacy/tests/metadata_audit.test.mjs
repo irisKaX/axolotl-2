@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {collectMetadata} from '../tools/metadata-audit/collect.js';
+import {collectMetadata} from '../../../../browser-extension/tools/metadata-audit/collect.js';
 import {analyzeMetadata} from '../tools/metadata-audit/model.js';
 function scan(html,url='https://o2.cz/'){const d=new JSDOM(html,{url});global.document=d.window.document;global.location=d.window.location;try{return analyzeMetadata(collectMetadata());}finally{d.window.close();}}
 test('missing and duplicate metadata produce actionable issues',()=>{assert.ok(scan('').issues.some(i=>i.code==='title-missing'));const r=scan('<title>A</title><title>B</title><meta name="description" content="one"><meta name="DESCRIPTION" content="two">');assert.deepEqual(r.titles,['A','B']);assert.ok(r.issues.some(i=>i.code==='description-duplicate'));});

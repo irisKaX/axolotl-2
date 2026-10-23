@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
 import {fetchSearchText} from '../tools/web-search/network.js';
 import {crawlSite,parseSitemap} from '../tools/web-search/crawler.js';
-import {collectSearchPage} from '../tools/web-search/collect.js';
+import {collectSearchPage} from '../../../../browser-extension/tools/web-search/collect.js';
 import {validateOptions} from '../tools/web-search/model.js';
 const base='https://example.test';
 const window=new JSDOM('',{url:base,runScripts:'outside-only'}).window;

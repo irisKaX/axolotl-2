@@ -1,4 +1,4 @@
-import { safeFilename } from '../../shared/utils.js';
+import { safeFilename } from '../../../../../browser-extension/shared/utils.js';
 const extensions = {
   'image/jpeg': 'jpg',
   'image/png': 'png',

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 
-const source=readFileSync(new URL('../tools/screenshot/page.js',import.meta.url),'utf8');
+const source=readFileSync(new URL('../../../../browser-extension/tools/screenshot/page.js',import.meta.url),'utf8');
 for(const compatMode of ['CSS1Compat','BackCompat'])
 test(`Screenshot tiles exclude native scrollbar dimensions in ${compatMode}`,()=>{
   // Geometry boundary for native scrollbars (headless Chromium uses overlays).

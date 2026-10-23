@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useSyncExternalStore } from 'react'
 import { Camera, Copy, Crop, Download, Expand, MousePointer2, Monitor, RotateCcw, Trash2 } from 'lucide-react';
 import { Button, IconButton, Status } from '../../shared/react-ui/components.jsx';
 import { EmptyState, Message, PresentationStage, ToolHeading, WorkspaceCard } from '../../shared/react-ui/tool-parts.jsx';
-import { formatBytes } from '../../shared/utils.js';
+import { formatBytes } from '../../../../../browser-extension/shared/utils.js';
 import { createCropEditor } from './crop-view.js';
 import { screenshotActivity } from './controller.js';
 const modes=[['visible','Viditelná část','Přesně to, co je teď vidět v cílové kartě.',Monitor],['full','Celá stránka','Od začátku do konce, spojená do jednoho PNG.',Expand],['element','Vybraný prvek','Označte prvek a upřesněte výběr v HTML hierarchii.',MousePointer2]];

@@ -1,5 +1,5 @@
 import {redirectFailure,diagnosticUrl} from './diagnostics.js';
-import {authenticationIssue} from '../../shared/http-access.js';
+import {authenticationIssue} from '../../../../../browser-extension/shared/http-access.js';
 import {PAGE_MAX_BYTES,SITEMAP_MAX_BYTES,REQUEST_TIMEOUT_MS} from './limits.js';
 export async function fetchSearchText(url,{signal,kind='html',maxBytes=kind==='html'?PAGE_MAX_BYTES:SITEMAP_MAX_BYTES,timeoutMs=REQUEST_TIMEOUT_MS,onBytes=()=>{},fetchImpl=fetch,allowUrl=value=>{try{const u=new URL(value);return /^https?:$/.test(u.protocol)&&!u.username&&!u.password&&u.origin===new URL(url).origin;}catch{return false;}}}={}){
   const aborter=new AbortController();let reader,timedOut=false,sessionRetried=false;

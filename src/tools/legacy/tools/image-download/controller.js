@@ -1,7 +1,7 @@
 import { filterImages, imageFilename, allowedImageUrl } from './model.js';
 import { fetchImage, prepareArchive, saveImageBlob } from './download.js';
 import { inspectImageMetadata } from './metadata.js';
-import { formatBytes, timestamp, safeFilename } from '../../shared/utils.js';
+import { formatBytes, timestamp, safeFilename } from '../../../../../browser-extension/shared/utils.js';
 export class ImagesController {
   constructor(app, { fetch = fetchImage, archive = prepareArchive, save = saveImageBlob, metadata = inspectImageMetadata } = {}) {
     this.app=app;this.fetch=fetch;this.archive=archive;this.save=save;this.metadata=metadata;this.metadataOperation=null;this.listeners=new Set();this.generation=0;this.destroyed=false;this.operation=null;

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {collectHeadings} from '../tools/headings-audit/collect.js';
+import {collectHeadings} from '../../../../browser-extension/tools/headings-audit/collect.js';
 import {analyzeHeadings} from '../tools/headings-audit/model.js';
 function scan(html,setup){const d=new JSDOM(html,{url:'https://example.test/'});global.document=d.window.document;global.location=d.window.location;global.getComputedStyle=d.window.getComputedStyle.bind(d.window);d.window.HTMLElement.prototype.getClientRects=function(){return [{width:120,height:20}];};setup?.(d.window.document);try{return analyzeHeadings(collectHeadings());}finally{d.window.close();}}
 test('hidden duplicates and closed details are excluded while belowfold and visible aria-hidden remain',()=>{const r=scan('<h1>Main</h1><div hidden><h1>Hidden</h1></div><h1 style="display:none">No</h1><details><h1>Closed</h1></details><h2 aria-hidden="true">Visible</h2><h2 style="position:absolute;top:3000px">Below</h2><h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">SR</h2>');assert.deepEqual(r.headings.map(h=>h.text),['Main','Visible','Below']);});

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {collectSearchPage} from '../tools/web-search/collect.js';
+import {collectSearchPage} from '../../../../browser-extension/tools/web-search/collect.js';
 import {searchSnapshot,validateOptions} from '../tools/web-search/model.js';
 const url='https://www.o2.cz/osobni/oneplay';
 function scan(html,live=false){const w=new JSDOM(live?html:'',{url,runScripts:'outside-only'}).window;const value=w.eval('('+collectSearchPage.toString()+')')(live?{}:{html,url});w.close();return value;}

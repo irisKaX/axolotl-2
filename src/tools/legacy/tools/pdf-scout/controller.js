@@ -1,4 +1,4 @@
-import { safeFilename } from '../../shared/utils.js';
+import { safeFilename } from '../../../../../browser-extension/shared/utils.js';
 
 export function downloadName(item) {
   const name = item.filename || item.title || item.name || 'dokument';

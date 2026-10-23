@@ -1,5 +1,5 @@
 import {redirectFailure} from './diagnostics.js';
-import {collectSearchPage} from './collect.js';
+import {collectSearchPage} from '../../../../../browser-extension/tools/web-search/collect.js';
 import {searchSnapshot} from './model.js';
 import {fetchSearchText} from './network.js';
 import {crawlLimits,durationLabel,MAX_SITEMAP_LOCATIONS,CRAWL_DEADLINE_MS,PROGRESS_INTERVAL_MS} from './limits.js';

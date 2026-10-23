@@ -1,5 +1,5 @@
 import { captureImage } from './capture-client.js';
-import { timestamp } from '../../shared/utils.js';
+import { timestamp } from '../../../../../browser-extension/shared/utils.js';
 import { saveDownload } from '../../shared/download-file.js';
 
 export function screenshotActivity(state) {

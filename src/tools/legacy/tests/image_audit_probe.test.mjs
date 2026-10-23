@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {probeImageResources} from '../tools/image-audit/probe.js';
+import {probeImageResources} from '../../../../browser-extension/tools/image-audit/probe.js';
 const jpeg=new Uint8Array([255,216,255,0]);
 const png=new Uint8Array([137,80,78,71,13,10,26,10]);
 function response(chunks, headers={'content-type':'image/jpeg'}, status=200) {

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
 import {gzipSync} from 'node:zlib';
-import {collectSearchPage} from '../tools/web-search/collect.js';
+import {collectSearchPage} from '../../../../browser-extension/tools/web-search/collect.js';
 import {searchSnapshot,validateOptions} from '../tools/web-search/model.js';
 import {crawlSite,parseSitemap} from '../tools/web-search/crawler.js';
 import {fetchSearchText} from '../tools/web-search/network.js';
