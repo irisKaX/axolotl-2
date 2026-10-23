@@ -1,11 +1,17 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync, readdirSync, renameSync } from "node:fs";
 import { createHash } from "node:crypto";
+const git = (...args) => execFileSync('git', args, {encoding:'utf8'}).trim();
+const sourceCommit = git('rev-parse', 'HEAD');
+const sourceClean = git('status', '--porcelain', '--untracked-files=no') === '';
+if (process.env.SOURCE_COMMIT && (process.env.SOURCE_COMMIT !== sourceCommit || !sourceClean)) throw Error('Release source must be the exact clean pinned commit');
 const run = (file, args) => execFileSync(file, args, { stdio: "inherit" });
 run("npm", ["run", "typecheck"]);
 const { build } = await import("vite");
 await build({ base: "/axolotl-preview/ds-library-v1-1/", build: { rollupOptions: { input: "library.html" } } });
 renameSync("dist/library.html", "dist/index.html");
+run('python3',['scripts/package-extension.py']);
+run(process.execPath,['scripts/check-extension-package.mjs','dist/downloads/axolotl-prohlizec.zip','dist/extension-package.json']);
 writeFileSync("dist/.nojekyll", "");
 const files = [];
 function walk(dir) {
@@ -25,6 +31,7 @@ walk("src/design-system/tokens");
 walk("src/design-system/theme");
 walk("public/fonts/tweakcn");
 walk("src/app/header");
+walk("src/components/navigation");
 const sourceHashes = Object.fromEntries(
   files.map((path) => [
     path,
@@ -38,6 +45,10 @@ writeFileSync(
       previewCommit: execFileSync("git", ["rev-parse", "HEAD"], {
         encoding: "utf8",
       }).trim(),
+      sourceCommit, sourceClean, sourceTree: git('rev-parse','HEAD^{tree}'),
+      lockfileSha256: createHash('sha256').update(readFileSync('package-lock.json')).digest('hex'),
+      extension: JSON.parse(readFileSync('dist/extension-package.json','utf8')),
+      node: process.version,
       architecture: "react-canonical-v2",
       theme: "tweakcn-v1",
       themeRevision: "contrast-v1",

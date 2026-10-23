@@ -2,8 +2,14 @@
 from pathlib import Path
 from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
 
-source = Path('browser-extension')
-output = Path('public/downloads/axolotl-prohlizec.zip')
+import argparse
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--source', type=Path, default=Path('browser-extension'))
+parser.add_argument('--output', type=Path, default=Path('dist/downloads/axolotl-prohlizec.zip'))
+args = parser.parse_args()
+source, output = args.source, args.output
+if not (source / 'manifest.json').is_file():
+    parser.error('Extension source manifest is missing')
 output.parent.mkdir(parents=True, exist_ok=True)
 with ZipFile(output, 'w', compression=ZIP_DEFLATED, compresslevel=9) as archive:
     for path in sorted(source.rglob('*')):
