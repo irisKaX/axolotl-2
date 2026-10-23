@@ -2,6 +2,17 @@
 # Build/test only, shared by the existing preview workflow and local container run.
 set -euo pipefail
 : "${SOURCE_DIR:?}" "${PREVIEW_DIR:?}" "${VISUAL_HARNESS_DIR:?}" "${BASELINE_DIR:?}" "${BASELINE_SHA256:?}" "${RUNNER_TEMP:?}"
+# The runner UID need not exist in the image's passwd database. Give Chromium's
+# Crashpad an explicit writable config directory without changing the renderer.
+export XDG_CONFIG_HOME
+XDG_CONFIG_HOME=$(mktemp -d "$RUNNER_TEMP/axolotl-config.XXXXXX")
+# ESM resolves dependencies beside the importing file, not the shell's cwd.
+# The independently pinned harness therefore needs its own locked installation.
+harness_root=$(cd "$VISUAL_HARNESS_DIR/../.." && pwd -P)
+source_root=$(cd "$SOURCE_DIR" && pwd -P)
+if [ "$harness_root" != "$source_root" ]; then
+  (cd "$harness_root" && npm ci)
+fi
 cd "$SOURCE_DIR"
 npm ci
 node scripts/ds-library/build.mjs
