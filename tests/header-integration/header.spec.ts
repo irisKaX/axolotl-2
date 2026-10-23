@@ -63,8 +63,8 @@ for (const theme of ['dark','light']) for (const width of [1440,1024,390]) {
     const materials = (measurements as Record<string,string>[]).map(({id,...style}) => style);
     expect(materials.every(style => JSON.stringify(style) === JSON.stringify(materials[0]))).toBe(true);
     await page.getByRole('textbox',{name:'Aktuální URL'}).focus();
-    const focus = await page.locator('[data-header-url]').evaluate(el => ({outer:getComputedStyle(el).outlineWidth,inner:getComputedStyle(el.querySelector('input')!).outlineStyle}));
-    expect(focus).toEqual({outer:'2px',inner:'none'});
+    const focus = await page.locator('[data-header-url]').evaluate(el => { const outer=getComputedStyle(el),inner=getComputedStyle(el.querySelector('input')!);return {border:outer.borderTopWidth,outline:outer.outlineStyle,shadow:outer.boxShadow,innerOutline:inner.outlineStyle,innerBorder:inner.borderTopWidth,innerShadow:inner.boxShadow,iconMatches:outer.borderTopColor===getComputedStyle(el.querySelector('label')!).color}; });
+    expect(focus).toEqual({border:'2px',outline:'none',shadow:'none',innerOutline:'none',innerBorder:'0px',innerShadow:'none',iconMatches:true});
     await shot('url-focus');
     await writeFile(info.outputPath('computed.json'), JSON.stringify(measurements,null,2));
     expect(errors).toEqual([]);
@@ -173,7 +173,8 @@ test('keyboard navigates visible rows, Escape restores trigger, Tab reaches dist
   await page.getByRole('textbox',{name:'Aktuální URL'}).focus(); await page.keyboard.press('Tab');
   const tabs=button(page,'Vybrat kartu prohlížeče'); await expect(tabs).toBeFocused();
   expect(await page.locator('[data-header-url]').evaluate(el=>getComputedStyle(el).outlineStyle)).toBe('none');
-  expect(await tabs.evaluate(el=>getComputedStyle(el).outlineWidth)).toBe('2px');
+  expect(await tabs.evaluate(el=>getComputedStyle(el).outlineStyle)).toBe('none');
+  expect(await tabs.evaluate(el=>{const probe=document.createElement('span');probe.style.backgroundColor='var(--axo-active)';el.append(probe);const expected=getComputedStyle(probe).backgroundColor;probe.remove();return el.matches(':focus-visible')&&getComputedStyle(el).backgroundColor===expected&&expected!=='rgba(0, 0, 0, 0)';})).toBe(true);
 });
 
 test('URL manual validation, blur, Escape and existing production storage', async ({ page }) => {
