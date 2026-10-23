@@ -29,3 +29,14 @@ export const headerInteractionStylesheet = `html[data-axolotl-library] [data-hea
   --axo-hover:color-mix(in oklch,${themeTokens.light['--primary']} 20%,${themeTokens.light['--card']});
   --axo-hover-ink:${themeTokens.light['--foreground']};
 }`;
+
+// Header-owned status roles. Values preserve the accepted chart/destructive paints,
+// but status consumers no longer depend on a catalog installing those generic roles.
+export const headerStatusStylesheet = (['light','dark'] as const).map(mode =>
+ `[data-header-theme="${mode}"]{${serialize({
+  '--header-status-allowed': themeTokens[mode]['--chart-3'],
+  '--header-status-blocked': themeTokens[mode]['--destructive'],
+  '--header-status-unknown': 'var(--axo-muted)',
+  '--header-status-checking': 'var(--axo-muted)',
+ })}}`
+).join('\n');

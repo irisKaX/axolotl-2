@@ -7,6 +7,7 @@ export default defineConfig({
   build: { manifest: true, rollupOptions: { input: "app.html" } },
   test: {
     environment: "jsdom",
+    css: {include: [/tweakcn\.export\.css/]},
     setupFiles: ["./src/test/setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
     environmentOptions: {

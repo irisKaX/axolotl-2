@@ -7,6 +7,7 @@ import { Control, PanelFooter, PanelHeading } from './PanelUI';
 import { SettingsPanel } from './SettingsPanel';
 import { UrlControl } from './UrlControl';
 import s from './header.module.css';
+import {headerStatusStylesheet} from '../../design-system/tokens/theme';
 
 const clock = new Intl.DateTimeFormat('cs-CZ', { timeZone:'Europe/Prague', hour:'2-digit', minute:'2-digit', hourCycle:'h23' });
 const date = new Intl.DateTimeFormat('cs-CZ', { timeZone:'Europe/Prague', weekday:'short', day:'numeric', month:'numeric', year:'numeric' });
@@ -63,5 +64,5 @@ function Layout({ route, onNavigate, header }: { route: string; onNavigate: () =
 }
 export function AppHeader({ route, onNavigate }: { route: string; onNavigate: () => void }) {
   const header = useRef<HTMLElement>(null);
-  return <PopoverProvider header={header} route={route}><Layout header={header} route={route} onNavigate={onNavigate}/></PopoverProvider>;
+  return <><style data-header-status>{headerStatusStylesheet}</style><PopoverProvider header={header} route={route}><Layout header={header} route={route} onNavigate={onNavigate}/></PopoverProvider></>;
 }

@@ -2,7 +2,6 @@ import { useLayoutEffect, type ReactNode } from 'react';
 import { themeStylesheet, headerInteractionStylesheet } from '../tokens/theme';
 import './fonts.css';
 import './components.css';
-import './header.css';
 /** Installed only by library.html; production App never imports this theme. */
 export function LibraryTheme({children}: {children: ReactNode}) {
   useLayoutEffect(() => {

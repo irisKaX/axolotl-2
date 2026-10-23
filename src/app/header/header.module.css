@@ -129,9 +129,9 @@
 .url button:focus-visible { background:var(--axo-active);color:var(--axo-active-ink); }
 .urlError,.urlFeedback { position:absolute; top:calc(100% + 6px); right:0; max-width:300px; padding:6px 10px; border-radius:var(--axo-control-radius); background:var(--axo-base); color:var(--axo-ink); font-size:12px; z-index:1; box-shadow:var(--axo-panel-shadow); }
 .seoIndicator { display:grid; place-items:center; flex:none; width:24px; height:32px; padding:0; border:0; background:none; cursor:help; border-radius:8px; }
-.seoIndicator > span { width:9px; height:9px; border-radius:50%; background:var(--axo-muted); }
-.seoIndicator[data-header-seo=allowed] > span { background:var(--chart-3); }
-.seoIndicator[data-header-seo=blocked] > span { background:var(--destructive); }
+.seoIndicator > span { width:9px; height:9px; border-radius:50%; background:var(--header-status-unknown); }
+.seoIndicator[data-header-seo=allowed] > span { background:var(--header-status-allowed); }
+.seoIndicator[data-header-seo=blocked] > span { background:var(--header-status-blocked); }
 .seoIndicator:focus-visible { outline:2px solid var(--axo-focus);outline-offset:0; }
 .seoTooltip { z-index:40; display:grid; gap:5px; width:max-content; max-width:min(330px,calc(100vw - 32px)); padding:14px; border:1px solid var(--axo-edge); border-radius:var(--axo-control-radius); background:var(--axo-panel-surface); color:var(--axo-ink); box-shadow:var(--axo-panel-shadow); font-size:12px; }
 .seoTooltip small { color:var(--axo-muted); }
@@ -229,3 +229,84 @@
 .panel[data-header-theme=dark] .control:focus-visible::before { background:var(--axo-hover); }
 .panel[data-header-theme=dark] .groupToggle:focus-visible .groupNumber { color:var(--axo-hover-ink); }
 .panel[data-header-theme=dark] .checkField input:focus-visible { outline-color:var(--axo-ink); }
+
+/* Approved catalog scope: exact specificity, owned by Header. */
+/* The existing React AppHeader and its CSS module remain the only implementation. */
+:global(.ds-dashboard #approved-header),
+:global(body[data-ds-dashboard-theme] [data-header-panel]),
+:global(body[data-ds-dashboard-theme] [data-header-select]){font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+:global(.ds-dashboard #approved-header .axolotl-logo-art){display:block;width:26px;height:26px;background-color:currentColor;mask:var(--axolotl-logo-image) center / contain no-repeat;}
+:global(.ds-dashboard #approved-header input){box-shadow:none;}
+:global(.ds-dashboard #approved-header input[type=checkbox]){width:100%;height:100%;padding:0;border:0;}
+:global(body[data-ds-dashboard-theme] [data-header-panel] :is(h2,h3,p)){margin:0;font-family:inherit;}
+:global(body[data-ds-dashboard-theme] [data-header-panel] :is(h2,h3)){font-weight:550;line-height:1.2;letter-spacing:-.04em;}
+/* Same close-action policy as the approved local PanelHeading patch, scoped to the Library. */
+@media(min-width:1181px) and (hover:hover) and (pointer:fine){
+ :global(body[data-ds-dashboard-theme] [data-header-panel] > div:first-child:not(:has(>button[aria-label="Zpět do nastavení"])):not(:has(>div>span)) > button[aria-label="Zavřít nabídku"]){display:none;}
+}
+:global(.ds-dashboard[data-motion="reduced"] #approved-header button>svg){transform:none!important;}
+@media(prefers-reduced-motion:reduce){:global(.ds-dashboard #approved-header button>svg){transform:none!important;}}
+/* Approved Dashboard geometry; visual roles belong to the Header theme adapter. */
+:global(.ds-dashboard #approved-header header) { min-height:72px; padding-block:12px; --axo-nav-gap:10px; }
+:global(.ds-dashboard #approved-header .axolotl-pill-nav) {
+ --pn-h:48px!important; --pn-inner:48px!important; --pn-font:calc(15px * var(--axo-text-scale))!important;
+}
+:global(.ds-dashboard #approved-header .axolotl-pill-nav__item) { height:42px; align-self:center; min-width:42px; }
+:global(.ds-dashboard #approved-header .axolotl-pill-nav__item::after) { content:"";position:absolute;inset:-3px 0; }
+:global(.ds-dashboard #approved-header .axolotl-pill-nav__slot:first-child .axolotl-pill-nav__item) { width:42px;padding-inline:0; }
+:global(.ds-dashboard #approved-header :is(.axolotl-pill-nav__face,.axolotl-pill-nav__face-alt) > svg:first-child),
+:global(.ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"]) > svg) { width:20px;height:20px; }
+:global(.ds-dashboard #approved-header button:is([aria-label="Upozornění"],[aria-label="Nastavení"])) { width:48px;height:48px; }
+:global(.ds-dashboard #approved-header [data-header-url] input) { font-size:calc(14px * var(--axo-text-scale)); }
+:global(.ds-dashboard #approved-header header label:has(>input[aria-label="Tmavý režim"])) { width:72px;height:48px; }
+:global(.ds-dashboard #approved-header header label:has(>input[aria-label="Tmavý režim"]) > span) { width:64px;height:42px;padding:7px; }
+:global(.ds-dashboard #approved-header input[aria-label="Tmavý režim"]:checked + span > span) { transform:translateX(22px); }
+:global(.ds-dashboard #approved-header header > div:has(>.axolotl-pill-nav)) { display:flex;align-items:center; }
+@media (max-width:680px) { :global(.ds-dashboard #approved-header [data-header-url] input) { font-size:16px; } }
+
+/* Approved catalog scope: exact specificity, owned by Header. */
+/* Single Library adapter for Header materials; geometry stays in dashboard/header.css.
+   Every control shares hover/pressed/open roles, including PillNav's animated faces. */
+:global(html[data-axolotl-library] [data-header-theme]) {
+  --axo-base:var(--card);--axo-raised:var(--card);--axo-ink:var(--foreground);--axo-muted:var(--muted-foreground);
+  --axo-edge:var(--border);--axo-hover:color-mix(in oklch,var(--primary) 20%,var(--card));--axo-hover-ink:var(--foreground);
+  --axo-active:var(--primary);--axo-active-ink:var(--primary-foreground);--axo-focus:var(--ring);
+  --axo-recessed:var(--background);--axo-tile:var(--secondary);--axo-rim:var(--shadow-xs);
+  --axo-panel-shadow:var(--shadow-lg);--axo-panel-surface:var(--popover);
+  --axo-control-radius:var(--button-radius,calc(var(--radius-md) + 2px));--axo-url-border:var(--input);--axo-url-focus:var(--ring);
+  font-family:var(--font-sans);
+}
+:global(html[data-axolotl-library] .ds-dashboard #approved-header header[data-header-theme]) {
+  background:var(--card);color:var(--card-foreground);border:0;border-radius:var(--radius-xl);
+  box-shadow:inset 0 0 0 1px var(--border),var(--shadow-md);backdrop-filter:none;
+}
+:global(html[data-axolotl-library] .ds-dashboard #approved-header) {font-family:var(--font-sans);}
+:global(html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav) {
+  --pn-tile:var(--axo-tile)!important;--pn-pill:var(--axo-hover)!important;--pn-pill-ink:var(--axo-hover-ink)!important;
+  --pn-strong:var(--foreground)!important;--pn-text:var(--muted-foreground)!important;
+  --pn-edge:var(--border)!important;--pn-rim:var(--border)!important;--pn-ring:var(--ring)!important;
+  --pn-dot:var(--primary)!important;--pn-tile-rim:var(--shadow-xs)!important;
+  --pn-pill-shadow:var(--shadow-xs)!important;--pn-row-hover:var(--axo-hover)!important;
+  font-family:var(--font-sans);
+}
+:global(html[data-axolotl-library] .ds-dashboard #approved-header :is(.axolotl-pill-nav__face,.axolotl-pill-nav__face-alt)) {font-family:var(--font-sans);}
+:global(html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item) {border-radius:min(var(--button-radius),20px);}
+:global(html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__slot[data-on]),
+:global(html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item:is([aria-expanded=true],:active)) {
+  --pn-pill:var(--primary)!important;--pn-pill-ink:var(--primary-foreground)!important;
+}
+:global(html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item:is([aria-expanded=true],:active) .axolotl-pill-nav__fill) {transform:scale(1);}
+:global(html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item:focus-visible) {outline-color:currentColor;}
+:global(html[data-axolotl-library] [data-header-panel]),
+:global(html[data-axolotl-library] [data-header-select]) {
+  --axo-ink:var(--popover-foreground);background:var(--popover);color:var(--popover-foreground);
+  border-color:var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);
+}
+:global(html[data-axolotl-library] [data-header-panel] [data-nav-item]) {border-radius:var(--radius-md);}
+
+:global(html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__slot[data-on] .axolotl-pill-nav__item),
+:global(html[data-axolotl-library] .ds-dashboard #approved-header .axolotl-pill-nav__item:is([aria-expanded=true],:active)) {color:var(--primary-foreground);}
+
+/* Preserve the catalog's accepted SEO keyboard indicator, previously supplied
+   by the later generic DS focus rule. Header now owns that scoped state. */
+:global(html[data-axolotl-library]) .seoIndicator:focus-visible {outline:2px solid var(--ds-focus);outline-offset:4px;}
