@@ -1,0 +1,810 @@
+{
+  "repository": "irisKaX/axolotl-2",
+  "deletions": [
+    {
+      "path": ".github/workflows/layout-studio-check.yml",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:.github/workflows/layout-studio-check.yml"
+    },
+    {
+      "path": "assets/HeaderLab-BCwPsgfj.css",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/HeaderLab-BCwPsgfj.css"
+    },
+    {
+      "path": "assets/HeaderLab-BfUFx_JG.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/HeaderLab-BfUFx_JG.js"
+    },
+    {
+      "path": "assets/HeaderLab-Dv-5WXsI.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/HeaderLab-Dv-5WXsI.js"
+    },
+    {
+      "path": "assets/app-DlF-wgia.css",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/app-DlF-wgia.css"
+    },
+    {
+      "path": "assets/app-DljgBiKX.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/app-DljgBiKX.js"
+    },
+    {
+      "path": "assets/arrow-up-right-BNVM6kNj.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/arrow-up-right-BNVM6kNj.js"
+    },
+    {
+      "path": "assets/arrow-up-right-D8DIrg37.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/arrow-up-right-D8DIrg37.js"
+    },
+    {
+      "path": "assets/chevron-down-CX6kNLxJ.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/chevron-down-CX6kNLxJ.js"
+    },
+    {
+      "path": "assets/chevron-down-HY09Bc0O.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/chevron-down-HY09Bc0O.js"
+    },
+    {
+      "path": "assets/circle-check-64KADFW5.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/circle-check-64KADFW5.js"
+    },
+    {
+      "path": "assets/circle-check-CR8Vwx5N.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/circle-check-CR8Vwx5N.js"
+    },
+    {
+      "path": "assets/copy-D-ffdEze.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/copy-D-ffdEze.js"
+    },
+    {
+      "path": "assets/copy-DoKIJ-KT.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/copy-DoKIJ-KT.js"
+    },
+    {
+      "path": "assets/dialog-DkSTVUpA.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/dialog-DkSTVUpA.js"
+    },
+    {
+      "path": "assets/dialog-DogpRnvv.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/dialog-DogpRnvv.js"
+    },
+    {
+      "path": "assets/download-file-DMY7Lnhk.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/download-file-DMY7Lnhk.js"
+    },
+    {
+      "path": "assets/fields-mh5-G6Cq.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/fields-mh5-G6Cq.js"
+    },
+    {
+      "path": "assets/fields-wtqEweyO.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/fields-wtqEweyO.js"
+    },
+    {
+      "path": "assets/file-search-BCOgPEyz.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/file-search-BCOgPEyz.js"
+    },
+    {
+      "path": "assets/file-search-D6qBFg0W.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/file-search-D6qBFg0W.js"
+    },
+    {
+      "path": "assets/headings-audit-D_2fjwrw.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/headings-audit-D_2fjwrw.js"
+    },
+    {
+      "path": "assets/headings-audit-E6yq3G48.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/headings-audit-E6yq3G48.js"
+    },
+    {
+      "path": "assets/image-audit-BOO54rJl.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/image-audit-BOO54rJl.js"
+    },
+    {
+      "path": "assets/image-audit-CcKzlpaJ.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/image-audit-CcKzlpaJ.js"
+    },
+    {
+      "path": "assets/image-converter-BY_YhwfM.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/image-converter-BY_YhwfM.js"
+    },
+    {
+      "path": "assets/image-converter-D9tmPBNn.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/image-converter-D9tmPBNn.js"
+    },
+    {
+      "path": "assets/image-download-B4L5ZVwR.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/image-download-B4L5ZVwR.js"
+    },
+    {
+      "path": "assets/image-download-CXqfQe_V.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/image-download-CXqfQe_V.js"
+    },
+    {
+      "path": "assets/info-DSPdx7ok.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/info-DSPdx7ok.js"
+    },
+    {
+      "path": "assets/info-DbOe8m6R.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/info-DbOe8m6R.js"
+    },
+    {
+      "path": "assets/jsx-runtime-ChORm44H.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/jsx-runtime-ChORm44H.js"
+    },
+    {
+      "path": "assets/jszip.min-bpSdqfom.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/jszip.min-bpSdqfom.js"
+    },
+    {
+      "path": "assets/metadata-audit-CCnQIhsd.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/metadata-audit-CCnQIhsd.js"
+    },
+    {
+      "path": "assets/metadata-audit-CnLdEFaN.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/metadata-audit-CnLdEFaN.js"
+    },
+    {
+      "path": "assets/mount-CvzzfQ9M.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/mount-CvzzfQ9M.js"
+    },
+    {
+      "path": "assets/mount-x93623s8.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/mount-x93623s8.js"
+    },
+    {
+      "path": "assets/o2-mark-DxFU5N51.svg",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/o2-mark-DxFU5N51.svg"
+    },
+    {
+      "path": "assets/pdf-scout-AmRSwSrL.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/pdf-scout-AmRSwSrL.js"
+    },
+    {
+      "path": "assets/pdf-scout-Dnw4irkJ.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/pdf-scout-Dnw4irkJ.js"
+    },
+    {
+      "path": "assets/pencil-Br6fLURv.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/pencil-Br6fLURv.js"
+    },
+    {
+      "path": "assets/pencil-YbIlsLUU.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/pencil-YbIlsLUU.js"
+    },
+    {
+      "path": "assets/qr-generator-CuUALf-z.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/qr-generator-CuUALf-z.js"
+    },
+    {
+      "path": "assets/qr-generator-DJbgPHsK.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/qr-generator-DJbgPHsK.js"
+    },
+    {
+      "path": "assets/refresh-cw-SF3-xmrg.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/refresh-cw-SF3-xmrg.js"
+    },
+    {
+      "path": "assets/refresh-cw-zByqr9he.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/refresh-cw-zByqr9he.js"
+    },
+    {
+      "path": "assets/rolldown-runtime-pP25SEvz.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/rolldown-runtime-pP25SEvz.js"
+    },
+    {
+      "path": "assets/screenshot-CrOxScLp.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/screenshot-CrOxScLp.js"
+    },
+    {
+      "path": "assets/screenshot-DO6jI68k.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/screenshot-DO6jI68k.js"
+    },
+    {
+      "path": "assets/search-B3uUdYhM.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/search-B3uUdYhM.js"
+    },
+    {
+      "path": "assets/search-BEsVNhVM.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/search-BEsVNhVM.js"
+    },
+    {
+      "path": "assets/square-C6EeaLGi.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/square-C6EeaLGi.js"
+    },
+    {
+      "path": "assets/square-DMaF7N3B.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/square-DMaF7N3B.js"
+    },
+    {
+      "path": "assets/structured-data-YduHaMhX.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/structured-data-YduHaMhX.js"
+    },
+    {
+      "path": "assets/structured-data-lsELNPEa.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/structured-data-lsELNPEa.js"
+    },
+    {
+      "path": "assets/tool-parts-BkP8jsW7.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/tool-parts-BkP8jsW7.js"
+    },
+    {
+      "path": "assets/tool-parts-uSGFNmYU.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/tool-parts-uSGFNmYU.js"
+    },
+    {
+      "path": "assets/ui-BUbXhrl6.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/ui-BUbXhrl6.js"
+    },
+    {
+      "path": "assets/ui-Jr-F472d.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/ui-Jr-F472d.js"
+    },
+    {
+      "path": "assets/utils-DqodRy9h.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/utils-DqodRy9h.js"
+    },
+    {
+      "path": "assets/web-search-D0Qd8FCp.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/web-search-D0Qd8FCp.js"
+    },
+    {
+      "path": "assets/web-search-DrdnHCmS.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/web-search-DrdnHCmS.js"
+    },
+    {
+      "path": "assets/webp_codec-C-ZcRJBo.wasm",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/webp_codec-C-ZcRJBo.wasm"
+    },
+    {
+      "path": "assets/worker-DNhETMZN.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/worker-DNhETMZN.js"
+    },
+    {
+      "path": "assets/zip-BxJx7sl2.js",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:assets/zip-BxJx7sl2.js"
+    },
+    {
+      "path": "build-assets.json",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:build-assets.json"
+    },
+    {
+      "path": "downloads/axolotl-prohlizec.zip",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:downloads/axolotl-prohlizec.zip"
+    },
+    {
+      "path": "experiments/ds-button-lens-02/build.mjs",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:experiments/ds-button-lens-02/build.mjs"
+    },
+    {
+      "path": "experiments/ds-button-lens-02/check.mjs",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:experiments/ds-button-lens-02/check.mjs"
+    },
+    {
+      "path": "experiments/ds-button-lens-02/index.html",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:experiments/ds-button-lens-02/index.html"
+    },
+    {
+      "path": "experiments/ds-button-lens-02/preview.css",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:experiments/ds-button-lens-02/preview.css"
+    },
+    {
+      "path": "experiments/ds-button-lens-02/preview.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:experiments/ds-button-lens-02/preview.tsx"
+    },
+    {
+      "path": "index.html",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:index.html"
+    },
+    {
+      "path": "public/downloads/axolotl-prohlizec.zip",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:public/downloads/axolotl-prohlizec.zip"
+    },
+    {
+      "path": "scripts/ds-library/check-grid.mjs",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:scripts/ds-library/check-grid.mjs"
+    },
+    {
+      "path": "scripts/ds-library/check-layout-only.mjs",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:scripts/ds-library/check-layout-only.mjs"
+    },
+    {
+      "path": "scripts/ds-library/check-layout.mjs",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:scripts/ds-library/check-layout.mjs"
+    },
+    {
+      "path": "scripts/ds-library/check-resize.mjs",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:scripts/ds-library/check-resize.mjs"
+    },
+    {
+      "path": "scripts/header-integration/compare-lab.mjs",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:scripts/header-integration/compare-lab.mjs"
+    },
+    {
+      "path": "scripts/preview-header-catalog.mjs",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:scripts/preview-header-catalog.mjs"
+    },
+    {
+      "path": "scripts/publish-build.mjs",
+      "reason": "Obsolete generated root publisher output; Vite builds app.html/library.html into dist; current ZIP generated after Vite; no live source/CI caller",
+      "evidence": "Vite app.html/library.html \u2192 dist; removed publish script callers; source source/CI consumer scan in generated-deletions.json",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:scripts/publish-build.mjs"
+    },
+    {
+      "path": "src/app/HeaderControls.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/app/HeaderControls.tsx"
+    },
+    {
+      "path": "src/app/Settings.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/app/Settings.tsx"
+    },
+    {
+      "path": "src/app/UrlPicker.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/app/UrlPicker.tsx"
+    },
+    {
+      "path": "src/design-system/theme/header.css",
+      "reason": "Winning scoped Header rules now in header.module.css",
+      "evidence": "Header behavior checks and six SEO screenshot/computed/geometry checks; source patch parity 44/44 before owner migration",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/design-system/theme/header.css"
+    },
+    {
+      "path": "src/pages/HeaderLab.test.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/HeaderLab.test.tsx"
+    },
+    {
+      "path": "src/pages/design-system/library/LayoutPage.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/design-system/library/LayoutPage.tsx"
+    },
+    {
+      "path": "src/pages/design-system/library/layout/LayoutStudio.test.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/design-system/library/layout/LayoutStudio.test.tsx"
+    },
+    {
+      "path": "src/pages/design-system/library/layout/LayoutStudio.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/design-system/library/layout/LayoutStudio.tsx"
+    },
+    {
+      "path": "src/pages/design-system/library/layout/layout.css",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/design-system/library/layout/layout.css"
+    },
+    {
+      "path": "src/pages/design-system/library/layout/model.test.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/design-system/library/layout/model.test.tsx"
+    },
+    {
+      "path": "src/pages/design-system/library/layout/model.ts",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/design-system/library/layout/model.ts"
+    },
+    {
+      "path": "src/pages/header-lab/HeaderLab.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/header-lab/HeaderLab.tsx"
+    },
+    {
+      "path": "src/pages/header-lab/HeaderPreview.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/header-lab/HeaderPreview.tsx"
+    },
+    {
+      "path": "src/pages/header-lab/PreviewControls.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/header-lab/PreviewControls.tsx"
+    },
+    {
+      "path": "src/pages/header-lab/PreviewNavigation.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/header-lab/PreviewNavigation.tsx"
+    },
+    {
+      "path": "src/pages/header-lab/header-lab.css",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/header-lab/header-lab.css"
+    },
+    {
+      "path": "src/pages/header-lab/legacy-header.css",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/header-lab/legacy-header.css"
+    },
+    {
+      "path": "src/pages/header-lab/standalone.tsx",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/pages/header-lab/standalone.tsx"
+    },
+    {
+      "path": "src/styles/tools/current-design.css",
+      "reason": "All declarations transferred into existing tool CSS owners; empty donor import retired",
+      "evidence": "88 computed CSS comparisons, 86 initial geometry matches; 2 transient geometry cases agree after layout settling",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/styles/tools/current-design.css"
+    },
+    {
+      "path": "src/tools/legacy/shared/design-system/scrollbar-skin.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/shared/design-system/scrollbar-skin.js"
+    },
+    {
+      "path": "src/tools/legacy/shared/http-access.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/shared/http-access.js"
+    },
+    {
+      "path": "src/tools/legacy/shared/utils.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/shared/utils.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/headings-audit/collect.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/headings-audit/collect.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/image-audit/collect.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/image-audit/collect.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/image-audit/highlight.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/image-audit/highlight.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/image-audit/probe.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/image-audit/probe.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/image-download/collect.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/image-download/collect.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/metadata-audit/collect.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/metadata-audit/collect.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/pdf-scout/page.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/pdf-scout/page.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/screenshot/page.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/screenshot/page.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/screenshot/selection.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/screenshot/selection.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/structured-data/collect.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/structured-data/collect.js"
+    },
+    {
+      "path": "src/tools/legacy/tools/web-search/collect.js",
+      "reason": "Byte-identical duplicate extension implementation; canonical browser-extension implementation retained",
+      "evidence": "Consumer imports and dynamic test URL migrated; 335 tool tests pass",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:src/tools/legacy/tools/web-search/collect.js"
+    },
+    {
+      "path": "tests/header-preview.test.mjs",
+      "reason": "Retired renderer/sole historical consumer closure; accepted Dashboard and private Lens 02 fixtures retained",
+      "evidence": "Single registry/Library entry; historical dependencies and tests deleted together, no remaining live renderer import",
+      "restoreCommit": "b4ceef74af60ac12b6b4420917f1ece9c2658b64",
+      "restoreCommand": "git show b4ceef74af60ac12b6b4420917f1ece9c2658b64:tests/header-preview.test.mjs"
+    }
+  ]
+}

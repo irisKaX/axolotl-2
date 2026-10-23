@@ -34,4 +34,15 @@ node "$VISUAL_HARNESS_DIR/button-states.mjs" "$LIBRARY_URL" || status=1
 node "$VISUAL_HARNESS_DIR/negative.mjs" --baseline "$BASELINE_DIR" --sha256 "$BASELINE_SHA256" --url "$LIBRARY_URL" --report "$RUNNER_TEMP/baseline-negative.json" || status=1
 # Strict gate only: candidate is never release authorization, even with exact pixels.
 node scripts/ds-library/check-header.mjs --release || status=1
+if [ "$status" = 0 ]; then
+ node --input-type=module <<'JS'
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+const provenance=JSON.parse(readFileSync('dist/provenance.json','utf8'));
+const comparison=JSON.parse(readFileSync(process.env.BASELINE_OUTPUT+'/comparison.json','utf8'));
+assert.equal(comparison.approved,true);
+assert.equal(provenance.sourceClean,true);
+writeFileSync('dist/release-validation.json',JSON.stringify({approved:true,sourceCommit:provenance.sourceCommit,artifactDigest:provenance.artifactDigest,baselineSha256:process.env.BASELINE_SHA256},null,2));
+JS
+fi
 exit "$status"

@@ -4,3 +4,9 @@ dist/
 *.log
 test-results/
 playwright-report/
+
+# Build artifacts are published from dist, never copied into the source root.
+/index.html
+/build-assets.json
+/downloads/axolotl-prohlizec.zip
+/public/downloads/axolotl-prohlizec.zip

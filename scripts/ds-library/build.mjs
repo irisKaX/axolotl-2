@@ -7,6 +7,7 @@ const sourceClean = git('status', '--porcelain', '--untracked-files=no') === '';
 if (process.env.SOURCE_COMMIT && (process.env.SOURCE_COMMIT !== sourceCommit || !sourceClean)) throw Error('Release source must be the exact clean pinned commit');
 const run = (file, args) => execFileSync(file, args, { stdio: "inherit" });
 run("npm", ["run", "typecheck"]);
+process.env.VITE_SOURCE_COMMIT = sourceCommit;
 const { build } = await import("vite");
 await build({ base: "/axolotl-preview/ds-library-v1-1/", build: { rollupOptions: { input: "library.html" } } });
 renameSync("dist/library.html", "dist/index.html");
@@ -75,3 +76,19 @@ writeFileSync(
     2,
   ),
 );
+// Bind verification to the complete candidate payload. Provenance is the outer
+// manifest and is deliberately excluded from its own file digest.
+const artifactFiles = [];
+function artifactWalk(dir) {
+ for (const item of readdirSync(dir,{withFileTypes:true})) {
+  const path=dir+'/'+item.name;
+  if(item.isDirectory()) artifactWalk(path);
+  else if(path!=='dist/provenance.json') artifactFiles.push(path);
+ }
+}
+artifactWalk('dist');
+const fileHashes=Object.fromEntries(artifactFiles.sort().map(path=>[path.slice(5),createHash('sha256').update(readFileSync(path)).digest('hex')]));
+const provenance=JSON.parse(readFileSync('dist/provenance.json','utf8'));
+provenance.fileHashes=fileHashes;
+provenance.artifactDigest=createHash('sha256').update(JSON.stringify(fileHashes)).digest('hex');
+writeFileSync('dist/provenance.json',JSON.stringify(provenance,null,2)+'\n');
