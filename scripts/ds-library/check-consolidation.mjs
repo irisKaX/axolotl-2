@@ -16,7 +16,7 @@ try {
  assert.deepEqual(audit.violations.map(v=>v.id),[],'Catalog accessibility');
  await page.goto(base+'?section=foundations#design-system');
  await page.getByRole('heading',{name:'Component States',exact:true}).waitFor();
- assert.equal(await page.locator('.ds-foundations-inventory > section').count(),12);
+ assert.deepEqual(await page.locator('.ds-foundations-inventory > section > h2').allTextContents(),['Semantic Color Tokens','Dark / Light Themes','Typography','Font Families & Weights','Spacing','Radius','Borders','Shadows & Elevation','Surfaces & Materials','Motion & Transitions','Component States','Brand Colors','Chart Colors']);
  await page.goto(base+'?section=brand#design-system');
  await page.getByRole('heading',{name:'Axolotl · Master V3',exact:true}).waitFor();
  await page.goto(base+'?section=buttons#design-system');
