@@ -25,13 +25,8 @@ try {
     await new Promise((r) => setTimeout(r, 250));
   }
   if (!ready) throw new Error("Built preview did not start");
-  const check = process.argv.includes("--grid-only")
-    ? "scripts/ds-library/check-grid.mjs"
-    : process.argv.includes("--resize-only")
-    ? "scripts/ds-library/check-resize.mjs"
-    : process.argv.includes("--layout-only")
-    ? "scripts/ds-library/check-layout-only.mjs"
-    : "scripts/ds-library/check.mjs";
+  if (process.argv.slice(2).length) throw new Error('Historical Layout Studio checks are archived; use the canonical Library checks');
+  const check = "scripts/ds-library/check.mjs";
   const child = spawn("node", [check], {
     stdio: "inherit",
     env: { ...process.env, LIBRARY_URL: url },

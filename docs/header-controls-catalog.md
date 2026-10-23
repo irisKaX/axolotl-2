@@ -1,3 +1,5 @@
+> HISTORICAL: renderer archived by Core Cleanup; current authority: [Library V1.1](ds-library/CONSOLIDATION.md). Restore source at b4ceef74af60ac12b6b4420917f1ece9c2658b64.
+
 # Header controls: isolated A/B catalog
 
 The initial A/B prototypes did not change production `Header.tsx`.

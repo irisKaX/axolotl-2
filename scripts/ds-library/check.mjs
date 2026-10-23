@@ -1,4 +1,3 @@
-import { checkLayout } from "./check-layout.mjs";
 import { checkWidgets } from "./check-widgets.mjs";
 import { checkSurfaces } from "./check-surfaces.mjs";
 import { checkColors } from "./check-colors.mjs";
@@ -495,7 +494,6 @@ try {
     "Unified Halo Soft: six real exports, states/actions, keyboard and touch, dark/light axe, reduced motion, history, dual-theme seven-category overview and portals",
   );
   await checkWidgets(page, mobile, base, out);
-  await checkLayout(page, mobile, base, out);
   pass(
     "Dashboard Widgets: local demo, real QR/PNG, validation, focus, theme, accessibility, mobile and isolated state",
   );

@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, within, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
@@ -175,33 +175,11 @@ describe("migrated application", () => {
     await user.type(input, "novy.example{Enter}");
     expect(page.getSnapshot().context.url).toBe("https://novy.example/");
   });
-  it("preserves all eight legacy sample variants without pretending QR generation works", async () => {
+  it("routes historical catalog entry to the single Library without mounting a gallery", () => {
     history.replaceState(null, "", "?catalog=legacy#design-system");
-    const user = userEvent.setup();
     mount();
-    expect(screen.getAllByRole("article")).toHaveLength(3);
-    await user.click(
-      screen.getAllByRole("button", { name: "Prohlédnout ukázku" })[0],
-    );
-    expect(
-      screen.getByRole("dialog", { name: "Ukázková metadata" }),
-    ).toBeVisible();
-    await user.keyboard("{Escape}");
-    await user.click(screen.getByRole("tab", { name: "QR kód" }));
-    expect(screen.getAllByRole("article")).toHaveLength(3);
-    screen
-      .getAllByRole("button", { name: "Vytvořit QR" })
-      .forEach((button) => expect(button).toBeDisabled());
-    await user.click(screen.getByRole("tab", { name: "Rychlé akce" }));
-    expect(screen.getAllByRole("article")).toHaveLength(2);
-    await user.click(
-      within(screen.getAllByRole("article")[0]).getByRole("button", {
-        name: "Poznámka",
-      }),
-    );
-    expect(
-      screen.getByText("Poznámka: nástroj přidáme později."),
-    ).toBeVisible();
+    expect(screen.getByRole('link',{name:'Otevřít Design System Library V1.1'})).toHaveAttribute('href','https://iriskax.github.io/axolotl-preview/ds-library-v1-1/?catalog=library&section=dashboard&theme=dark#design-system');
+    expect(screen.queryAllByRole('article')).toHaveLength(0);
   });
   it("clears native validity when an external valid URL replaces an invalid draft", async () => {
     const user = userEvent.setup();

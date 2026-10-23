@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { sourceUrl, type Category } from "./registry";
+import { sourceUrl, type Category } from "./model";
 import { designLabel } from "./model";
 import { VariantComparison } from "./VariantComparison";
 export function Playground({

@@ -14,7 +14,7 @@ import {
 } from "../../../design-system/widgets/state";
 import { Playground, Examples } from "./PageFrame";
 import { ComponentControl, PropertyControl, ChoiceControl } from "./Controls";
-import { findEntry, type PageProps, type Category } from "./registry";
+import { findEntry, type PageProps, type Category } from "./model";
 import "./widgets-page.css";
 const scenarios = [
   { value: "success", label: "Dokončeno" },

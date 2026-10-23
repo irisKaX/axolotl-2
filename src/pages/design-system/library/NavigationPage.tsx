@@ -2,7 +2,7 @@ import {
   ComponentControl,
   BooleanControl,
 } from "./Controls";
-import { findEntry, type PageProps } from "./registry";
+import { findEntry, type PageProps } from "./model";
 import { useState } from "react";
 import {
   Field,

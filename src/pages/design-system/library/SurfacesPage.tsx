@@ -5,7 +5,7 @@ import {
   VariantControl,
   BooleanControl,
 } from "./Controls";
-import { findEntry, type PageProps } from "./registry";
+import { findEntry, type PageProps } from "./model";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "../../../design-system/Button";
 import {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { foundationGroups, foundationTokens, openDecisions } from '../../../design-system/tokens/inventory';
 import { themeAliases } from '../../../design-system/tokens/theme';
 import { paints } from '../../../design-system/tokens/paints';
-import { sourceUrl } from './registry';
+import { sourceUrl } from './model';
 function TokenTable({tokens}: {tokens: {name:string;light:string;dark:string}[]}) {
  return <div className="ds-theme-table"><table><caption>Účinné hodnoty TweakCN theme</caption><thead><tr><th scope="col">Token</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead><tbody>{tokens.map(t=><tr key={t.name}><th scope="row"><code>{t.name}</code></th>{(['light','dark'] as const).map(mode=><td key={mode}>{/^(oklch|hsl)/.test(t[mode])&&<span className="ds-theme-swatch" style={{background:t[mode]}} aria-hidden="true"/>}<code>{t[mode]}</code></td>)}</tr>)}</tbody></table></div>;
 }

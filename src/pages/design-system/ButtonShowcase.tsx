@@ -8,16 +8,10 @@ import {
   type ButtonMotion,
 } from "../../design-system/Button";
 import "./ButtonShowcase.css";
-import { buttonEntry, type Category } from "./library/registry";
+import { type Category } from "./library/model";
 import { propertyOptions } from "./library/model";
 
 type ShowcaseType = ButtonVariant | "split";
-const variants: ShowcaseType[] = [...buttonEntry.variants.map((v) => v.id as ButtonVariant), "split"];
-const sizeNames = {small: "S", medium: "M", large: "L"};
-const sizes = propertyOptions(buttonEntry, "size").map(
-  (o) => o.value as ButtonSize,
-);
-const names = {...Object.fromEntries(buttonEntry.variants.map((v) => [v.id, v.label])), split: "Split Button"} as Record<ShowcaseType, string>;
 const sample = (variant: ButtonVariant) =>
   variant === "destructive" ? (
     <Trash2 strokeWidth={1.7} />
@@ -62,8 +56,16 @@ function Sample({
 
 /** The actual DS export is used in every specimen and in the async/form examples. */
 export default function ButtonShowcase({
+  category,
   preferenceHint = "Dark/light a velikost textu přebírá komponenta z nastavení aplikace. Omezení pohybu respektuje i nastavení systému.",
-}: { preferenceHint?: string; category?: Category; testMode?: boolean } = {}) {
+}: { preferenceHint?: string; category: Category; testMode?: boolean }) {
+  const buttonEntry = category.entries[0];
+const variants: ShowcaseType[] = [...buttonEntry.variants.map((v) => v.id as ButtonVariant), "split"];
+const sizeNames = {small: "S", medium: "M", large: "L"};
+const sizes = propertyOptions(buttonEntry, "size").map(
+  (o) => o.value as ButtonSize,
+);
+const names = {...Object.fromEntries(buttonEntry.variants.map((v) => [v.id, v.label])), split: "Split Button"} as Record<ShowcaseType, string>;
   const [variant, setVariant] = useState<ShowcaseType>("primary");
   const [size, setSize] = useState<ButtonSize>("medium");
   const [motion, setMotion] = useState<ButtonMotion>("none");

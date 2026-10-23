@@ -3,7 +3,7 @@ import {
   PropertyControl,
   BooleanControl,
 } from "./Controls";
-import { findEntry, type PageProps } from "./registry";
+import { findEntry, type PageProps } from "./model";
 import { useState } from "react";
 import { HelpCircle } from "lucide-react";
 import { Button } from "../../../design-system/Button";

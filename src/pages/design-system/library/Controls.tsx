@@ -1,5 +1,5 @@
 import { Field, Select, Switch } from "../../../design-system/library";
-import { componentOptions, type Category, type Entry } from "./registry";
+import { componentOptions, type Category, type Entry } from "./model";
 import { propertyOptions, variantOptions } from "./model";
 export function ChoiceControl({
   label,

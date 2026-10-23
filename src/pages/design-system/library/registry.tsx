@@ -747,7 +747,7 @@ export const categories: Category[] = [
     entries: [defineEntry(AnimatedAxolotlLogo, {
       name: "AnimatedAxolotlLogo", label: "Animated Axolotl Logo / Assistant Mark",
       source: "src/design-system/brand/AnimatedAxolotlLogo.tsx",
-      consumers: "Návrh 2D značky podle dodaného axolotlího symbolu a Uiverse reference sanjanaare_1029. Zatím pouze Brand & Mascot.",
+      consumers: "Návrh 2D značky podle dodaného axolotlího symbolu a Uiverse reference sanjanaare_1029. Brand & Mascot a schválený Header; sdílený zdroj beze změny geometrie.",
       api: "variant: logo | loader | assistant; size: small (48) | medium (72) | large (104); label; paused; decorative. Theme a reduced motion přebírá z prostředí.",
       variants: [variant("logo", "Logo", {variant: "logo" as const}), variant("loader", "Loader", {variant: "loader" as const}), variant("assistant", "Assistant Mark", {variant: "assistant" as const})],
       properties: {size: controlSizes, paused: {kind: "boolean"}, decorative: {kind: "boolean"}, label: {kind: "text"}},
@@ -760,6 +760,19 @@ export const categories: Category[] = [
     })],
   }),
 ];
+// Approval identifies the accepted artifact/scope, never the current branch as a whole.
+const acceptedArtifact = {
+ sourceCommit:'63bda318f5556b12b629016e821e08feb7374281',
+ previewCommit:'0c2bfdcd4ed1a206c23d0988f0c0661c58397f3a',
+ decision:'https://github.com/irisKaX/axolotl-knowledge/blob/d7036f6eedfd053c3f66acc6bfe760cd7ba043ff/Decision%20Log.md',
+};
+for (const category of categories) for (const entry of category.entries) {
+ if (entry.name==='AppHeader') entry.approvalReference={...acceptedArtifact,scope:['geometry','interaction','preview-theme']};
+ for (const v of entry.variants) {
+  if (v.design==='approved') v.approvalReference={...acceptedArtifact,scope:[category.id==='colors'?'brand-paint':entry.name==='MascotIdentity'?'identity-documentation':'geometry']};
+  if (v.production) v.productionConsumers=['src/styles/base.css'];
+ }
+}
 const counter = defineCategory({
   id: "test-counter",
   title: "Test Counter",
@@ -809,15 +822,7 @@ export function getCategories(testMode = false): Category[] {
   ];
 }
 export const buttonEntry = categories[0].entries[0];
-export function findEntry(name: string, list: Category[] = categories): Entry {
-  const entry = list
-    .flatMap((c) => c.entries)
-    .find((e) => e.name === name || e.label === name);
-  if (!entry) throw new Error(`Unregistered component: ${name}`);
-  return entry;
-}
-export function componentOptions(category: Category) {
-  return category.entries.map((e) => ({ value: e.label, label: e.label }));
-}
-export const sourceUrl = (path: string) =>
-  `https://github.com/irisKaX/axolotl-2/blob/design-system/consolidate-v1-1/${path}`;
+// Compatibility exports for existing test/review consumers; pages import pure helpers.
+export {componentOptions,sourceUrl} from './model';
+import {findEntry as lookupEntry} from './model';
+export const findEntry = (name: string, list: Category[] = categories): Entry => lookupEntry(name,list);

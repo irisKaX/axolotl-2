@@ -6,7 +6,10 @@ import {
   type LazyExoticComponent,
 } from "react";
 export type DesignState = "draft" | "approved";
+export type ApprovalReference = { sourceCommit:string; previewCommit:string; scope:string[]; decision:string };
 export type Variant = {
+  approvalReference?: ApprovalReference;
+  productionConsumers?: string[];
   id: string;
   label: string;
   design: DesignState;
@@ -21,6 +24,7 @@ export type Property = {
   note?: string;
 };
 export type Entry = {
+  approvalReference?: ApprovalReference;
   name: string;
   label: string;
   source: string;
@@ -97,3 +101,17 @@ export function propertyOptions(entry: Entry, prop: string) {
     throw new Error(`${entry.name}.${prop} is not a select property`);
   return property.options;
 }
+
+export function findEntry(name: string, list: Category[]): Entry {
+  const entry = list
+    .flatMap((c) => c.entries)
+    .find((e) => e.name === name || e.label === name);
+  if (!entry) throw new Error(`Unregistered component: ${name}`);
+  return entry;
+}
+export function componentOptions(category: Category) {
+  return category.entries.map((e) => ({ value: e.label, label: e.label }));
+}
+// Release build injects its exact source revision; unbuilt local dev links to the accepted source reference.
+export const sourceUrl = (path: string) =>
+  `https://github.com/irisKaX/axolotl-2/blob/${import.meta.env.VITE_SOURCE_COMMIT || '63bda318f5556b12b629016e821e08feb7374281'}/${path}`;

@@ -1,3 +1,5 @@
+> HISTORICAL: renderer archived by Core Cleanup; current authority: [Library V1.1](ds-library/CONSOLIDATION.md). Restore source at b4ceef74af60ac12b6b4420917f1ece9c2658b64.
+
 # Approved header A integration — 2026-10-16
 
 Iris selected variant A from the reviewed live catalog. Integrate its appearance

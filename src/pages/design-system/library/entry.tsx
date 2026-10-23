@@ -8,6 +8,8 @@ import "../../../styles/app.css";
 
 // The existing Library has its own build entry; production App and routes are untouched.
 const preferences = createPreferencesStore({ storagePrefix: "axolotl-library-v1-1" });
+const requestedTheme = new URLSearchParams(location.search).get('theme');
+if (requestedTheme === 'light' || requestedTheme === 'dark') preferences.set('theme', requestedTheme);
 applyPreferences(preferences.getSnapshot());
 const url = new URL(location.href);
 if (["legacy", "headers"].includes(url.searchParams.get("catalog") || "")) {
