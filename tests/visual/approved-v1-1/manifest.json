@@ -1,7 +1,14 @@
 {
   "schema": 1,
-  "status": "candidate",
-  "approval": null,
+  "status": "approved",
+  "approval": {
+    "decision": "Explicit user approval of the 96 PNG and 96 computed CSS/geometry reference set only; no blanket component approval or deployment authorization.",
+    "reference": "sediment://file_00000000e294820ab9362a492818f9cd",
+    "date": "2026-10-23",
+    "referenceCommit": "a6db36ec75ddd8d57dac4fa8a62f4f16ea339a1c",
+    "candidateManifestSha256": "d0f695525f0c0d2c4df542638bf3c55394b66bda4ba5c809c6b9ce660f9c0d26",
+    "requestSha256": "5e0a6a28f6f97a493338ecf052005852114669039461046264edfca0c36293ed"
+  },
   "approvalRequest": "Phase 3 Milestone A / explicit screenshot review pending",
   "identity": {
     "source": "63bda318f5556b12b629016e821e08feb7374281",

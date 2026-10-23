@@ -1,3 +1,13 @@
+# Library V1.1 — approved reference
+
+Explicitly approved by the user on 2026-10-23 in **Clean Foundation · Final Approval · GitHub Review & Release Preparation**, attachment `file_00000000e294820ab9362a492818f9cd`.
+
+Approved manifest SHA-256: `4f288b9ae75e87ee9960e770f0a385e80bf5bd914b33bb7a7bca5ac3a0ac68d6`. This approval changes metadata only: all 96 PNG and 96 computed/geometry JSON files are byte-identical to independent candidate commit `a6db36ec75ddd8d57dac4fa8a62f4f16ea339a1c` (candidate manifest `d0f695525f0c0d2c4df542638bf3c55394b66bda4ba5c809c6b9ce660f9c0d26`). Original artifact identity and correction history remain intact.
+
+Approval applies to this reference set, not every catalog variant or production use. Exact comparison remains mandatory; neither approval nor a passing local gate authorizes publishing. Historical intermittent raster failures below remain recorded and would still fail the strict gate. Final Validation recorded a subsequent exact 96/96 pass.
+
+## Historical candidate record (preserved)
+
 # Library V1.1 — reference candidate
 
 **Status: candidate. Explicit final approval is still required.** The directory name does not imply approval.
