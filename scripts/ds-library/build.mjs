@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync, readdirSync, renameSync } from "node:fs";
 import { createHash } from "node:crypto";
 const git = (...args) => execFileSync('git', args, {encoding:'utf8'}).trim();
 const sourceCommit = git('rev-parse', 'HEAD');
-const sourceClean = git('status', '--porcelain', '--untracked-files=no') === '';
+const sourceClean = git('status', '--porcelain', '--untracked-files=normal') === '';
 if (process.env.SOURCE_COMMIT && (process.env.SOURCE_COMMIT !== sourceCommit || !sourceClean)) throw Error('Release source must be the exact clean pinned commit');
 const run = (file, args) => execFileSync(file, args, { stdio: "inherit" });
 run("npm", ["run", "typecheck"]);
