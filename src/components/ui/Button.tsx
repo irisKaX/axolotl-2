@@ -1,3 +1,4 @@
+import {NativeButton} from '../../design-system/Button/Button';
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { clsx } from "clsx";
@@ -31,7 +32,7 @@ export function Button({
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> &
   VariantProps<typeof styles> & { asChild?: boolean }) {
-  const Component = asChild ? Slot : "button";
+  const Component = asChild ? Slot : NativeButton;
   return (
     <Component
       className={cn(styles({ variant, size }), className)}

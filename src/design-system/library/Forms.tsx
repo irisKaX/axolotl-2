@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  cloneElement,
   useId,
   useEffect,
   useState,
@@ -8,11 +9,8 @@ import {
   type ReactNode,
 } from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
-import {
-  Field as ToolField,
-  Checkbox as ToolCheckbox,
-} from "../../tools/legacy/shared/react-ui/fields.jsx";
+import { Check, Minus, ChevronDown, ChevronUp } from "lucide-react";
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import { useDesignSystem } from "./Provider";
 export type ControlSize = "small" | "medium" | "large";
 /** Reuse the actual production field's label/error/description association. */
@@ -29,11 +27,9 @@ export function Field({
   error?: ReactNode;
   children: ReactElement;
 }) {
-  return (
-    <ToolField id={id} label={label} hint={hint} error={error}>
-      {children}
-    </ToolField>
-  );
+  const generated=useId(), controlId=id || generated, noteId=`${controlId}-note`;
+  const control=children as ReactElement<{id?:string;'aria-invalid'?:boolean;'aria-describedby'?:string}>;
+  return <div className="ax-field"><label htmlFor={controlId}>{label}</label>{cloneElement(control, {id:controlId,'aria-invalid':error ? true : undefined,'aria-describedby':[control.props['aria-describedby'],(hint||error)&&noteId].filter(Boolean).join(' ')||undefined})}{(hint||error)&&<p id={noteId} className={error?'ax-field-error':'ax-field-hint'}>{error||hint}</p>}</div>;
 }
 export const Input = forwardRef<
   HTMLInputElement,
@@ -182,7 +178,7 @@ export function Checkbox({
     note = hint || error;
   return (
     <div className="ds-choice-field">
-      <ToolCheckbox
+      <CheckboxControl
         {...props}
         id={controlId}
         label={label}
@@ -327,4 +323,10 @@ export function Slider({
       )}
     </div>
   );
+}
+
+/** Canonical native tool checkbox; the DS wrapper supplies its existing public API. */
+export function CheckboxControl({id,label,...props}: ComponentProps<typeof CheckboxPrimitive.Root> & {label:ReactNode}) {
+ const generated=useId(),controlId=id||generated;
+ return <div className="ax-checkbox-field"><CheckboxPrimitive.Root {...props} id={controlId} className="ax-checkbox"><CheckboxPrimitive.Indicator>{props.checked==='indeterminate'?<Minus size={14} aria-hidden="true"/>:<Check size={14} aria-hidden="true"/>}</CheckboxPrimitive.Indicator></CheckboxPrimitive.Root><label htmlFor={controlId}>{label}</label></div>;
 }

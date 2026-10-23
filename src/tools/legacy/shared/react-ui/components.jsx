@@ -1,8 +1,9 @@
+import {NativeButton} from '../../../../design-system/Button/Button';
 import { forwardRef } from 'react';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 
-export const Button = forwardRef(function Button({ variant = 'secondary', className = '', children, ...props }, ref) {
-  return <button type="button" {...props} ref={ref} data-variant={variant} className={`ax-button ax-button-${variant} ${className}`}>{children}</button>;
+export const Button = forwardRef(/** @param {import('react').ButtonHTMLAttributes<HTMLButtonElement> & {variant?: string}} props */ function Button({ variant = 'secondary', className = '', children, ...props }, ref) {
+  return <NativeButton type="button" {...props} ref={ref} data-variant={variant} className={`ax-button ax-button-${variant} ${className}`}>{children}</NativeButton>;
 });
 
 export const IconButton = forwardRef(function IconButton({ icon: Icon, label, className = '', ...props }, ref) {
@@ -14,13 +15,8 @@ export function Tooltip({ text, children }) {
 }
 export const TooltipProvider = TooltipPrimitive.Provider;
 
-export function Status({ children, state = 'neutral', className = '', ...props }) {
-  return <span {...props} className={`ax-status ${className}`} data-state={state}><span className="ax-status-dot" aria-hidden="true" />{children}</span>;
-}
-
-export function Panel({ children, className = '', ...props }) {
-  return <section {...props} className={`ax-panel ${className}`}>{children}</section>;
-}
+export {Status} from '../../../../design-system/library/Feedback';
+export {Panel} from '../../../../design-system/library/Surfaces';
 
 export function ToolHeader({ title, description, actions }) {
   return <div className="ax-tool-header"><div><h1>{title}</h1>{description && <p className="ax-tool-description">{description}</p>}</div>{actions}</div>;

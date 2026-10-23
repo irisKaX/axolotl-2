@@ -1,3 +1,5 @@
+import {Button as CompatibleButton} from '../../components/ui/Button';
+import {Button as ToolButton} from '../../tools/legacy/shared/react-ui/components.jsx';
 import { createRef, StrictMode } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -87,4 +89,14 @@ describe('Lens Button contract', () => {
     rerender(<div data-motion="full"><Button motion="star-border" reducedMotion>Akce</Button></div>);
     expect(document.querySelector('canvas')).toBeNull();
   });
+});
+
+it('compatibility entrypoints preserve native submit, anchor and ref without DS wrappers', () => {
+ const submit=vi.fn(event=>event.preventDefault()),ref=createRef<HTMLButtonElement>();
+ render(<form onSubmit={submit}><CompatibleButton>Submit</CompatibleButton><ToolButton ref={ref}>Tool</ToolButton><CompatibleButton asChild><a href="#target">Link</a></CompatibleButton></form>);
+ fireEvent.click(screen.getByRole('button',{name:'Submit'}));expect(submit).toHaveBeenCalledTimes(1);
+ fireEvent.click(screen.getByRole('button',{name:'Tool'}));expect(submit).toHaveBeenCalledTimes(1);
+ expect(ref.current).toBe(screen.getByRole('button',{name:'Tool'}));
+ expect(ref.current?.querySelector('.axo-ds-button__label')).toBeNull();
+ expect(screen.getByRole('link',{name:'Link'}).tagName).toBe('A');
 });

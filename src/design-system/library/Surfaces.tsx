@@ -4,7 +4,6 @@ import {
   type HTMLAttributes,
   type ButtonHTMLAttributes,
 } from "react";
-import { Panel as ToolPanel } from "../../tools/legacy/shared/react-ui/components.jsx";
 import { EmptyState, Loading, Alert } from "./Feedback";
 export function Card({
   title,
@@ -40,9 +39,9 @@ export function Panel({
   ...props
 }: HTMLAttributes<HTMLElement>) {
   return (
-    <ToolPanel {...props} className={className}>
+    <section {...props} className={`ax-panel ${className}`}>
       {children}
-    </ToolPanel>
+    </section>
   );
 }
 export function InteractiveCard({

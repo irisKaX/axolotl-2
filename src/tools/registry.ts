@@ -20,4 +20,10 @@ export const toolRoutes: Record<string,ToolId> = {
   'kontrola/hledani-na-webu':'search',
 };
 export const localTools = new Set<ToolId>(['qr','convert']);
-export function loadTool(id:ToolId) {return loaders[id]() as unknown as Promise<ToolModule>;}
+export function assertToolModule(value: unknown): asserts value is ToolModule {
+  if (!value || typeof value !== 'object' || !('mount' in value) || typeof value.mount !== 'function')
+    throw new TypeError('Nástroj neposkytuje platnou funkci mount.');
+}
+export async function loadTool(id:ToolId):Promise<ToolModule> {
+ const module:unknown=await loaders[id]();assertToolModule(module);return module;
+}

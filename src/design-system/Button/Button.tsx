@@ -23,6 +23,12 @@ export type ButtonProps = NativeProps & {
   { variant?: Exclude<ButtonVariant, 'icon'>; icon?: ReactElement; children: ReactNode }
 );
 
+/** Native rendering boundary shared by compatibility entrypoints. No default type,
+ * extra DOM, theme class or loading semantics are imposed on their old contracts. */
+export const NativeButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement>>(
+ function NativeButton(props, ref) { return <button {...props} ref={ref}/>; }
+);
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button({
   variant = 'secondary', size = 'medium', motion = 'none', starBorder,
   icon, children, loading = false, loadingLabel, disabled = false,
@@ -38,7 +44,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     if (blocked) { event.preventDefault(); event.stopPropagation(); return; }
     handler?.(event);
   };
-  return <button {...native} ref={attach} type={type} disabled={disabled}
+  return <NativeButton {...native} ref={attach} type={type} disabled={disabled}
     aria-disabled={blocked || undefined} aria-busy={loading || undefined}
     className={('axo-ds-button ' + className).trim()}
     data-variant={variant} data-size={size} data-motion-variant={motion}
@@ -56,7 +62,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       {loadingLabel && <span className={'axo-ds-button__loading-label' + (!loading ? ' axo-ds-button__invisible' : '')} aria-hidden="true">{loadingLabel}</span>}
     </span>}
     {loading && !icon && variant !== 'icon' && <span className="axo-ds-button__loading-overlay" aria-hidden="true"><Spinner /></span>}
-  </button>;
+  </NativeButton>;
 });
 
 function Spinner() {

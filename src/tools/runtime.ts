@@ -10,7 +10,7 @@ export interface ToolInstance {
 }
 export interface ToolModule {mount(root:HTMLElement,app:ToolApp):ToolInstance}
 export interface ToolApp {
-  request(operation:string,payload?:Record<string,unknown>):Promise<any>;
+  request(operation:string,payload?:Record<string,unknown>):Promise<unknown>;
   target():ToolTarget; ensureTarget():void; lock(name:string):void; unlock(name:string):void;
   run<T>(task:()=>Promise<T>|T):Promise<T|undefined>; toast(message:string,kind?:string):void;
   refreshTarget():void; show(id:ToolId):void; session:string;
@@ -74,7 +74,10 @@ export function createToolRuntime(container:HTMLElement,store:Pick<PageStore,'ge
             const module=await loadTool(next);
             if(destroyed)return;
             root.replaceChildren();
-            const instance=module.mount(root,app);modules.set(next,instance);
+            const instance=module.mount(root,app);
+            if (!instance || typeof instance.destroy !== 'function' || ['onShow','onHide','onTargetChange','onEvent'].some(key=>key in instance && typeof instance[key as keyof ToolInstance] !== 'function'))
+              throw new TypeError('Nástroj neposkytuje platný lifecycle kontrakt.');
+            modules.set(next,instance);
             root.hidden=current!==next;
           } catch(error){
             if(destroyed)return;

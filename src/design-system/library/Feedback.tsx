@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, HTMLAttributes } from "react";
 import {
   Info,
   CheckCircle2,
@@ -8,22 +8,11 @@ import {
   Inbox,
 } from "lucide-react";
 import { Badge as ExistingBadge } from "../../components/ui/Badge";
-import { Status as ToolStatus } from "../../tools/legacy/shared/react-ui/components.jsx";
 import { Button } from "../Button";
 export type Tone = "neutral" | "success" | "warning" | "error";
 export const Badge = ExistingBadge;
-export function Status({
-  children,
-  state = "neutral",
-}: {
-  children: ReactNode;
-  state?: Tone;
-}) {
-  return (
-    <ToolStatus state={state} className="">
-      {children}
-    </ToolStatus>
-  );
+export function Status({children,state='neutral',className='',...props}:HTMLAttributes<HTMLSpanElement> & {state?:Tone}) {
+ return <span {...props} className={`ax-status ${className}`} data-state={state}><span className="ax-status-dot" aria-hidden="true"/>{children}</span>;
 }
 const icons = {
   info: Info,
