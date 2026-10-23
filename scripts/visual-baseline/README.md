@@ -7,8 +7,12 @@ coverage or toolchain differences fail closed. Pixel comparison is exact.
 
 ## Trust and capture
 
-`tests/visual/approved-v1-1/manifest.json` is **candidate**, not approved. The directory
-name follows the blueprint. Diagnostic comparison never authorizes a release.
+The immutable reference set was explicitly **approved** by the user on 2026-10-23.
+Reference-only commit: `119fc3995442dff4dffee91372bcef570ac0c3f0`; manifest SHA-256: `4f288b9ae75e87ee9960e770f0a385e80bf5bd914b33bb7a7bca5ac3a0ac68d6`.
+The 96 PNG and 96 computed/geometry JSON files are unchanged from `a6db36e`.
+Source/harness remain separately pinned to `c4b47d40574537b6f516bfdcf385248894f9c7ec`.
+Approval covers this reference set, not every design variant or production deployment.
+Diagnostic comparison never authorizes a release.
 The strict runner and preview wrapper never update reference files. The manual S01
 capture utility is not called by CI. Do not modify references during a test run.
 
@@ -106,7 +110,7 @@ The preview publication wrapper intentionally offers no diagnostic mode:
 
 ```sh
 BASELINE_DIR=/absolute/pinned-reference/tests/visual/approved-v1-1 \
-BASELINE_SHA256=d0f695525f0c0d2c4df542638bf3c55394b66bda4ba5c809c6b9ce660f9c0d26 \
+BASELINE_SHA256=4f288b9ae75e87ee9960e770f0a385e80bf5bd914b33bb7a7bca5ac3a0ac68d6 \
 VISUAL_HARNESS_DIR=/absolute/pinned-harness/scripts/visual-baseline \
 BASELINE_OUTPUT=/absolute/new-results \
 LIBRARY_URL="$LIBRARY_URL" \
@@ -149,3 +153,12 @@ The runner separately records raw equality and class-identity-only changes.
 PNG comparison remains exact; a pixel mismatch with equal visual data is still
 FAIL pending diagnosis, never automatic raster-noise approval. Candidate status
 continues to block release even when all visual comparisons pass.
+
+## Release preparation decision — 2026-10-23
+
+Technical consolidation and this immutable reference were approved in user attachment
+`file_00000000e294820ab9362a492818f9cd`. Historical candidate/raster investigation
+above remains evidence, not a tolerance or an approval of later snapshots.
+Only `clean-foundation/milestone-a` review branches may be pushed. The only release
+authority is preview `design-system/header-final-polish`; publication still requires
+a separate explicit instruction. The production application remains unchanged.
