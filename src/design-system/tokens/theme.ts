@@ -20,3 +20,12 @@ export const themeStylesheet = (['light','dark'] as const).map(mode => {
   const scope = `html[data-axolotl-library][data-theme="${mode}"],html[data-axolotl-library] [data-theme="${mode}"],html[data-axolotl-library] [data-header-theme="${mode}"]`;
   return `${scope}{${serialize({...themeTokens[mode], ...themeAliases})}color-scheme:${mode};}`;
 }).join('\n');
+
+// Header-only Light reference, shared across both modes. Other surfaces, status
+// colors, the Brand showcase and global Dark tokens keep their existing values.
+export const headerInteractionStylesheet = `html[data-axolotl-library] [data-header-theme]{
+  --primary:${themeTokens.light['--primary']};
+  --ring:${themeTokens.light['--ring']};
+  --axo-hover:color-mix(in oklch,${themeTokens.light['--primary']} 20%,${themeTokens.light['--card']});
+  --axo-hover-ink:${themeTokens.light['--foreground']};
+}`;

@@ -49,7 +49,7 @@
 .scope button { cursor: pointer; touch-action: manipulation; }
 .scope button:disabled { cursor: default; opacity: .45; }
 .scope a { color: inherit; }
-.scope svg { width:18px; height:18px; flex:none; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+.scope svg:where(:not(:global(.axo-animated-mark__symbol))) { width:18px; height:18px; flex:none; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
 .scope :is(button,a,select,summary):focus-visible { outline:2px solid var(--axo-focus); outline-offset:3px; }
 .scope :is(button,a,select,summary) { -webkit-tap-highlight-color: transparent; }
 .header {
@@ -72,7 +72,7 @@
 .pillTrigger[aria-expanded=true] :global(.axolotl-pill-nav__face-alt) { transform:translateY(0); }
 .header[data-compact=true] { grid-template-columns:auto minmax(0,1fr); gap:8px 16px; border-radius:30px; }
 .brand { grid-area:1 / 1; display:flex; align-items:center; justify-content:center; width:44px; height:48px; border-radius:999px; }
-.brand :global(.axolotl-logo-art) { width:28px; height:28px; }
+.brand :global(.axo-animated-mark) { transform:scale(.9166666667); }
 .menuSlot { grid-area:2 / 1; }
 .menuTrigger { display:flex; align-items:center; gap:12px; min-height:48px; min-width:116px; padding:0 16px; border:0; border-radius:var(--axo-control-radius); background:var(--axo-tile); box-shadow:var(--axo-rim); }
 .menuTrigger[aria-expanded=true] { color:var(--axo-active-ink); background:var(--axo-active); }
@@ -147,7 +147,7 @@
 .row, .groupToggle { display:flex; align-items:center; gap:12px; width:100%; min-height:44px; padding:10px 12px; border:0; border-radius:12px; background:transparent; color:var(--axo-ink); text-align:left; text-decoration:none; line-height:1.5; }
 .rowText { display:grid; gap:3px; min-width:0; flex:1; overflow-wrap:anywhere; }
 .rowText small { color:var(--axo-muted); font-size:calc(11px * var(--axo-text-scale)); line-height:1.5; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.row:hover:not(:disabled):not([aria-current=page]):not([aria-pressed=true]), .groupToggle:hover { background:var(--axo-hover); }
+.row:hover:not(:disabled):not([aria-current=page]):not([aria-pressed=true]), .groupToggle:hover { background:var(--axo-hover); color:var(--axo-hover-ink); }
 .row[aria-current=page], .row[aria-pressed=true] { background:var(--axo-active); color:var(--axo-active-ink); }
 .row[aria-pressed=true] small { color:var(--axo-active-ink); }
 .check { margin-left:auto; flex:none; font-weight:600; }
@@ -170,7 +170,7 @@
 .selectContent { z-index:31; width:var(--radix-select-trigger-width); max-width:calc(100vw - 24px); max-height:var(--radix-select-content-available-height); border:1px solid var(--axo-edge); border-radius:16px; background:var(--axo-panel-surface); box-shadow:var(--axo-panel-shadow); overflow:hidden; }
 .selectViewport { padding:6px; overscroll-behavior:contain; }
 .selectOption { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; padding:10px 12px; border-radius:12px; cursor:pointer; user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color:transparent; outline:none; }
-.selectOption[data-highlighted] { background:var(--axo-hover); }
+.selectOption[data-highlighted] { background:var(--axo-hover); color:var(--axo-hover-ink); }
 .selectOption[data-state=checked] { background:var(--axo-active); color:var(--axo-active-ink); }
 .selectOption:focus-visible { outline:2px solid currentColor; outline-offset:-2px; }
 .selectScroll { display:flex; align-items:center; justify-content:center; height:24px; flex:none; }
@@ -214,3 +214,18 @@
 @media (max-width:520px) { .clock, .divider { display:none; } }
 @media (prefers-reduced-motion:reduce) { .scope { --axo-duration:0ms; } .panel { animation-name:none; } .bell:hover > svg { transform:none; } }
 @media (forced-colors:active) { .header,.panel,.control,.row,.menuTrigger,.url,.themeTrack { border:1px solid CanvasText; } .row[aria-current=page],.row[aria-pressed=true] { outline:2px solid Highlight; } }
+
+/* Hover pairs must stay readable when the Header uses the Light reference paint. */
+.scope[data-header-theme=dark] .row:hover:not(:disabled):not([aria-current=page]):not([aria-pressed=true]) .rowText small,
+.scope[data-header-theme=dark] .groupToggle:hover .groupNumber,
+.scope[data-header-theme=dark] .menuTrigger:hover:not([aria-expanded=true]) .current { color:var(--axo-hover-ink); }
+/* Keep the exact Light violet legible inside the darker popover surface. */
+.panel[data-header-theme=dark] :is(.row,.control,.selectTrigger,.groupToggle,summary):focus-visible:not([aria-current=page]):not([aria-pressed=true]),
+.panel[data-header-theme=dark] .selectTrigger:focus {
+  background:var(--axo-hover); color:var(--axo-hover-ink); outline-offset:-2px;
+}
+.panel[data-header-theme=dark] .row:focus-visible:not([aria-current=page]):not([aria-pressed=true]) .rowText small { color:var(--axo-hover-ink); }
+.panel[data-header-theme=dark] .row:is([aria-current=page],[aria-pressed=true]):focus-visible { outline-color:var(--axo-active-ink); outline-offset:-2px; }
+.panel[data-header-theme=dark] .control:focus-visible::before { background:var(--axo-hover); }
+.panel[data-header-theme=dark] .groupToggle:focus-visible .groupNumber { color:var(--axo-hover-ink); }
+.panel[data-header-theme=dark] .checkField input:focus-visible { outline-color:var(--axo-ink); }

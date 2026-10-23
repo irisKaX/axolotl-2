@@ -92,7 +92,7 @@
 }
 
 .axolotl-pill-nav__mark img,
-.axolotl-pill-nav__mark svg {
+.axolotl-pill-nav__mark svg:where(:not(.axo-animated-mark__symbol)) {
   display: block;
   width: 100%;
   height: 100%;

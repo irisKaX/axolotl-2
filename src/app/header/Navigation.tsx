@@ -1,6 +1,6 @@
 import { useId, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import PillNav from '../../components/navigation/PillNav';
-import { BrandMark } from '../../components/BrandLogo';
+import { AnimatedAxolotlLogo } from '../../design-system/brand';
 import { Icon } from '../../components/Icon';
 import { groups, routeLabels } from '../routes';
 import { usePreferences } from '../PreferencesProvider';
@@ -49,7 +49,7 @@ export function Navigation({ route, compact, onNavigate }: { route: string; comp
   const { setActive } = useHeaderPopovers();
   const select = () => { setActive(null); onNavigate(); };
   if (compact) return <>
-    <a className={s.brand} href="#dashboard" aria-label="O₂ Axolotl – dashboard" onClick={select}><BrandMark/></a>
+    <a className={s.brand} href="#dashboard" aria-label="O₂ Axolotl – dashboard" onClick={select}><AnimatedAxolotlLogo size="small" decorative paused={prefs.reducedMotion}/></a>
     <div className={s.menuSlot}><Popover id="navigation" title="Navigace" wide hover={false} align="start" trigger={(props, ref, open) =>
       <button {...props} ref={ref} type="button" className={s.menuTrigger} aria-label={open ? 'Zavřít navigaci' : 'Otevřít navigaci'}>
         <span className={s.burger} data-open={open} aria-hidden="true"><i/><i/></span><span>Menu</span><span className={s.current}>{routeLabels[route]}</span>
@@ -58,9 +58,9 @@ export function Navigation({ route, compact, onNavigate }: { route: string; comp
     </Popover></div>
   </>;
   const active = route === 'dashboard' ? '#dashboard' : `#${groups.find(g => g.items.some(i => i.route === route))?.id ?? route}`;
-  return <div className={s.desktopNavigation}><PillNav logo={<BrandMark/>} logoAlt="O₂ Axolotl – dashboard" logoHref="#dashboard" ariaLabel="Hlavní navigace" theme={prefs.resolvedTheme} reducedMotion={prefs.reducedMotion}
+  return <div className={s.desktopNavigation}><PillNav logo={<AnimatedAxolotlLogo size="small" decorative paused={prefs.reducedMotion}/>} logoHoverMotion={false} logoAlt="O₂ Axolotl – dashboard" logoHref="#dashboard" ariaLabel="Hlavní navigace" theme={prefs.resolvedTheme} reducedMotion={prefs.reducedMotion}
     collapse="never" itemStyle="pill" hoverEffect="fill" indicator="pill" highlightColor="#7c3aed" highlightTextColor="#ffffff" intro={false} activeHref={active} onLogoClick={select} onItemClick={select}
-    style={{ '--pn-h':'48px', '--pn-inner':'48px', '--pn-pad':'0px', '--pn-x':'var(--axo-nav-padding)', '--pn-gap':'var(--axo-nav-gap)', '--pn-item-gap':'var(--axo-nav-gap)', '--pn-mark':'26px', '--pn-font':'calc(14px * var(--axo-text-scale))', '--pn-ring':'var(--axo-focus)' } as CSSProperties}
+    style={{ '--pn-h':'48px', '--pn-inner':'48px', '--pn-pad':'0px', '--pn-x':'var(--axo-nav-padding)', '--pn-gap':'var(--axo-nav-gap)', '--pn-item-gap':'var(--axo-nav-gap)', '--pn-mark':'48px', '--pn-font':'calc(14px * var(--axo-text-scale))', '--pn-ring':'var(--axo-focus)' } as CSSProperties}
     items={[{ label:'Dashboard', ariaLabel:'Dashboard', href:'#dashboard', icon:<Icon name="home"/>, iconOnly:true }, ...groups.map(group => ({ label:group.label, href:`#${group.id}`, icon:<Icon name={group.id === 'osobni' ? 'profile' : group.id === 'media' ? 'obrazky' : 'shield'}/>, trailing:<Icon name="chevron"/> }))]}
     renderItem={(item, pillProps, children) => {
       const group = groups.find(g => item.href === `#${g.id}`);

@@ -30,6 +30,8 @@ export interface PillNavProps {
   logo?: string | ReactNode;
   logoAlt?: string;
   logoHref?: string;
+  /** Disable the wrapper spin when the supplied logo owns its own motion. */
+  logoHoverMotion?: boolean;
   items?: PillNavItem[];
   activeHref?: string;
   defaultActiveIndex?: number;
@@ -212,6 +214,7 @@ const PillNav = ({
   logo,
   logoAlt = 'Logo',
   logoHref = '#',
+  logoHoverMotion = true,
   items = DEFAULT_ITEMS,
   activeHref,
   defaultActiveIndex = 0,
@@ -762,7 +765,7 @@ const PillNav = ({
 
   const spin = (event: ReactPointerEvent) => {
     const mark = markRef.current;
-    if (!mark || event.pointerType === 'touch' || mark.getAnimations().length) return;
+    if (!logoHoverMotion || !mark || event.pointerType === 'touch' || mark.getAnimations().length) return;
     if (reducedMotion ?? window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
     mark.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }], {
       duration: 900,
